@@ -9,7 +9,7 @@ public class Draft {
     private ArrayList<Dice> dices;
     public Draft(int dices){
         this.initialDices = dices;
-        dices = new ArrayList<Dice>;
+        this.dices = new ArrayList<Dice>();
     }
     public void setInitialDices(int dices)
     {
