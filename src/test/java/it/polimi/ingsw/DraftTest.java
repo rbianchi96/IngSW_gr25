@@ -28,17 +28,21 @@ public class DraftTest {
     public void getDiceTest(){
         System.out.println("Testing getDice()...");
         Draft draft = new Draft(9);
+        // Adding random 7 dices to the Draft
         int dices = 7;
-        draft.addDice(new Dice(4,Color.RED));  // Adding random 7 dices to the Draft
-        draft.addDice(new Dice(4,Color.BLUE)); //
-        draft.addDice(new Dice(6,Color.RED)); //
-        draft.addDice(new Dice(2,Color.YELLOW)); //
-        draft.addDice(new Dice(1,Color.GREEN)); //
-        draft.addDice(new Dice(3,Color.BLUE)); //
-        draft.addDice(new Dice(5,Color.GREEN)); /////////////////////////////
+        draft.addDice(new Dice(4,Color.RED));
+        draft.addDice(new Dice(4,Color.BLUE));
+        draft.addDice(new Dice(6,Color.RED));
+        draft.addDice(new Dice(2,Color.YELLOW));
+        draft.addDice(new Dice(1,Color.GREEN));
+        draft.addDice(new Dice(3,Color.BLUE));
+        draft.addDice(new Dice(5,Color.GREEN));
+
+        // saving the current draft dices state
         ArrayList<Dice> draftClone= new ArrayList<Dice>();
-        draftClone.addAll(draft.getDices()); // saving the current draft dices state.
-        //Testing if the function returns the correct expected Dice
+        draftClone.addAll(draft.getDices());
+
+        //Testing if the function returns the correct expected test Dice
         Dice testedDice = new Dice(1,Color.GREEN);
         assertEquals(testedDice,draft.getDice(testedDice));
         // Testing if the Draft's size is consistent with the removing operation
@@ -47,16 +51,20 @@ public class DraftTest {
         for (Dice k : draft.getDices()) { //Checking that every dice in the Draft is contained in the state before the getDice call
             assertEquals(true, draftClone.contains(k));
         }
-        assertEquals(false,draft.getDices().contains(testedDice)); //Checking that the requested dice isn't present in the Draft anymore
+        //Checking that the requested dice isn't present in the Draft anymore
+        assertEquals(false,draft.getDices().contains(testedDice));
 
         // Testing if the function return null, as the requested dice isn't present in the Draft
         assertEquals(null,draft.getDice(new Dice(1,Color.BLUE)));
         // Testing again if the Draft's size is consistent with the non-removing operation
         assertEquals(dices-1, draft.getSize());
-        testedDice= new Dice(4,Color.RED); // New dice to test
+
+        // Saving the current draft state
         draftClone= new ArrayList<Dice>();
-        draftClone.addAll(draft.getDices()); // Saving the current draft state
-        //Testing again if the function returns the correct expected Dice
+        draftClone.addAll(draft.getDices());
+        testedDice= new Dice(4,Color.RED); // New dice to test
+
+        //Testing again if the function returns the correct expected test Dice
         assertEquals(testedDice,draft.getDice(testedDice));
         // Testing again if the Draft's size is consistent with the removing operation
         assertEquals(dices-2, draft.getSize());
@@ -64,7 +72,8 @@ public class DraftTest {
         for (Dice k : draft.getDices()) { //Checking that every dice in the Draft is contained in the state before the getDice call
             assertEquals(true, draftClone.contains(k));
         }
-        assertEquals(false,draft.getDices().contains(testedDice)); //Checking that the requested dice isn't present in the Draft anymore
+        //Checking that the requested dice isn't present in the Draft anymore
+        assertEquals(false,draft.getDices().contains(testedDice));
     }
     @Test
     public void toStringTest(){

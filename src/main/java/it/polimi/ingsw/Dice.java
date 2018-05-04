@@ -52,6 +52,13 @@ public class Dice {
                 break;
         }
     }
+
+    // It returns a copy of this dice
+    public Dice copyDice(){
+        Dice newDice = new Dice(this.value,this.color);
+        return newDice;
+    }
+
     @Override
     public String toString() {
         String s = "{Dice: value " + String.valueOf(this.value) + ", Color " + getColor() + "}";
