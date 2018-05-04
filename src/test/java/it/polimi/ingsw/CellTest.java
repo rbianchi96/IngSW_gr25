@@ -36,14 +36,5 @@ public class CellTest {
         assertEquals(null,cell1.getRestriction());
         assertEquals(4,cell2.getRestriction());
         assertEquals(Color.BLUE,cell3.getRestriction());
-
-    }
-    @Test
-    public void toStringTest(){
-        System.out.println("toString test:\n" );
-        Cell cell=new Cell(Color.YELLOW);
-        Dice testedDice = new Dice(2,Color.YELLOW);
-        cell.putDice(testedDice);
-        System.out.println(cell.toString());
     }
 }
