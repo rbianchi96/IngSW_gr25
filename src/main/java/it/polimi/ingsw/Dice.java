@@ -24,6 +24,7 @@ public class Dice {
         return color;
     }
 
+    //it increments the value of the dice of one unit
     public void increment(){
         if(this.value >=1 && this.value < 6){
             this.value += 1;
@@ -31,11 +32,13 @@ public class Dice {
 
     }
 
+    //it decrements the value of the dice of one unit
     public void decrement () {
         if(this.value > 1 && this.value <= 6){
             this.value -= 1;}
     }
 
+    // it rotates the face of the dice
     public void rotate () {
         switch (this.value){
             case 1: this.value = 6;
