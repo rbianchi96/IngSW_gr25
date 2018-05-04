@@ -26,7 +26,7 @@ class DiceTest3 {
 
     @Test
     void rotate() {
-        Dice d = new Dice(5, color.RED);
+        Dice d = new Dice(5, Color.RED);
         d.rotate();
         assertEquals(2,d.getValue());
     }

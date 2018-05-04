@@ -2,8 +2,8 @@ package it.polimi.ingsw;
 
 public class Dice {
     private int value;
-    private static color color;
-    public Dice(int value, color color){
+    private Color color;
+    public Dice(int value, Color color){
         this.value = value;
         this.color = color;
     }
@@ -12,7 +12,7 @@ public class Dice {
         this.value = value;
     }
 
-    public void setColor(color color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
@@ -20,7 +20,7 @@ public class Dice {
         return value;
     }
 
-    public color getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -52,24 +52,21 @@ public class Dice {
                 break;
         }
     }
-
     @Override
     public String toString() {
-        String s = "{Dice: value " + String.valueOf(this.value) + ", color " + getColor() + "}";
+        String s = "{Dice: value " + String.valueOf(this.value) + ", Color " + getColor() + "}";
         return s;
     }
-
-    public static void main(String[] args) {
-        Dice d1 = new Dice (6, color.GREEN);
-        String s = d1.toString();
-        System.out.println(s);
-        d1.rotate();
-        int val = d1.getValue();
-        System.out.println(val);
+    @Override
+    public boolean equals(Object other){
+        if ((other == null) || (!(other instanceof Dice))) return false;
+        if (other == this) return true;
+        Dice otherDice = (Dice)other;
+        if (this.toString().equals(otherDice.toString()))
+            return true;
+        else
+            return false;
     }
-
-
-
 }
 
 
