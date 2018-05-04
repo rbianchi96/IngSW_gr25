@@ -5,7 +5,7 @@ public class Cell {
     Object restriction;
     //Constructors
     public Cell(Object restriction){
-            this.restriction=null;
+            this.restriction=restriction;
     }
     public Cell() {
         this.restriction=null;
