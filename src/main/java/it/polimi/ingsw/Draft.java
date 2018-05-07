@@ -39,7 +39,8 @@ public class Draft {
         }
     }
 
-    //Gets the dice the player wants removing it from the Draft. If, for some reason, it don't find the requested dice in the Draft, it returns a null object.
+    //Gets the dice the player wants removing it from the Draft.
+    // If, for some reason, it don't find the requested dice in the Draft, it returns a null object.
     public Dice getDice(Dice dice){
         int index = findDice(dice);
         Dice returnDice;

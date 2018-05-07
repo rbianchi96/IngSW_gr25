@@ -17,7 +17,8 @@ public class Cell {
         restriction = restrictionColor;
     }
 
-    // Put the new dice in the cell if it is empty and return True. If the cell has already a dice, it returns False and don't put the new dice
+    // Put the new dice in the cell if it is empty and return True.
+    // If the cell has already a dice, it returns False and don't put the new dice
     public boolean putDice(Dice newDice){
         if (dice==null) {
             dice = newDice;

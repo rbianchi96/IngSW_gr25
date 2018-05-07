@@ -31,4 +31,13 @@ class DiceTest {
         d.rotate();
         assertEquals(2,d.getValue());
     }
+
+    @Test
+    void copyDiceTest(){
+        Dice d = new Dice(3,Color.PURPLE);
+        //Check if the copy is actually equals to the original Dice
+        assertEquals(d,d.copyDice());
+        //Check if the memory address is different, i.e. it actually created a new object
+        assertEquals(false,d==d.copyDice());
+    }
 }
