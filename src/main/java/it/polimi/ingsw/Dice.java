@@ -62,6 +62,11 @@ public class Dice {
         return newDice;
     }
 
+    public void rollDice(){
+        int i= 1+((int) (Math.random() *5));
+        setValue(i);
+    }
+
     @Override
     public String toString() {
         String s = "{Dice: value " + String.valueOf(this.value) + ", Color " + getColor() + "}";
