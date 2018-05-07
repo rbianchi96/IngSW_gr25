@@ -42,7 +42,7 @@ public class Draft {
     //Gets the dice the player wants removing it from the Draft.
     // If, for some reason, it don't find the requested dice in the Draft, it returns a null object.
     public Dice getDice(Dice dice){
-        int index = findDice(dice);
+        int index = dices.indexOf(dice);
         Dice returnDice;
         if (index ==-1){
             return null;
@@ -53,15 +53,6 @@ public class Draft {
         }
     }
 
-    //Search for the requested Dice and return its index in the ArrayList. Return -1 if the draft doesn't contains it.
-    private int findDice(Dice dice) {
-        for(int i=0; i< dices.size(); i++){
-            if (dice.equals(dices.get(i))) {
-                return i;
-            }
-        }
-        return -1;
-    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Draft's dices: ");

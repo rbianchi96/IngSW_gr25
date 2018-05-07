@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 public class CellTest {
     @Test
     public void putDiceTest(){
+        System.out.println("Testing putDice()...");
         Cell cell=new Cell(Color.YELLOW);
         Dice testedDice = new Dice(2,Color.YELLOW); // New dice to test
         // Testing the funcion put the dice without issues
@@ -17,6 +18,7 @@ public class CellTest {
     }
     @Test
     public void getDiceTest(){
+        System.out.println("Testing getDice()...");
         Cell cell=new Cell(Color.RED);
         Dice testedDice = new Dice(4,Color.RED);
         // Testing if it is returned a null value asking for a dice of an empty cell
@@ -29,6 +31,7 @@ public class CellTest {
     }
     @Test
     public void getRestrictionTest(){
+        System.out.println("Testing getRestriction()...");
         // Very simples tests.
         Cell cell1 = new Cell(null);
         Cell cell2 = new Cell(4);

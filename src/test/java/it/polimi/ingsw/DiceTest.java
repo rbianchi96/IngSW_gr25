@@ -34,6 +34,7 @@ class DiceTest {
 
     @Test
     void copyDiceTest(){
+        System.out.println("Testing copyDice()...");
         Dice d = new Dice(3,Color.PURPLE);
         //Check if the copy is actually equals to the original Dice
         assertEquals(d,d.copyDice());
