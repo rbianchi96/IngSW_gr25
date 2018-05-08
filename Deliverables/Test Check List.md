@@ -19,3 +19,14 @@
 
 ##### PrivateObjectiveCardTest
 - calculateScoreTest  ✓
+
+##### DiceTest
+- increment ✓
+- decrement ✓
+- rotate ✓
+- copyDice ✓
+- rollDice ✓
+
+##### DiceBagTest
+- getRandomDice ✓
+- addDice ✓
