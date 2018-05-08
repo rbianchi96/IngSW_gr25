@@ -41,4 +41,12 @@ class DiceTest {
         //Check if the memory address is different, i.e. it actually created a new object
         assertEquals(false,d==d.copyDice());
     }
+
+    @Test
+    void rollDice(){
+        Dice d = new Dice(5, Color.RED);
+        d.rollDice();
+        //check that the value is between 1 and 6 and that the color hasn't been changed
+        assertTrue(d.getValue()<=6 && d.getValue() >= 1 && d.getColor().equals(Color.RED));
+    }
 }
