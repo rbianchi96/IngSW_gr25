@@ -13,7 +13,4 @@ public class RoundTrackDices {
         return dices;
     }
 
-    public void setDices(ArrayList<Dice> dices) {
-        this.dices = dices;
-    }
 }

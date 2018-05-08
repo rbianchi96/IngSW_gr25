@@ -8,17 +8,14 @@ public class RoundTrack {
     private final int rounds = 10;
     private RoundTrackDices track[];
     private int playersNumber;
-    public RoundTrack(int playersNumber) {
+    public RoundTrack(int playersNumber) throws IllegalArgumentException{
         track = new RoundTrackDices[rounds];
         for (int i = 0; i < rounds; i++) {
             track[i] = new RoundTrackDices ();
         }
-        if (playersNumber>4)
-            this.playersNumber = 4;
-        else if (playersNumber<1)
-            this.playersNumber = 1;
-        else
-            this.playersNumber = playersNumber;
+        if (playersNumber>4 || playersNumber<=1)
+           throw new IllegalArgumentException("Min: 2 players\nMax: 4 players!");
+        this.playersNumber = playersNumber;
     }
 
     // It returns a copy of the round track

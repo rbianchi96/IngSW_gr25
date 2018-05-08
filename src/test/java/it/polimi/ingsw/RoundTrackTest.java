@@ -8,7 +8,17 @@ import java.util.NoSuchElementException;
 
 public class RoundTrackTest {
     private final int rounds = 10;
+    @Test
+    public void RoundTrackTest(){
+        // IllegalArgumentException
+        assertThrows(IllegalArgumentException.class, () -> {
+            RoundTrack roundTrack = new RoundTrack(5);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            RoundTrack roundTrack = new RoundTrack(1);
+        });
 
+    }
     @Test
     public void addDiceTest(){
         System.out.println("Testing addDice()...");
