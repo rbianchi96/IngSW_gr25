@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 public class Cell {
     private Dice dice;
-    Object restriction;
+    private Object restriction;
     //Constructors
     public Cell(Object restriction){
             this.restriction=restriction;
@@ -29,8 +29,10 @@ public class Cell {
     }
 
     // It removes dice from the cell by putting 'dice' attribute to null
-    public void removeDice() {
+    public Dice removeDice() {
+        Dice diceToRemove = dice;
         dice = null;
+        return diceToRemove;
     }
 
     //It returns the restriction based on the type of the actual restriction

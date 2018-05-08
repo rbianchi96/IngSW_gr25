@@ -19,4 +19,9 @@ public class PrivateObjectiveCard extends Card {
 
 		return points;
 	}
+
+	@Override
+	public String toString() {
+		return "PrivateObjectiveCard " + color.toString();
+	}
 }
