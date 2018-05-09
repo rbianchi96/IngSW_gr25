@@ -30,7 +30,7 @@ public class WindowPatternTest {
 
 		Cell[][] cells = new Cell[4][5];    //Matrix of cells
 
-
+		//Initialize cells
 		for(int row = 0; row < 4; row++) {    //For all rows
 			for(int col = 0; col < 5; col++) {    //For all cols
 				if(random.nextBoolean()) {    //Randomly
@@ -68,6 +68,7 @@ public class WindowPatternTest {
 				}
 			}
 
+			//Verify correct dice placement
 			for(int row = 0; row < 4; row++) {    //For all rows
 				for(int col = 0; col < 5; col++) {    //For all cols
 					Cell currCell = cells[row][col];
@@ -81,25 +82,21 @@ public class WindowPatternTest {
 					if(expectedCellOccupation) {    //Expected cell with dice
 						assertEquals(windowPattern.getDice(row, col), currDice);    //Verify same dice
 					} else
-						assertEquals(windowPattern.getDice(row, col), null);    //Expected empty cell
+						assertNull(windowPattern.getDice(row, col));    //Expected empty cell
 				}
 			}
 
 			//Remove every dice
 			for(int row = 0; row < 4; row++) {    //For all rows
 				for(int col = 0; col < 5; col++) {    //For all cols
-					Cell currCell = cells[row][col];
-
-					currCell.removeDice();
+					windowPattern.removeDice(row, col);
 				}
 			}
 
 			//Verify every cells empty
 			for(int row = 0; row < 4; row++) {    //For all rows
 				for(int col = 0; col < 5; col++) {    //For all cols
-					Cell currCell = cells[row][col];
-
-					assertEquals(currCell.getDice(), null);
+					assertNull(windowPattern.getDice(row, col));
 				}
 			}
 

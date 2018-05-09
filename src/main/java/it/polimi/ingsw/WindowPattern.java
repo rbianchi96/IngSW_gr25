@@ -29,12 +29,6 @@ public class WindowPattern implements Iterable<Cell> {
 		return difficulty;
 	}
 
-	/*public Cell getCell(int row, int col) throws WindowPatternOutOfBoundException {    //Return a cell
-		checkIndexes(row, col);
-
-		return cells[row][col];
-	}*/
-
 	public Object getRestriction(int row, int col) throws WindowPatternOutOfBoundException {
 		checkIndexes(row, col);
 
@@ -50,7 +44,9 @@ public class WindowPattern implements Iterable<Cell> {
 	public Dice removeDice(int row, int col) throws WindowPatternOutOfBoundException {
 		checkIndexes(row, col);
 
-		return cells[row][col].removeDice();
+		Dice diceToReturn = cells[row][col].removeDice();
+		if(diceToReturn != null) placedDices --;
+		return diceToReturn;
 	}
 
 	public boolean placeDice(Dice dice, int row, int col) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
@@ -125,7 +121,7 @@ public class WindowPattern implements Iterable<Cell> {
 		}
 
 		boolean res = currCell.putDice(dice);    //Place dice
-		if(res) placedDices++;
+		if(res) placedDices ++;
 		return res;
 	}
 
