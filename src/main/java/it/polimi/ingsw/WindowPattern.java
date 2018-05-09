@@ -8,7 +8,7 @@ public class WindowPattern implements Iterable<Cell> {
 	private int difficulty, placedDices;
 	private Cell[][] cells;
 
-	WindowPattern(String name, int difficulty, Cell[][] cells) throws Exception {
+	public WindowPattern(String name, int difficulty, Cell[][] cells) throws Exception {
 		this.name = name;
 		this.difficulty = difficulty;
 

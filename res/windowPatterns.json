@@ -1,0 +1,46 @@
+[
+	{
+		"windowPattern1": {
+			"name": "Virtus",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [4, null, 2, 5, "g"],
+				"row1": [null, null, 6, "g", 2],
+				"row2": [null, 3, "g", 4, null],
+				"row3": [5, "g", 1, null, null]
+			}
+		},
+		"windowPattern2": {
+			"name": "Kaleidoscopic Dream",
+			"difficulty": 4,
+			"restrictions": {
+				"row0": ["y", "b", null, null, 1],
+				"row1": ["g", null, 5, null, 4],
+				"row2": [3, null, "r", null, "g"],
+				"row3": [2, null, null, "b", "y"]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Via Lux",
+			"difficulty": 4,
+			"restrictions": {
+				"row0": ["y", null, 6, null, null],
+				"row1": [null, 1, 5, null, 2],
+				"row2": [3, "y", "r", "p", null],
+				"row3": [null, null, 4, 3, "r"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Aurorae Magnificus",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [5, "g", "b", "p", 2],
+				"row1": ["p", null, null, null, "y"],
+				"row2": ["y", null, 6, null, "p"],
+				"row3": [1, null, null, "g", 4]
+			}
+		}
+	}
+]

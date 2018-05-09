@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.cardsloaders;
 
 public class CardsLoader {
     private void readCard() {

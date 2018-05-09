@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.cardsloaders.WindowPatternCardsLoader;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Game {
@@ -20,7 +23,12 @@ public class Game {
 
     // Call to start the game
     private void startGame(){
+        try {
         playersPreparation();
+
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -33,7 +41,7 @@ public class Game {
         roundTrack = new RoundTrack(players.size());
     }
 
-    private void playersPreparation(){
+    private void playersPreparation() throws FileNotFoundException {
 
         // Loading and assignment of private objectives to users
         PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader();
@@ -44,9 +52,10 @@ public class Game {
         // NOTIFY CLIENT
 
         // Loading and Sending of WindowPatternCards
-        WindowPatternCardLoader windowPatternCardLoader = new WindowPatternCardLoader();
+
+        WindowPatternCardsLoader windowPatternCardsLoader = new WindowPatternCardsLoader(null);
         WindowPatternCard[] windowPatternsCardsOfGame;
-        windowPatternsCardsOfGame = windowPatternCardLoader.getRandomCards(players.size());
+        windowPatternsCardsOfGame = windowPatternCardsLoader.getRandomCards(players.size());
         for (int i=0; i<players.size(); i++){
             WindowPattern[] windowPatternsToSend=new WindowPattern[2];
             windowPatternsToSend[0] = windowPatternsCardsOfGame[i].getPattern1();
