@@ -56,6 +56,10 @@ public class DiceBag {
         else throw new DiceBagException("Out of size");
     }
 
+    public DiceBag copyDiceBag(){
+        DiceBag newdb = new DiceBag();
+        return newdb;
+    }
 
     public String toString() {
         String s = "DiceBag:" + "\n" + "number of Dice " + dices.size() + "\n";

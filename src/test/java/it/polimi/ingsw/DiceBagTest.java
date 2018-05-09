@@ -63,4 +63,13 @@ class DiceBagTest {
 
     }
 
+    @Test
+    void copyDiceBagTest(){
+        DiceBag db = new DiceBag();
+        DiceBag db2 = db.copyDiceBag();
+        assertEquals(db.toString(), db2.toString());
+        assertEquals(false,db==db.copyDiceBag());
+    }
+
+
 }
