@@ -11,6 +11,18 @@
 			}
 		},
 		"windowPattern2": {
+			"name": "Symphony of Light",
+			"difficulty": 6,
+			"restrictions": {
+				"row0": [1, null, 5, null, 2],
+				"row1": ["r",2, "p", 6, "y"],
+				"row2": [null, "g", 4, "b", null],
+				"row3": [null, 5, null, 3, null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
 			"name": "Kaleidoscopic Dream",
 			"difficulty": 4,
 			"restrictions": {
@@ -18,6 +30,38 @@
 				"row1": ["g", null, 5, null, 4],
 				"row2": [3, null, "r", null, "g"],
 				"row3": [2, null, null, "b", "y"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Firmitas",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [3, null, null, 6, "p"],
+				"row1": [null, null, 3, "p", 5],
+				"row2": [null, 1, "p", 2, null],
+				"row3": [4, "p", 5, 1, null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Aurorae Magnificus",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [5, "g", "b", "p", 2],
+				"row1": ["p", null, null, null, "y"],
+				"row2": ["y", null, 6, null, "p"],
+				"row3": [1, null, null, "g", 4]
+			}
+		},
+		"windowPattern2": {
+			"name": "Aurora Sagradis",
+			"difficulty": 4,
+			"restrictions": {
+				"row0": ["y", null, "b", null, "r"],
+				"row1": [2, "g", 3, "p", 4],
+				"row2": [null, 5, null, 1, null],
+				"row3": [null, null, 6, null, null]
 			}
 		}
 	},
@@ -33,13 +77,189 @@
 			}
 		},
 		"windowPattern2": {
-			"name": "Aurorae Magnificus",
+			"name": "Industria",
 			"difficulty": 5,
 			"restrictions": {
-				"row0": [5, "g", "b", "p", 2],
-				"row1": ["p", null, null, null, "y"],
-				"row2": ["y", null, 6, null, "p"],
-				"row3": [1, null, null, "g", 4]
+				"row0": [6, null, 3, "r", 1],
+				"row1": [null, 2, "r", 4, 5],
+				"row2": [1, "r", 5, null, null],
+				"row3": ["r", 3, null, null, null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Sun Catcher",
+			"difficulty": 3,
+			"restrictions": {
+				"row0": ["y", null, 2, "b", null],
+				"row1": [null, "r", null, 4, null],
+				"row2": [null, "y", 5, null, null],
+				"row3": ["p", null, null, 3, "g"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Shadow Thief",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [6, "p", null, null, 5],
+				"row1": [5, null, "p", null, null],
+				"row2": ["r", 6, null, "p", null],
+				"row3": ["y", "r", 5, 4, 3]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Bellesguard",
+			"difficulty": 3,
+			"restrictions": {
+				"row0": ["b", 6, null, null, "y"],
+				"row1": [null, 3, "b", null, null],
+				"row2": [null, 5, 6, 2, null],
+				"row3": [null, 4, null, 1, "g"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Batllo",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, null,  6, null, null],
+				"row1": [null, 4, "b", 5, null],
+				"row2": [2, "p", "y", "g", 3],
+				"row3": [3, 5, "r", 4, 1]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Gravitas",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, "b", 3, null, 1],
+				"row1": [null, null, "b", 2, null],
+				"row2": [null, 4, null, "b", 6],
+				"row3": [1, null, 2, 5, "b"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Water of Life",
+			"difficulty": 6,
+			"restrictions": {
+				"row0": [6, "b", null, null, 1],
+				"row1": [null, 5, "b", null, null],
+				"row2": [4, "r", 2, "b", null],
+				"row3": ["g", 6, "y", 3, "p"]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Fractal Drops",
+			"difficulty": 3,
+			"restrictions": {
+				"row0": [6, "y", null, 4, null],
+				"row1": [null, null, 2, null, "r"],
+				"row2": [1, "p", "r", null, null],
+				"row3": [null, null, null, "y", "b"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Ripples of Light",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, null, null, "r", 5],
+				"row1": [null, null, "p", 4, "b"],
+				"row2": [null, "b", 3, "y", 6],
+				"row3": ["y", 2, "g", 1, "r"]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Lux Astram",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [4, "p", "g", 1, null],
+				"row1": ["g", 5, 2, "p", 6],
+				"row2": ["p", 3, 5, "g", 1],
+				"row3": [null, null, null, null, null]
+			}
+		},
+		"windowPattern2": {
+			"name": "Lux Mundi",
+			"difficulty": 6,
+			"restrictions": {
+				"row0": [null, null, 1, null, null],
+				"row1": [1, "g", 3, "b", 2],
+				"row2": ["b", 5, 4, 6, "g"],
+				"row3": [null, "b", 5, "g", null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Chromatic Splendor",
+			"difficulty": 4,
+			"restrictions": {
+				"row0": [null, null, "g", null, null],
+				"row1": [1, "b", 5, "y", 2],
+				"row2": [null, "p", 3, "r", null],
+				"row3": [4, null, 6, null, 1]
+			}
+		},
+		"windowPattern2": {
+			"name": "Comitas",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": ["y", null, 2, null, 6],
+				"row1": [null, 4, null, 5, "y"],
+				"row2": [null, null, null, "y", 5],
+				"row3": [1, 2, "y", 3, null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Firelight",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, 5, 1, 4, 3],
+				"row1": ["y", null, 2, 6,null],
+				"row2": ["r", "y", null, null, null],
+				"row3": [6, "r", "y", null, 5]
+			}
+		},
+		"windowPattern2": {
+			"name": "Sun's Glory",
+			"difficulty": 6,
+			"restrictions": {
+				"row0": [1, "p", "y", null, 4],
+				"row1": ["p", "y", null, null, 6],
+				"row2": ["y", null, null, 5, 3],
+				"row3": [null, 5, 4, 2, 1]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Luz Celestial",
+			"difficulty": 3,
+			"restrictions": {
+				"row0": [null, 5, "r", null, null],
+				"row1": [3, "g", null, 4, "p"],
+				"row2": [null, "b", null, null, 6],
+				"row3": [null, null, 2, "y", null]
+			}
+		},
+		"windowPattern2": {
+			"name": "Fulgor del Cielo",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, "b", "r", null, null],
+				"row1": [null, 4, 5, null, "b"],
+				"row2": ["b", 2, null, "r", 5],
+				"row3": [6, "r", 3, 1, null]
 			}
 		}
 	}

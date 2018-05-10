@@ -12,8 +12,7 @@ public class WindowPatternCardsLoaderTest {
 	public void windowPatternCardsLoaderTest() {
 		try {
 			WindowPatternCardsLoader cardsLoader = new WindowPatternCardsLoader("res/windowPatterns.json");
-
-			System.out.println(cardsLoader.getRandomCards(2)[0].getPattern1().getName());
+			System.out.println(cardsLoader.getRandomCards(12)[0].getPattern1().getName());
 		} catch(FileNotFoundException e) {
 			//e.printStackTrace();
 			fail(e);

@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.cardsloaders.PrivateObjectiveCardsLoader;
+import it.polimi.ingsw.cardsloaders.PublicObjectiveCardsLoader;
 import it.polimi.ingsw.cardsloaders.WindowPatternCardsLoader;
 
 import java.io.FileNotFoundException;
