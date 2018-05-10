@@ -21,6 +21,13 @@ public class DiceBag {
         }
     }
 
+   private DiceBag(int i){
+    dices = new ArrayList<Dice>();
+    i = dices.size();
+  }
+
+
+
     public int getSize() {
         return dices.size();
     }
@@ -28,7 +35,8 @@ public class DiceBag {
     // method that takes one casual dice from the bag
     public Dice getRandomDice() {
         if (dices.size() >= min_size) {
-            int i = (int) (Math.random() * (dices.size() - 1));
+            Random ran = new Random();
+            int i = ran.nextInt((dices.size()-1));
             Dice d = dices.get(i);
             dices.remove(i);
             return d;
@@ -58,17 +66,35 @@ public class DiceBag {
         else throw new DiceBagException("Out of size");
     }
 
-    public DiceBag copyDiceBag(){
-        DiceBag newdb = new DiceBag();
-        return newdb;
+    //it returns a copy of the current DiceBag
+    public DiceBag getClone(){
+        if(this.dices.size() == 90){
+            return this;
+        }
+        else{
+            DiceBag db = new DiceBag(0);
+            for(Dice d : this.dices){
+                db.dices.add((Dice) d);
+            }
+            return db;
+        }
     }
 
+    @Override
     public String toString() {
         String s = "DiceBag:" + "\n" + "number of Dice " + dices.size() + "\n";
         for (Dice d : dices) {
             s = s + d.toString() + "\n";
         }
         return s;
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if ((other == null) || (!(other instanceof DiceBag))) return false;
+        if (other == this) return true;
+        DiceBag otherDiceBag = (DiceBag) other;
+        return (this.toString().equals(otherDiceBag.toString()));
     }
 
 

@@ -68,11 +68,19 @@ class DiceBagTest {
     }
 
     @Test
-    void copyDiceBagTest(){
+    void getCloneTest(){
         DiceBag db = new DiceBag();
-        DiceBag db2 = db.copyDiceBag();
+        DiceBag db2 = db.getClone();
+        //verify that they are equals
         assertEquals(db.toString(), db2.toString());
-        assertEquals(false,db==db.copyDiceBag());
+        db.getRandomDice();
+        db.getRandomDice();
+        db.getRandomDice();
+        DiceBag db3 = db.getClone();
+        //verify that they are equals
+        assertEquals(db.toString(), db3.toString());
+        //check if the memory address is different
+        assertEquals(false,db==db.getClone());
     }
 
 

@@ -2,6 +2,8 @@ package it.polimi.ingsw.board.dice;
 
 import it.polimi.ingsw.board.Color;
 
+import java.util.Random;
+
 public class Dice {
     private int value;
     private Color color;
@@ -55,6 +57,8 @@ public class Dice {
                 break;
             case 6: this.value = 1;
                 break;
+            default: break;
+
         }
     }
 
@@ -64,14 +68,17 @@ public class Dice {
     }
 
     public void rollDice(){
-        int i= 1+((int) (Math.random() *5));
+        Random ran = new Random();
+        int i= 1+(ran.nextInt(5));
         setValue(i);
     }
 
     @Override
     public String toString() {
-        return "{Dice: value " + String.valueOf(this.value) + ", Color " + getColor() + "}";
+        String s = String.valueOf(this.value);
+        return "{Dice: value " + s + ", Color " + getColor() + "}";
     }
+
     @Override
     public boolean equals(Object other){
         if ((other == null) || (!(other instanceof Dice))) return false;
