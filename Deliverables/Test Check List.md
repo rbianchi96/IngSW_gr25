@@ -33,3 +33,4 @@
 ##### DiceBagTest
 - getRandomDice ✓
 - addDice ✓
+- getClone ✓
