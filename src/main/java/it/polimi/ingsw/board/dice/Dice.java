@@ -60,8 +60,7 @@ public class Dice {
 
     // It returns a copy of this dice
     public Dice getClone(){
-        Dice newDice = new Dice(this.value,this.color);
-        return newDice;
+        return new Dice(this.value,this.color);
     }
 
     public void rollDice(){
@@ -71,18 +70,14 @@ public class Dice {
 
     @Override
     public String toString() {
-        String s = "{Dice: value " + String.valueOf(this.value) + ", Color " + getColor() + "}";
-        return s;
+        return "{Dice: value " + String.valueOf(this.value) + ", Color " + getColor() + "}";
     }
     @Override
     public boolean equals(Object other){
         if ((other == null) || (!(other instanceof Dice))) return false;
         if (other == this) return true;
         Dice otherDice = (Dice)other;
-        if (this.toString().equals(otherDice.toString()))
-            return true;
-        else
-            return false;
+        return (this.toString().equals(otherDice.toString()));
     }
 }
 

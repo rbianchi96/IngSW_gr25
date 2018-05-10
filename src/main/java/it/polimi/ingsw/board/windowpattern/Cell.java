@@ -41,9 +41,9 @@ public class Cell {
     //It returns the restriction based on the type of the actual restriction
     public Object getRestriction(){
         if (restriction instanceof Integer)
-            return (Integer)restriction;
+            return restriction;
         else if (restriction instanceof Color)
-            return  (Color)restriction;
+            return  restriction;
         else
             return null;
     }
@@ -69,10 +69,7 @@ public class Cell {
         if ((other == null) || (!(other instanceof Cell))) return false;
         if (other == this) return true;
         Cell otherCell = (Cell)other;
-        if (this.toString().equals(otherCell.toString()))
-            return true;
-        else
-            return false;
+        return this.toString().equals(otherCell.toString());
     }
 
     @Override

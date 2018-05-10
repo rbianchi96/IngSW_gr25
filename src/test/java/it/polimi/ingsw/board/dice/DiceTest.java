@@ -51,7 +51,7 @@ class DiceTest {
     }
 
     @Test
-    void copyDiceTest(){
+    void getCloneTest(){
         System.out.println("DiceTest: Testing getClone()...");
         Dice d = new Dice(3,Color.PURPLE);
         //Check if the copy is actually equals to the original Dice

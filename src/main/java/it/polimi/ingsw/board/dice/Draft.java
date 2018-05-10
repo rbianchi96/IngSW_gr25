@@ -1,16 +1,18 @@
 package it.polimi.ingsw.board.dice;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 
 public class Draft {
+    private static final Logger LOGGER = Logger.getLogger( Draft.class.getName() );
     private int maxDices;
     private ArrayList<Dice> dices;
 
     public Draft(int maxDices){
         this.maxDices = maxDices;
-        this.dices = new ArrayList<Dice>();
+        this.dices = new ArrayList<>();
     }
 
     // Set the max number of dices, based on number of players.
@@ -68,7 +70,7 @@ public class Draft {
     public void dump(){
         Iterator<Dice> itr = dices.iterator();
         while (itr.hasNext()) {
-            System.out.println(itr.next().toString() +"\n");
+            LOGGER.log(Level.FINER,"{}",itr.next().toString() +"\n");
         }
     }
 }

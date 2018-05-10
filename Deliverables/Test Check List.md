@@ -4,6 +4,8 @@
 - putDice ✓
 - getDice ✓
 - getRestriction ✓
+- getClone ✓
+- equals ✓
 
 ##### DraftTest
 - addDice ✓
@@ -11,6 +13,7 @@
 - toString ✓
 
 ##### RoundTrackTest
+- RoundTrack ✓
 - addDice ✓
 - getDice ✓
 
@@ -24,7 +27,7 @@
 - increment ✓
 - decrement ✓
 - rotate ✓
-- copyDice ✓
+- getClone ✓
 - rollDice ✓
 
 ##### DiceBagTest
