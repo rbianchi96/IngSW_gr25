@@ -6,26 +6,24 @@ import java.util.*;
 
 public class DiceBag {
     private ArrayList<Dice> dices;
-    private final int min_size = 1;
-    private final int max_size = 90;
+    private static final int MINSIZE = 0;
+    private static final int MAXSIZE = 90;
 
     // DiceBag constructor: it creates the Dice bag, and the value of each dice is initialized at -1,
     // because when they are inside the Dice bag we can't establish they're value, when a dice will be extracted,
     // its value will be set
     public DiceBag() {
-        dices = new ArrayList<Dice>();
+        dices = new ArrayList<>();
+    }
+
+
+    public void initDiceBag (){
         for (Color color : Color.values()) {
             for (int j = 0; j < 18; j++) {
                 dices.add(new Dice(-1, color));
             }
         }
     }
-
-   private DiceBag(int i){
-    dices = new ArrayList<Dice>();
-    i = dices.size();
-  }
-
 
 
     public int getSize() {
@@ -34,9 +32,8 @@ public class DiceBag {
 
     // method that takes one casual dice from the bag
     public Dice getRandomDice() {
-        if (dices.size() >= min_size) {
-            Random ran = new Random();
-            int i = ran.nextInt((dices.size()-1));
+        if (dices.size() > MINSIZE) {
+            int i = (int) Math.random()*(dices.size()-1);
             Dice d = dices.get(i);
             dices.remove(i);
             return d;
@@ -47,7 +44,7 @@ public class DiceBag {
 
     public void addDice(Dice d) throws DiceBagException  {
         //check the size of the Dice bag, in this way it's impossible to add more than 90 dices
-        if (dices.size() < max_size ) {
+        if (dices.size() < MAXSIZE ) {
             int j = 0;
 
             for (Dice dice : dices) {
@@ -68,16 +65,11 @@ public class DiceBag {
 
     //it returns a copy of the current DiceBag
     public DiceBag getClone(){
-        if(this.dices.size() == 90){
-            return this;
-        }
-        else{
-            DiceBag db = new DiceBag(0);
+            DiceBag db = new DiceBag();
             for(Dice d : this.dices){
-                db.dices.add((Dice) d);
+                db.dices.add((Dice) d.getClone());
             }
             return db;
-        }
     }
 
     @Override
@@ -90,7 +82,7 @@ public class DiceBag {
     }
 
     @Override
-    public boolean equals(Object other){
+   public boolean equals(Object other){
         if ((other == null) || (!(other instanceof DiceBag))) return false;
         if (other == this) return true;
         DiceBag otherDiceBag = (DiceBag) other;

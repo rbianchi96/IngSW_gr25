@@ -34,3 +34,4 @@
 - getRandomDice ✓
 - addDice ✓
 - getClone ✓
+- initDiceBag ✓

@@ -14,6 +14,7 @@ class DiceBagTest {
     void getRandomDice() {
         //creation of a DiceBag
         DiceBag db = new DiceBag();
+        db.initDiceBag();
         //verify if it contains 90 dices
         assertEquals(90, db.getSize());
         //verify if it removes dices
@@ -24,6 +25,7 @@ class DiceBagTest {
         assertEquals(temporary_size-2, db.getSize());
         //verify if all the dices are removed by creating a new bag
         DiceBag db2 = new DiceBag();
+        db.initDiceBag();
         for(int i=0; i < 90; i++){
            db2.getRandomDice();
         }
@@ -38,6 +40,7 @@ class DiceBagTest {
     void addDice() throws DiceBagException {
         // checking that the dice that i removed is added again
         DiceBag db = new DiceBag();
+        db.initDiceBag();
         int temporary_size = db.getSize();
         Dice d=db.getRandomDice();
         assertEquals((temporary_size-1), db.getSize());
@@ -51,6 +54,7 @@ class DiceBagTest {
         assertEquals(90, db.getSize());
         //more than 18 dices of the same color can't be added
         DiceBag db2 = new DiceBag();
+        db2.initDiceBag();
         for(int i=0; i<90; i++){
             db2.getRandomDice();
         }
@@ -70,6 +74,7 @@ class DiceBagTest {
     @Test
     void getCloneTest(){
         DiceBag db = new DiceBag();
+        db.initDiceBag();
         DiceBag db2 = db.getClone();
         //verify that they are equals
         assertEquals(db.toString(), db2.toString());
@@ -83,5 +88,11 @@ class DiceBagTest {
         assertEquals(false,db==db.getClone());
     }
 
+    @Test
+    void initDiceBag(){
+        DiceBag db = new DiceBag();
+        db.initDiceBag();
+        assertEquals(90,db.getSize());
+    }
 
 }
