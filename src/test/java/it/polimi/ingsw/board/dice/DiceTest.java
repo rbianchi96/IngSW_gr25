@@ -1,14 +1,13 @@
 package it.polimi.ingsw.board.dice;
 import it.polimi.ingsw.board.Color;
-import it.polimi.ingsw.board.dice.Dice;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DiceTest {
+public class DiceTest {
 
     @Test
-    void increment() {
+    public void increment() {
         Dice d = new Dice(4, Color.YELLOW);
         d.increment();
         assertEquals(5, d.getValue());
@@ -18,7 +17,7 @@ class DiceTest {
     }
 
     @Test
-    void decrement() {
+    public void decrement() {
         Dice d = new Dice(3, Color.BLUE);
         d.decrement();
         assertEquals(2, d.getValue());
@@ -28,7 +27,7 @@ class DiceTest {
     }
 
     @Test
-    void rotate() {
+    public void rotate() {
         Dice d1 = new Dice(1, Color.RED);
         d1.rotate();
         assertEquals(6,d1.getValue());
@@ -51,7 +50,7 @@ class DiceTest {
     }
 
     @Test
-    void getCloneTest(){
+    public void getCloneTest(){
         System.out.println("DiceTest: Testing getClone()...");
         Dice d = new Dice(3,Color.PURPLE);
         //Check if the copy is actually equals to the original Dice
@@ -61,7 +60,7 @@ class DiceTest {
     }
 
     @Test
-    void rollDice(){
+    public void rollDice(){
         Dice d = new Dice(5, Color.RED);
         d.rollDice();
         //check that the value is between 1 and 6 and that the color hasn't been changed

@@ -4,14 +4,14 @@ import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.DiceBag;
 import it.polimi.ingsw.board.dice.DiceBagException;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DiceBagTest {
+public class DiceBagTest {
 
     @Test
-    void getRandomDice() {
+    public void getRandomDice() {
         //creation of a DiceBag
         DiceBag db = new DiceBag();
         db.initDiceBag();
@@ -37,7 +37,7 @@ class DiceBagTest {
     }
 
     @Test
-    void addDice() throws DiceBagException {
+    public void addDice() throws DiceBagException {
         // checking that the dice that i removed is added again
         DiceBag db = new DiceBag();
         db.initDiceBag();
@@ -72,7 +72,7 @@ class DiceBagTest {
     }
 
     @Test
-    void getCloneTest(){
+    public void getCloneTest(){
         DiceBag db = new DiceBag();
         db.initDiceBag();
         DiceBag db2 = db.getClone();
@@ -89,7 +89,7 @@ class DiceBagTest {
     }
 
     @Test
-    void initDiceBag(){
+    public void initDiceBag(){
         DiceBag db = new DiceBag();
         db.initDiceBag();
         assertEquals(90,db.getSize());

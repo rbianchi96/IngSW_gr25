@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.Draft;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
