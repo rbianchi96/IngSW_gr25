@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Game {
-    private static final Logger LOGGER = Logger.getLogger( Game.class.getName() );
+    private static final Logger LOGGER = Logger.getLogger(Game.class.getName() );
     private static final int CARDSNUMBER = 3;
     private static final int ROUNDSNUMBER = 10;
     private ArrayList<Player> players;
@@ -29,6 +29,7 @@ public class Game {
     private RoundTrack roundTrack;
     private GameBoard gameBoard;
     private Round[] rounds;
+    private int currentRound;
 
 
     public Game(ArrayList<Player> players){
@@ -36,15 +37,14 @@ public class Game {
         initialize();
     }
 
-    // Call to start the game
-    private void startGame(){
+    // Call to initialize the game
+    private void initGame(){
         try {
             playersPreparation();
         } catch(FileNotFoundException e) {
             LOGGER.log(Level.FINER,e.getMessage());
         }
         gamePreparation();
-
     }
 
     // Intializations of attributes
@@ -55,11 +55,11 @@ public class Game {
         toolCards = new ToolCard[CARDSNUMBER];
         roundTrack = new RoundTrack(players.size());
         rounds = new Round[ROUNDSNUMBER];
+        currentRound = 0;
     }
 
-
+    // Loading of various game elements (the same of the "players preparation" of Sagrada rules.
     private void playersPreparation() throws FileNotFoundException {
-
         // Loading and assignment of private objectives to users
         PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader();
         privateObjectiveCard = privateObjectiveCardsLoader.getRandomCards(players.size());
@@ -82,6 +82,7 @@ public class Game {
 
     }
 
+    // Loading of various game elements (the same of the "game preparation" of Sagrada rules.
     private void gamePreparation(){
         // Loading of public objectives
         PublicObjectiveCardsLoader publicObjectiveCardsLoader = new PublicObjectiveCardsLoader();
@@ -93,4 +94,11 @@ public class Game {
         gameBoard = new GameBoard(players,diceBag,publicObjectiveCard,toolCards,roundTrack);
 
     }
+
+    // Method to call to start the next round
+    public void startGame(){
+        Round round = new Round(players.size());
+
+    }
+
 }
