@@ -16,20 +16,20 @@ public class Round {
         firstPlayer = -1;
         currentRound = 0;
     }
-    // It give the turn to the next player and returns the index of the new currentPlayer in the Players ArrayList
+    // It "gives" the turn to the next player and returns the index of the new currentPlayer in the Players ArrayList
     public int nextPlayer(){
-        if (currentPlayer< playersIndexes.size()-1 ) { //If there are still rounds to be played in this round...
+        if (currentPlayer < playersIndexes.size()-1 ) { //If there are still rounds to be played in this round...
             currentPlayer++; // ...Then the currentPlayer is the next one
             return playersIndexes.get(currentPlayer); // And the function returns the index of the currentPlayer
             // in the Players ArrayList
         }else
-            return -1; // Round is finished
+            return -1; // The current round is finished
     }
 
     // This function allow the current player to immediatly use his second turn in the round (if he use the right tool card)
     public boolean doubleTurn(){
         if((currentPlayer<playersIndexes.size()-1) && (playersIndexes.subList(currentPlayer+1,playersIndexes.size()).contains(playersIndexes.get(currentPlayer)))){
-            int indexToRemove = playersIndexes.subList(currentPlayer+1,playersIndexes.size()).indexOf(playersIndexes.get(currentPlayer));
+            int indexToRemove = playersIndexes.subList(currentPlayer+1,playersIndexes.size()).indexOf(playersIndexes.get(currentPlayer))+currentPlayer+1;
             playersIndexes.remove(indexToRemove);
             playersIndexes.add(currentPlayer+1,playersIndexes.get(currentPlayer));
             return true;
@@ -59,5 +59,19 @@ public class Round {
     }
     public int getFirstPlayer() {
         return firstPlayer;
+    }
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder("Current Round" + "(number: "+ currentRound +"):\n");
+        sb.append("Order of this round: ");
+        for (int i=0;i<playersIndexes.size();i++){
+            sb.append(playersIndexes.get(i));
+            if (i!=playersIndexes.size()-1){
+                 sb.append(", " );
+            }
+        }
+        sb.append("\n");
+        sb.append("Current player: " + this.currentPlayer);
+        return sb.toString();
     }
 }

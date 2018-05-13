@@ -56,14 +56,52 @@ public class RoundTest {
         assertTrue(round.nextRound());
         assertTrue(round.nextRound());
         assertFalse(round.nextRound());
-
     }
     @Test
     public void nextPlayer(){
         int playersNumber = 3;
         Round round = new Round(playersNumber);
         round.nextRound();
+        assertEquals(1,round.nextPlayer());
+        assertEquals(2,round.nextPlayer());
+        assertEquals(2,round.nextPlayer());
+        assertEquals(1,round.nextPlayer());
+        assertEquals(0,round.nextPlayer());
+        assertEquals(-1,round.nextPlayer());
+        round.nextRound();
+        assertEquals(2,round.nextPlayer());
+        assertEquals(0,round.nextPlayer());
+        assertEquals(0,round.nextPlayer());
+        assertEquals(2,round.nextPlayer());
+        assertEquals(1,round.nextPlayer());
+        assertEquals(-1,round.nextPlayer());
+        round.nextRound();
+        assertEquals(0,round.nextPlayer());
+        assertEquals(1,round.nextPlayer());
+        assertEquals(1,round.nextPlayer());
+        assertEquals(0,round.nextPlayer());
+        assertEquals(2,round.nextPlayer());
+        assertEquals(-1,round.nextPlayer());
+        round.nextRound();
+        assertEquals(1,round.nextPlayer());
+        assertEquals(2,round.nextPlayer());
+        assertEquals(2,round.nextPlayer());
+        assertEquals(1,round.nextPlayer());
+        assertEquals(0,round.nextPlayer());
+        assertEquals(-1,round.nextPlayer());
+        round.nextRound();
     }
 
-
+    @Test
+    public void doubleTurn(){
+        int playersNumber = 3;
+        Round round = new Round(playersNumber);
+        round.nextRound();
+        round.nextPlayer();
+        assertTrue(round.doubleTurn());
+        assertEquals(1,round.nextPlayer());
+        assertEquals(2,round.nextPlayer());
+        assertEquals(2,round.nextPlayer());
+        assertEquals(0,round.nextPlayer());
+    }
 }
