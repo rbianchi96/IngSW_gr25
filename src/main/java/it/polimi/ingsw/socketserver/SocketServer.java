@@ -23,7 +23,8 @@ public class SocketServer {
             while (!false) {
                 try {
                     Socket socket = serverSocket.accept();
-                    Thread t = new Thread(new SocketClientHandler(socket, controller));
+                    SocketClientHandler socketClientHandler = new SocketClientHandler(socket, controller);
+                    Thread t = new Thread(socketClientHandler);
                     t.start();
                 } catch (IOException e) {
                     break; // Server socket closed
