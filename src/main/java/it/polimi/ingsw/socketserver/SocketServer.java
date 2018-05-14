@@ -5,13 +5,16 @@ import it.polimi.ingsw.Controller;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class SocketServer {
     Controller controller;
+    private ArrayList<SocketClientHandler> ClientHandlers;
     private int port;
     public SocketServer(int port,Controller controller) {
         this.port = port;
         this.controller = controller;
+
     }
 
     public void StartServer() {
@@ -19,7 +22,7 @@ public class SocketServer {
         try {
 
             serverSocket = new ServerSocket(port);
-
+            System.out.println("Socket Server ready");
             while (!false) {
                 try {
                     Socket socket = serverSocket.accept();
@@ -30,7 +33,6 @@ public class SocketServer {
                     break; // Server socket closed
                 }
             }
-
         } catch (Exception e) {
             if(serverSocket != null && !serverSocket.isClosed()){
                 try {
@@ -48,7 +50,7 @@ public class SocketServer {
                 e1.printStackTrace();
             }
         }
-        System.out.println("Socket Server ready");
+
 
     }
 }
