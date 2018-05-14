@@ -10,8 +10,8 @@ public class Draft {
     private int maxDices;
     private ArrayList<Dice> dices;
 
-    public Draft(int maxDices){
-        this.maxDices = maxDices;
+    public Draft(int players){
+        this.maxDices = 2*players + 1;
         this.dices = new ArrayList<>();
     }
 

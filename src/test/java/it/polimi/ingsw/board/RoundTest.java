@@ -7,15 +7,13 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class RoundTest {
-    public static int randInt(int min, int max) {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        return randomNum;
-    }
     @Test
     public void nextRound(){
+        System.out.println("RoundTest: Testing nextRound()...");
         int playersNumber = 3;
         Round round = new Round(playersNumber);
+        // Testing that all the values are the expected ones
+        // Round order: 0 1 2 2 1 0 -> 1 2 0 0 2 1 -> 2 0 1 1 0 2
         assertTrue(round.nextRound());
         assertEquals(0,round.getFirstPlayer());
         assertEquals(0,round.getCurrentPlayer());
@@ -24,7 +22,6 @@ public class RoundTest {
         assertEquals(2,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
-        // 0 1 2 2 1 0 -> 1 2 0 0 2 1 -> 2 0 1 1 0 2
         assertTrue(round.nextRound());
         assertEquals(1,round.getFirstPlayer());
         assertEquals(1,round.getCurrentPlayer());
@@ -59,8 +56,10 @@ public class RoundTest {
     }
     @Test
     public void nextPlayer(){
+        System.out.println("RoundTest: Testing nextPlayer()...");
         int playersNumber = 3;
         Round round = new Round(playersNumber);
+        // Testing that all the values are the expected ones
         round.nextRound();
         assertEquals(1,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
@@ -94,8 +93,10 @@ public class RoundTest {
 
     @Test
     public void doubleTurn(){
+        System.out.println("RoundTest: Testing doubleRound()...");
         int playersNumber = 3;
         Round round = new Round(playersNumber);
+        // Testing that all the values are the expected ones
         round.nextRound();
         round.nextPlayer();
         assertTrue(round.doubleTurn());

@@ -1,5 +1,4 @@
 package it.polimi.ingsw.board;
-
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.ToolCard;
@@ -9,6 +8,7 @@ import it.polimi.ingsw.board.cardsloaders.PublicObjectiveCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.ToolCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.WindowPatternCardsLoader;
 import it.polimi.ingsw.board.dice.DiceBag;
+import it.polimi.ingsw.board.dice.Draft;
 import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import java.util.logging.Level;
@@ -92,6 +92,7 @@ public class Game {
         ToolCardsLoader toolCardsLoader = new ToolCardsLoader();
         toolCards = toolCardsLoader.getRandomCards(CARDSNUMBER);
         gameBoard = new GameBoard(players,diceBag,publicObjectiveCard,toolCards,roundTrack);
+        gameBoard.setDraft(new Draft(players.size()));
 
     }
 
@@ -99,6 +100,12 @@ public class Game {
     public void startGame(){
         Round round = new Round(players.size());
 
+    }
+
+    public void RollDiceFromDiceBag{
+        for(int i=0; i<2*players.size()+1;i++){
+            gameBoard.getDraft().addDice(gameBoard.getDiceBag().getRandomDice());
+        }
     }
 
 }
