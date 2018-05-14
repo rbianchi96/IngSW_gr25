@@ -102,7 +102,7 @@ public class Game {
 
     }
 
-    public void RollDiceFromDiceBag{
+    public void RollDiceFromDiceBag(){
         for(int i=0; i<2*players.size()+1;i++){
             gameBoard.getDraft().addDice(gameBoard.getDiceBag().getRandomDice());
         }

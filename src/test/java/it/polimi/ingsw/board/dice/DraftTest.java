@@ -13,7 +13,7 @@ public class DraftTest {
     @Test
     public void addDiceTest(){
         System.out.println("DrafTest: Testing addDice()...");
-        Draft draft = new Draft(9);
+        Draft draft = new Draft(4);
         int startSize = draft.getSize();
         // Testing the correct boolean returned
         assertEquals(true,draft.addDice(new Dice(1,Color.RED)));
@@ -31,7 +31,7 @@ public class DraftTest {
     @Test
     public void getDiceTest(){
         System.out.println("DraftTest: Testing getDice()...");
-        Draft draft = new Draft(9);
+        Draft draft = new Draft(4);
         // Adding random 7 dices to the Draft
         int dices = 7;
         draft.addDice(new Dice(4,Color.RED));
@@ -82,7 +82,7 @@ public class DraftTest {
     @Test
     public void toStringTest(){
         System.out.println("DraftTest: Testing toString()...");
-        Draft draft = new Draft(9);
+        Draft draft = new Draft(4);
         draft.addDice(new Dice(2,Color.YELLOW));
         draft.addDice(new Dice(1,Color.GREEN));
         draft.addDice(new Dice(3,Color.BLUE));
