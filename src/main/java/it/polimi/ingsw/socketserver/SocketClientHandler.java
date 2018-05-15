@@ -39,10 +39,11 @@ public class SocketClientHandler implements Runnable{
     public void decode(String line){
         String[] request = line.split(" ");
         if (request[0]!=null) {
-            switch (line) {
+            switch (request[0]) {
                 case "connect": {
-                   if ( controller.getLobby().login(request[1]))
+                   if ( controller.getLobby().login(request[1])){
                        out.println("Welcome");
+                        System.out.println("Client " + request[1].toString() + " logged!");}
                    else
                        out.println("Login failed");
                 }

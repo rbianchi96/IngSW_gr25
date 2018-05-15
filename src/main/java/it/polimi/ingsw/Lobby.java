@@ -6,12 +6,15 @@ import java.util.ArrayList;
 
 public class Lobby {
     private int PlayersNumber;
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<Player>();
     public Lobby(){
 
     }
     public boolean login(String user){
-        return true; //Effettuerò controllo qui
+       if (players.contains(user)){
+           return false;
+       }else
+           return true;
     }
     public boolean addPlayer(){
         return false;

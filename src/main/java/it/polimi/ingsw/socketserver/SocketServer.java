@@ -17,41 +17,30 @@ public class SocketServer {
 
     }
 
-    public void StartServer() {
+    public void startServer() {
         ServerSocket serverSocket=null;
         try {
-
             serverSocket = new ServerSocket(port);
-            System.out.println("Socket Server ready");
-            while (!false) {
-                try {
-                    Socket socket = serverSocket.accept();
-                    SocketClientHandler socketClientHandler = new SocketClientHandler(socket, controller);
-                    Thread t = new Thread(socketClientHandler);
-                    t.start();
-                } catch (IOException e) {
-                    break; // Server socket closed
-                }
-            }
-        } catch (Exception e) {
-            if(serverSocket != null && !serverSocket.isClosed()){
-                try {
-                    serverSocket.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-            System.err.println(e.getMessage()); // port not available
+        } catch (IOException e) {
+            System.err.println(e.getMessage()); // porta non disponibile
             return;
-        } finally {
+        }
+        System.out.println("Socket Server ready");
+
+        while (true) {
             try {
-                serverSocket.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+
+                Socket socket = serverSocket.accept();
+                System.out.println("New Client connected: " + socket.getLocalAddress().toString());
+                Thread t = new Thread(new SocketClientHandler(socket, controller));
+                t.start();
+            } catch (IOException e) {
+                break; // entrerei qui se serverSocket venisse chiuso
             }
         }
-
-
+    }
+    public ArrayList<SocketClientHandler> getClientHandlers() {
+        return ClientHandlers;
     }
 }
 
