@@ -1,7 +1,6 @@
 package it.polimi.ingsw.socketserver;
 
 import it.polimi.ingsw.Controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -21,6 +20,7 @@ public class SocketClientHandler implements Runnable{
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
             out.println("Connection Established");
+            out.flush();
             while (true) {
                 String line = in.nextLine();
                 if (line.equals("close")) {
@@ -37,15 +37,18 @@ public class SocketClientHandler implements Runnable{
         }
     }
     public void decode(String line){
-        String[] request = line.split(" ");
+        String[] request = line.split("#");
         if (request[0]!=null) {
             switch (request[0]) {
-                case "connect": {
+                case "login": {
                    if ( controller.getLobby().login(request[1])){
-                       out.println("Welcome");
-                        System.out.println("Client " + request[1].toString() + " logged!");}
-                   else
+                        out.println("Welcome");
+                        out.flush();
+                        System.out.println("Client " + request[1] + " logged!");}
+                   else {
                        out.println("Login failed");
+                       out.flush();
+                   }
                 }
                     break;
                 default:
@@ -54,12 +57,10 @@ public class SocketClientHandler implements Runnable{
         }
     }
     private String encode(String... args){
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         for (String arg : args) {
             sb.append(arg +" ");
         }
         return sb.toString().substring(0,sb.toString().length()-1);
     }
-
-
 }

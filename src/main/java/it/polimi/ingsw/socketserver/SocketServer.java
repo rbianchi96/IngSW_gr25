@@ -18,25 +18,23 @@ public class SocketServer {
     }
 
     public void startServer() {
-        ServerSocket serverSocket=null;
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
+        try (ServerSocket serverSocket = new ServerSocket(port)){
+            System.out.println("Socket Server ready");
+            while (!false) {
+                try {
+
+                    Socket socket = serverSocket.accept();
+                    System.out.println("New Client connected: " + socket.getLocalAddress().toString());
+                    Thread t = new Thread(new SocketClientHandler(socket, controller));
+                    t.start();
+                } catch (IOException e) {
+                    break; // entrerei qui se serverSocket venisse chiuso
+                }
+            }
+        }
+        catch (IOException e) {
             System.err.println(e.getMessage()); // porta non disponibile
             return;
-        }
-        System.out.println("Socket Server ready");
-
-        while (true) {
-            try {
-
-                Socket socket = serverSocket.accept();
-                System.out.println("New Client connected: " + socket.getLocalAddress().toString());
-                Thread t = new Thread(new SocketClientHandler(socket, controller));
-                t.start();
-            } catch (IOException e) {
-                break; // entrerei qui se serverSocket venisse chiuso
-            }
         }
     }
     public ArrayList<SocketClientHandler> getClientHandlers() {
