@@ -2,6 +2,23 @@ package it.polimi.ingsw.board.cardsloaders;
 
 import it.polimi.ingsw.board.cards.Card;
 
-public interface CardsLoader {
-    public Card[] getRandomCards(int cardNumber);
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+public abstract class CardsLoader {
+    /*"friendly"*/ ArrayList<JsonObject> cardsArray;
+
+    public CardsLoader(String fileName) throws FileNotFoundException {
+        JsonReader reader = Json.createReader(new FileReader(fileName));
+
+        cardsArray = new ArrayList<>(reader.readArray().getValuesAs(JsonObject.class));    //Extract window patterns cards as ArrayList
+
+        reader.close();
+    }
+
+    public abstract Card[] getRandomCards(int cardNumber);
 }

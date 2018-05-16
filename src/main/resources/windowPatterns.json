@@ -15,7 +15,7 @@
 			"difficulty": 6,
 			"restrictions": {
 				"row0": [2, null, 5, null, 1],
-				"row1": ["y",6, "p", 2, "r"],
+				"row1": ["y", 6, "p", 2, "r"],
 				"row2": [null, "b", 4, "g", null],
 				"row3": [null, 3, null, 5, null]
 			}
@@ -124,7 +124,7 @@
 			"name": "Batllo",
 			"difficulty": 5,
 			"restrictions": {
-				"row0": [null, null,  6, null, null],
+				"row0": [null, null, 6, null, null],
 				"row1": [null, 5, "b", 4, null],
 				"row2": [3, "g", "y", "p", 2],
 				"row3": [1, 4, "r", 5, 3]
@@ -225,7 +225,7 @@
 			"difficulty": 5,
 			"restrictions": {
 				"row0": [3, 4, 1, 5, null],
-				"row1": [null, 6, 2, null,"y"],
+				"row1": [null, 6, 2, null, "y"],
 				"row2": [null, null, null, "y", "r"],
 				"row3": [5, null, "y", "r", 6]
 			}

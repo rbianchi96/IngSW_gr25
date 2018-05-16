@@ -1,0 +1,120 @@
+[
+	{
+		"id": 1,
+		"name": "Pinza Sgrossatrice",
+		"effects": [
+			{
+				"effect": "increaseOrDecreaseDice"
+			}
+		]
+	},
+	{
+		"id": 2,
+		"name": "Pennello per Eglomise",
+		"effects": [
+			{
+				"effect": "moveDice",
+				"ignoreRestriction": "color"
+			}
+		]
+	},
+	{
+		"id": 3,
+		"name": "Alesatore per lamina di rame",
+		"effects": [
+			{
+				"effect": "moveDice",
+				"ignoreRestriction": "value"
+			}
+		]
+	},
+	{
+		"id": 4,
+		"name": "Lathekin",
+		"effects": [
+			{
+				"effect": "moveTwoDice"
+			}
+		]
+	},
+	{
+		"id": 5,
+		"name": "Taglierina circolare",
+		"effects": [
+			{
+				"effect": "swapDiceWithRoundTrack"
+			}
+		]
+	},
+	{
+		"id": 6,
+		"name": "Pennello per Pasta Salda",
+		"effects": [
+			{
+				"effect": "rollDice"
+			}
+		]
+	},
+	{
+		"id": 7,
+		"name": "Martelletto",
+		"effects": [
+			{
+				"effect": "rollAllDice"
+			}
+		]
+	},
+	{
+		"id": 8,
+		"name": "Tenaglia a Rotelle",
+		"pre": "endOfFirstTurn",
+		"effects": [
+			{
+				"effect": "placeDice"
+			},
+			{
+				"effect": "skipSecondTurn"
+			}
+		]
+	},
+	{
+		"id": 9,
+		"name": "Riga in Sughero",
+		"effects": [
+			{
+				"effect": "placeDice",
+				"restriction": "notNearDice"
+			}
+		]
+	},
+	{
+		"id": 10,
+		"name": "Tampone Diamantato",
+		"effects": [
+			{
+				"effect": "rotateDice"
+			}
+		]
+	},
+	{
+		"id": 11,
+		"name": "Diluente per Pasta Salda",
+		"effects": [
+			{
+				"effect": "placeDiceInBag"
+			},
+			{
+				"effect": "takeDiceFromBag?"
+			}
+		]
+	},
+	{
+		"id": 12,
+		"name": "Taglierina Manuale",
+		"effects": [
+			{
+				"effect": "moveMaxTwoDice?"
+			}
+		]
+	}
+]

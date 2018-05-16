@@ -7,17 +7,11 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 import javax.json.*;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.Random;
 
-public class WindowPatternCardsLoader implements CardsLoader {
-	private ArrayList<JsonObject> cardsArray;
-
+public class WindowPatternCardsLoader extends CardsLoader {
 	public WindowPatternCardsLoader(String fileName) throws FileNotFoundException {
-			JsonReader reader = Json.createReader(new FileReader(fileName));
-
-			cardsArray = new ArrayList<>(reader.readArray().getValuesAs(JsonObject.class));	//Extract window patterns cards as ArrayList
+		super(fileName);
 	}
 
 	public WindowPatternCard[] getRandomCards(int cardNumber) {    //Get random card and remove them
@@ -49,15 +43,15 @@ public class WindowPatternCardsLoader implements CardsLoader {
 		for(int row = 0; row < 4; row++) {
 			JsonArray currRow = restrictionMatrix.getJsonArray("row" + row);
 
-			for(int col = 0; col < 5; col++) {	//For each cols in a row
+			for(int col = 0; col < 5; col++) {    //For each cols in a row
 				JsonValue rawRestriction = currRow.get(col);
 
 				Object restriction = null;
 
-				if(rawRestriction.getValueType() == JsonValue.ValueType.NUMBER)	//Value restriction
-					restriction = ((JsonNumber)rawRestriction).intValue();
-				else if(rawRestriction.getValueType() == JsonValue.ValueType.STRING)	//Color restriction
-					restriction = Color.findColor(((JsonString)rawRestriction).getString());
+				if(rawRestriction.getValueType() == JsonValue.ValueType.NUMBER)    //Value restriction
+					restriction = ((JsonNumber) rawRestriction).intValue();
+				else if(rawRestriction.getValueType() == JsonValue.ValueType.STRING)    //Color restriction
+					restriction = Color.findColor(((JsonString) rawRestriction).getString());
 
 				cells[row][col] = new Cell(restriction);
 			}

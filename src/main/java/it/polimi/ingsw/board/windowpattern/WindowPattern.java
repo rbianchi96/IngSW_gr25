@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class WindowPattern implements Iterable<Cell> {
+	public static final int WINDOW_PATTERN_ROWS_NUMBER = 4,
+			WINDOW_PATTERN_COLS_NUMBER = 5;
+
 	private String name;
 	private int difficulty, placedDices;
 	private Cell[][] cells;
@@ -48,7 +51,7 @@ public class WindowPattern implements Iterable<Cell> {
 		checkIndexes(row, col);
 
 		Dice diceToReturn = cells[row][col].removeDice();
-		if(diceToReturn != null) placedDices --;
+		if(diceToReturn != null) placedDices--;
 		return diceToReturn;
 	}
 
@@ -63,7 +66,7 @@ public class WindowPattern implements Iterable<Cell> {
 		//First dice restriction
 		if(
 				(ignoredRestrictions == null || ignoredRestrictions.indexOf(Restriction.FIRST_DICE_RESTRICTION) < 0)    //Don't ignore first dice restriction
-						&& placedDices == 0 && (!(row == 0 || row == 3) || !(col == 0 || col == 4)))    //First dice wrong placement
+						&& placedDices == 0 && (! (row == 0 || row == WindowPattern.WINDOW_PATTERN_ROWS_NUMBER - 1) || ! (col == 0 || col == WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)))    //First dice wrong placement
 			throw new PlacementRestrictionException(Restriction.FIRST_DICE_RESTRICTION);
 
 		Cell currCell = cells[row][col];
@@ -82,35 +85,72 @@ public class WindowPattern implements Iterable<Cell> {
 				throw new PlacementRestrictionException(Restriction.CELL_COLOR_RESTRICTION);    //Exception
 		}
 
+		//Check near dices to verify restrictions about near dice presence, color and value
 		if(placedDices > 0) {    //If there's an already placed dice
 			//Near cells dices check
-			boolean foundADice = false,    //Set to true if there's at leat one dice in a near cell
+			boolean foundADice = false,    //Set to true if there's at least one dice in a near cell
 					ignoreValueRest = ignoredRestrictions != null && ignoredRestrictions.indexOf(Restriction.NEAR_DICE_VALUE_RESTRICTION) >= 0,
 					ignoreColorRest = ignoredRestrictions != null && ignoredRestrictions.indexOf(Restriction.NEAR_DICE_COLOR_RESTRICTION) >= 0;
-			Dice diceToCheck;
+			Dice diceToCheck;    //Near dice to check
+
+			//Check N, NW and NE dices
 			if(row > 0) {    //Not first row
-				diceToCheck = cells[row - 1][col].getDice();    //Select the dice from the cell over
+				diceToCheck = cells[row - 1][col].getDice();    //Select N dice
 				if(diceToCheck != null) {
 					foundADice = true;
-					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);
+					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);    //Verify not same value or color (exception thrown)
+				}
+
+				//Check diagonal dices
+				if(col > 0) {    //Not first col
+					diceToCheck = cells[row - 1][col - 1].getDice();    //Select NW dice
+					if(diceToCheck != null) {
+						foundADice = true;
+					}
+				}
+				if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
+					diceToCheck = cells[row - 1][col + 1].getDice();    //Select NE dice
+					if(diceToCheck != null) {
+						foundADice = true;
+					}
 				}
 			}
+
+			//Check S, SW and SE dices
 			if(row < 3) {    //Not last row
-				diceToCheck = cells[row + 1][col].getDice();    //Select the dice from the cell below
+				diceToCheck = cells[row + 1][col].getDice();    //Select S dice
 				if(diceToCheck != null) {
 					foundADice = true;
 					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);
 				}
+
+				//Check diagonal dices
+				if(col > 0) {    //Not first col
+					diceToCheck = cells[row + 1][col - 1].getDice();    //Select SW dice
+					if(diceToCheck != null) {
+						foundADice = true;
+					}
+				}
+				if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
+					diceToCheck = cells[row + 1][col + 1].getDice();    //Select SE dice
+					if(diceToCheck != null) {
+						foundADice = true;
+					}
+				}
 			}
+
+			//Check W dice
 			if(col > 0) {    //Not first col
-				diceToCheck = cells[row][col - 1].getDice();    //Select the dice from the cell left
+				diceToCheck = cells[row][col - 1].getDice();    //Select W dice
 				if(diceToCheck != null) {
 					foundADice = true;
 					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);
 				}
 			}
-			if(col < 4) {    //Not last col
-				diceToCheck = cells[row][col + 1].getDice();    //Select the dice from the cell right
+
+			//Check
+			if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
+				diceToCheck = cells[row][col + 1].getDice();    //Select E dice
 				if(diceToCheck != null) {
 					foundADice = true;
 					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);
@@ -118,13 +158,13 @@ public class WindowPattern implements Iterable<Cell> {
 			}
 
 			if(
-					!(ignoredRestrictions != null && ignoredRestrictions.indexOf(Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION) >= 0)	//NOT ignore restr.
-							&& !foundADice)	//...AND not found any dice
+					! (ignoredRestrictions != null && ignoredRestrictions.indexOf(Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION) >= 0)    //NOT ignore restr.
+							&& ! foundADice)    //...AND not found any dice
 				throw new PlacementRestrictionException(Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
 		}
 
 		boolean res = currCell.putDice(dice);    //Place dice
-		if(res) placedDices ++;
+		if(res) placedDices++;
 		return res;
 	}
 
@@ -138,31 +178,32 @@ public class WindowPattern implements Iterable<Cell> {
 	}
 
 	private void checkIndexes(int row, int col) throws WindowPatternOutOfBoundException {
-		if(row < 0 || row >= 4 || col < 0 || col >= 5) throw new WindowPatternOutOfBoundException(row, col);
+		if(row < 0 || row >= WINDOW_PATTERN_ROWS_NUMBER || col < 0 || col >= WINDOW_PATTERN_COLS_NUMBER)
+			throw new WindowPatternOutOfBoundException(row, col);
 	}
 
 	private void checkNearDices(Dice dice1, Dice dice2, boolean ignoreValueRest, boolean ignoreColorRestr) throws PlacementRestrictionException {
-		if(!ignoreValueRest && dice1.getValue() == dice2.getValue())	//IF don't ignore restr. AND same value
+		if(! ignoreValueRest && dice1.getValue() == dice2.getValue())    //IF don't ignore restr. AND same value
 			throw new PlacementRestrictionException(Restriction.NEAR_DICE_VALUE_RESTRICTION);
-		else if(!ignoreColorRestr && dice1.getColor() == dice2.getColor())	//IF don't ignore restr. AND same color
+		else if(! ignoreColorRestr && dice1.getColor() == dice2.getColor())    //IF don't ignore restr. AND same color
 			throw new PlacementRestrictionException(Restriction.NEAR_DICE_COLOR_RESTRICTION);
 	}
 
 	public class WindowPatternOutOfBoundException extends Exception {
 		public WindowPatternOutOfBoundException(int row, int col) {
-			super("WindowPatternOutOfBoundException: row = " + String.valueOf(row) + ", col = " + String.valueOf(col));
+			super("row = " + row + ", col = " + col);
 		}
 	}
 
-	public class PlacementRestrictionException extends Exception {
-		Restriction restrictionType;
+	class PlacementRestrictionException extends Exception {
+		final Restriction restrictionType;
 
-		public PlacementRestrictionException(Restriction restrictionType) {
+		PlacementRestrictionException(Restriction restrictionType) {
 			super(restrictionType.toString());
 			this.restrictionType = restrictionType;
 		}
 
-		public PlacementRestrictionException(Restriction restrictionType, Object expected, Object real) {
+		PlacementRestrictionException(Restriction restrictionType, Object expected, Object real) {
 			super(restrictionType.toString() + ": expected " + expected.toString() + ", found" + real.toString());
 			this.restrictionType = restrictionType;
 		}
