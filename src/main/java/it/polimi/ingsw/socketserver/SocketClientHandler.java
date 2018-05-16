@@ -60,6 +60,4 @@ public class SocketClientHandler implements Runnable{
         }
         return sb.toString().substring(0,sb.toString().length()-1);
     }
-
-
 }

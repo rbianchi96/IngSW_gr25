@@ -1,6 +1,7 @@
 package it.polimi.ingsw.board.cards;
 
 import it.polimi.ingsw.board.Color;
+import it.polimi.ingsw.board.cardsloaders.PrivateObjectiveCardsLoader;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.windowpattern.Cell;
@@ -27,19 +28,16 @@ public class PrivateObjectiveCardTest {
 		ignoredRestrictions.add(Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
 
 		//Create cells without restrictions
-		for (int row = 0; row < 4; row++)
-			for (int col = 0; col < 5; col++)
+		for(int row = 0; row < 4; row++)
+			for(int col = 0; col < 5; col++)
 				cells[row][col] = new Cell();
 
 		try {
 			WindowPattern windowPattern = new WindowPattern("WP", 1, cells);    //Window pattern without restriction
 
-			PrivateObjectiveCard    //Create a objective card for every color
-					blueCard = new PrivateObjectiveCard(Color.BLUE),
-					greenCard = new PrivateObjectiveCard(Color.GREEN),
-					purpleCard = new PrivateObjectiveCard(Color.PURPLE),
-					redCard = new PrivateObjectiveCard(Color.RED),
-					yellowCard = new PrivateObjectiveCard(Color.YELLOW);
+			PrivateObjectiveCardsLoader cardsLoader = new PrivateObjectiveCardsLoader("src/main/resources/privateObjectiveCards.json");
+
+			PrivateObjectiveCard[] objectiveCards = cardsLoader.getRandomCards(5);    //Load objective cards
 
 			int    //Expected scores calculated by objective cards
 					expectedBlueCardScore = 0,
@@ -48,14 +46,14 @@ public class PrivateObjectiveCardTest {
 					expectedRedCardScore = 0,
 					expectedYellowCardScore = 0;
 
-			for (int i = 0; i < 20; i++) {
+			for(int i = 0; i < 20; i++) {
 				int currDiceValue;
 
 				Dice currDice = new Dice(currDiceValue = random.nextInt(7), colors[random.nextInt(5)]);    //Create random dice
 
 				windowPattern.placeDice(currDice, i / 5, i % 5, ignoredRestrictions);    //Place the dice
 
-				switch (currDice.getColor()) {    //Sum the dice value to the related score
+				switch(currDice.getColor()) {    //Sum the dice value to the related score
 					case BLUE:
 						expectedBlueCardScore += currDiceValue;
 
@@ -78,13 +76,26 @@ public class PrivateObjectiveCardTest {
 			}
 
 			//Verify expected value with calculated score for every objective card
-			assertEquals(blueCard.calculateScore(windowPattern), expectedBlueCardScore);
-			assertEquals(greenCard.calculateScore(windowPattern), expectedGreenCardScore);
-			assertEquals(purpleCard.calculateScore(windowPattern), expectedPurpleCardScore);
-			assertEquals(redCard.calculateScore(windowPattern), expectedRedCardScore);
-			assertEquals(yellowCard.calculateScore(windowPattern), expectedYellowCardScore);
+			for(PrivateObjectiveCard aCard : objectiveCards)
+				switch(aCard.getColor()) {
+					case BLUE:
+						assertEquals(aCard.calculateScore(windowPattern), expectedBlueCardScore);
+						break;
+					case GREEN:
+						assertEquals(aCard.calculateScore(windowPattern), expectedGreenCardScore);
+						break;
+					case RED:
+						assertEquals(aCard.calculateScore(windowPattern), expectedRedCardScore);
+						break;
+					case PURPLE:
+						assertEquals(aCard.calculateScore(windowPattern), expectedPurpleCardScore);
+						break;
+					case YELLOW:
+						assertEquals(aCard.calculateScore(windowPattern), expectedYellowCardScore);
+				}
 
-			System.out.println(yellowCard.toString());
-		} catch (Exception e) {fail("Unexpected exception");}
+		} catch(Exception e) {
+			fail(e);
+		}
 	}
 }

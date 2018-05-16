@@ -61,7 +61,7 @@ public class Game {
     // Loading of various game elements (the same of the "players preparation" of Sagrada rules.
     private void playersPreparation() throws FileNotFoundException {
         // Loading and assignment of private objectives to users
-        PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader();
+        PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader(null);
         privateObjectiveCard = privateObjectiveCardsLoader.getRandomCards(players.size());
         for(int i=0;i<players.size();i++){
            players.get(i).setPrivateObject(privateObjectiveCard[i]);
@@ -85,12 +85,22 @@ public class Game {
     // Loading of various game elements (the same of the "game preparation" of Sagrada rules.
     private void gamePreparation(){
         // Loading of public objectives
-        PublicObjectiveCardsLoader publicObjectiveCardsLoader = new PublicObjectiveCardsLoader();
+        PublicObjectiveCardsLoader publicObjectiveCardsLoader = null;
+        try {
+            publicObjectiveCardsLoader = new PublicObjectiveCardsLoader(null);
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
         publicObjectiveCard = publicObjectiveCardsLoader.getRandomCards(CARDSNUMBER);
 
         // Loading of tools cards
-        ToolCardsLoader toolCardsLoader = new ToolCardsLoader();
-        toolCards = toolCardsLoader.getRandomCards(CARDSNUMBER);
+        ToolCardsLoader toolCardsLoader;
+        try {
+             toolCardsLoader = new ToolCardsLoader("res/toolCards.xml");
+            toolCards = toolCardsLoader.getRandomCards(CARDSNUMBER);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         gameBoard = new GameBoard(players,diceBag,publicObjectiveCard,toolCards,roundTrack);
         gameBoard.setDraft(new Draft(players.size()));
 

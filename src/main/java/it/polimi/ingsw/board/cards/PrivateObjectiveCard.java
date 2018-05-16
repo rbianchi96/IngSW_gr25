@@ -6,10 +6,13 @@ import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public class PrivateObjectiveCard extends Card {
-	Color color;
+	private Color color;
+	private String name, description;
 
-	PrivateObjectiveCard(Color color) {
+	public PrivateObjectiveCard(Color color, String name, String description) {
 		this.color = color;
+		this.name = name;
+		this.description = description;
 	}
 
 	public int calculateScore(WindowPattern windowPattern) {	//Calculate points of this objective relative to a window pattern
@@ -25,8 +28,12 @@ public class PrivateObjectiveCard extends Card {
 		return points;
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
 	@Override
 	public String toString() {
-		return "PrivateObjectiveCard " + color.toString();
+		return "Private objective card \"" + name + "\"";
 	}
 }

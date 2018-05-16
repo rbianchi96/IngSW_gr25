@@ -1,7 +1,6 @@
 package it.polimi.ingsw.board;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Round {
     private static final int MAXROUNDS = 10;
