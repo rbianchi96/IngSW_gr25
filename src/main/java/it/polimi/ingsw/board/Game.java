@@ -28,13 +28,12 @@ public class Game {
     private ToolCard[] toolCards;
     private RoundTrack roundTrack;
     private GameBoard gameBoard;
-    private Round[] rounds;
-    private int currentRound;
+    private Round rounds;
+    private boolean inGame; // boolean to check if there is a game going on
 
 
-    public Game(ArrayList<Player> players){
-        this.players = players;
-        initialize();
+    public Game(){
+        inGame=false;
     }
 
     // Call to initialize the game
@@ -54,8 +53,7 @@ public class Game {
         privateObjectiveCard = new PrivateObjectiveCard[players.size()];
         toolCards = new ToolCard[CARDSNUMBER];
         roundTrack = new RoundTrack(players.size());
-        rounds = new Round[ROUNDSNUMBER];
-        currentRound = 0;
+        rounds = new Round(players.size());
     }
 
     // Loading of various game elements (the same of the "players preparation" of Sagrada rules.
@@ -107,15 +105,23 @@ public class Game {
     }
 
     // Method to call to start the next round
-    public void startGame(){
-        Round round = new Round(players.size());
-
+    public void startGame(ArrayList<Player> players){
+        this.players = players;
+        initialize();
+        inGame = true;
+        rounds.nextRound();
     }
 
-    public void RollDiceFromDiceBag(){
+    public void RollDicesFromDiceBag(){
         for(int i=0; i<2*players.size()+1;i++){
             gameBoard.getDraft().addDice(gameBoard.getDiceBag().getRandomDice());
         }
+        // Notify Client
     }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
 
 }

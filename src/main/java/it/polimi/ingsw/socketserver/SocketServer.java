@@ -1,5 +1,6 @@
 package it.polimi.ingsw.socketserver;
 
+import it.polimi.ingsw.ClientInterface;
 import it.polimi.ingsw.Controller;
 
 import java.io.IOException;
@@ -9,12 +10,12 @@ import java.util.ArrayList;
 
 public class SocketServer {
     Controller controller;
-    private ArrayList<SocketClientHandler> ClientHandlers;
+   // private ArrayList<ClientInterface> socketClientHandlerUsers;
     private int port;
-    public SocketServer(int port,Controller controller) {
+    public SocketServer(int port, Controller controller) {
         this.port = port;
         this.controller = controller;
-
+       // this.socketClientHandlerUsers = socketClientHandlerUsers;
     }
 
     public void startServer() {
@@ -22,9 +23,8 @@ public class SocketServer {
             System.out.println("Socket Server ready");
             while (!false) {
                 try {
-
                     Socket socket = serverSocket.accept();
-                    System.out.println("New Client connected: " + socket.getLocalAddress().toString());
+                    System.out.println("New socket client connected!");
                     Thread t = new Thread(new SocketClientHandler(socket, controller));
                     t.start();
                 } catch (IOException e) {
@@ -36,9 +36,6 @@ public class SocketServer {
             System.err.println(e.getMessage()); // porta non disponibile
             return;
         }
-    }
-    public ArrayList<SocketClientHandler> getClientHandlers() {
-        return ClientHandlers;
     }
 }
 
