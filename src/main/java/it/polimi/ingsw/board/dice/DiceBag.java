@@ -74,11 +74,11 @@ public class DiceBag {
 
     @Override
     public String toString() {
-        String s = "DiceBag:" + "\n" + "number of Dice " + dices.size() + "\n";
+        StringBuilder sb = new StringBuilder("DiceBag:" + "\n" + "number of Dice " + dices.size() + "\n");
         for (Dice d : dices) {
-            s = s + d.toString() + "\n";
+            sb.append(d.toString() + "\n");
         }
-        return s;
+        return sb.toString();
     }
 
     @Override
@@ -88,7 +88,6 @@ public class DiceBag {
         DiceBag otherDiceBag = (DiceBag) other;
         return (this.toString().equals(otherDiceBag.toString()));
     }
-
 
 }
 
