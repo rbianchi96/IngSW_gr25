@@ -1,6 +1,5 @@
 package it.polimi.ingsw.board;
 import org.junit.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 public class RoundTest {
     @Test

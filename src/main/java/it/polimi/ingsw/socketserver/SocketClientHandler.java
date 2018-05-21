@@ -75,7 +75,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
         }
     }
 
-    // This method decode the input from client following Protocol's rules and calling the right Controller's method
+    // This method decode the input from client based Protocol's rules and calling the right Controller's method
     public void decode(String line){
         String[] request = line.split("#");
         if (request[0]!=null) {
@@ -97,7 +97,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
         }
     }
 
-    // This method encode call's arguments following Protocol'rules. Necessary before send to Client.
+    // This method encode call's arguments based on Protocol'rules. Necessary before send to Client.
     private String encode(String... args){
         StringBuilder sb = new StringBuilder();
         for (String arg : args) {
