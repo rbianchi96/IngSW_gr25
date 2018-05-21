@@ -4,5 +4,5 @@ import it.polimi.ingsw.client.ClientInterface;
 
 public interface ServerInterface {
     public void login(String username);
-    public void logout(ClientInterface clientInterface);
+    public void logout();
 }
