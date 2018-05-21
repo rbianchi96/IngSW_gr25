@@ -32,7 +32,7 @@ public class Server {
             //System.setSecurityManager(new RMISecurityManager());
             java.rmi.registry.LocateRegistry.createRegistry(1099);
             RMIServerInterface server = new RMIServer(controller);
-            Naming.rebind("rmi://127.0.0.1/RMIApplication", server);
+            Naming.rebind("rmi://127.0.0.1/SagradaServer", server);
             System.out.println("[System] RMI Server is ready.");
         }catch (Exception e) {
             System.out.println("RMI Server failed: " + e);

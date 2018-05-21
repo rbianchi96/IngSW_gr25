@@ -14,7 +14,6 @@ public class RMIServerToClient implements ClientInterface {
     public void yourTurn() {
 
     }
-
     @Override
     public void loginResponse(String result, String message)
     {
@@ -29,7 +28,6 @@ public class RMIServerToClient implements ClientInterface {
     public void notLoggedYet(String message) {
 
     }
-
     @Override
     public void closeConnection() {
 

@@ -9,11 +9,9 @@ import java.net.Socket;
 public class Client implements ClientInterface {
 	public static void main(String[] args) {
 		try {
-			ServerInterface serverInterface = new SocketClient(new Socket("localhost", 3000), new Client()),
-					serverInterface1 = new RMIClientToServer();
-
-
-			serverInterface.login("aaa");
+			//ServerInterface serverInterface = new SocketClient(new Socket("localhost", 3000), new Client()),
+					ServerInterface serverInterface1 = new RMIClientToServer();
+			serverInterface1.login("TEST");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

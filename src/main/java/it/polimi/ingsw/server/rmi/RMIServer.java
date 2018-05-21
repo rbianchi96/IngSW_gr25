@@ -14,14 +14,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         super();
         this.controller = controller;
     }
-
     @Override
     public void login(String username,RMIClientInterface rmiClient)  {
+        System.out.println("New RMI client connected!");
         controller.login(new RMIServerToClient(rmiClient),username);
     }
-    @Override
-    public void logout() {
 
-    }
 }
 

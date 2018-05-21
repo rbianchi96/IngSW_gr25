@@ -22,7 +22,6 @@ public class SocketServer {
             while (!false) {
                 try {
                     Socket socket = serverSocket.accept();
-                    System.out.println("New socket client connected!");
                     Thread t = new Thread(new SocketClientHandler(socket, controller));
                     t.start();
                 } catch (IOException e) {
