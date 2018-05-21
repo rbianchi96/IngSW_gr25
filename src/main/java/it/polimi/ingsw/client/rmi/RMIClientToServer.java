@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.paramsloader.NetParamsLoader;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.server.rmi.RMIServerInterface;
 
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -14,13 +16,17 @@ public class RMIClientToServer implements ServerInterface {
 
 	public RMIClientToServer() {
 		try {
+			NetParamsLoader netParamsLoader = new NetParamsLoader("src/main/resources/netParams.json");
+
 			client = new RMIClient();
-			server = (RMIServerInterface)Naming.lookup("rmi://localhost/SagradaServer");
-		} catch (NotBoundException e) {
+			server = (RMIServerInterface) Naming.lookup("rmi://localhost/" + netParamsLoader.getRMIServerName());
+		} catch(FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (MalformedURLException e) {
+		} catch(NotBoundException e) {
 			e.printStackTrace();
-		} catch (RemoteException e) {
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		} catch(RemoteException e) {
 			e.printStackTrace();
 		}
 
@@ -29,8 +35,8 @@ public class RMIClientToServer implements ServerInterface {
 	@Override
 	public void login(String username) {
 		try {
-			server.login(username,client);
-		} catch (RemoteException e) {
+			server.login(username, client);
+		} catch(RemoteException e) {
 			e.printStackTrace();
 		}
 	}

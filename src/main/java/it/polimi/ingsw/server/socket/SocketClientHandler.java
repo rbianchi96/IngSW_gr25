@@ -29,7 +29,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
             out = new PrintWriter(socket.getOutputStream());
             out.println(encode("connection_status","success","Connection Established!"));
             out.flush();
-            System.out.println("New Socket connection: "+socket.getRemoteSocketAddress().toString() +":" + socket.getPort());
+            System.out.println("New Socket connection: "+socket.getRemoteSocketAddress().toString());
 
             while (true) {
                 String line = in.nextLine(); // read the stream from client
