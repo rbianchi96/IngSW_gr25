@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.Player;
+import it.polimi.ingsw.client.ClientInterface;
 
 import java.util.ArrayList;
 

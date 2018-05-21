@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.client.ClientInterface;
+
 public class Controller {
     private Lobby lobby;
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.client;
 
 public interface ClientInterface {
     public void yourTurn();

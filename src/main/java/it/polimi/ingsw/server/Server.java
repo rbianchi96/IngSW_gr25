@@ -1,6 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.socketserver.SocketServer;
+import it.polimi.ingsw.Controller;
+import it.polimi.ingsw.Lobby;
+import it.polimi.ingsw.ParamsLoader;
+import it.polimi.ingsw.server.socket.SocketServer;
 
 public class Server {
     // Socket attributes

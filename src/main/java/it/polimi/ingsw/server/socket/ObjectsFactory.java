@@ -1,4 +1,4 @@
-package it.polimi.ingsw.socketserver;
+package it.polimi.ingsw.server.socket;
 
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;

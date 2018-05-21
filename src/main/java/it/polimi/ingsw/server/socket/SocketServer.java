@@ -1,12 +1,10 @@
-package it.polimi.ingsw.socketserver;
+package it.polimi.ingsw.server.socket;
 
-import it.polimi.ingsw.ClientInterface;
 import it.polimi.ingsw.Controller;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class SocketServer {
     Controller controller;
