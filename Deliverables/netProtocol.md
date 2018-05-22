@@ -8,9 +8,12 @@ Spaces is replaced with hash (`#`).
 
 ### From server to client
 
-- `login_response success|failed [errMsg]` Server response to client login request, if failed errMsg is returned.
+- `login_response success|failed [Msg]` Server response to client login request, a message is returned to hints a failed or succesfull login.
 - `waitingForPlayers num` Inform client that the server is waiting to start game.
 - `gameStarts` Inform client that the game in started.
+- `new_user [Msg]` Inform client that a new user has logged in the room.
+- `suspended_user [Msg]` Inform client that another user has been suspended
+- `not_logged [Msg]` Inform client that he has to login before logout.
 
 # Game
 
