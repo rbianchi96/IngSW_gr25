@@ -31,7 +31,7 @@ public class Client implements ClientInterface {
 					ok = true;
 				} else if(in.equals("RMI")) {
 					System.out.println("Inserire IP");
-					serverInterface = new RMIClientToServer(scanner.nextLine());
+					serverInterface = new RMIClientToServer(this, scanner.nextLine());
 					ok = true;
 				}
 

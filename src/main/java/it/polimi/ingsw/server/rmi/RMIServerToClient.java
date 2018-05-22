@@ -35,7 +35,11 @@ public class RMIServerToClient implements ClientInterface {
 
     @Override
     public void notifyNewUser(String message) {
-
+        try {
+            rmiClientInterface.notifyNewUser(message);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

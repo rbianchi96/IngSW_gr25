@@ -5,4 +5,5 @@ import java.rmi.RemoteException;
 
 public interface RMIClientInterface extends Remote {
     public void loginResponse(String result,String message) throws RemoteException;
+    public void notifyNewUser(String message) throws RemoteException;
 }
