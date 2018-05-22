@@ -14,12 +14,12 @@ public class RMIClientToServer implements ServerInterface {
 	private RMIServerInterface server;
 	private RMIClient client;
 
-	public RMIClientToServer() {
+	public RMIClientToServer(String ip) {
 		try {
 			NetParamsLoader netParamsLoader = new NetParamsLoader("src/main/resources/netParams.json");
 
 			client = new RMIClient();
-			server = (RMIServerInterface) Naming.lookup("rmi://localhost/" + netParamsLoader.getRMIServerName());
+			server = (RMIServerInterface) Naming.lookup("rmi://" + ip + "/" + netParamsLoader.getRMIServerName());
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();
 		} catch(NotBoundException e) {
