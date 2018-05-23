@@ -51,6 +51,8 @@ public class SocketClient extends Socket implements Runnable, ServerInterface {
 			case "new_user":
 				client.notifyNewUser(msgVector[1]);
 				break;
+			default:
+				break;
 		}
 	}
 

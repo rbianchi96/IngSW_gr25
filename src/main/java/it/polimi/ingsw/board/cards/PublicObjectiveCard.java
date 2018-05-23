@@ -7,7 +7,8 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public class PublicObjectiveCard extends Card {
 	private PublicObjectiveCardsIds id;
-	private String name, description;
+	private String name;
+	private String description;
 	private int points;
 
 	public PublicObjectiveCard(PublicObjectiveCardsIds id, String name, String description, int points) {
@@ -162,6 +163,8 @@ public class PublicObjectiveCard extends Card {
 					case HIGH_VALUES:
 						firstValueToFind = 5;
 						secondValueToFind = 6;
+						break;
+					default:
 						break;
 				}
 

@@ -7,7 +7,8 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public class PrivateObjectiveCard extends Card {
 	private Color color;
-	private String name, description;
+	private String name;
+	private String description;
 
 	public PrivateObjectiveCard(Color color, String name, String description) {
 		this.color = color;
