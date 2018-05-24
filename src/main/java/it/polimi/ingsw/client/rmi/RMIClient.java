@@ -23,4 +23,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     public void notifyNewUser(String message) throws RemoteException {
         client.notifyNewUser(message);
     }
+
+    @Override
+    public boolean ping() throws RemoteException {
+        return true;
+    }
 }

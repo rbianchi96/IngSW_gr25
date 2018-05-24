@@ -140,7 +140,6 @@ public class SocketClientHandler implements Runnable, ClientInterface {
             }
         }
     }
-
     @Override // Read ClientInterface for details
     public void notLoggedYet(String message) {
         out.println(encode("not_logged",message));

@@ -3,15 +3,29 @@ package it.polimi.ingsw.server.rmi;
 import it.polimi.ingsw.Controller;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
-
 import java.rmi.RemoteException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RMIServerToClient implements ClientInterface {
     private RMIClientInterface rmiClientInterface;
     Controller controller;
-    public RMIServerToClient(RMIClientInterface rmiClientInterface,Controller controllre){
+    Timer pingTimer;
+    public RMIServerToClient(RMIClientInterface rmiClientInterface,Controller controller){
         this.rmiClientInterface = rmiClientInterface;
         this.controller=controller;
+        pingTimer();
+    }
+
+    // Timer to ping the client set with a delay of 500 milliseconds, repeat every 2 and half minutes
+    private void pingTimer(){
+        pingTimer = new Timer();
+        pingTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                ping();
+            }
+        }, 500, 2500);
     }
     @Override
     public void yourTurn() {
@@ -23,8 +37,8 @@ public class RMIServerToClient implements ClientInterface {
         try {
             rmiClientInterface.loginResponse(result, message, sessionID);
         } catch (RemoteException e) {
-            controller.lostConnection(this);
             e.printStackTrace();
+            controller.lostConnection(this);
         }
     }
 
@@ -34,7 +48,7 @@ public class RMIServerToClient implements ClientInterface {
     }
     @Override
     public void closeConnection() {
-
+        pingTimer.cancel();
     }
 
     @Override
@@ -43,11 +57,25 @@ public class RMIServerToClient implements ClientInterface {
             rmiClientInterface.notifyNewUser(message);
         } catch(Exception e) {
             e.printStackTrace();
+            controller.lostConnection(this);
         }
     }
 
     @Override
     public void notifySuspendedUser(String message) {
 
+    }
+
+   // ping the RMI Client
+    private boolean ping(){
+        try {
+            rmiClientInterface.ping();
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            pingTimer.cancel();
+            controller.lostConnection(this);
+            return false;
+        }
     }
 }

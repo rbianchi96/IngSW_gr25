@@ -12,6 +12,10 @@ public class Lobby {
     private static final int SESSIONID_LENGTH = 5;
     static final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_=+";
     static SecureRandom random = new SecureRandom();
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
     private ArrayList<Player> players; // Main players array among the game
     private Game currentGame; // The istance of the Game.
     public Lobby(){
@@ -20,7 +24,7 @@ public class Lobby {
     }
 
     // Check if an user is already logged in based on his Client Interface
-    private boolean isAlreadyLogged(ClientInterface clientInterface){
+    protected boolean isAlreadyLogged(ClientInterface clientInterface){
         for (int i=0; i< players.size(); i++) {
             if (players.get(i).getClientInterface() == clientInterface) {
                 return true;
@@ -58,7 +62,7 @@ public class Lobby {
                     if (!isAlreadyLogged(username)) { // If the client tries to login with an unused nickname...
                         String sessionID = randomSessionID(SESSIONID_LENGTH); // generate a random session ID to link to this user
                         players.add(new Player(clientInterface, username, sessionID)); // create the Player object and add it to the Players'list.
-                        System.out.println(username + " successfully logged in!");
+                        System.out.println(username + " successfully logged in! | SessionID: " + sessionID);
 
                         // Notify successfully login to the client
                         clientInterface.loginResponse("success", "Welcome " + username + "! The game will start soon!", sessionID);
@@ -157,6 +161,7 @@ public class Lobby {
                 players.get(i).setClientInterface(clientInterface);
                 players.get(i).setIsOnline(true);
                 players.get(i).setSessionID(sessionID);
+                System.out.println(username + " successfully re-logged in! | SessionID: " + sessionID);
                 clientInterface.loginResponse("success","Welcome back " + username +"! You are now able to continue this game!",sessionID);
                 break;
             }else
@@ -166,10 +171,10 @@ public class Lobby {
     }
 
     // Generate random user session-ID
-    private String randomSessionID( int len ){
-        StringBuilder sb = new StringBuilder( len );
-        for( int i = 0; i < len; i++ )
-            sb.append( alphabet.charAt( random.nextInt(alphabet.length()) ) );
+    private String randomSessionID(int length){
+        StringBuilder sb = new StringBuilder(length);
+        for( int i = 0; i < length; i++ ) // for each char of the requested string
+            sb.append(alphabet.charAt( random.nextInt(alphabet.length()))); // select random char in the alphabet
         return sb.toString();
     }
 
@@ -182,5 +187,10 @@ public class Lobby {
     // Getters
     public Game getCurrentGame() {
         return currentGame;
+    }
+    public ArrayList<Player> getPlayers() {
+        ArrayList<Player> playersArray = new  ArrayList<>();
+        playersArray.addAll(this.players);
+        return playersArray;
     }
 }

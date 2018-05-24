@@ -1,7 +1,11 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.board.Player;
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.server.ServerInterface;
+
+import java.util.ArrayList;
 
 public class Controller {
     private Lobby lobby;
@@ -25,6 +29,26 @@ public class Controller {
         lobby.lostConnection(clientInterface);
     }
 
-    // Getters
-    public Lobby getLobby(){ return this.lobby;}
+    public synchronized void placeDice(ClientInterface clientInterface, Dice dice, int row, int col){
+        if (isConnected(clientInterface)){
+            // placeDice code
+        }else
+        {
+
+        }
+    }
+    // WARNING \\
+    private void sessionCheck(ClientInterface clientInterface){ // WARNING : Need to finish this. I'm gonna think about it.
+        ArrayList<Player> players = lobby.getPlayers();
+        for (int i=0;i<players.size();i++){
+            if(!players.get(i).getIsOnline() && players.get(i).getClientInterface()==null){
+
+            }
+        }
+    }
+
+    // Just for convenience
+    private boolean isConnected(ClientInterface clientInterface){
+        return lobby.isAlreadyLogged(clientInterface);
+    }
 }
