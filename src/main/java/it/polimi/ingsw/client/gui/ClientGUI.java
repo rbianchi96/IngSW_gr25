@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClient;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -23,52 +25,48 @@ public class ClientGUI extends Application implements ClientInterface {
 	private Client client;
 	private Stage primaryStage;
 
-	@FXML
-	RadioButton socketRadioBtn, rmiRadioBtn;
-	@FXML
-	TextField ipField, usernameField;
+	private FXMLLoader loginGUILoader, lobbyGUILoader;
 
-	@FXML
-	Label player0, player1, player2, player3, playersLabels[], notifier;
+	private Parent loginGUIRoot, lobbyGUIRoot;
+
+	private LoginGUI loginGUI;
+	private LobbyGUI lobbyGUI;
+	private State state;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		client = new Client(this);
+		client = new Client(this);    //Out interface
 		this.primaryStage = primaryStage;
 
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
-		loader.setController(this);
-
-		Parent root = loader.load();
-
-		primaryStage.setScene(new Scene(root));
-		primaryStage.setTitle("Sagrada");
-		primaryStage.setResizable(false);
-		primaryStage.show();
-	}
-
-	//FROM GUI METHODS
-	public void connectAndLogin() {
-		String ip = ipField.getText(),
-				username = usernameField.getText();
-
-		if(ip.equals("") || username.equals("")) {    //Verify there isn't any empty field
-			Alert alert = new Alert(Alert.AlertType.ERROR, "Qualche campo è vuoto!");    //Create an alert
-			alert.showAndWait();
-		} else {
-			try {
-				client.loginAndConnect(
-						socketRadioBtn.isSelected() ? Client.ConnectionMode.SOCKET : Client.ConnectionMode.RMI,
-						ip,
-						username
-				);
-			} catch(IOException e) {
-				Alert alert = new Alert(Alert.AlertType.ERROR, "Errore durante la connessione. Verifica la connessione e l'indirizzo IP inserito.");    //Create an alert
-				alert.showAndWait();
+		//Window common initialization
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				Platform.exit();
+				System.exit(0);
 			}
-		}
-	}
+		});
+		primaryStage.setResizable(false);
 
+		//Load login GUI
+		loginGUILoader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
+		loginGUIRoot = loginGUILoader.load();
+
+		loginGUI = loginGUILoader.getController();
+		loginGUI.setClient(client);
+
+		lobbyGUILoader = new FXMLLoader(getClass().getClassLoader().getResource("lobby.fxml"));
+		lobbyGUIRoot = lobbyGUILoader.load();
+
+		lobbyGUI = lobbyGUILoader.getController();
+		lobbyGUI.setClient(client);
+
+		primaryStage.setScene(new Scene(loginGUIRoot));
+		primaryStage.setTitle("Sagrada");
+		primaryStage.show();
+
+		state = State.LOGIN;
+	}
 
 	//	FROM SERVER METHODS
 	@Override
@@ -82,21 +80,15 @@ public class ClientGUI extends Application implements ClientInterface {
 			@Override
 			public void run() {
 				if(result.equals("success")) {
-					//Load lobby status GUI
-					FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("lobby.fxml"));
-					loader.setController(this);
-
 					try {
-						Parent root = loader.load();
-
-						playersLabels = new Label[]{player0, player1, player2, player3};
-
-						primaryStage.setScene(new Scene(root));
+						//Load lobby GUI
+						primaryStage.setScene(new Scene(lobbyGUIRoot));
 						primaryStage.setTitle("Sagrada");
-						primaryStage.setResizable(false);
 						primaryStage.show();
+
+						state = State.LOBBY;
 					} catch(Exception e) {
-						e.printStackTrace();
+						e.printStackTrace();    //FATAL ERROR!
 					}
 				} else if(result.equals("fail")) {
 					if(message.equals("An user with this nickname is already in the lobby!")) {
@@ -121,36 +113,27 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void notifyNewUser(String message) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				notifier.setText(message + " si è aggiunto alla partita");
-			}
-		});
+		lobbyGUI.notifyNewUser(message);
 	}
 
 	@Override
 	public void notifySuspendedUser(String message) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				notifier.setText(message + " ha abbandonato la partita");
-			}
-		});
+		lobbyGUI.notifySuspendedUser(message);
 	}
 
-	//@Override
+	@Override
 	public void sendPlayersList(String[] players) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				for(int i = 0; i < 4; i++) {
-					if(i < players.length)
-						playersLabels[i].setText(players[i]);
-					else
-						playersLabels[i].setText("");
-				}
-			}
-		});
+		lobbyGUI.sendPlayersList(players);
+	}
+
+	private void changeState(State newState) {
+		switch(newState) {
+			case LOBBY:
+
+		}
+	}
+
+	private enum State {
+		LOGIN, LOBBY, GAME;
 	}
 }

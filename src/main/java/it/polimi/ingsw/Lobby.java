@@ -71,6 +71,7 @@ public class Lobby {
                         for(int i=0;i<players.size() && !players.get(i).getPlayerName().equals(username);i++){
                             players.get(i).getClientInterface().notifyNewUser(username + "joined the lobby!");
                         }
+                        sendPlayersListToAll();
                     } else { //...Or if there is already a user with this nickname in the lobby...
                         System.out.println(username + " tried to login but there already is another user with the same nickname.");
 
@@ -148,6 +149,7 @@ public class Lobby {
             for(int i=0;i<players.size();i++){
                 players.get(i).getClientInterface().notifySuspendedUser(playerNickname + " has abandoned the lobby.");
             }
+            sendPlayersListToAll();
         }
 
     }
@@ -192,5 +194,18 @@ public class Lobby {
         ArrayList<Player> playersArray = new  ArrayList<>();
         playersArray.addAll(this.players);
         return playersArray;
+    }
+
+    //Method to send players list after adding or removing players
+    private void sendPlayersListToAll() {
+        String[] playersList = new String[players.size()];
+
+        for(int i = 0; i < players.size(); i ++) {
+            playersList[i] = players.get(i).getPlayerName();
+        }
+
+        for(Player player : players) {
+            player.getClientInterface().sendPlayersList(playersList);
+        }
     }
 }

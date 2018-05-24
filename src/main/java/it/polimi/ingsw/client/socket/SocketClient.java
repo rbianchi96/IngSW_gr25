@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.ServerInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class SocketClient extends Socket implements ServerInterface {
@@ -46,6 +47,8 @@ public class SocketClient extends Socket implements ServerInterface {
 			case "new_user":
 				client.notifyNewUser(msgVector[1]);
 				break;
+			case "players_list":
+				client.sendPlayersList(Arrays.copyOfRange(msgVector, 1, msgVector.length));
 			default:
 				break;
 		}

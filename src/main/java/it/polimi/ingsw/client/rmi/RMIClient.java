@@ -25,6 +25,16 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
+    public void sendPlayersList(String[] players) throws RemoteException {
+        client.sendPlayersList(players);
+    }
+
+    @Override
+    public void notifySuspendedUser(String message) throws RemoteException {
+        client.notifySuspendedUser(message);
+    }
+
+    @Override
     public boolean ping() throws RemoteException {
         return true;
     }

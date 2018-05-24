@@ -14,7 +14,7 @@ public class Client {
 	private ServerInterface serverInterface = null;
 	private NetParamsLoader paramsLoader;
 
-	ClientInterface clientOut;    //Interface to client (CLI or GUI)
+	private ClientInterface clientOut;    //Interface to client (CLI or GUI)
 
 	public Client(ClientInterface clientInterface) throws FileNotFoundException {
 		clientOut = clientInterface;

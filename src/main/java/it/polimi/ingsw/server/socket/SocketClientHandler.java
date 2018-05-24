@@ -128,6 +128,16 @@ public class SocketClientHandler implements Runnable, ClientInterface {
         out.flush();
     }
 
+    @Override
+    public void sendPlayersList(String[] players) {
+        out.print("players_list");
+        for(String player : players) {
+            out.print("#" + player);
+        }
+        out.println();
+        out.flush();
+    }
+
     @Override // Read ClientInterface for details
     public void loginResponse(String result,String message, String sessionID) {
         out.println(encode("login_response",result, message, sessionID));

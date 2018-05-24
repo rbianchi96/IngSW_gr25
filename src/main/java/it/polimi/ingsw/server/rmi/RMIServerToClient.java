@@ -63,10 +63,25 @@ public class RMIServerToClient implements ClientInterface {
 
     @Override
     public void notifySuspendedUser(String message) {
-
+        try {
+            rmiClientInterface.notifySuspendedUser(message);
+        } catch(Exception e) {
+            e.printStackTrace();
+            controller.lostConnection(this);
+        }
     }
 
-   // ping the RMI Client
+    @Override
+    public void sendPlayersList(String[] players) {
+        try {
+            rmiClientInterface.sendPlayersList(players);
+        } catch(Exception e) {
+            e.printStackTrace();
+            controller.lostConnection(this);
+        }
+    }
+
+    // ping the RMI Client
     private boolean ping(){
         try {
             rmiClientInterface.ping();
