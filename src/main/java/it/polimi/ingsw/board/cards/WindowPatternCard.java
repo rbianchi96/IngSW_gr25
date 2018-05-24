@@ -3,7 +3,8 @@ package it.polimi.ingsw.board.cards;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public class WindowPatternCard extends Card {
-	private WindowPattern pattern1, pattern2;
+	private WindowPattern pattern1;
+	private WindowPattern pattern2;
 
 	public WindowPatternCard(WindowPattern pattern1, WindowPattern pattern2) {
 		this.pattern1 = pattern1;

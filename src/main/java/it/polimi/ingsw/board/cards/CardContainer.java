@@ -7,14 +7,16 @@ public class CardContainer {	//Container used to randomly extract cards
 	ArrayList<Card> cards;
 
 	public void insertCard(Card card) {
-
+		cards.add(card);
 	}
 
 	public Card extractCard() {
 		Card card;
-		int i;
 
-		card = cards.get(i = new Random().nextInt(cards.size()));
+		int i = new Random().nextInt(cards.size());
+
+		card = cards.get(i);
+
 		cards.remove(i);
 
 		return card;

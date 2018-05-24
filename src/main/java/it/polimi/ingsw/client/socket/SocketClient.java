@@ -46,6 +46,8 @@ public class SocketClient extends Socket implements ServerInterface {
 			case "new_user":
 				client.notifyNewUser(msgVector[1]);
 				break;
+			default:
+				break;
 		}
 	}
 
