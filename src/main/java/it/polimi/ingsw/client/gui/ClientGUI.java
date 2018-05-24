@@ -31,7 +31,6 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	private LoginGUI loginGUI;
 	private LobbyGUI lobbyGUI;
-	private State state;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -64,8 +63,6 @@ public class ClientGUI extends Application implements ClientInterface {
 		primaryStage.setScene(new Scene(loginGUIRoot));
 		primaryStage.setTitle("Sagrada");
 		primaryStage.show();
-
-		state = State.LOGIN;
 	}
 
 	//	FROM SERVER METHODS
@@ -75,7 +72,7 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void loginResponse(String result, String message, String sessionID) {
+	public void loginResponse(String result, String extraInfo) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -86,12 +83,11 @@ public class ClientGUI extends Application implements ClientInterface {
 						primaryStage.setTitle("Sagrada");
 						primaryStage.show();
 
-						state = State.LOBBY;
 					} catch(Exception e) {
 						e.printStackTrace();    //FATAL ERROR!
 					}
 				} else if(result.equals("fail")) {
-					if(message.equals("An user with this nickname is already in the lobby!")) {
+					if(extraInfo.equals("0")) {
 						Alert alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso username è già registato!");
 						alert.showAndWait();
 					}
@@ -112,28 +108,17 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void notifyNewUser(String message) {
-		lobbyGUI.notifyNewUser(message);
+	public void notifyNewUser(String username) {
+		lobbyGUI.notifyNewUser(username);
 	}
 
 	@Override
-	public void notifySuspendedUser(String message) {
-		lobbyGUI.notifySuspendedUser(message);
+	public void notifySuspendedUser(String username) {
+		lobbyGUI.notifySuspendedUser(username);
 	}
 
 	@Override
 	public void sendPlayersList(String[] players) {
 		lobbyGUI.sendPlayersList(players);
-	}
-
-	private void changeState(State newState) {
-		switch(newState) {
-			case LOBBY:
-
-		}
-	}
-
-	private enum State {
-		LOGIN, LOBBY, GAME;
 	}
 }

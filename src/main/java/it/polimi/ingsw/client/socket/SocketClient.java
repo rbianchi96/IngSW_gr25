@@ -36,7 +36,7 @@ public class SocketClient extends Socket implements ServerInterface {
 		String[] msgVector = message.split("#");    //Split message
 		switch(msgVector[0]) {
 			case "login_response":
-				client.loginResponse(msgVector[1], msgVector[2], msgVector[3]);
+				client.loginResponse(msgVector[1], msgVector[2]);
 				break;
 			case "not_logged":
 				client.notLoggedYet(msgVector[1]);

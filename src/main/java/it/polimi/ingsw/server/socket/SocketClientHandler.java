@@ -117,14 +117,14 @@ public class SocketClientHandler implements Runnable, ClientInterface {
     }
 
     @Override // Read ClientInterface for details
-    public void notifyNewUser(String message) {
-        out.println(encode("new_user",message));
+    public void notifyNewUser(String username) {
+        out.println(encode("new_user", username));
         out.flush();
     }
 
     @Override // Read ClientInterface for details
-    public void notifySuspendedUser(String message) {
-        out.println(encode("suspended_user",message));
+    public void notifySuspendedUser(String username) {
+        out.println(encode("suspended_user", username));
         out.flush();
     }
 
@@ -139,8 +139,8 @@ public class SocketClientHandler implements Runnable, ClientInterface {
     }
 
     @Override // Read ClientInterface for details
-    public void loginResponse(String result,String message, String sessionID) {
-        out.println(encode("login_response",result, message, sessionID));
+    public void loginResponse(String result, String extraInfo) {
+        out.println(encode("login_response",result, extraInfo));
         out.flush();
         if (result.equals("success")){
             try {

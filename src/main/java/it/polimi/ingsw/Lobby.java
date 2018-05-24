@@ -65,28 +65,28 @@ public class Lobby {
                         System.out.println(username + " successfully logged in! | SessionID: " + sessionID);
 
                         // Notify successfully login to the client
-                        clientInterface.loginResponse("success", "Welcome " + username + "! The game will start soon!", sessionID);
+                        clientInterface.loginResponse("success", sessionID);
 
                         // Notify the new user to all other players
                         for(int i=0;i<players.size() && !players.get(i).getPlayerName().equals(username);i++){
-                            players.get(i).getClientInterface().notifyNewUser(username + "joined the lobby!");
+                            players.get(i).getClientInterface().notifyNewUser(username);
                         }
                         sendPlayersListToAll();
                     } else { //...Or if there is already a user with this nickname in the lobby...
                         System.out.println(username + " tried to login but there already is another user with the same nickname.");
 
                         // Notify failed login to the client
-                        clientInterface.loginResponse("fail", "An user with this nickname is already in the lobby!",null);
+                        clientInterface.loginResponse("fail", "0");
                     }
                 } else { // ...Or if the lobby is already full...
                     System.out.println(username + " login failed. The lobby is full.");
 
                     // Notify failed login to the client
-                    clientInterface.loginResponse("fail", "Sorry, the lobby is full!",null);
+                    clientInterface.loginResponse("fail", "1");
                 }
             }else { // ...Or an user who already logged in try to login again
                 System.out.println(username + " already logged in.");
-                clientInterface.loginResponse("logged", "You are already logged!",null);
+                clientInterface.loginResponse("logged", "You are already logged!");
             }
         }
         else { //... Or if the game already started...
@@ -141,13 +141,13 @@ public class Lobby {
             players.get(index).setClientInterface(null);
             System.out.println(playerNickname + " is now suspended.");
             for(int i=0;i<players.size() && i!=index ;i++){
-                players.get(i).getClientInterface().notifySuspendedUser(playerNickname + " has been suspended. He won't play his next turns.");
+                players.get(i).getClientInterface().notifySuspendedUser(playerNickname);
             }
         }else{
             System.out.println(players.get(index).getPlayerName() + " has been removed from the lobby.");
             players.remove(index);
             for(int i=0;i<players.size();i++){
-                players.get(i).getClientInterface().notifySuspendedUser(playerNickname + " has abandoned the lobby.");
+                players.get(i).getClientInterface().notifySuspendedUser(playerNickname);
             }
             sendPlayersListToAll();
         }
@@ -164,10 +164,10 @@ public class Lobby {
                 players.get(i).setIsOnline(true);
                 players.get(i).setSessionID(sessionID);
                 System.out.println(username + " successfully re-logged in! | SessionID: " + sessionID);
-                clientInterface.loginResponse("success","Welcome back " + username +"! You are now able to continue this game!",sessionID);
+                clientInterface.loginResponse("success", sessionID);
                 break;
             }else
-                clientInterface.loginResponse("fail","Sorry, there is already a game going on or the user with this nickname never left the match!",null);
+                clientInterface.loginResponse("fail",null);
 
         }
     }

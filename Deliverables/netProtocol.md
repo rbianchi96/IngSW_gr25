@@ -8,11 +8,14 @@ Spaces is replaced with hash (`#`).
 
 ### From server to client
 
-- `login_response success|fail [Msg]` Server response to client login request, a message is returned to hints a failed or succesfull login.
+- `login_response (success sessionID)|(fail code)` Server response to client login request. If successful a session id is sent to the user, otherwise one of the following codes are sent:
+  - `0` There's already a logged user with the same username
+  - `1` The lobby is full
 - `waitingForPlayers num` Inform client that the server is waiting to start game.
 - `gameStarts` Inform client that the game in started.
-- `new_user [Msg]` Inform client that a new user has logged in the room.
-- `suspended_user [Msg]` Inform client that another user has been suspended
+- `new_user username` Inform client that a new user has logged in the room.
+- `suspended_user username` Inform client that another user has been suspended.
+- `players_list username [username] [username] [username]` Send the complete players list.
 - `not_logged [Msg]` Inform client that he has to login before logout.
 
 # Game

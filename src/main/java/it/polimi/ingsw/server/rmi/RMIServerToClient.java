@@ -32,10 +32,10 @@ public class RMIServerToClient implements ClientInterface {
 
     }
     @Override
-    public void loginResponse(String result, String message, String sessionID)
+    public void loginResponse(String result, String extraInfo)
     {
         try {
-            rmiClientInterface.loginResponse(result, message, sessionID);
+            rmiClientInterface.loginResponse(result, extraInfo);
         } catch (RemoteException e) {
             e.printStackTrace();
             controller.lostConnection(this);
@@ -52,9 +52,9 @@ public class RMIServerToClient implements ClientInterface {
     }
 
     @Override
-    public void notifyNewUser(String message) {
+    public void notifyNewUser(String username) {
         try {
-            rmiClientInterface.notifyNewUser(message);
+            rmiClientInterface.notifyNewUser(username);
         } catch(Exception e) {
             e.printStackTrace();
             controller.lostConnection(this);
@@ -62,9 +62,9 @@ public class RMIServerToClient implements ClientInterface {
     }
 
     @Override
-    public void notifySuspendedUser(String message) {
+    public void notifySuspendedUser(String username) {
         try {
-            rmiClientInterface.notifySuspendedUser(message);
+            rmiClientInterface.notifySuspendedUser(username);
         } catch(Exception e) {
             e.printStackTrace();
             controller.lostConnection(this);
