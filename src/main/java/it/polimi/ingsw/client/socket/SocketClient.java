@@ -9,34 +9,29 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class SocketClient extends Socket implements Runnable, ServerInterface {
+public class SocketClient extends Socket implements ServerInterface {
 	private PrintWriter out;
 	private Scanner in;
-	private Socket socket;
 
-	private Client client;
+	private ClientInterface client;
 
-	public SocketClient(Socket socket, Client client) throws IOException {
-		this.socket = socket;
+	public SocketClient(Socket socket, ClientInterface client) {
 		this.client = client;
-	}
 
-	@Override
-	public void run() {
 		try {
 			out = new PrintWriter(socket.getOutputStream());
 			in = new Scanner(socket.getInputStream());
+
+			SocketClientReceiver receiver = new SocketClientReceiver(this, in);	//Create the receiver
+			Thread t = new Thread(receiver);
+			t.start();	//Start the receiver
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 
-		while(true) {
-			String inLine = in.nextLine();
-			decode(inLine);
-		}
 	}
 
-	private void decode(String message) {
+	void decode(String message) {
 		String[] msgVector = message.split("#");    //Split message
 		switch(msgVector[0]) {
 			case "login_response":
@@ -55,13 +50,13 @@ public class SocketClient extends Socket implements Runnable, ServerInterface {
 	}
 
 	@Override
-	public void login(String username) {
+	public synchronized void login(String username) {
 		out.println("login#" + username);
 		out.flush();
 	}
 
 	@Override
-	public void logout() {
+	public synchronized void logout() {
 		out.println("logout");
 		out.flush();
 	}

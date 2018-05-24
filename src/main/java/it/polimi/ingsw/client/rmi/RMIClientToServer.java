@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.rmi;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.paramsloader.NetParamsLoader;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.server.rmi.RMIServerInterface;
@@ -15,14 +16,12 @@ public class RMIClientToServer implements ServerInterface {
 	private RMIServerInterface server;
 	private RMIClient client;
 
-	public RMIClientToServer(Client client, String ip) {
+	public RMIClientToServer(ClientInterface client, String ip, String serverName) {
 		try {
-			NetParamsLoader netParamsLoader = new NetParamsLoader("src/main/resources/netParams.json");
+
 
 			this.client = new RMIClient(client);	//RMIClient to send to server used to receive responses
-			server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + netParamsLoader.getRMIServerName());
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
+			server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + serverName);
 		} catch(NotBoundException e) {
 			e.printStackTrace();
 		} catch(MalformedURLException e) {
