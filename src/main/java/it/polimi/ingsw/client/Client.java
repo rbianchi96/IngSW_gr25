@@ -16,6 +16,8 @@ public class Client {
 
 	private ClientInterface clientOut;    //Interface to client (CLI or GUI)
 
+	private String username;	//The player's username
+
 	public Client(ClientInterface clientInterface) throws FileNotFoundException {
 		clientOut = clientInterface;
 		paramsLoader = new NetParamsLoader("src/main/resources/netParams.json");
@@ -41,11 +43,15 @@ public class Client {
 
 		}
 
-
+		this.username = username;
 		serverInterface.login(username);
 	}
 
 	public enum ConnectionMode {
 		SOCKET, RMI
+	}
+
+	public String getUsername() {
+		return username;
 	}
 }

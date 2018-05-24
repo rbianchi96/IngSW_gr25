@@ -38,8 +38,15 @@ public class LobbyGUI extends GUIController{
 			@Override
 			public void run() {
 				for(int i = 0; i < 4; i++) {
-					if(i < players.length)
+					if(i < players.length) {
 						playersLabels[i].setText((i + 1) + " – " + players[i]);
+						if(players[i].equals(client.getUsername())) {
+							playersLabels[i].setStyle("-fx-font-weight: bold;");
+						}
+						else {
+							playersLabels[i].setStyle("-fx-font-weight: normal;");
+						}
+					}
 					else
 						playersLabels[i].setText("");
 				}
