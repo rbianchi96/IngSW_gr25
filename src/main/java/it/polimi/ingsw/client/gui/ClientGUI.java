@@ -77,7 +77,7 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void loginResponse(String result, String message, int sessionID) {
+	public void loginResponse(String result, String message, String sessionID) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {

@@ -4,10 +4,14 @@ import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.Player;
 import it.polimi.ingsw.client.ClientInterface;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class Lobby {
     private static final int MAXPLAYERS = 4;
+    private static final int SESSIONID_LENGTH = 5;
+    static final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_=+";
+    static SecureRandom random = new SecureRandom();
     private ArrayList<Player> players; // Main players array among the game
     private Game currentGame; // The istance of the Game.
     public Lobby(){
@@ -52,11 +56,12 @@ public class Lobby {
             if (!isAlreadyLogged(clientInterface)) {
                 if (players.size() <  MAXPLAYERS) {
                     if (!isAlreadyLogged(username)) { // If the client tries to login with an unused nickname...
-                        players.add(new Player(clientInterface, username)); // create the Player object and add it to the Players'list.
+                        String sessionID = randomSessionID(SESSIONID_LENGTH); // generate a random session ID to link to this user
+                        players.add(new Player(clientInterface, username, sessionID)); // create the Player object and add it to the Players'list.
                         System.out.println(username + " successfully logged in!");
 
                         // Notify successfully login to the client
-                        clientInterface.loginResponse("success", "Welcome " + username + "! The game will start soon!");
+                        clientInterface.loginResponse("success", "Welcome " + username + "! The game will start soon!", sessionID);
 
                         // Notify the new user to all other players
                         for(int i=0;i<players.size() && !players.get(i).getPlayerName().equals(username);i++){
@@ -66,17 +71,17 @@ public class Lobby {
                         System.out.println(username + " tried to login but there already is another user with the same nickname.");
 
                         // Notify failed login to the client
-                        clientInterface.loginResponse("fail", "An user with this nickname is already in the lobby!");
+                        clientInterface.loginResponse("fail", "An user with this nickname is already in the lobby!",null);
                     }
                 } else { // ...Or if the lobby is already full...
                     System.out.println(username + " login failed. The lobby is full.");
 
                     // Notify failed login to the client
-                    clientInterface.loginResponse("fail", "Sorry, the lobby is full!");
+                    clientInterface.loginResponse("fail", "Sorry, the lobby is full!",null);
                 }
             }else { // ...Or an user who already logged in try to login again
                 System.out.println(username + " already logged in.");
-                clientInterface.loginResponse("logged", "You are already logged!");
+                clientInterface.loginResponse("logged", "You are already logged!",null);
             }
         }
         else { //... Or if the game already started...
@@ -148,20 +153,31 @@ public class Lobby {
     private void inGameReLogin(ClientInterface clientInterface, String username){
         for (int i=0; i< players.size(); i++) {
             if(username.equals(players.get(i).getPlayerName()) && ! players.get(i).getIsOnline()) {
+                String sessionID = randomSessionID(SESSIONID_LENGTH); // generate a random session ID to link to this user
                 players.get(i).setClientInterface(clientInterface);
                 players.get(i).setIsOnline(true);
-                clientInterface.loginResponse("success","Welcome back " + username +"! You are now able to continue this game!");
+                players.get(i).setSessionID(sessionID);
+                clientInterface.loginResponse("success","Welcome back " + username +"! You are now able to continue this game!",sessionID);
                 break;
             }else
-                clientInterface.loginResponse("fail","Sorry, there is already a game going on or the user with this nickname never left the match!");
+                clientInterface.loginResponse("fail","Sorry, there is already a game going on or the user with this nickname never left the match!",null);
 
         }
+    }
+
+    // Generate random user session-ID
+    private String randomSessionID( int len ){
+        StringBuilder sb = new StringBuilder( len );
+        for( int i = 0; i < len; i++ )
+            sb.append( alphabet.charAt( random.nextInt(alphabet.length()) ) );
+        return sb.toString();
     }
 
     // Method to call to start the game
     private void startGame(){
         currentGame.startGame(players);
     }
+
 
     // Getters
     public Game getCurrentGame() {

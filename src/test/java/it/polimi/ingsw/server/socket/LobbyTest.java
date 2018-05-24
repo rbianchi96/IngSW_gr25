@@ -7,13 +7,4 @@ import org.junit.Test;
 import java.net.Socket;
 
 public class LobbyTest {
-    @Test
-    public void isAlreadyLogged(){
-        Lobby lobby = new Lobby();
-        ClientInterface clientInterface = new SocketClientHandler(new Socket(), new Controller(lobby));
-        lobby.login(clientInterface,"user1");
-
-    }
-
-
 }

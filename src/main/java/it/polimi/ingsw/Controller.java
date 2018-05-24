@@ -27,6 +27,4 @@ public class Controller {
 
     // Getters
     public Lobby getLobby(){ return this.lobby;}
-
-
 }

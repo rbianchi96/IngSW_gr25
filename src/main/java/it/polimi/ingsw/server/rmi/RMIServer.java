@@ -17,7 +17,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     @Override
     public void login(String username,RMIClientInterface rmiClient)  {
         System.out.println("New RMI client connected!");
-        controller.login(new RMIServerToClient(rmiClient),username);
+        controller.login(new RMIServerToClient(rmiClient, controller),username);
     }
 
 }

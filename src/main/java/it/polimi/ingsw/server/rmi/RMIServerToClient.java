@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.rmi;
 
+import it.polimi.ingsw.Controller;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
 
@@ -7,19 +8,22 @@ import java.rmi.RemoteException;
 
 public class RMIServerToClient implements ClientInterface {
     private RMIClientInterface rmiClientInterface;
-    public RMIServerToClient(RMIClientInterface rmiClientInterface){
+    Controller controller;
+    public RMIServerToClient(RMIClientInterface rmiClientInterface,Controller controllre){
         this.rmiClientInterface = rmiClientInterface;
+        this.controller=controller;
     }
     @Override
     public void yourTurn() {
 
     }
     @Override
-    public void loginResponse(String result, String message, int sessionID)
+    public void loginResponse(String result, String message, String sessionID)
     {
         try {
             rmiClientInterface.loginResponse(result, message, sessionID);
         } catch (RemoteException e) {
+            controller.lostConnection(this);
             e.printStackTrace();
         }
     }
