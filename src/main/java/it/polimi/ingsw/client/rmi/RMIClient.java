@@ -15,8 +15,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void loginResponse(String result, String message) throws RemoteException {
-        client.loginResponse(result, message);
+    public void loginResponse(String result, String message, int sessionID) throws RemoteException {
+        client.loginResponse(result, message, sessionID);
     }
 
     @Override

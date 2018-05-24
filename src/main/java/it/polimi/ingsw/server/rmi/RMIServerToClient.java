@@ -15,10 +15,10 @@ public class RMIServerToClient implements ClientInterface {
 
     }
     @Override
-    public void loginResponse(String result, String message)
+    public void loginResponse(String result, String message, int sessionID)
     {
         try {
-            rmiClientInterface.loginResponse(result,message);
+            rmiClientInterface.loginResponse(result, message, sessionID);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

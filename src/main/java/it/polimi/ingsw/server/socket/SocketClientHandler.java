@@ -129,8 +129,8 @@ public class SocketClientHandler implements Runnable, ClientInterface {
     }
 
     @Override // Read ClientInterface for details
-    public void loginResponse(String result,String message) {
-        out.println(encode("login_response",result, message));
+    public void loginResponse(String result,String message, int sessionID) {
+        out.println(encode("login_response",result, message, String.valueOf(sessionID)));
         out.flush();
         if (result.equals("success")){
             try {
