@@ -13,6 +13,7 @@ public interface ClientInterface {
 
     public void gameStarted();
     public void yourTurn();
+    public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns);
     public void sendWindowPatterns(WindowPattern[] windowPatterns);
 
     public void closeConnection();  // close the connection from the Model in case of an handled logout

@@ -37,6 +37,16 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) {
+		try {
+			rmiClientInterface.sendWindowPatternsToChoose(windowPatterns);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void sendWindowPatterns(WindowPattern[] windowPatterns) {
 		try {
 			rmiClientInterface.sendWindowPatterns(windowPatterns);

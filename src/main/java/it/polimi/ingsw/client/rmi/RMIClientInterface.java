@@ -21,5 +21,7 @@ public interface RMIClientInterface extends Remote {
 
 	public void gameStarted() throws RemoteException;
 
+	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) throws RemoteException;
+
 	public void sendWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException;
 }

@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client.rmi;
 
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
-import it.polimi.ingsw.client.rmi.RMIClientInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -51,6 +49,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     @Override
     public void gameStarted() throws RemoteException {
         client.gameStarted();
+    }
+
+    @Override
+    public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) throws RemoteException {
+        client.sendWindowPatternsToChoose(windowPatterns);
     }
 
     @Override

@@ -77,7 +77,7 @@ public class Game {
             windowPatternsToSend[2] = windowPatternsCardsOfGame[2 * i + 1].getPattern1();
             windowPatternsToSend[3] = windowPatternsCardsOfGame[2 * i + 1].getPattern2();
             // NOTIFY/SEND WindowPatternsToSend TO PLAYERS.GET(i)
-            players.get(i).getClientInterface().sendWindowPatterns(windowPatternsToSend);
+            players.get(i).getClientInterface().sendWindowPatternsToChoose(windowPatternsToSend);
         }
 
     }

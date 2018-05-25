@@ -20,4 +20,9 @@ public enum Color {
     public String getHexColor() {
         return hexColor;
     }
+
+    @Override
+    public String toString() {
+        return abbr;
+    }
 }

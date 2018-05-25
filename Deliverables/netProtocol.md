@@ -27,7 +27,7 @@ Spaces is replaced with hash (`#`).
 - `sendPrivateObjectiveCard color name description` Send private objective card to user.
 - `sendWindowPatterns WindowPattern WindowPattern WindowPattern WindowPattern` Send window patterns to player.
   - `WindowPattern := name difficulty Cell[0][0] Cell[0][1] ... Cell[4][4] cell[4][5]`
-  - `Cell := restriction`
+  - `Cell := restriction Dice`
   - `Dice := value color`
 - `showPublicObjectiveCard PublicObjectiveCard PublicObjectiveCard PublicObjectiveCard` Send public objective cards to player.
 &nbsp;&nbsp;&nbsp;&nbsp;`PublicObjectiveCard := id name description points`

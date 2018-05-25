@@ -19,10 +19,11 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	private FXMLLoader loader;
 
-	private Parent loginGUIRoot, lobbyGUIRoot, gameGUIRoot;
+	private Parent loginGUIRoot, lobbyGUIRoot, selectWPGUIRoot, gameGUIRoot;
 
 	private LoginGUI loginGUI;
 	private LobbyGUI lobbyGUI;
+	private SelectWPGUI selectWPGUI;
 	private GameGUI gameGUI;
 
 	@Override
@@ -53,6 +54,12 @@ public class ClientGUI extends Application implements ClientInterface {
 		lobbyGUI = loader.getController();
 		lobbyGUI.setClient(client);
 
+		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/selectWP.fxml"));
+		selectWPGUIRoot = loader.load();
+
+		selectWPGUI = loader.getController();
+		selectWPGUI.setClient(client);
+
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/game.fxml"));
 		gameGUIRoot = loader.load();
 
@@ -67,7 +74,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void gameStarted() {
-		Platform.runLater(new Runnable() {
+		/*Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -79,13 +86,25 @@ public class ClientGUI extends Application implements ClientInterface {
 					e.printStackTrace();    //FATAL ERROR!
 				}
 			}
-		});
+		});*/
 	}
 
 	//	FROM SERVER METHODS
 	@Override
 	public void yourTurn() {
 
+	}
+
+	@Override
+	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				primaryStage.setScene(new Scene(selectWPGUIRoot));
+				primaryStage.show();
+			}
+		});
+		selectWPGUI.showWindowPattern(windowPatterns);
 	}
 
 	@Override
