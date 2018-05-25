@@ -10,7 +10,7 @@ import java.util.TimerTask;
 public class RMIServerToClient implements ClientInterface {
     private RMIClientInterface rmiClientInterface;
     Controller controller;
-    Timer pingTimer;
+    private Timer pingTimer;
     public RMIServerToClient(RMIClientInterface rmiClientInterface,Controller controller){
         this.rmiClientInterface = rmiClientInterface;
         this.controller=controller;
@@ -27,6 +27,7 @@ public class RMIServerToClient implements ClientInterface {
             }
         }, 500, 2500);
     }
+
     @Override
     public void yourTurn() {
 
@@ -75,6 +76,16 @@ public class RMIServerToClient implements ClientInterface {
     public void sendPlayersList(String[] players) {
         try {
             rmiClientInterface.sendPlayersList(players);
+        } catch(Exception e) {
+            e.printStackTrace();
+            controller.lostConnection(this);
+        }
+    }
+
+    @Override
+    public void notifyReconnectionStatus(boolean status, String message) {
+        try {
+            rmiClientInterface.notifyReconnectionStatus(status,message);
         } catch(Exception e) {
             e.printStackTrace();
             controller.lostConnection(this);

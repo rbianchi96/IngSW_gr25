@@ -11,4 +11,5 @@ public interface RMIClientInterface extends Remote{
     public void sendPlayersList(String[] players) throws RemoteException;
     public void notifySuspendedUser(String message) throws RemoteException;
     public boolean ping() throws RemoteException;
+    public void notifyReconnectionStatus(boolean status, String message) throws RemoteException;
 }

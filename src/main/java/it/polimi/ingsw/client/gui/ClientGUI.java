@@ -121,4 +121,9 @@ public class ClientGUI extends Application implements ClientInterface {
 	public void sendPlayersList(String[] players) {
 		lobbyGUI.sendPlayersList(players);
 	}
+
+	@Override
+	public void notifyReconnectionStatus(boolean status, String message) {
+
+	}
 }

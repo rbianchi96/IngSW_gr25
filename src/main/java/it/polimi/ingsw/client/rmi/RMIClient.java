@@ -9,14 +9,17 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient extends UnicastRemoteObject implements RMIClientInterface {
     ClientInterface client;
-
+    String sessionID;
     public RMIClient(ClientInterface client) throws RemoteException{
         this.client = client;
     }
 
     @Override
-    public void loginResponse(String result, String extaInfo) throws RemoteException {
-        client.loginResponse(result, extaInfo);
+    public void loginResponse(String result, String extraInfo) throws RemoteException {
+        client.loginResponse(result, extraInfo);
+        if (result=="success"){
+            sessionID= extraInfo;
+        }
     }
 
     @Override
@@ -37,5 +40,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     @Override
     public boolean ping() throws RemoteException {
         return true;
+    }
+
+    @Override
+    public void notifyReconnectionStatus(boolean status, String message) throws RemoteException {
+        client.notifyReconnectionStatus(status,message);
+    }
+    protected String getSessionID() {
+        return sessionID;
     }
 }

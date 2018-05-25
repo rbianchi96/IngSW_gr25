@@ -8,4 +8,5 @@ public interface ClientInterface {
     public void notifyNewUser(String username); // notify that a new user joined the lobby
     public void notifySuspendedUser(String username); // notify that an user leaved the lobby or the game
     public void sendPlayersList(String[] players);
+    public void notifyReconnectionStatus(boolean status, String message); // Notify the result of attempted reconnection
 }

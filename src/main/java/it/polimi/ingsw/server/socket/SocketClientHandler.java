@@ -88,6 +88,9 @@ public class SocketClientHandler implements Runnable, ClientInterface {
                     controller.logout(this);
                     break;
                 }
+                case "reconnect":{
+                    controller.reconnect(this,request[0],request[1]);
+                }
                 default: { // Invalid command
                     out.println(encode("invalid_command"));
                     out.flush();
@@ -138,6 +141,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
         out.flush();
     }
 
+    @Override
+    public void notifyReconnectionStatus(boolean status, String message) {
+        out.println(encode("reconnect",String.valueOf(status),message));
+        out.flush();
+    }
+
     @Override // Read ClientInterface for details
     public void loginResponse(String result, String extraInfo) {
         out.println(encode("login_response",result, extraInfo));
@@ -150,6 +159,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
             }
         }
     }
+
     @Override // Read ClientInterface for details
     public void notLoggedYet(String message) {
         out.println(encode("not_logged",message));

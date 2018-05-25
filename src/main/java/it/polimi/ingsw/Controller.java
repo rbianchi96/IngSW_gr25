@@ -39,14 +39,25 @@ public class Controller {
     }
     // WARNING \\
     private void sessionCheck(ClientInterface clientInterface){ // WARNING : Need to finish this. I'm gonna think about it.
+
+    }
+
+    public void reconnect(ClientInterface clientInterface, String sessionID, String username){
         ArrayList<Player> players = lobby.getPlayers();
         for (int i=0;i<players.size();i++){
-            if(!players.get(i).getIsOnline() && players.get(i).getClientInterface()==null){
-
+            if(!players.get(i).getIsOnline() && players.get(i).getClientInterface()==null && players.get(i).getSessionID().equals(sessionID) && players.get(i).getPlayerName().equals(username)){
+                // Client can reconnect
+                players.get(i).setClientInterface(clientInterface);
+                clientInterface.notifyReconnectionStatus(true,"You are successfully reconnected to the game!");
+                // SEND NEW VIEW
+                System.out.println(username + " successfully reconnected to server!");
+            }
+            else {
+                System.out.println(username + " attempt to reconnect was refused due to different SessionID!");
+                clientInterface.notifyReconnectionStatus(false, "Reconection refused!");
             }
         }
     }
-
     // Just for convenience
     private boolean isConnected(ClientInterface clientInterface){
         return lobby.isAlreadyLogged(clientInterface);

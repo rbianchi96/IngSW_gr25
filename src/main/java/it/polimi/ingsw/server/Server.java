@@ -45,8 +45,6 @@ public class Server {
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
 	public void startServer() {

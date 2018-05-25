@@ -13,9 +13,19 @@ public class SocketClientReceiver implements Runnable {
 
 	@Override
 	public void run() {
-		while(true) {	//Continue to cycle
-			String inLine = in.nextLine();	//When there's a message incoming...
-			socket.decode(inLine);	//...send to the socket decoder
+		try{
+			while(true) {	//Continue to cycle
+				String inLine = in.nextLine();	//When there's a message incoming...
+				socket.decode(inLine);	//...send to the socket decoder
+			}
 		}
+		catch(RuntimeException ex){ // Lost connection
+			// NOTIFY LOST CONNECTION TO VIEW
+			System.out.println("Connection lost with the server!");
+			socket.pingReconnection();
+		}
+
+
+
 	}
 }

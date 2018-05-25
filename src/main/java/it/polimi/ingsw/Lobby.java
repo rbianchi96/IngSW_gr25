@@ -105,7 +105,7 @@ public class Lobby {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getClientInterface() == clientInterface) {
                 System.out.println(players.get(i).getPlayerName() + " logged out.");
-                suspendPlayer(clientInterface,i);
+                suspendPlayer(i);
                 clientInterface.closeConnection();
                 return true;
             }
@@ -121,7 +121,7 @@ public class Lobby {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getClientInterface() == clientInterface) {
                 System.out.println("Lost connection with " + players.get(i).getPlayerName() + "!");
-                suspendPlayer(clientInterface,i);
+                suspendPlayer(i);
                 return true;
             }
         }
@@ -134,7 +134,7 @@ public class Lobby {
     // If the games is already started it suspends the player from the game by setting "false" to isOnline Player's attribute
     // and setting "null" to his Client Interface.
     // If the game isn't started yet, it removes the player to suspend from the Lobby and notify the actions to other clients.
-    private void suspendPlayer(ClientInterface clientInterface, int index){
+    private void suspendPlayer(int index){
         String playerNickname = players.get(index).getPlayerName();
         if (currentGame.isInGame()) {
             players.get(index).setIsOnline(false);
