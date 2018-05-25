@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.socket;
 
+import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.Controller;
 import java.io.IOException;
@@ -114,6 +115,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
     }
 
+    @Override
+    public void sendWindowPatterns(WindowPattern[] windowPatterns) {
+
+    }
+
     @Override // Read ClientInterface for details
     public void closeConnection(){
         closeSocket();
@@ -138,6 +144,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
             out.print("#" + player);
         }
         out.println();
+        out.flush();
+    }
+
+    @Override
+    public void gameStarted() {
+        out.println("game_started");
         out.flush();
     }
 

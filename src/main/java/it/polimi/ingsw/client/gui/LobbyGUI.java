@@ -4,7 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class LobbyGUI extends GUIController{
+public class LobbyGUI extends GUIController {
 	@FXML
 	Label player0, player1, player2, player3, notifier;
 

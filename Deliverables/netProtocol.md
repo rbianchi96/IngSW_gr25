@@ -25,10 +25,10 @@ Spaces is replaced with hash (`#`).
 ### From server to client
 
 - `sendPrivateObjectiveCard color name description` Send private objective card to user.
-- `showWindowPatterns WindowPattern WindowPattern WindowPattern WindowPattern` Send window patterns to player.
--- `WindowPattern := name difficulty Cell[0][0] Cell[0][1] ... Cell[4][4] cell[4][5]`
--- `Cell := restriction Dice`
--- `Dice := value color`
+- `sendWindowPatterns WindowPattern WindowPattern WindowPattern WindowPattern` Send window patterns to player.
+  - `WindowPattern := name difficulty Cell[0][0] Cell[0][1] ... Cell[4][4] cell[4][5]`
+  - `Cell := restriction`
+  - `Dice := value color`
 - `showPublicObjectiveCard PublicObjectiveCard PublicObjectiveCard PublicObjectiveCard` Send public objective cards to player.
 &nbsp;&nbsp;&nbsp;&nbsp;`PublicObjectiveCard := id name description points`
 - `showToolsCard ToolCard ToolCard ToolCard` Send public objective cards to player.
@@ -41,11 +41,11 @@ Spaces is replaced with hash (`#`).
 ### From server to client
 
 - `sendPlayers Player [Player] [Player]` Send other players' public informations.
--- `Player := state WindowPattern favorTokens`
+  - `Player := state WindowPattern favorTokens`
 - `roundOrder roundNumber index index [index] [index]` Send players order in current round.
 - `currPlayer index` Send current player.
 - `updateRoundTrack DiceList ... [DiceList]` Update the round track.
--- `DiceList := (Dice ... [Dice])`
+  - `DiceList := (Dice ... [Dice])`
 
 ### From client to server
 

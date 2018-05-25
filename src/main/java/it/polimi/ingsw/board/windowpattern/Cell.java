@@ -3,7 +3,9 @@ package it.polimi.ingsw.board.windowpattern;
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
 
-public class Cell {
+import java.io.Serializable;
+
+public class Cell implements Serializable {
     private Dice dice;
     private Object restriction;
     //Constructors

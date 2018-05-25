@@ -3,15 +3,16 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.Player;
 import it.polimi.ingsw.client.ClientInterface;
+import javafx.application.Platform;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class Lobby {
-    private static final int MAXPLAYERS = 4;
+    private static final int MAX_PLAYERS = 4;
     private static final int SESSIONID_LENGTH = 5;
-    static final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_=+";
-    static SecureRandom random = new SecureRandom();
+    private static final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_=+";
+    private static SecureRandom random = new SecureRandom();
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
@@ -58,7 +59,7 @@ public class Lobby {
     public void login(ClientInterface clientInterface, String username) {
         if (!currentGame.isInGame()) { // If the game isn't started yet...
             if (!isAlreadyLogged(clientInterface)) {
-                if (players.size() <  MAXPLAYERS) {
+                if (players.size() < MAX_PLAYERS) {
                     if (!isAlreadyLogged(username)) { // If the client tries to login with an unused nickname...
                         String sessionID = randomSessionID(SESSIONID_LENGTH); // generate a random session ID to link to this user
                         players.add(new Player(clientInterface, username, sessionID)); // create the Player object and add it to the Players'list.
@@ -72,6 +73,15 @@ public class Lobby {
                             players.get(i).getClientInterface().notifyNewUser(username);
                         }
                         sendPlayersListToAll();
+
+                        //Start game if there's four players
+                        if(players.size() == MAX_PLAYERS) {
+                            currentGame.startGame(players);
+                            for(Player player : players) {
+                                player.getClientInterface().gameStarted();
+                                System.out.println("The game starts!");
+                            }
+                        }
                     } else { //...Or if there is already a user with this nickname in the lobby...
                         System.out.println(username + " tried to login but there already is another user with the same nickname.");
 

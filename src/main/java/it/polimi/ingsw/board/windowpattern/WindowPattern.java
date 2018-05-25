@@ -3,10 +3,11 @@ package it.polimi.ingsw.board.windowpattern;
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class WindowPattern implements Iterable<Cell> {
+public class WindowPattern implements Iterable<Cell>, Serializable {
 	public static final int WINDOW_PATTERN_ROWS_NUMBER = 4,
 			WINDOW_PATTERN_COLS_NUMBER = 5;
 

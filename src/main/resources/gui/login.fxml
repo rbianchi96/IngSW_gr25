@@ -30,7 +30,7 @@
     <children>
       <ImageView fx:id="sagradaLogo" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2" GridPane.halignment="CENTER">
          <image>
-            <Image url="@imgs/SagradaLogo.png" />
+            <Image url="@../imgs/SagradaLogo.png" />
          </image></ImageView>
         <Label text="Indirizzo IP del server" GridPane.rowIndex="1" />
       <TextField fx:id="ipField" GridPane.columnIndex="1" GridPane.rowIndex="1" />

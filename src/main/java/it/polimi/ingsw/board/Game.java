@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public class Game {
     private static final Logger LOGGER = Logger.getLogger(Game.class.getName() );
-    private static final int CARDSNUMBER = 3;
-    private static final int ROUNDSNUMBER = 10;
+    private static final int TOOL_CARDS_NUMBER = 3;
+    private static final int ROUNDS_NUMBER = 10;
     private ArrayList<Player> players;
     private DiceBag diceBag;
     private PublicObjectiveCard[] publicObjectiveCard;
@@ -49,17 +49,14 @@ public class Game {
     // Intializations of attributes
     private void initialize(){
         diceBag = new DiceBag();
-        publicObjectiveCard = new PublicObjectiveCard[CARDSNUMBER];
-        privateObjectiveCard = new PrivateObjectiveCard[players.size()];
-        toolCards = new ToolCard[CARDSNUMBER];
         roundTrack = new RoundTrack(players.size());
         rounds = new Round(players.size());
     }
 
     // Loading of various game elements (the same of the "players preparation" of Sagrada rules.
     private void playersPreparation() throws FileNotFoundException {
-        // Loading and assignment of private objectives to users
-        PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader(null);
+        // Loading and assignment of private objective cards to users
+        PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader("src/main/resources/privateObjectiveCards.json");
         privateObjectiveCard = privateObjectiveCardsLoader.getRandomCards(players.size());
         for(int i=0;i<players.size();i++){
            players.get(i).setPrivateObject(privateObjectiveCard[i]);
@@ -68,14 +65,19 @@ public class Game {
 
         // Loading and Sending of WindowPatternCards
 
-        WindowPatternCardsLoader windowPatternCardsLoader = new WindowPatternCardsLoader(null);
+        WindowPatternCardsLoader windowPatternCardsLoader = new WindowPatternCardsLoader("src/main/resources/windowPatterns.json");
         WindowPatternCard[] windowPatternsCardsOfGame;
-        windowPatternsCardsOfGame = windowPatternCardsLoader.getRandomCards(players.size());
-        for (int i=0; i<players.size(); i++){
-            WindowPattern[] windowPatternsToSend=new WindowPattern[2];
-            windowPatternsToSend[0] = windowPatternsCardsOfGame[i].getPattern1();
-            windowPatternsToSend[1] = windowPatternsCardsOfGame[i].getPattern2();
+
+        windowPatternsCardsOfGame = windowPatternCardsLoader.getRandomCards(players.size() * 2);    //Load two WP cards for every player
+
+        for (int i=0; i<players.size(); i++){   //For each player
+            WindowPattern[] windowPatternsToSend=new WindowPattern[4];
+            windowPatternsToSend[0] = windowPatternsCardsOfGame[2 * i].getPattern1();
+            windowPatternsToSend[1] = windowPatternsCardsOfGame[2 * i].getPattern2();
+            windowPatternsToSend[2] = windowPatternsCardsOfGame[2 * i + 1].getPattern1();
+            windowPatternsToSend[3] = windowPatternsCardsOfGame[2 * i + 1].getPattern2();
             // NOTIFY/SEND WindowPatternsToSend TO PLAYERS.GET(i)
+            players.get(i).getClientInterface().sendWindowPatterns(windowPatternsToSend);
         }
 
     }
@@ -85,17 +87,17 @@ public class Game {
         // Loading of public objectives
         PublicObjectiveCardsLoader publicObjectiveCardsLoader = null;
         try {
-            publicObjectiveCardsLoader = new PublicObjectiveCardsLoader(null);
+            publicObjectiveCardsLoader = new PublicObjectiveCardsLoader("src/main/resources/publicObjectiveCards.json");
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
-        publicObjectiveCard = publicObjectiveCardsLoader.getRandomCards(CARDSNUMBER);
+        publicObjectiveCard = publicObjectiveCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
 
         // Loading of tools cards
         ToolCardsLoader toolCardsLoader;
         try {
-             toolCardsLoader = new ToolCardsLoader("res/toolCards.xml");
-            toolCards = toolCardsLoader.getRandomCards(CARDSNUMBER);
+             toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards.xml");
+            toolCards = toolCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -108,6 +110,11 @@ public class Game {
     public void startGame(ArrayList<Player> players){
         this.players = players;
         initialize();
+        try {
+            playersPreparation();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         inGame = true;
         rounds.nextRound();
     }

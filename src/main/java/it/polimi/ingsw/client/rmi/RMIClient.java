@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
@@ -46,6 +47,17 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     public void notifyReconnectionStatus(boolean status, String message) throws RemoteException {
         client.notifyReconnectionStatus(status,message);
     }
+
+    @Override
+    public void gameStarted() throws RemoteException {
+        client.gameStarted();
+    }
+
+    @Override
+    public void sendWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException {
+        client.sendWindowPatterns(windowPatterns);
+    }
+
     protected String getSessionID() {
         return sessionID;
     }

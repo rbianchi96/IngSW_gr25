@@ -1,36 +1,29 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
-import it.polimi.ingsw.client.rmi.RMIClient;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.io.IOException;
 
 public class ClientGUI extends Application implements ClientInterface {
 	private Client client;
 	private Stage primaryStage;
 
-	private FXMLLoader loginGUILoader, lobbyGUILoader;
+	private FXMLLoader loader;
 
-	private Parent loginGUIRoot, lobbyGUIRoot;
+	private Parent loginGUIRoot, lobbyGUIRoot, gameGUIRoot;
 
 	private LoginGUI loginGUI;
 	private LobbyGUI lobbyGUI;
+	private GameGUI gameGUI;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -48,27 +41,56 @@ public class ClientGUI extends Application implements ClientInterface {
 		primaryStage.setResizable(false);
 
 		//Load login GUI
-		loginGUILoader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
-		loginGUIRoot = loginGUILoader.load();
+		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/login.fxml"));
+		loginGUIRoot = loader.load();
 
-		loginGUI = loginGUILoader.getController();
+		loginGUI = loader.getController();
 		loginGUI.setClient(client);
 
-		lobbyGUILoader = new FXMLLoader(getClass().getClassLoader().getResource("lobby.fxml"));
-		lobbyGUIRoot = lobbyGUILoader.load();
+		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/lobby.fxml"));
+		lobbyGUIRoot = loader.load();
 
-		lobbyGUI = lobbyGUILoader.getController();
+		lobbyGUI = loader.getController();
 		lobbyGUI.setClient(client);
+
+		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/game.fxml"));
+		gameGUIRoot = loader.load();
+
+		gameGUI = loader.getController();
+		gameGUI.setClient(client);
+
 
 		primaryStage.setScene(new Scene(loginGUIRoot));
 		primaryStage.setTitle("Sagrada");
 		primaryStage.show();
 	}
 
+	@Override
+	public void gameStarted() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					//Load lobby GUI
+					primaryStage.setScene(new Scene(gameGUIRoot));
+					primaryStage.show();
+
+				} catch(Exception e) {
+					e.printStackTrace();    //FATAL ERROR!
+				}
+			}
+		});
+	}
+
 	//	FROM SERVER METHODS
 	@Override
 	public void yourTurn() {
 
+	}
+
+	@Override
+	public void sendWindowPatterns(WindowPattern[] windowPatterns) {
+		gameGUI.sendWindowPatterns(windowPatterns);
 	}
 
 	@Override
@@ -80,7 +102,6 @@ public class ClientGUI extends Application implements ClientInterface {
 					try {
 						//Load lobby GUI
 						primaryStage.setScene(new Scene(lobbyGUIRoot));
-						primaryStage.setTitle("Sagrada");
 						primaryStage.show();
 
 					} catch(Exception e) {
