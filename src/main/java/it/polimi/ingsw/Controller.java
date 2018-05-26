@@ -43,6 +43,7 @@ public class Controller {
     }
 
     public void reconnect(ClientInterface clientInterface, String sessionID, String username){
+        System.out.println(username + " wants to reconnect.");
         ArrayList<Player> players = lobby.getPlayers();
         for (int i=0;i<players.size();i++){
             if(!players.get(i).getIsOnline() && players.get(i).getClientInterface()==null && players.get(i).getSessionID().equals(sessionID) && players.get(i).getPlayerName().equals(username)){

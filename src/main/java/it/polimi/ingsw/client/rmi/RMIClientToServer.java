@@ -15,11 +15,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class RMIClientToServer implements ServerInterface {
+	private static final int MAX_RECONNECTION_ATTEMPTS = 10;
 	private RMIServerInterface server;
 	private RMIClient client;
 	private Timer pingTimer;
 	private Timer reconnectTimer;
 	private String sessionNickname;
+	private int reconnection_attempts = 0;
 	public RMIClientToServer(ClientInterface client, String ip, String serverName) {
 		try {
 			this.client = new RMIClient(client);	//RMIClient to send to server used to receive responses
@@ -63,6 +65,7 @@ public class RMIClientToServer implements ServerInterface {
 
 	// Timer to ping the server set with a delay of 500 milliseconds, repeat every 2 and half minutes
 	private void reconnectTimer(){
+		reconnection_attempts = 0;
 		reconnectTimer = new Timer();
 		reconnectTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
@@ -72,21 +75,37 @@ public class RMIClientToServer implements ServerInterface {
 		}, 500, 2500);
 	}
 
-	private boolean reconnectPing(){
-		try {
-			server.ping();
-			//Notify the client is back online and will try to restore the connection with the server
-			System.out.println("You are back online, trying to restore the connection with RMI Server...");
+	private void reconnectPing(){
+		reconnection_attempts++;
+		if (reconnection_attempts<MAX_RECONNECTION_ATTEMPTS) {
+			try {
+				server.ping();
+				//Notify the client is back online and will try to restore the connection with the server
+				System.out.println("You are back online, trying to restore the connection with RMI Server...");
+				reconnectTimer.cancel();
+				server.reconnect(client.getSessionID(), sessionNickname);
+				pingTimer();
+			} catch (Exception e) {
+				// e.printStackTrace();
+				// Still can't get to server
+				System.out.println("Attempt to reconnect failed");
+			}
+		}
+		else {
 			reconnectTimer.cancel();
+			System.out.println("Automatic reconnection attempts stopped, manual reconnection needed.");
+		}
+	}
+	public boolean reconnect(){
+		try {
+			server.reconnect(client.getSessionID(), sessionNickname);
 			pingTimer();
 			return true;
-		} catch(Exception e) {
+		} catch (RemoteException e) {
 			e.printStackTrace();
-			// Still can't get to server
 			return false;
 		}
 	}
-
 	@Override
 	public void login(String username) {
 		try {
@@ -96,7 +115,6 @@ public class RMIClientToServer implements ServerInterface {
 			e.printStackTrace();
 		}
 	}
-
 	@Override
 	public void logout() {
 

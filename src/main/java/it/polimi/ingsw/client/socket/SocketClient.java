@@ -15,6 +15,8 @@ public class SocketClient extends Socket implements ServerInterface {
 	private PrintWriter out;
 	private Scanner in;
 	private Timer reconnectTimer;
+	private Timer pingTimer;
+	private boolean reconnectTimerRunning = false;
 	private ClientInterface client;
 	private Socket socket;
 	private String sessionNickname;
@@ -32,23 +34,23 @@ public class SocketClient extends Socket implements ServerInterface {
 			in = new Scanner(socket.getInputStream());
 
 			SocketClientReceiver receiver = new SocketClientReceiver(this, in);    //Create the receiver
-			if(reconnectTimer != null) {
+			if (reconnectTimerRunning) {
 				reconnectTimer.cancel();
 				//Notify the client is back online and will try to restore the connection with the server
 				System.out.println("You are back online, trying to restore the connection with Socket Server...");
 				restoreSession();
-			} else
-				reconnectTimer = null;
+			}
 			Thread t = new Thread(receiver);
 			t.start();    //Start the receiver
+			//pingTimerStart();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	protected void pingReconnection() {
+	protected void reconnectionTask(){
 		// NOTIFY Trying to reconnect...
-		pingTimer();
+		reconnectTimerStart();
 	}
 
 	void decode(String message) {
@@ -97,19 +99,37 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 		reconnectTimer.cancel();
 	}
+	private void ping(){
+		out.write("lol");
+	}
 
+	private void pingTimerStart(){
+		pingTimer = new Timer();
+		pingTimer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				try{
+					System.out.println("Pinging");
+					ping();
+				}catch(Exception ex){
+					System.out.println("Failed");
+					pingTimer.cancel();
+				}
+			}
+		}, 500, 2500);
+	}
 	// Timer to attempt the creation of new socket connection set with a delay of 500 milliseconds, repeat every 2 and half minutes
-	private void pingTimer() {
+	private void reconnectTimerStart(){
 		reconnectTimer = new Timer();
 		reconnectTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				socketReceiverCreation();
+
 			}
 		}, 500, 2500);
 	}
 
-	private void restoreSession() {
+	private void restoreSession(){
 		out.println("reconnect#" + sessionID + "#" + sessionNickname);
 		out.flush();
 	}

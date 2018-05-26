@@ -22,10 +22,8 @@ public class SocketClientReceiver implements Runnable {
 		catch(RuntimeException ex){ // Lost connection
 			// NOTIFY LOST CONNECTION TO VIEW
 			System.out.println("Connection lost with the server!");
-			socket.pingReconnection();
+			socket.reconnectionTask();
 		}
-
-
 
 	}
 }
