@@ -1,12 +1,17 @@
 package it.polimi.ingsw.server.socket;
 
 import it.polimi.ingsw.board.Color;
+import it.polimi.ingsw.board.Player;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.DiceBag;
 import it.polimi.ingsw.board.windowpattern.Cell;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.client.ClientInterface;
+
+import java.util.ArrayList;
 
 public class ObjectsFactory {
+
     public static Dice DiceFactory(int value, Color color) {
         return new Dice(value, color);
     }
@@ -47,6 +52,30 @@ public class ObjectsFactory {
         cells[3][4]  = CellFactory(c20.getRestriction(), c20.getDice());
         WindowPattern wp = new WindowPattern(name, difficulty, cells);
         return wp;
+    }
+
+    public static Player PlayerFactory(ClientInterface ci, String username, String sessionID, boolean state, WindowPattern wp, int favourTokens){
+        if(state) {//player is playing
+            Player p = new Player(ci,username, sessionID);
+            try {
+                WindowPattern wp2 = WindowPatternFactory(wp.getName(), wp.getDifficulty(), wp.getCell(0, 0), wp.getCell(0, 1), wp.getCell(0, 2), wp.getCell(0, 3), wp.getCell(0, 4), wp.getCell(1, 0), wp.getCell(1, 1), wp.getCell(1, 2), wp.getCell(1, 3), wp.getCell(1, 4), wp.getCell(2, 0), wp.getCell(2, 1), wp.getCell(2, 2), wp.getCell(2, 3), wp.getCell(2, 4), wp.getCell(3, 0), wp.getCell(3, 1), wp.getCell(3, 2), wp.getCell(3, 3), wp.getCell(3, 4));
+                p.setWindowPattern(wp2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            p.setFavourTokens(favourTokens);
+            return p;
+        }
+        else { //player dosen't play
+            Player p2 = new Player(ci, username, sessionID);
+            p2.setIsOnline(false);
+            return p2;
+        }
+    }
+
+    public static Player curPlayer(int index, Player p){
+        Player pl = PlayerFactory(p.getClientInterface(), p.getPlayerName(), p.getSessionID(), p.getIsOnline(), p.getWindowPattern(), p.getFavourTokens());
+        return pl;
     }
 
 

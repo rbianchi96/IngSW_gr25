@@ -36,6 +36,10 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		return difficulty;
 	}
 
+	public Cell getCell(int i, int j){
+		return this.cells[i][j];
+	}
+
 	public Object getRestriction(int row, int col) throws WindowPatternOutOfBoundException {
 		checkIndexes(row, col);
 
