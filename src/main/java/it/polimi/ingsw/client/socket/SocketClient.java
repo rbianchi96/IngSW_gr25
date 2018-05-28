@@ -32,7 +32,6 @@ public class SocketClient extends Socket implements ServerInterface {
 		try {
 			out = new PrintWriter(socket.getOutputStream());
 			in = new Scanner(socket.getInputStream());
-
 			SocketClientReceiver receiver = new SocketClientReceiver(this, in);    //Create the receiver
 			if (reconnectTimerRunning) {
 				reconnectTimer.cancel();
@@ -99,8 +98,8 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 		reconnectTimer.cancel();
 	}
-	private void ping(){
-		out.write("lol");
+	private boolean ping(){
+		return socket.isConnected();
 	}
 
 	private void pingTimerStart(){
@@ -109,8 +108,11 @@ public class SocketClient extends Socket implements ServerInterface {
 			@Override
 			public void run() {
 				try{
-					System.out.println("Pinging");
-					ping();
+
+					if( ping())
+						System.out.println("Pinging");
+					else
+						System.out.println("Failed");
 				}catch(Exception ex){
 					System.out.println("Failed");
 					pingTimer.cancel();
