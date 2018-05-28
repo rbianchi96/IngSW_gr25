@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.ServerInterface;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.*;
 
 public class SocketClient extends Socket implements ServerInterface {
@@ -31,7 +32,7 @@ public class SocketClient extends Socket implements ServerInterface {
 
 	private void socketReceiverCreation() {
 		try {
-			socket.setSoTimeout(8000);
+			socket.setSoTimeout(10000);
 			socket.setKeepAlive(true);
 			out = new PrintWriter(socket.getOutputStream());
 			in = new Scanner(socket.getInputStream());
@@ -52,6 +53,12 @@ public class SocketClient extends Socket implements ServerInterface {
 
 	protected void reconnectionTask(){
 		// NOTIFY Trying to reconnect...
+		pingTimer.cancel();
+		try {
+			socket.setSoTimeout(3000);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 		reconnectTimerStart();
 	}
 
@@ -139,11 +146,24 @@ public class SocketClient extends Socket implements ServerInterface {
 		reconnectTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-
+				reconnect();
 			}
-		}, 500, 2500);
+		}, 500, 5000);
 	}
+	private boolean reconnect(){
 
+		try{
+			restoreSession();
+			System.out.println(in.nextLine());
+			return true;
+		} catch (Exception ex){
+			System.out.println("fail");
+			reconnectTimer.cancel();
+			return false;
+		}
+
+
+	}
 	private void restoreSession(){
 		out.println("reconnect#" + sessionID + "#" + sessionNickname);
 		out.flush();
