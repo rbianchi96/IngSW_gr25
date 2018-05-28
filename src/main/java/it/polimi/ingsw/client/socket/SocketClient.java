@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.ServerInterface;
 
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.*;
 
 public class SocketClient extends Socket implements ServerInterface {
@@ -30,6 +31,8 @@ public class SocketClient extends Socket implements ServerInterface {
 
 	private void socketReceiverCreation() {
 		try {
+			socket.setSoTimeout(8000);
+			socket.setKeepAlive(true);
 			out = new PrintWriter(socket.getOutputStream());
 			in = new Scanner(socket.getInputStream());
 			SocketClientReceiver receiver = new SocketClientReceiver(this, in);    //Create the receiver
@@ -99,7 +102,17 @@ public class SocketClient extends Socket implements ServerInterface {
 		reconnectTimer.cancel();
 	}
 	private boolean ping(){
-		return socket.isConnected();
+		try{
+			socket.setSoTimeout(8000);
+			out.println("ping");
+			out.flush();
+			System.out.println("Ping");
+			String s = in.nextLine();
+		System.out.println(	s);
+			return true;
+		}catch (SocketException ex){
+			return false;
+		}
 	}
 
 	private void pingTimerStart(){
@@ -115,10 +128,10 @@ public class SocketClient extends Socket implements ServerInterface {
 						System.out.println("Failed");
 				}catch(Exception ex){
 					System.out.println("Failed");
-					pingTimer.cancel();
+					//pingTimer.cancel();
 				}
 			}
-		}, 500, 2500);
+		}, 500, 8000);
 	}
 	// Timer to attempt the creation of new socket connection set with a delay of 500 milliseconds, repeat every 2 and half minutes
 	private void reconnectTimerStart(){

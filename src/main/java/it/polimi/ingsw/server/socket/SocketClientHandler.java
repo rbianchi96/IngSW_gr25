@@ -12,7 +12,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-
+import java.util.Timer;
+import java.util.TimerTask;
 public class SocketClientHandler implements Runnable, ClientInterface {
 	// If reached without any interaction, the connection will be close
 	private static final int MAX_TIMEOUT = 90000;
@@ -20,12 +21,32 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	private Scanner in;
 	private Controller controller;
 	private PrintWriter out;
+	private Timer pingTimer;
 
 	public SocketClientHandler(Socket socket, Controller controller) {
 		this.controller = controller;
 		this.socket = socket;
 	}
-
+	private void pingTimer() {
+		pingTimer = new Timer();
+		pingTimer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				ping();
+			}
+		}, 500, 2500);
+	}
+	private boolean ping() {
+		try {
+			out.println("Ping");
+			out.flush();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			pingTimer.cancel();
+			return false;
+		}
+	}
 	public void run() {
 		try {
 			//socket.setSoTimeout(MAX_TIMEOUT); // set the timeout MAX_TIMEOUT
@@ -34,7 +55,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 			out.println(encode("connection_status", "success", "Connection Established!"));
 			out.flush();
 			System.out.println("New Socket connection: " + socket.getRemoteSocketAddress().toString());
-
+			pingTimer();
 			while(true) {
 				String line = in.nextLine(); // read the stream from client
 				if(line.equals("close")) { // Need evaluation
@@ -94,6 +115,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 				}
 				case "reconnect": {
 					controller.reconnect(this, request[0], request[1]);
+					break;
+				}
+				case "ping":{
+					out.println("pong");
+					out.flush();
 				}
 				default: { // Invalid command
 					out.println(encode("invalid_command"));

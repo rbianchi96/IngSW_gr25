@@ -10,6 +10,7 @@ public class SocketServer {
     Controller controller;
    // private ArrayList<ClientInterface> socketClientHandlerUsers;
     private int port;
+
     public SocketServer(int port, Controller controller) {
         this.port = port;
         this.controller = controller;
@@ -22,6 +23,7 @@ public class SocketServer {
             while (!false) {
                 try {
                     Socket socket = serverSocket.accept();
+                    socket.setKeepAlive(true);
                     Thread t = new Thread(new SocketClientHandler(socket, controller));
                     t.start();
                 } catch (IOException e) {

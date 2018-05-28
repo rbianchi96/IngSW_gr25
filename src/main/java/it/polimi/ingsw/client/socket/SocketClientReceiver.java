@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.socket;
 
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class SocketClientReceiver implements Runnable {
@@ -13,17 +15,21 @@ public class SocketClientReceiver implements Runnable {
 
 	@Override
 	public void run() {
-		try{
-			while(true) {	//Continue to cycle
-				String inLine = in.nextLine();	//When there's a message incoming...
-				socket.decode(inLine);	//...send to the socket decoder
+
+
+			try {
+				while(true) {
+					//socket.setSoTimeout(1000);
+					//Continue to cycle
+					String inLine = in.nextLine();  //When there's a message incoming...
+					socket.decode(inLine);    //...send to the socket decoder
+				}
 			}
-		}
-		catch(RuntimeException ex){ // Lost connection
+			catch (RuntimeException ex) { // Lost connection
 			// NOTIFY LOST CONNECTION TO VIEW
-			System.out.println("Connection lost with the server!");
-			socket.reconnectionTask();
+				System.out.println("Connection lost with the server!");
+			    //socket.reconnectionTask();
+			}
 		}
 
 	}
-}
