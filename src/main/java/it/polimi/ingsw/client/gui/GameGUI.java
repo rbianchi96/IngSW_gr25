@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.Player;
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -27,5 +28,9 @@ public class GameGUI extends GUIController {
 					Drawers.drawWindowPattern(patterns[i], windowPatterns[i], false);
 			}
 		});
+	}
+
+	public void updateDraft(Dice[] dices) {
+		//TODO
 	}
 }

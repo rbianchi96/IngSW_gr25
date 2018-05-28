@@ -15,8 +15,6 @@ public class SocketClientReceiver implements Runnable {
 
 	@Override
 	public void run() {
-
-
 			try {
 				while(true) {
 					//socket.setSoTimeout(1000);

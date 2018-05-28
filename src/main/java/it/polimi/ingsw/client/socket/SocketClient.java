@@ -90,6 +90,9 @@ public class SocketClient extends Socket implements ServerInterface {
 			case "windowPatternsToChose":
 				client.sendWindowPatternsToChoose(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
 				break;
+			case "startRound":
+				client.startRound();
+				break;
 
 			default:
 				break;
@@ -109,6 +112,23 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 		reconnectTimer.cancel();
 	}
+
+	@Override
+	public void selectWindowPattern(int i) {
+		out.println("selectWindowPattern#" + i);
+		out.flush();
+	}
+
+	@Override
+	public void selectDiceFromDraft(int index) {
+
+	}
+
+	@Override
+	public void placeDice(int row, int col, Dice dice) {
+
+	}
+
 	private boolean ping(){
 		try{
 			socket.setSoTimeout(8000);

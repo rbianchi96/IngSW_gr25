@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -8,7 +9,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.SelectWPGUI">
 
-    <GridPane fx:id="pattern0" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="32.0" layoutY="24.0" vgap="10.0" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="36.0">
+    <GridPane fx:id="pattern0" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="32.0" layoutY="24.0" onMouseClicked="#selectWP" vgap="10.0" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="36.0">
         <columnConstraints>
             <ColumnConstraints prefWidth="50" />
             <ColumnConstraints prefWidth="50" />
@@ -22,9 +23,12 @@
             <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
             <RowConstraints prefHeight="50.0" />
         </rowConstraints>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </GridPane>
 
-    <GridPane fx:id="pattern1" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="510.0" vgap="10.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="36.0">
+    <GridPane fx:id="pattern1" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="510.0" onMouseClicked="#selectWP" vgap="10.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="36.0">
         <columnConstraints>
             <ColumnConstraints prefWidth="50" />
             <ColumnConstraints prefWidth="50" />
@@ -38,9 +42,12 @@
             <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
             <RowConstraints prefHeight="50.0" />
         </rowConstraints>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </GridPane>
 
-    <GridPane fx:id="pattern2" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="41.0" layoutY="370.0" vgap="10.0" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="36.0">
+    <GridPane fx:id="pattern2" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="41.0" layoutY="370.0" onMouseClicked="#selectWP" vgap="10.0" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="36.0">
         <columnConstraints>
             <ColumnConstraints prefWidth="50" />
             <ColumnConstraints prefWidth="50" />
@@ -54,9 +61,12 @@
             <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
             <RowConstraints prefHeight="50.0" />
         </rowConstraints>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </GridPane>
 
-    <GridPane fx:id="pattern3" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="510.0" layoutY="363.0" vgap="10.0" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="36.0">
+    <GridPane fx:id="pattern3" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="510.0" layoutY="363.0" onMouseClicked="#selectWP" vgap="10.0" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="36.0">
         <columnConstraints>
             <ColumnConstraints prefWidth="50" />
             <ColumnConstraints prefWidth="50" />
@@ -70,10 +80,17 @@
             <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
             <RowConstraints prefHeight="50.0" />
         </rowConstraints>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </GridPane>
-   <Label layoutX="163.0" layoutY="266.0" text="Label" />
-   <Label layoutX="601.0" layoutY="266.0" text="Label" />
-   <Label layoutX="163.0" layoutY="564.0" text="Label" />
-   <Label layoutX="601.0" layoutY="564.0" text="Label" />
+   <Label fx:id="patternName0" alignment="CENTER" contentDisplay="CENTER" layoutX="81.0" layoutY="266.0" maxWidth="200.0" prefWidth="200.0" text="Labeleeeee" AnchorPane.topAnchor="266.0" />
+   <Label fx:id="patternName1" alignment="CENTER" contentDisplay="CENTER" layoutX="520.0" layoutY="266.0" maxWidth="200.0" prefWidth="200.0" text="Label" AnchorPane.topAnchor="266.0" />
+   <Label fx:id="patternName2" alignment="CENTER" contentDisplay="CENTER" layoutX="81.0" layoutY="564.0" maxWidth="200.0" prefWidth="200.0" text="Label" AnchorPane.topAnchor="564.0" />
+   <Label fx:id="patternName3" alignment="CENTER" contentDisplay="CENTER" layoutX="520.0" layoutY="564.0" maxWidth="200.0" prefWidth="200.0" text="Label" AnchorPane.topAnchor="564.0" />
+   <Label fx:id="patternDiff0" layoutX="290.0" layoutY="266.0" text="Label" AnchorPane.rightAnchor="474.0" />
+   <Label fx:id="patternDiff1" layoutX="728.0" layoutY="266.0" text="Label" AnchorPane.rightAnchor="36.0" />
+   <Label fx:id="patternDiff2" layoutX="290.0" layoutY="564.0" text="Label" AnchorPane.rightAnchor="474.0" />
+   <Label fx:id="patternDiff3" layoutX="728.0" layoutY="564.0" text="Label" AnchorPane.rightAnchor="36.0" />
 
 </AnchorPane>

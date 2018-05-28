@@ -63,4 +63,19 @@ public class Controller {
     private boolean isConnected(ClientInterface clientInterface){
         return lobby.isAlreadyLogged(clientInterface);
     }
+
+    public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
+        lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface), i);
+    }
+
+    private Player findPlayer(ClientInterface clientInterface) {
+        ArrayList<Player> players = lobby.getPlayers();
+
+        for(Player player : players) {
+            if(player.getClientInterface() == clientInterface)
+                return player;
+        }
+
+        return null;
+    }
 }

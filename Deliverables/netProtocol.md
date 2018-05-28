@@ -36,6 +36,9 @@ Spaces is replaced with hash (`#`).
 - `sendPlayersInfos PlayerInfo` Send players infos.
 &nbsp;&nbsp;&nbsp;&nbsp;`PlayerInfo := name color`
 
+### From client to server
+- `selectWindowPattern index` Send the index of the window pattern selected (after `sendWindowPattern`).
+
 ## Players and round command
 
 ### From server to client

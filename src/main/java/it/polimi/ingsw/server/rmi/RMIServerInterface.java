@@ -10,4 +10,6 @@ public interface RMIServerInterface extends Remote {
     public void logout() throws RemoteException;
     public boolean ping() throws RemoteException;
     public void reconnect(String sessionID, String username) throws RemoteException;
+
+    public void selectWindowPattern(int i) throws RemoteException;
 }

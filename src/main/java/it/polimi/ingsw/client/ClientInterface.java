@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public interface ClientInterface {
@@ -14,7 +15,10 @@ public interface ClientInterface {
     public void gameStarted();
     public void yourTurn();
     public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns);
-    public void sendWindowPatterns(WindowPattern[] windowPatterns);
+
+    public void startRound();
+    public void updateWindowPatterns(WindowPattern[] windowPatterns);
+    public void updateDraft(Dice[] dices);
 
     public void closeConnection();  // close the connection from the Model in case of an handled logout
 }

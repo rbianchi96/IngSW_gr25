@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.GameGUI">
@@ -70,6 +72,11 @@
                 <RowConstraints prefHeight="30.0" />
             </rowConstraints>
         </GridPane>
+      <ScrollPane layoutX="28.0" layoutY="370.0" prefHeight="230.0" prefWidth="192.0" vbarPolicy="NEVER">
+         <content>
+            <HBox prefHeight="101.0" prefWidth="200.0" />
+         </content>
+      </ScrollPane>
 
        
     </children>

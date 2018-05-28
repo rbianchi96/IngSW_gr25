@@ -52,4 +52,6 @@ public class Client {
 	public String getUsername() {
 		return username;
 	}
+
+	public ServerInterface getServerInterface() { return serverInterface; }
 }

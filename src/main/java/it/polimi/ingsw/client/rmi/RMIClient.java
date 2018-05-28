@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 
@@ -57,8 +58,18 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void sendWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException {
-        client.sendWindowPatterns(windowPatterns);
+    public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException {
+        client.updateWindowPatterns(windowPatterns);
+    }
+
+    @Override
+    public void updateDraft(Dice[] dices) throws RemoteException {
+
+    }
+
+    @Override
+    public void startRound() throws RemoteException {
+        client.startRound();
     }
 
     protected String getSessionID() {

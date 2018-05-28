@@ -31,6 +31,8 @@ public class Game {
     private Round rounds;
     private boolean inGame; // boolean to check if there is a game going on
 
+    private WindowPattern[][] windowPatternsSent;
+    private int readyPlayers = 0;
 
     public Game(){
         inGame=false;
@@ -70,16 +72,18 @@ public class Game {
 
         windowPatternsCardsOfGame = windowPatternCardsLoader.getRandomCards(players.size() * 2);    //Load two WP cards for every player
 
-        for (int i=0; i<players.size(); i++){   //For each player
-            WindowPattern[] windowPatternsToSend=new WindowPattern[4];
-            windowPatternsToSend[0] = windowPatternsCardsOfGame[2 * i].getPattern1();
-            windowPatternsToSend[1] = windowPatternsCardsOfGame[2 * i].getPattern2();
-            windowPatternsToSend[2] = windowPatternsCardsOfGame[2 * i + 1].getPattern1();
-            windowPatternsToSend[3] = windowPatternsCardsOfGame[2 * i + 1].getPattern2();
-            // NOTIFY/SEND WindowPatternsToSend TO PLAYERS.GET(i)
-            players.get(i).getClientInterface().sendWindowPatternsToChoose(windowPatternsToSend);
-        }
+        windowPatternsSent = new WindowPattern[players.size()][];
 
+        for (int i=0; i<players.size(); i++){   //For each player
+            windowPatternsSent[i] = new WindowPattern[4];
+            windowPatternsSent[i][0] = windowPatternsCardsOfGame[2 * i].getPattern1();
+            windowPatternsSent[i][1] = windowPatternsCardsOfGame[2 * i].getPattern2();
+            windowPatternsSent[i][2] = windowPatternsCardsOfGame[2 * i + 1].getPattern1();
+            windowPatternsSent[i][3] = windowPatternsCardsOfGame[2 * i + 1].getPattern2();
+
+            // NOTIFY/SEND WindowPatternsToSend TO PLAYERS.GET(i)
+            players.get(i).getClientInterface().sendWindowPatternsToChoose(windowPatternsSent[i]);
+        }
     }
 
     // Loading of various game elements (the same of the "game preparation" of Sagrada rules.
@@ -119,11 +123,38 @@ public class Game {
         rounds.nextRound();
     }
 
-    public void RollDicesFromDiceBag(){
+    public void rollDicesFromDiceBag(){
         for(int i=0; i<2*players.size()+1;i++){
             gameBoard.getDraft().addDice(gameBoard.getDiceBag().getRandomDice());
         }
         // Notify Client
+    }
+
+    private void startRound() {
+        WindowPattern[] windowPatterns = new WindowPattern[4];
+
+        for(int i = 0; i < players.size(); i ++) {
+            windowPatterns[i] = players.get(i).getWindowPattern();
+        }
+
+        for(Player player : players) {
+            player.getClientInterface().startRound();
+            player.getClientInterface().updateWindowPatterns(windowPatterns);
+        }
+    }
+
+    public void selectWindowPattern(Player player, int wpIndex) {
+        if(player.getWindowPattern() == null) {
+            for(int i = 0; i < players.size(); i++)
+                if(players.get(i) == player) {
+                    player.setWindowPattern(windowPatternsSent[i][wpIndex]);
+                    readyPlayers ++;
+                }
+        }
+
+        if(readyPlayers == players.size()) {
+            startRound();
+        }
     }
 
     public boolean isInGame() {

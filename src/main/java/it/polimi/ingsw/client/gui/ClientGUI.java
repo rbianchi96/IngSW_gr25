@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
@@ -108,8 +109,24 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void sendWindowPatterns(WindowPattern[] windowPatterns) {
+	public void startRound() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				primaryStage.setScene(new Scene(gameGUIRoot));
+				primaryStage.show();
+			}
+		});
+	}
+
+	@Override
+	public void updateWindowPatterns(WindowPattern[] windowPatterns) {
 		gameGUI.sendWindowPatterns(windowPatterns);
+	}
+
+	@Override
+	public void updateDraft(Dice[] dices) {
+		gameGUI.updateDraft(dices);
 	}
 
 	@Override

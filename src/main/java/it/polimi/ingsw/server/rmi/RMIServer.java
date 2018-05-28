@@ -36,5 +36,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         controller.reconnect(rmiServerToClient, sessionID,username);
     }
 
+    @Override
+    public void selectWindowPattern(int i) throws RemoteException {
+        controller.selectWindowPattern(rmiServerToClient, i);
+    }
+
 }
 

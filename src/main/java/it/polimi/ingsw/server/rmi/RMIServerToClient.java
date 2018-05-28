@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.rmi;
 
 import it.polimi.ingsw.Controller;
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
@@ -47,13 +48,28 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
-	public void sendWindowPatterns(WindowPattern[] windowPatterns) {
+	public void startRound() {
 		try {
-			rmiClientInterface.sendWindowPatterns(windowPatterns);
+			rmiClientInterface.startRound();
 		} catch(RemoteException e) {
 			e.printStackTrace();
 			controller.lostConnection(this);
 		}
+	}
+
+	@Override
+	public void updateWindowPatterns(WindowPattern[] windowPatterns) {
+		try {
+			rmiClientInterface.updateWindowPatterns(windowPatterns);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
+	public void updateDraft(Dice[] dices) {
+
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 
@@ -23,5 +24,9 @@ public interface RMIClientInterface extends Remote {
 
 	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) throws RemoteException;
 
-	public void sendWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException;
+	public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException;
+
+	public void updateDraft(Dice[] dices) throws RemoteException;
+
+	public void startRound() throws RemoteException;
 }

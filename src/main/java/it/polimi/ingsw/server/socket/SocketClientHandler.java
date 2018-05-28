@@ -121,6 +121,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					out.println("pong");
 					out.flush();
 				}
+				case "selectWindowPattern":
+					controller.selectWindowPattern(this, Integer.parseInt(request[1]));
+
+					break;
 				default: { // Invalid command
 					out.println(encode("invalid_command"));
 					out.flush();
@@ -155,8 +159,23 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void sendWindowPatterns(WindowPattern[] windowPatterns) {
+	public void startRound() {
+		out.println("startRound");
+		out.flush();
+	}
+
+	@Override
+	public void updateWindowPatterns(WindowPattern[] windowPatterns) {
 		//TODO
+	}
+
+	@Override
+	public void updateDraft(Dice[] dices) {
+		out.print("updateDraft");
+		for(Dice dice : dices) {
+			out.print("#" + dice.getValue() + "#" + dice.getColor().toString());
+		}
+		out.flush();
 	}
 
 	@Override // Read ClientInterface for details

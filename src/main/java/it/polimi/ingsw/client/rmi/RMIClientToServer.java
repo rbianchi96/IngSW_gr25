@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.paramsloader.NetParamsLoader;
@@ -117,6 +118,25 @@ public class RMIClientToServer implements ServerInterface {
 	}
 	@Override
 	public void logout() {
+
+	}
+
+	@Override
+	public void selectWindowPattern(int i) {
+		try {
+			server.selectWindowPattern(i);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void selectDiceFromDraft(int index) {
+
+	}
+
+	@Override
+	public void placeDice(int row, int col, Dice dice) {
 
 	}
 }
