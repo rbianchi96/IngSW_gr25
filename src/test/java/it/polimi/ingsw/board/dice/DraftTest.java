@@ -86,6 +86,6 @@ public class DraftTest {
         draft.addDice(new Dice(2,Color.YELLOW));
         draft.addDice(new Dice(1,Color.GREEN));
         draft.addDice(new Dice(3,Color.BLUE));
-        assertEquals("Draft's dices: {Dice: value 2, Color YELLOW}, {Dice: value 1, Color GREEN}, {Dice: value 3, Color BLUE}",draft.toString());
+        assertEquals("Draft's dices: {Dice: value 2, Color y}, {Dice: value 1, Color g}, {Dice: value 3, Color b}",draft.toString());
     }
 }

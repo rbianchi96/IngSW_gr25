@@ -17,7 +17,7 @@ public class DiceBag {
     }
 
 
-    public void initDiceBag (){
+    public void initialize(){
         for (Color color : Color.values()) {
             for (int j = 0; j < 18; j++) {
                 dices.add(new Dice(-1, color));
@@ -33,10 +33,11 @@ public class DiceBag {
     // method that takes one casual dice from the bag
     public Dice getRandomDice() {
         if (dices.size() > MINSIZE) {
-            int i = (int) Math.random()*(dices.size()-1);
-            Dice d = dices.get(i);
-            dices.remove(i);
-            return d;
+            Dice dice = dices.get(0);
+            dices.remove(0);
+
+            dice.rollDice();
+            return dice;
         }
         return null;
     }
