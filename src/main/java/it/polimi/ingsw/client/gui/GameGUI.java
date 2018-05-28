@@ -8,11 +8,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class GameGUI extends GUIController {
 	@FXML
-	GridPane pattern0, pattern1, pattern2, pattern3;
+	GridPane pattern0, pattern1, pattern2, pattern3, draft;
 
 	private GridPane patterns[];
 
@@ -31,6 +32,20 @@ public class GameGUI extends GUIController {
 	}
 
 	public void updateDraft(Dice[] dices) {
-		//TODO
+		for(int i = 0; i < dices.length; i ++) {
+			draft.add(createDice(dices[i], 40), i % 2, i / 2);
+		}
+	}
+
+	private static Pane createDice(Dice dice, int size) {
+		Pane pane = new Pane();
+		pane.setPrefWidth(size);
+		pane.setPrefHeight(size);
+		pane.setStyle("-fx-background-color:" + dice.getColor().getHexColor());
+
+		Label val = new Label(String.valueOf(dice.getValue()));
+		pane.getChildren().add(val);
+
+		return pane;
 	}
 }

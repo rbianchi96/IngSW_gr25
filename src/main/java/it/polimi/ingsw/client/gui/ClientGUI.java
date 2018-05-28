@@ -44,26 +44,26 @@ public class ClientGUI extends Application implements ClientInterface {
 
 		//Load login GUI
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/login.fxml"));
-		loginGUIRoot = loader.load();
 
+		loginGUIRoot = loader.load();
 		loginGUI = loader.getController();
 		loginGUI.setClient(client);
 
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/lobby.fxml"));
-		lobbyGUIRoot = loader.load();
 
+		lobbyGUIRoot = loader.load();
 		lobbyGUI = loader.getController();
 		lobbyGUI.setClient(client);
 
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/selectWP.fxml"));
-		selectWPGUIRoot = loader.load();
 
+		selectWPGUIRoot = loader.load();
 		selectWPGUI = loader.getController();
 		selectWPGUI.setClient(client);
 
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/game.fxml"));
-		gameGUIRoot = loader.load();
 
+		gameGUIRoot = loader.load();
 		gameGUI = loader.getController();
 		gameGUI.setClient(client);
 
@@ -71,23 +71,6 @@ public class ClientGUI extends Application implements ClientInterface {
 		primaryStage.setScene(new Scene(loginGUIRoot));
 		primaryStage.setTitle("Sagrada");
 		primaryStage.show();
-	}
-
-	@Override
-	public void gameStarted() {
-		/*Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					//Load lobby GUI
-					primaryStage.setScene(new Scene(gameGUIRoot));
-					primaryStage.show();
-
-				} catch(Exception e) {
-					e.printStackTrace();    //FATAL ERROR!
-				}
-			}
-		});*/
 	}
 
 	//	FROM SERVER METHODS
@@ -109,7 +92,7 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void startRound() {
+	public void startGame() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {

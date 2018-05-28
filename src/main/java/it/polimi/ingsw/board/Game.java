@@ -7,11 +7,12 @@ import it.polimi.ingsw.board.cardsloaders.PrivateObjectiveCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.PublicObjectiveCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.ToolCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.WindowPatternCardsLoader;
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.DiceBag;
 import it.polimi.ingsw.board.dice.Draft;
 import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
-import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
 import java.io.FileNotFoundException;
@@ -41,6 +42,7 @@ public class Game {
     // Intializations of attributes
     private void initialize(){
         diceBag = new DiceBag();
+        diceBag.initialize();
         roundTrack = new RoundTrack(players.size());
         rounds = new Round(players.size());
     }
@@ -90,7 +92,7 @@ public class Game {
         // Loading of tools cards
         ToolCardsLoader toolCardsLoader;
         try {
-            toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards.xml");
+            toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards.json");
             toolCards = toolCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
         } catch(Exception e) {
             e.printStackTrace();
@@ -117,22 +119,31 @@ public class Game {
     }
 
     public void rollDicesFromDiceBag(){
-        for(int i=0; i<2*players.size()+1;i++){
+        for(int i = 0; i < 2 * players.size() + 1; i++) {
             gameBoard.getDraft().addDice(gameBoard.getDiceBag().getRandomDice());
         }
         // Notify Client
     }
 
-    private void startRound() {
-        WindowPattern[] windowPatterns = new WindowPattern[4];
+    private void startRound() { //TODO to be renamed
+        WindowPattern[] allWindowPatterns = new WindowPattern[players.size()];
 
         for(int i = 0; i < players.size(); i ++) {
-            windowPatterns[i] = players.get(i).getWindowPattern();
+            allWindowPatterns[i] = players.get(i).getWindowPattern();
         }
 
         for(Player player : players) {
-            player.getClientInterface().startRound();
-            player.getClientInterface().updateWindowPatterns(windowPatterns);
+            player.getClientInterface().startGame();
+            player.getClientInterface().updateWindowPatterns(allWindowPatterns);
+
+            rollDicesFromDiceBag();
+            sendDraft();
+        }
+    }
+
+    private void sendDraft() {
+        for(Player player : players) {
+            player.getClientInterface().updateDraft(gameBoard.getDraft().getDices().toArray(new Dice[0]));
         }
     }
 

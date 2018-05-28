@@ -25,7 +25,7 @@ Spaces is replaced with hash (`#`).
 ### From server to client
 
 - `sendPrivateObjectiveCard color name description` Send private objective card to user.
-- `sendWindowPatterns WindowPattern WindowPattern WindowPattern WindowPattern` Send window patterns to player.
+- `sendWindowPatternsToChose WindowPattern WindowPattern WindowPattern WindowPattern` Send window patterns to player.
   - `WindowPattern := name difficulty Cell[0][0] Cell[0][1] ... Cell[4][4] cell[4][5]`
   - `Cell := restriction Dice`
   - `Dice := value color`
@@ -49,10 +49,6 @@ Spaces is replaced with hash (`#`).
 - `currPlayer index` Send current player.
 - `updateRoundTrack DiceList ... [DiceList]` Update the round track.
   - `DiceList := (Dice ... [Dice])`
-
-### From client to server
-
-- `selectWindowPattern index` Select one of the window pattern previously received with `showWindowPatterns`.
 
 ## Dice commands
 

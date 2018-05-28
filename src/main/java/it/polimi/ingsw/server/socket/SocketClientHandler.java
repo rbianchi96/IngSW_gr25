@@ -117,7 +117,6 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					controller.reconnect(this, request[0], request[1]);
 					break;
 				}
-<<<<<<< HEAD
 				case "ping":{
 					out.println("pong");
 					out.flush();
@@ -126,9 +125,6 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					controller.selectWindowPattern(this, Integer.parseInt(request[1]));
 
 					break;
-=======
-				case "ping":
->>>>>>> 594489f9f81b35fb544598b455534e780d000b45
 				default: { // Invalid command
 					out.println(encode("invalid_command"));
 					out.flush();
@@ -163,8 +159,8 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void startRound() {
-		out.println("startRound");
+	public void startGame() {
+		out.println("startGame");
 		out.flush();
 	}
 
@@ -206,12 +202,6 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 			out.print("#" + player);
 		}
 		out.println();
-		out.flush();
-	}
-
-	@Override
-	public void gameStarted() {
-		out.println("game_started");
 		out.flush();
 	}
 

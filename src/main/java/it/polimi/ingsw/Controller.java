@@ -91,7 +91,6 @@ public class Controller {
     private boolean isConnected(ClientInterface clientInterface){
         return lobby.isAlreadyLogged(clientInterface);
     }
-<<<<<<< HEAD
 
     public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
         lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface), i);
@@ -107,10 +106,6 @@ public class Controller {
 
         return null;
     }
-=======
-////////////////////////////////////////////////////////////
-
-
 ///// GAME \\\\\\
 
     public synchronized void placeDice(ClientInterface clientInterface, Dice dice, int row, int col){
@@ -121,6 +116,4 @@ public class Controller {
 
         }
     }
-
->>>>>>> 594489f9f81b35fb544598b455534e780d000b45
 }
