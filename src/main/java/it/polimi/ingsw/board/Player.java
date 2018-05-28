@@ -21,6 +21,7 @@ public class Player {
         isOnline = true;
     }
 
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder(playerName + "is playing with " + windowPattern.getName() + " pattern.\n");
