@@ -2,8 +2,7 @@ package it.polimi.ingsw.server.socket;
 
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.Player;
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.dice.DiceBag;
+import it.polimi.ingsw.board.dice.*;
 import it.polimi.ingsw.board.windowpattern.Cell;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
@@ -75,8 +74,25 @@ public class ObjectsFactory {
 
     public static Player curPlayer(int index, Player p){
         Player pl = PlayerFactory(p.getClientInterface(), p.getPlayerName(), p.getSessionID(), p.getIsOnline(), p.getWindowPattern(), p.getFavourTokens());
+        //p1.setIndex(index);
         return pl;
     }
 
+   // public static void updateRoundTrackDices(ArrayList<Dice> dices, int Round, RoundTrack rt) {
+     //       for(Dice d : dices){
+       //         Dice d
+
+        //}
+    //}
+
+    //player receive the dices in the Draft
+    public static ArrayList<Dice> sendDicesInDraft(Draft Draft){
+            ArrayList<Dice> d = new ArrayList();
+            for(int j=0; j <Draft.getSize(); j++){
+                Dice dice = DiceFactory(Draft.getDices().get(j).getValue(),Draft.getDices().get(j).getColor());
+                d.add(dice);
+        }
+        return d;
+    }
 
 }
