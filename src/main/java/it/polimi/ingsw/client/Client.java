@@ -27,10 +27,8 @@ public class Client {
 		switch(connectionMode) {
 			case SOCKET:
 				serverInterface = new SocketClient(
-						new Socket(
-								ip,
-								paramsLoader.getSocketServerPort()
-						),
+						ip,
+						paramsLoader.getSocketServerPort(),
 						clientOut
 				);
 				break;

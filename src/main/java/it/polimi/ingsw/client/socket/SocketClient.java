@@ -7,6 +7,7 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.server.ServerInterface;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
@@ -24,9 +25,9 @@ public class SocketClient extends Socket implements ServerInterface {
 	private String sessionNickname;
 	private String sessionID;
 
-	public SocketClient(Socket socket, ClientInterface client) {
+	public SocketClient(String ip, int port, ClientInterface client) throws IOException {
 		this.client = client;
-		this.socket = socket;
+		this.socket = new Socket(ip, port);
 		socketReceiverCreation();
 	}
 

@@ -21,7 +21,8 @@ public class ObjectsFactory {
         Dice d2;
         d2 = DiceFactory(d.getValue(), d.getColor());
         Cell c = new Cell(restriction);
-        c.putDice(d2);
+        if(!restriction.equals(null)){
+        c.putDice(d2);}
         return c;
     }
 
