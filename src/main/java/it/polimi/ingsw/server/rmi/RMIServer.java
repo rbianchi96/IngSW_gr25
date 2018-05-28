@@ -16,13 +16,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.controller = controller;
     }
     @Override
-    public void login(String username,RMIClientInterface rmiClient)  {
+    public void login(String username,RMIClientInterface rmiClient) throws RemoteException{
         rmiServerToClient = new RMIServerToClient(rmiClient, controller);
         controller.login(rmiServerToClient,username);
     }
 
     @Override
-    public void logout() {
+    public void logout() throws RemoteException{
         controller.logout(rmiServerToClient);
     }
 
