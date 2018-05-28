@@ -38,16 +38,6 @@ public class Game {
         inGame=false;
     }
 
-    // Call to initialize the game
-    private void initGame(){
-        try {
-            playersPreparation();
-        } catch(FileNotFoundException e) {
-            LOGGER.log(Level.FINER,e.getMessage());
-        }
-        gamePreparation();
-    }
-
     // Intializations of attributes
     private void initialize(){
         diceBag = new DiceBag();
@@ -100,7 +90,7 @@ public class Game {
         // Loading of tools cards
         ToolCardsLoader toolCardsLoader;
         try {
-             toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards.xml");
+            toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards.xml");
             toolCards = toolCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
         } catch(Exception e) {
             e.printStackTrace();
@@ -112,15 +102,18 @@ public class Game {
 
     // Method to call to start the next round
     public void startGame(ArrayList<Player> players){
+        System.out.println("Game is starting!");
         this.players = players;
         initialize();
         try {
             playersPreparation();
+            gamePreparation();
         } catch(Exception e) {
             e.printStackTrace();
         }
         inGame = true;
         rounds.nextRound();
+        // Notify the first player it's his turn.
     }
 
     public void rollDicesFromDiceBag(){

@@ -16,7 +16,6 @@ public class Lobby {
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
-
     private ArrayList<Player> players; // Main players array among the game
     private Game currentGame; // The istance of the Game.
     public Lobby(){
@@ -74,14 +73,15 @@ public class Lobby {
                         }
                         sendPlayersListToAll();
 
+
                         //Start game if there's four players
-                        if(players.size() == MAX_PLAYERS) {
-                            currentGame.startGame(players);
-                            for(Player player : players) {
-                                player.getClientInterface().gameStarted();
-                                System.out.println("The game starts!");
-                            }
-                        }
+                  //      if(players.size() == MAX_PLAYERS) {
+                    //        currentGame.startGame(players);
+                      //      for(Player player : players) {
+                        //        player.getClientInterface().gameStarted();
+                          //      System.out.println("The game starts!");
+                     //       }
+                   //     }
                     } else { //...Or if there is already a user with this nickname in the lobby...
                         System.out.println(username + " tried to login but there already is another user with the same nickname.");
 
@@ -191,7 +191,7 @@ public class Lobby {
     }
 
     // Method to call to start the game
-    private void startGame(){
+    public void startGame(){
         currentGame.startGame(players);
     }
 
