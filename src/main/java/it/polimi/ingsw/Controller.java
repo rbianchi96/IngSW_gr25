@@ -14,7 +14,7 @@ public class Controller {
     private boolean timerStarted = false;
     private Timer lobbyTimer;
     private int waitSeconds;
-    private int waitSecondsServer = 20;
+    private int waitSecondsServer = 25;
     public Controller(Lobby lobby){
         this.lobby = lobby;
         waitSeconds = 0;
@@ -91,7 +91,6 @@ public class Controller {
     private boolean isConnected(ClientInterface clientInterface){
         return lobby.isAlreadyLogged(clientInterface);
     }
-<<<<<<< HEAD
 
     public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
         lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface), i);
@@ -107,7 +106,7 @@ public class Controller {
 
         return null;
     }
-=======
+
 ////////////////////////////////////////////////////////////
 
 
@@ -122,5 +121,4 @@ public class Controller {
         }
     }
 
->>>>>>> 594489f9f81b35fb544598b455534e780d000b45
 }

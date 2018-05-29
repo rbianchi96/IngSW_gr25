@@ -218,4 +218,12 @@ public class Lobby {
             player.getClientInterface().sendPlayersList(playersList);
         }
     }
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder("Lobby | Status: " + (currentGame.isInGame()?"In game":"Waiting for players") + " | Numbers of players: " + players.size());
+        for(int i= 0; i<players.size();i++){
+            sb.append("Player #"+ (i+1) +": " + players.get(i).getPlayerName() + " | Status: " + (players.get(i).getIsOnline()?"Online":"Offline"));
+        }
+        return sb.toString();
+    }
 }

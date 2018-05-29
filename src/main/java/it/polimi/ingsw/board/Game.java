@@ -116,7 +116,7 @@ public class Game {
         // Notify the first player it's his turn.
     }
 
-    public void rollDicesFromDiceBag(){
+    public void rollDicesFromDiceBag(Player player){
         for(int i=0; i<2*players.size()+1;i++){
             gameBoard.getDraft().addDice(gameBoard.getDiceBag().getRandomDice());
         }

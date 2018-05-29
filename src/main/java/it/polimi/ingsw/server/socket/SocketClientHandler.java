@@ -117,18 +117,13 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					controller.reconnect(this, request[0], request[1]);
 					break;
 				}
-<<<<<<< HEAD
 				case "ping":{
 					out.println("pong");
 					out.flush();
 				}
 				case "selectWindowPattern":
 					controller.selectWindowPattern(this, Integer.parseInt(request[1]));
-
 					break;
-=======
-				case "ping":
->>>>>>> 594489f9f81b35fb544598b455534e780d000b45
 				default: { // Invalid command
 					out.println(encode("invalid_command"));
 					out.flush();

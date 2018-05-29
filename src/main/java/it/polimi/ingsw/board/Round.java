@@ -35,6 +35,7 @@ public class Round {
         }else
             return false;
     }
+
     // This routine intialize the new playersIndexes arraylist for a new round
     public boolean nextRound() {
         if (currentRound < MAXROUNDS) { // If there are still rounds to be played...
