@@ -60,11 +60,11 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		return diceToReturn;
 	}
 
-	public boolean placeDice(Dice dice, int row, int col) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
-		return placeDice(dice, row, col, null);
+	public void placeDice(Dice dice, int row, int col) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
+		placeDice(dice, row, col, null);
 	}
 
-	public boolean placeDice(Dice dice, int row, int col, ArrayList<Restriction> ignoredRestrictions) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
+	public void placeDice(Dice dice, int row, int col, ArrayList<Restriction> ignoredRestrictions) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
 		if(dice == null) throw new NullPointerException();
 		checkIndexes(row, col);    //Throws an exception
 
@@ -173,9 +173,10 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 				throw new PlacementRestrictionException(Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
 		}
 
-		boolean res = currCell.putDice(dice);    //Place dice
-		if(res) placedDices++;
-		return res;
+		if(!currCell.putDice(dice))
+			throw new PlacementRestrictionException(null);    //Place dice
+
+		placedDices++;
 	}
 
 	@Override

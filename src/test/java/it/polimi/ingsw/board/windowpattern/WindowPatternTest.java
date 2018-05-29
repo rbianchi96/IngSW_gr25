@@ -64,7 +64,7 @@ public class WindowPatternTest {
 									|| (currCell.getRestriction() instanceof Color && currCell.getRestriction() == currDice.getColor());
 
 					if(expectedReturnValue)    //Expected success
-						assertTrue(windowPattern.placeDice(currDice, row, col, ignoredRestrictions));    //Verify correct dice placement
+						windowPattern.placeDice(currDice, row, col, ignoredRestrictions);    //Verify correct dice placement
 					else {    //Expect an exception
 						int finalRow = row;
 						int finalCol = col;
@@ -211,7 +211,7 @@ public class WindowPatternTest {
 					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(firstDice, 2, 3)).getRestrictionType(),
 					Restriction.FIRST_DICE_RESTRICTION);    //First dice
 
-			assertTrue(windowPattern.placeDice(firstDice, 0, 0));    //Correct placement (top left)
+			windowPattern.placeDice(firstDice, 0, 0);    //Correct placement (top left)
 
 			assertEquals(
 					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(new Dice(3, Color.YELLOW), 1, 0)).getRestrictionType(),

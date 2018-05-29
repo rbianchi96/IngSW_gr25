@@ -161,7 +161,7 @@ public class Game {
     }
 
     public void placeDiceFromDraft(Player player, Dice dice, int row, int col) {
-        System.out.println(player.getPlayerName() + ", " + players.get(rounds.getCurrentPlayer()).getPlayerName());
+        //System.out.println(player.getPlayerName() + ", " + players.get(rounds.getCurrentPlayer()).getPlayerName());
         if (players.get(rounds.getCurrentPlayer()) == player && !player.getPhase1()) {
             Dice diceFromDraft = gameBoard.getDraft().getDice(dice);
             if (diceFromDraft != null) {
