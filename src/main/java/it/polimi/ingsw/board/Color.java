@@ -1,7 +1,7 @@
 package it.polimi.ingsw.board;
 
 public enum Color {
-    BLUE("b", "#0000ff"), GREEN("g", "#00ff00"), PURPLE("p", "#ff00ff"), RED("r", "#ff0000"), YELLOW("y", "#ffff00");
+    BLUE("b", "#3e5bef"), GREEN("g", "#5bbf5b"), PURPLE("p", "#d660d6"), RED("r", "#c64747"), YELLOW("y", "#d1d14d");
 
     String abbr, hexColor;
 

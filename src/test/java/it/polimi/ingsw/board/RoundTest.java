@@ -11,36 +11,44 @@ public class RoundTest {
         // Round order: 0 1 2 2 1 0 -> 1 2 0 0 2 1 -> 2 0 1 1 0 2
         assertTrue(round.nextRound());
         assertEquals(0,round.getFirstPlayer());
+
         assertEquals(0,round.getCurrentPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
+
         assertTrue(round.nextRound());
         assertEquals(1,round.getFirstPlayer());
+
         assertEquals(1,round.getCurrentPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
+
         assertTrue(round.nextRound());
         assertEquals(2,round.getFirstPlayer());
+
         assertEquals(2,round.getCurrentPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
+
         assertTrue(round.nextRound());
         assertEquals(0,round.getFirstPlayer());
+
         assertEquals(0,round.getCurrentPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
+
         assertTrue(round.nextRound());
         assertTrue(round.nextRound());
         assertTrue(round.nextRound());
@@ -56,34 +64,38 @@ public class RoundTest {
         Round round = new Round(playersNumber);
         // Testing that all the values are the expected ones
         round.nextRound();
+        assertEquals(round.getCurrentPlayer(), 0);
         assertEquals(1,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(-1,round.nextPlayer());
-        round.nextRound();
+
+        assertEquals(round.getCurrentPlayer(), 1);
         assertEquals(2,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(-1,round.nextPlayer());
-        round.nextRound();
+
+        assertEquals(round.getCurrentPlayer(), 2);
         assertEquals(0,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(-1,round.nextPlayer());
-        round.nextRound();
+
+        assertEquals(round.getCurrentPlayer(), 0);
         assertEquals(1,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(1,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
         assertEquals(-1,round.nextPlayer());
-        round.nextRound();
+
     }
 
     @Test

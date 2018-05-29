@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WindowPatternTest {
 	@Test
-	public void placeAndRemoveTest() {	//Only regarding of cell restriction
+	public void placeAndRemoveTest() {    //Only regarding of cell restriction
 		Random random = new Random();
 
 		Color[] colors = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.RED, Color.YELLOW};
@@ -60,7 +60,7 @@ public class WindowPatternTest {
 
 					boolean expectedReturnValue =    //Expected return value of dice placement
 							currCell.getRestriction() == null
-									|| (currCell.getRestriction() instanceof Integer && currCell.getRestriction() == (Integer) currDice.getValue())
+									|| (currCell.getRestriction() instanceof Integer && currCell.getRestriction() == (Integer)currDice.getValue())
 									|| (currCell.getRestriction() instanceof Color && currCell.getRestriction() == currDice.getColor());
 
 					if(expectedReturnValue)    //Expected success
@@ -81,7 +81,7 @@ public class WindowPatternTest {
 
 					boolean expectedCellOccupation =    //Expected cell occupation
 							currCell.getRestriction() == null
-									|| (currCell.getRestriction() instanceof Integer && currCell.getRestriction() == (Integer) currDice.getValue())
+									|| (currCell.getRestriction() instanceof Integer && currCell.getRestriction() == (Integer)currDice.getValue())
 									|| (currCell.getRestriction() instanceof Color && currCell.getRestriction() == currDice.getColor());
 
 					if(expectedCellOccupation) {    //Expected cell with dice
@@ -105,7 +105,33 @@ public class WindowPatternTest {
 				}
 			}
 
-		} catch(Exception e) {fail("Unexpected exception: " + e.toString());}
+		} catch(Exception e) {
+			fail("Unexpected exception: " + e.toString());
+		}
+	}
+
+	@Test
+	public void firstDiceRestrictionTest() {
+		WindowPattern windowPattern;
+
+		Cell[][] cells = new Cell[WindowPattern.WINDOW_PATTERN_ROWS_NUMBER][WindowPattern.WINDOW_PATTERN_COLS_NUMBER];
+
+		//Initialize cells
+		for(int row = 0; row < 4; row++) {    //For all rows
+			for(int col = 0; col < 5; col++) {    //For all cols
+				cells[row][col] = new Cell();    //Cell w/o restriction
+			}
+		}
+
+		try {
+			windowPattern = new WindowPattern("wp", 0, cells);
+
+			windowPattern.placeDice(new Dice(1, Color.BLUE), 0, 2);
+		} catch(Exception e) {
+			fail(e);
+		}
+
+
 	}
 
 	@Test
@@ -129,23 +155,25 @@ public class WindowPatternTest {
 			WindowPattern windowPattern = new WindowPattern("aWP", 0, cells);
 
 			//getRestriction
-			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getRestriction(-10, 4));    //Invalid row (below bottom bound)
+			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getRestriction(- 10, 4));    //Invalid row (below bottom bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getRestriction(10, 4));    //Invalid row (over top bound)
-			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getRestriction(2, -10));    //Invalid col (below bottom bound)
+			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getRestriction(2, - 10));    //Invalid col (below bottom bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getRestriction(2, 10));    //Invalid col (over top bound)
 
 			//getDice
-			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getDice(-10, 4));    //Invalid row (below bottom bound)
+			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getDice(- 10, 4));    //Invalid row (below bottom bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getDice(10, 4));    //Invalid row (over top bound)
-			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getDice(2, -10));    //Invalid col (below bottom bound)
+			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getDice(2, - 10));    //Invalid col (below bottom bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getDice(2, 10));    //Invalid col (over top bound)
 
 			//placeDice
-			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, -10, 4));    //Invalid row (below bottom bound)
+			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, - 10, 4));    //Invalid row (below bottom bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, 10, 4));    //Invalid row (over top bound)
-			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, 2, -10));    //Invalid col (below bottom bound)
+			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, 2, - 10));    //Invalid col (below bottom bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, 2, 10));    //Invalid col (over top bound)
-		} catch(Exception e) { fail("Unexpected exception: " + e.toString()); }
+		} catch(Exception e) {
+			fail("Unexpected exception: " + e.toString());
+		}
 	}
 
 	@Test
@@ -158,7 +186,9 @@ public class WindowPatternTest {
 
 			assertThrows(NullPointerException.class, () -> windowPattern.placeDice(dice, 1, 1));
 
-		} catch(Exception e) {fail("Unexpected exception: " + e.toString());}
+		} catch(Exception e) {
+			fail("Unexpected exception: " + e.toString());
+		}
 	}
 
 	@Test
@@ -178,7 +208,7 @@ public class WindowPatternTest {
 			WindowPattern windowPattern = new WindowPattern("aWP", 0, cells);
 
 			assertEquals(
-					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(firstDice, 2, 4)).getRestrictionType(),
+					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(firstDice, 2, 3)).getRestrictionType(),
 					Restriction.FIRST_DICE_RESTRICTION);    //First dice
 
 			assertTrue(windowPattern.placeDice(firstDice, 0, 0));    //Correct placement (top left)
@@ -191,7 +221,9 @@ public class WindowPatternTest {
 					Restriction.NEAR_DICE_COLOR_RESTRICTION);    //Same color of first dice
 			assertEquals(
 					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(new Dice(3, Color.YELLOW), 2, 3)).getRestrictionType(),
-					Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION);	//Not near first dice
-		} catch(Exception e) {fail("Unexpected exception: " + e.toString());}
+					Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION);    //Not near first dice
+		} catch(Exception e) {
+			fail("Unexpected exception: " + e.toString());
+		}
 	}
 }

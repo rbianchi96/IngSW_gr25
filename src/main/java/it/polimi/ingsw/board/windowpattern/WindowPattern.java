@@ -36,7 +36,7 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		return difficulty;
 	}
 
-	public Cell getCell(int i, int j){
+	public Cell getCell(int i, int j) {
 		return this.cells[i][j];
 	}
 
@@ -70,16 +70,21 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 
 		//First dice restriction
 		if(
-				(ignoredRestrictions == null || ignoredRestrictions.indexOf(Restriction.FIRST_DICE_RESTRICTION) < 0)    //Don't ignore first dice restriction
-						&& placedDices == 0 && (! (row == 0 || row == WindowPattern.WINDOW_PATTERN_ROWS_NUMBER - 1) || ! (col == 0 || col == WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)))    //First dice wrong placement
-			throw new PlacementRestrictionException(Restriction.FIRST_DICE_RESTRICTION);
+				placedDices == 0
+						&& (ignoredRestrictions == null || ignoredRestrictions.indexOf(Restriction.FIRST_DICE_RESTRICTION) < 0)    //Don't ignore first dice restriction
+						&& !(
+						(row == 0 || row == WindowPattern.WINDOW_PATTERN_ROWS_NUMBER - 1 || col == 0 || col == WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)
+				)
+				)
+			throw new PlacementRestrictionException(Restriction.FIRST_DICE_RESTRICTION);    //First dice wrong placement
+
 
 		Cell currCell = cells[row][col];
 		//Cell's restrictions check
 		if(currCell.getRestriction() != null) {    //Has restiction
 			if(    //IF...
 					(ignoredRestrictions == null || ignoredRestrictions.indexOf(Restriction.CELL_VALUE_RESTRICTION) < 0)    //...don't ignore cell value restriction...
-							&& currCell.getRestriction() instanceof Integer && currCell.getRestriction() != (Integer) dice.getValue())    //...ADN value restr. not respected
+							&& currCell.getRestriction() instanceof Integer && currCell.getRestriction() != (Integer)dice.getValue())    //...ADN value restr. not respected
 
 				throw new PlacementRestrictionException(Restriction.CELL_VALUE_RESTRICTION, currCell.getRestriction(), dice.getValue());    //Exception
 

@@ -33,7 +33,7 @@ public class DiceBag {
     // method that takes one casual dice from the bag
     public Dice getRandomDice() {
         if (dices.size() > MINSIZE) {
-            Dice dice = dices.get(0);
+            Dice dice = dices.get(new Random().nextInt(dices.size()));
             dices.remove(0);
 
             dice.rollDice();
@@ -49,7 +49,7 @@ public class DiceBag {
             int j = 0;
 
             for (Dice dice : dices) {
-                if (d.getColor().toString() == dice.getColor().toString()) {
+                if (d.getColor() == dice.getColor()) {
                     j++;
                 }
             }

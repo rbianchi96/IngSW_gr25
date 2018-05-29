@@ -125,21 +125,24 @@ public class Game {
         // Notify Client
     }
 
-    private void startRound() { //TODO to be renamed
-        rollDicesFromDiceBag();
-
+    private void startGameAfterPreparation() {
         for(Player player : players) {
             player.getClientInterface().startGame();
         }
 
-        updateAllWindowPatterns();
+        startRound();
+    }
+
+    private void startRound() {
+        rollDicesFromDiceBag();
         sendDraft();
+
+        updateAllWindowPatterns();
     }
 
     private void sendDraft() {
         for(Player player : players) {
             player.getClientInterface().updateDraft(gameBoard.getDraft().getDices().toArray(new Dice[0]));
-            System.out.println(gameBoard.getDraft());
         }
     }
 
@@ -153,12 +156,13 @@ public class Game {
         }
 
         if(readyPlayers == players.size()) {
-            startRound();
+            startGameAfterPreparation();
         }
     }
 
     public void placeDiceFromDraft(Player player, Dice dice, int row, int col) {
-        if (players.get(rounds.getPlayersIndexes().get(rounds.getCurrentPlayer())) == player && player.getPhase1() == false) {
+        System.out.println(player.getPlayerName() + ", " + players.get(rounds.getCurrentPlayer()).getPlayerName());
+        if (players.get(rounds.getCurrentPlayer()) == player && !player.getPhase1()) {
             Dice diceFromDraft = gameBoard.getDraft().getDice(dice);
             if (diceFromDraft != null) {
                 try {
@@ -182,8 +186,11 @@ public class Game {
 
         if (player.getPhase1()==true){
             player.setPhase1(false);
-            rounds.nextPlayer();
+            if(rounds.nextPlayer() == - 1) {
+                startRound();
+            }
         }
+        System.out.println("Il prossimo è " + rounds.getCurrentPlayer());
     }
 
     public boolean isInGame() {

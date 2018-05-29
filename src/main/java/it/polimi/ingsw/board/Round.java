@@ -44,11 +44,14 @@ public class Round {
             firstPlayer = (firstPlayer + 1) % playersNumber;
             currentPlayer=0;
             playersIndexes.clear(); // ...create the new order
+
             for (int i = 0; i < playersNumber; i++)
                 playersIndexes.add((firstPlayer + i) % playersNumber);
             for (int i = 0; i < playersNumber; i++)
                 playersIndexes.add(playersIndexes.get(playersNumber - i - 1));
+
             currentRound++;
+
             return true; // And return that the new round has been correctly created
         } else
         {

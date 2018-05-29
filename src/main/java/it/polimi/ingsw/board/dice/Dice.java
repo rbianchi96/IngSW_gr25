@@ -73,7 +73,6 @@ public class Dice implements Serializable {
         Random ran = new Random();
         int i = 1 + (ran.nextInt(5));
         setValue(i);
-        setColor(Color.toArray()[ran.nextInt(Color.COLOR_NUMBERS)]);
     }
 
     @Override
