@@ -158,23 +158,31 @@ public class Game {
     }
 
     public void placeDiceFromDraft(Player player, Dice dice, int row, int col) {
-        Dice diceFromDraft = gameBoard.getDraft().getDice(dice);
-        if(diceFromDraft != null) {
-            try {
-                player.getWindowPattern().placeDice(diceFromDraft, row, col);   //Place the dice
+        if (players.get(rounds.getPlayersIndexes().get(rounds.getCurrentPlayer())) == player && player.getPhase1() == false) {
+            Dice diceFromDraft = gameBoard.getDraft().getDice(dice);
+            if (diceFromDraft != null) {
+                try {
+                    player.getWindowPattern().placeDice(diceFromDraft, row, col);   //Place the dice
 
-                updateAllWindowPatterns();
-                sendDraft();
-            } catch(WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException e) {
-                gameBoard.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
+                    updateAllWindowPatterns();
+                    sendDraft();
+                    player.setPhase1(true);
+                } catch (WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException e) {
+                    gameBoard.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
 
-                if(e instanceof WindowPattern.WindowPatternOutOfBoundException) {
-                    //TODO
-                    ((WindowPattern.WindowPatternOutOfBoundException)e).printStackTrace();
+                    if (e instanceof WindowPattern.WindowPatternOutOfBoundException) {
+                        //TODO
+                        ((WindowPattern.WindowPatternOutOfBoundException) e).printStackTrace();
+                    } else    //Restriction broken
+                        player.getClientInterface().dicePlacementRestictionBroken();
                 }
-                else    //Restriction broken
-                   player.getClientInterface().dicePlacementRestictionBroken();
             }
+        }else
+            System.out.println(player.getPlayerName() +" is not your turn or you already played this move!");
+
+        if (player.getPhase1()==true){
+            player.setPhase1(false);
+            rounds.nextPlayer();
         }
     }
 

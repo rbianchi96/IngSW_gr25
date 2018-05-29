@@ -21,8 +21,10 @@ public class Round {
             currentPlayer++; // ...Then the currentPlayer is the next one
             return playersIndexes.get(currentPlayer); // And the function returns the index of the currentPlayer
             // in the Players ArrayList
-        }else
+        }else {
+            nextRound();
             return -1; // The current round is finished
+        }
     }
 
     // This function allow the current player to immediatly use his second turn in the round (if he use the right tool card)
@@ -59,6 +61,9 @@ public class Round {
     }
     public int getFirstPlayer() {
         return firstPlayer;
+    }
+    public ArrayList<Integer> getPlayersIndexes() {
+        return playersIndexes;
     }
     @Override
     public String toString(){

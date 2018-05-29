@@ -14,6 +14,10 @@ public class Player {
     private String sessionID;
     private boolean isOnline; // = true if player is still connected and playing
 
+
+
+    private boolean phase1,phase2= false;
+
     public Player(ClientInterface clientInterface, String username, String sessionID){
         this.clientInterface = clientInterface;
         this.playerName = username;
@@ -77,6 +81,21 @@ public class Player {
     }
     public void setSessionID(String sessionID) {
         this.sessionID = sessionID;
+    }
+    public boolean getPhase1() {
+        return phase1;
+    }
+
+    public void setPhase1(boolean phase1) {
+        this.phase1 = phase1;
+    }
+
+    public boolean getPhase2() {
+        return phase2;
+    }
+
+    public void setPhase2(boolean phase2) {
+        this.phase2 = phase2;
     }
 
 }
