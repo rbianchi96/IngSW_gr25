@@ -123,7 +123,6 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 				}
 				case "selectWindowPattern":
 					controller.selectWindowPattern(this, Integer.parseInt(request[1]));
-
 					break;
 				case "placeDice":
 					Dice dice = new Dice(Integer.valueOf(request[1]), Color.findColor(request[2]));

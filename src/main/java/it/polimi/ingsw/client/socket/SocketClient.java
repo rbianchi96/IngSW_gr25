@@ -29,7 +29,6 @@ public class SocketClient extends Socket implements ServerInterface {
 		this.socket = new Socket(ip, port);
 		socketReceiverCreation();
 	}
-
 	private void socketReceiverCreation() {
 		try {
 			socket.setSoTimeout(10000);
@@ -37,31 +36,12 @@ public class SocketClient extends Socket implements ServerInterface {
 			out = new PrintWriter(socket.getOutputStream());
 			in = new Scanner(socket.getInputStream());
 			SocketClientReceiver receiver = new SocketClientReceiver(this, in);    //Create the receiver
-			if (reconnectTimerRunning) {
-				reconnectTimer.cancel();
-				//Notify the client is back online and will try to restore the connection with the server
-				System.out.println("You are back online, trying to restore the connection with Socket Server...");
-				restoreSession();
-			}
 			Thread t = new Thread(receiver);
 			t.start();    //Start the receiver
-			//pingTimerStart();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	protected void reconnectionTask(){
-		// NOTIFY Trying to reconnect...
-		pingTimer.cancel();
-		try {
-			socket.setSoTimeout(3000);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-		reconnectTimerStart();
-	}
-
 	void decode(String message) {
 		String[] msgVector = message.split("#");    //Split message
 		switch(msgVector[0]) {
@@ -146,67 +126,6 @@ public class SocketClient extends Socket implements ServerInterface {
 	@Override
 	public void placeDice(Dice dice, int row, int col) {
 		out.println("placeDice#" + dice.getValue() + "#" + dice.getColor().toString() + "#" + row + "#" + col);
-		out.flush();
-	}
-
-	private boolean ping(){
-		try{
-			socket.setSoTimeout(8000);
-			out.println("ping");
-			out.flush();
-			System.out.println("Ping");
-			String s = in.nextLine();
-		System.out.println(	s);
-			return true;
-		}catch (SocketException ex){
-			return false;
-		}
-	}
-
-	private void pingTimerStart(){
-		pingTimer = new Timer();
-		pingTimer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				try{
-
-					if( ping())
-						System.out.println("Pinging");
-					else
-						System.out.println("Failed");
-				}catch(Exception ex){
-					System.out.println("Failed");
-					//pingTimer.cancel();
-				}
-			}
-		}, 500, 8000);
-	}
-	// Timer to attempt the creation of new socket connection set with a delay of 500 milliseconds, repeat every 2 and half minutes
-	private void reconnectTimerStart(){
-		reconnectTimer = new Timer();
-		reconnectTimer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				reconnect();
-			}
-		}, 500, 5000);
-	}
-	private boolean reconnect(){
-
-		try{
-			restoreSession();
-			System.out.println(in.nextLine());
-			return true;
-		} catch (Exception ex){
-			System.out.println("fail");
-			reconnectTimer.cancel();
-			return false;
-		}
-
-
-	}
-	private void restoreSession(){
-		out.println("reconnect#" + sessionID + "#" + sessionNickname);
 		out.flush();
 	}
 

@@ -102,6 +102,8 @@ public class Controller {
 		lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface), i);
 	}
 
+
+	///// GAME \\\\\\
 	private Player findPlayer(ClientInterface clientInterface) {
 		ArrayList<Player> players = lobby.getPlayers();
 
@@ -113,7 +115,6 @@ public class Controller {
 		return null;
 	}
 
-	///// GAME \\\\\\
 	public synchronized void placeDiceFromDraft(ClientInterface clientInterface, Dice dice, int row, int col) {
 		if(isConnected(clientInterface)) {
 			lobby.getCurrentGame().placeDiceFromDraft(findPlayer(clientInterface), dice, row, col);
