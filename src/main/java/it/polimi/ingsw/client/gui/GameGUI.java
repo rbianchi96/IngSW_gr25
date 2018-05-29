@@ -40,10 +40,10 @@ public class GameGUI extends GUIController {
 			public void run() {
 				for(int i = 0; i < windowPatterns.length; i++)
 					if(i == myIndex)
-						Drawers.drawWindowPattern(patterns[i], windowPatterns[0], true, onCellSelected);
+						Drawers.drawWindowPattern(patterns[0], windowPatterns[i], true, onCellSelected);
 					else {
 						if(i < myIndex)
-							Drawers.drawWindowPattern(patterns[i], windowPatterns[i + 1], true);
+							Drawers.drawWindowPattern(patterns[i + 1], windowPatterns[i], true);
 						else
 							Drawers.drawWindowPattern(patterns[i], windowPatterns[i], true);
 					}
