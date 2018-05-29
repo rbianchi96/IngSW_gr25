@@ -8,8 +8,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient extends UnicastRemoteObject implements RMIClientInterface {
-    ClientInterface client;
-    String sessionID;
+    private ClientInterface client;
+    private String sessionID;
+
     public RMIClient(ClientInterface client) throws RemoteException{
         this.client = client;
     }
@@ -17,7 +18,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     @Override
     public void loginResponse(String result, String extraInfo) throws RemoteException {
         client.loginResponse(result, extraInfo);
-        if (result=="success"){
+        if (result.equals("success")){
             sessionID= extraInfo;
         }
     }
@@ -48,13 +49,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void gameStarted() throws RemoteException {
-        client.gameStarted();
+    public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) throws RemoteException {
+        client.sendWindowPatternsToChoose(windowPatterns);
     }
 
     @Override
-    public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) throws RemoteException {
-        client.sendWindowPatternsToChoose(windowPatterns);
+    public void startGame() throws RemoteException {
+        client.startGame();
     }
 
     @Override
@@ -65,11 +66,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     @Override
     public void updateDraft(Dice[] dices) throws RemoteException {
 
-    }
-
-    @Override
-    public void startRound() throws RemoteException {
-        client.startRound();
     }
 
     protected String getSessionID() {

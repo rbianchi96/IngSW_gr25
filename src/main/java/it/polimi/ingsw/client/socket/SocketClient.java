@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.util.*;
 
 public class SocketClient extends Socket implements ServerInterface {
@@ -48,7 +47,7 @@ public class SocketClient extends Socket implements ServerInterface {
 		switch(msgVector[0]) {
 			case "login_response":
 				client.loginResponse(msgVector[1], msgVector[2]);
-				if(msgVector[1] == "success") {
+				if(msgVector[1].equals("success")) {
 					sessionID = msgVector[2];
 				}
 				break;
@@ -70,8 +69,8 @@ public class SocketClient extends Socket implements ServerInterface {
 			case "windowPatternsToChose":
 				client.sendWindowPatternsToChoose(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
 				break;
-			case "startRound":
-				client.startRound();
+			case "startGame":
+				client.startGame();
 				break;
 
 			default:

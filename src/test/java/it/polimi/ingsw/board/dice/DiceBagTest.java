@@ -1,9 +1,6 @@
 package it.polimi.ingsw.board.dice;
 
 import it.polimi.ingsw.board.Color;
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.dice.DiceBag;
-import it.polimi.ingsw.board.dice.DiceBagException;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +11,7 @@ public class DiceBagTest {
     public void getRandomDice() {
         //creation of a DiceBag
         DiceBag db = new DiceBag();
-        db.initDiceBag();
+        db.initialize();
         //verify if it contains 90 dices
         assertEquals(90, db.getSize());
         //verify if it removes dices
@@ -25,7 +22,7 @@ public class DiceBagTest {
         assertEquals(temporary_size-2, db.getSize());
         //verify if all the dices are removed by creating a new bag
         DiceBag db2 = new DiceBag();
-        db.initDiceBag();
+        db.initialize();
         for(int i=0; i < 90; i++){
            db2.getRandomDice();
         }
@@ -40,7 +37,7 @@ public class DiceBagTest {
     public void addDice() throws DiceBagException {
         // checking that the dice that i removed is added again
         DiceBag db = new DiceBag();
-        db.initDiceBag();
+        db.initialize();
         int temporary_size = db.getSize();
         Dice d=db.getRandomDice();
         assertEquals((temporary_size-1), db.getSize());
@@ -54,7 +51,7 @@ public class DiceBagTest {
         assertEquals(90, db.getSize());
         //more than 18 dices of the same color can't be added
         DiceBag db2 = new DiceBag();
-        db2.initDiceBag();
+        db2.initialize();
         for(int i=0; i<90; i++){
             db2.getRandomDice();
         }
@@ -74,7 +71,7 @@ public class DiceBagTest {
     @Test
     public void getCloneTest(){
         DiceBag db = new DiceBag();
-        db.initDiceBag();
+        db.initialize();
         DiceBag db2 = db.getClone();
         //verify that they are equals
         assertEquals(db.toString(), db2.toString());
@@ -91,7 +88,7 @@ public class DiceBagTest {
     @Test
     public void initDiceBag(){
         DiceBag db = new DiceBag();
-        db.initDiceBag();
+        db.initialize();
         assertEquals(90,db.getSize());
     }
 

@@ -158,8 +158,8 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void startRound() {
-		out.println("startRound");
+	public void startGame() {
+		out.println("startGame");
 		out.flush();
 	}
 
@@ -201,12 +201,6 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 			out.print("#" + player);
 		}
 		out.println();
-		out.flush();
-	}
-
-	@Override
-	public void gameStarted() {
-		out.println("game_started");
 		out.flush();
 	}
 

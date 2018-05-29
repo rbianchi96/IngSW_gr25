@@ -48,9 +48,9 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
-	public void startRound() {
+	public void startGame() {
 		try {
-			rmiClientInterface.startRound();
+			rmiClientInterface.startGame();
 		} catch(RemoteException e) {
 			e.printStackTrace();
 			controller.lostConnection(this);
@@ -122,15 +122,6 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
-	@Override
-	public void gameStarted() {
-		try {
-			rmiClientInterface.gameStarted();
-		} catch(Exception e) {
-			e.printStackTrace();
-			controller.lostConnection(this);
-		}
-	}
 
 	@Override
 	public void notifyReconnectionStatus(boolean status, String message) {

@@ -107,9 +107,6 @@ public class Controller {
         return null;
     }
 
-////////////////////////////////////////////////////////////
-
-
 ///// GAME \\\\\\
 
     public synchronized void placeDice(ClientInterface clientInterface, Dice dice, int row, int col){
@@ -120,5 +117,4 @@ public class Controller {
 
         }
     }
-
 }
