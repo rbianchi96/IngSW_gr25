@@ -5,6 +5,8 @@ public enum Color {
 
     String abbr, hexColor;
 
+    public static final int COLOR_NUMBERS = 5;
+
     Color(String abbreviation, String hexColor) {
         abbr = abbreviation; this.hexColor = hexColor;
     }
@@ -24,5 +26,9 @@ public enum Color {
     @Override
     public String toString() {
         return abbr;
+    }
+
+    public static Color[] toArray() {
+        return new Color[] {BLUE, GREEN, PURPLE, RED, YELLOW};
     }
 }

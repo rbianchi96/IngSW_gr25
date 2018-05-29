@@ -200,7 +200,7 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		}
 	}
 
-	class PlacementRestrictionException extends Exception {
+	public class PlacementRestrictionException extends Exception {
 		final Restriction restrictionType;
 
 		PlacementRestrictionException(Restriction restrictionType) {

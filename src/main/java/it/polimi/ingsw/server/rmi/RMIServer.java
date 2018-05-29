@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.rmi;
 import it.polimi.ingsw.Controller;
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
 import it.polimi.ingsw.server.ServerInterface;
@@ -39,6 +40,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     @Override
     public void selectWindowPattern(int i) throws RemoteException {
         controller.selectWindowPattern(rmiServerToClient, i);
+    }
+
+    @Override
+    public void placeDice(Dice dice, int row, int col) throws RemoteException {
+        controller.placeDice(rmiServerToClient, dice, row, col);
     }
 
 }

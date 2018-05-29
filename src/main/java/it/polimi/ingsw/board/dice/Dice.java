@@ -1,10 +1,12 @@
 package it.polimi.ingsw.board.dice;
 
 import it.polimi.ingsw.board.Color;
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Dice {
+public class Dice implements Serializable {
     private int value;
     private Color color;
     public Dice(int value, Color color){
@@ -67,10 +69,11 @@ public class Dice {
         return new Dice(this.value,this.color);
     }
 
-    public void rollDice(){
+    public void rollDice() {
         Random ran = new Random();
-        int i= 1+(ran.nextInt(5));
+        int i = 1 + (ran.nextInt(5));
         setValue(i);
+        setColor(Color.toArray()[ran.nextInt(Color.COLOR_NUMBERS)]);
     }
 
     @Override

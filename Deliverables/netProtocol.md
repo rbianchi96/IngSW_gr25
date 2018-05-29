@@ -8,7 +8,7 @@ Spaces is replaced with hash (`#`).
 
 ### From server to client
 
-- `login_response (success sessionID)|(fail code)` Server response to client login request. If successful a session id is sent to the user, otherwise one of the following codes are sent:
+- `login_response (success username sessionID)|(fail code)` Server response to client login request. If successful a session id is sent to the user, otherwise one of the following codes are sent:
   - `0` There's already a logged user with the same username
   - `1` The lobby is full
 - `waitingForPlayers num` Inform client that the server is waiting to start game.

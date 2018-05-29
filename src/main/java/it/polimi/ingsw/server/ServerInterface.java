@@ -10,5 +10,5 @@ public interface ServerInterface {
     public void selectWindowPattern(int i);
 
     public void selectDiceFromDraft(int index);
-    public void placeDice(int row, int col, Dice dice);
+    public void placeDice(Dice dice, int row, int col);
 }

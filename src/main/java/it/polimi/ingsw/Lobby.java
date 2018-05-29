@@ -65,7 +65,7 @@ public class Lobby {
                         System.out.println(username + " successfully logged in! | SessionID: " + sessionID);
 
                         // Notify successfully login to the client
-                        clientInterface.loginResponse("success", sessionID);
+                        clientInterface.loginResponse("success", username, sessionID);
 
                         // Notify the new user to all other players
                         for(int i=0;i<players.size() && !players.get(i).getPlayerName().equals(username);i++){
@@ -177,7 +177,7 @@ public class Lobby {
                 clientInterface.loginResponse("success", sessionID);
                 break;
             }else
-                clientInterface.loginResponse("fail",null);
+                clientInterface.loginResponse("fail");
 
         }
     }

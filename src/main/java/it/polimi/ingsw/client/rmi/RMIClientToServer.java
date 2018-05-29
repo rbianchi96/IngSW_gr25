@@ -136,7 +136,11 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	@Override
-	public void placeDice(int row, int col, Dice dice) {
-
+	public void placeDice(Dice dice, int row, int col) {
+		try {
+			server.placeDice(dice, row, col);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 }

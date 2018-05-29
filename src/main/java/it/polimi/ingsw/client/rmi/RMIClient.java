@@ -16,10 +16,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void loginResponse(String result, String extraInfo) throws RemoteException {
-        client.loginResponse(result, extraInfo);
-        if (result.equals("success")){
-            sessionID= extraInfo;
+    public void loginResponse(String... result) throws RemoteException {
+        client.loginResponse(result);
+        if (result[0].equals("success")){
+            sessionID=result[2];
         }
     }
 
@@ -65,7 +65,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void updateDraft(Dice[] dices) throws RemoteException {
+        client.updateDraft(dices);
+    }
 
+    @Override
+    public void dicePlacementRestictionBroken() throws RemoteException {
+        client.dicePlacementRestictionBroken();
     }
 
     protected String getSessionID() {

@@ -29,7 +29,7 @@ public class RMIServerToClient implements ClientInterface {
 			public void run() {
 				ping();
 			}
-		}, 500, 2500);
+		}, 500, 5000);
 	}
 
 	@Override
@@ -69,13 +69,28 @@ public class RMIServerToClient implements ClientInterface {
 
 	@Override
 	public void updateDraft(Dice[] dices) {
-
+		try {
+			rmiClientInterface.updateDraft(dices);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
 	}
 
 	@Override
-	public void loginResponse(String result, String extraInfo) {
+	public void dicePlacementRestictionBroken() {
 		try {
-			rmiClientInterface.loginResponse(result, extraInfo);
+			rmiClientInterface.dicePlacementRestictionBroken();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
+	public void loginResponse(String... result) {
+		try {
+			rmiClientInterface.loginResponse(result);
 		} catch(RemoteException e) {
 			e.printStackTrace();
 			controller.lostConnection(this);

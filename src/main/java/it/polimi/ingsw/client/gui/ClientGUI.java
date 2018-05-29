@@ -27,6 +27,10 @@ public class ClientGUI extends Application implements ClientInterface {
 	private SelectWPGUI selectWPGUI;
 	private GameGUI gameGUI;
 
+
+	private String myUsername;
+	private String[] lastPlayersList = null;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		client = new Client(this);    //Out interface
@@ -93,6 +97,8 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void startGame() {
+		gameGUI.sendPlayersList(myUsername, lastPlayersList);
+
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -113,11 +119,19 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void loginResponse(String result, String extraInfo) {
+	public void dicePlacementRestictionBroken() {
+		gameGUI.dicePlacementRestictionBroken();
+	}
+
+	@Override
+	public void loginResponse(String... result) {
+		if(result[0].equals("success"))
+			this.myUsername = result[1];
+
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				if(result.equals("success")) {
+				if(result[0].equals("success")) {
 					try {
 						//Load lobby GUI
 						primaryStage.setScene(new Scene(lobbyGUIRoot));
@@ -126,9 +140,9 @@ public class ClientGUI extends Application implements ClientInterface {
 					} catch(Exception e) {
 						e.printStackTrace();    //FATAL ERROR!
 					}
-				} else if(result.equals("fail")) {
-					if(extraInfo.equals("0")) {
-						Alert alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso username è già registato!");
+				} else if(result[0].equals("fail")) {
+					if(result[1].equals("0")) {
+						Alert alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso myUsername è già registato!");
 						alert.showAndWait();
 					}
 				}
@@ -159,6 +173,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void sendPlayersList(String[] players) {
+		lastPlayersList = players;
 		lobbyGUI.sendPlayersList(players);
 	}
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.rmi;
 
+import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
 
 import java.rmi.Remote;
@@ -12,4 +13,6 @@ public interface RMIServerInterface extends Remote {
     public void reconnect(String sessionID, String username) throws RemoteException;
 
     public void selectWindowPattern(int i) throws RemoteException;
+
+    public void placeDice(Dice dice, int row, int col) throws RemoteException;
 }

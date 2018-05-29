@@ -5,7 +5,7 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public interface ClientInterface {
 	//Connection methods
-	public void loginResponse(String result, String extraInfo); // login response with a linked message
+	public void loginResponse(String... response); // login response with a linked message
 	public void notLoggedYet(String message); // response in case someone tries to logout without login in the first place
 	public void notifyReconnectionStatus(boolean status, String message); // Notify the result of attempted reconnection
 
@@ -19,9 +19,11 @@ public interface ClientInterface {
 
 	//Game methods
 	public void startGame();
+	public void yourTurn();
 	public void updateWindowPatterns(WindowPattern[] windowPatterns);
 	public void updateDraft(Dice[] dices);
-	public void yourTurn();
+
+	public void dicePlacementRestictionBroken();
 
 	public void closeConnection();  // close the connection from the Model in case of an handled logout
 }

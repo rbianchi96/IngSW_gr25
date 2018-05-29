@@ -66,9 +66,12 @@ public class SocketClient extends Socket implements ServerInterface {
 		String[] msgVector = message.split("#");    //Split message
 		switch(msgVector[0]) {
 			case "login_response":
-				client.loginResponse(msgVector[1], msgVector[2]);
 				if(msgVector[1].equals("success")) {
-					sessionID = msgVector[2];
+					client.loginResponse(msgVector[1], msgVector[2], msgVector[3]);
+					sessionID = msgVector[3];
+				}
+				else if(msgVector[1].equals("fail")) {
+					client.loginResponse(msgVector[1], msgVector[2]);
 				}
 				break;
 			case "not_logged":
@@ -89,10 +92,27 @@ public class SocketClient extends Socket implements ServerInterface {
 			case "windowPatternsToChose":
 				client.sendWindowPatternsToChoose(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
 				break;
+			case "updateWindowPatterns":
+				client.updateWindowPatterns(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
+				break;
+			case "updateDraft":
+				Dice[] dices = new Dice[(msgVector.length - 1) / 2];
+
+				for(int i = 0; i < (msgVector.length - 1) / 2; i ++) {
+					dices[i] = new Dice(Integer.parseInt(msgVector[i * 2 + 1]), Color.findColor(msgVector[i * 2 + 2]));
+				}
+
+				client.updateDraft(dices);
+
+				break;
+			case "dicePlacementRestBroken":
+				client.dicePlacementRestictionBroken();
+
+				break;
 			case "startGame":
 				client.startGame();
-				break;
 
+				break;
 			default:
 				break;
 		}
@@ -124,8 +144,9 @@ public class SocketClient extends Socket implements ServerInterface {
 	}
 
 	@Override
-	public void placeDice(int row, int col, Dice dice) {
-
+	public void placeDice(Dice dice, int row, int col) {
+		out.println("placeDice#" + dice.getValue() + "#" + dice.getColor().toString() + "#" + row + "#" + col);
+		out.flush();
 	}
 
 	private boolean ping(){

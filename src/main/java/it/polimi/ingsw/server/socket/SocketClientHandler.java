@@ -125,6 +125,17 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					controller.selectWindowPattern(this, Integer.parseInt(request[1]));
 
 					break;
+				case "placeDice":
+					Dice dice = new Dice(Integer.valueOf(request[1]), Color.findColor(request[2]));
+
+					controller.placeDice(
+							this,
+							dice,
+							Integer.valueOf(request[3]),
+							Integer.valueOf(request[4])
+					);
+
+					break;
 				default: { // Invalid command
 					out.println(encode("invalid_command"));
 					out.flush();
@@ -166,7 +177,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override
 	public void updateWindowPatterns(WindowPattern[] windowPatterns) {
-		//TODO
+		out.print("updateWindowPatterns");
+		for(WindowPattern windowPattern : windowPatterns) {
+			out.print("#" + encodeWindowPattern(windowPattern));
+		}
+		out.println();
+		out.flush();
 	}
 
 	@Override
@@ -175,6 +191,13 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		for(Dice dice : dices) {
 			out.print("#" + dice.getValue() + "#" + dice.getColor().toString());
 		}
+		out.println();
+		out.flush();
+	}
+
+	@Override
+	public void dicePlacementRestictionBroken() {
+		out.println("dicePlacementRestBroken");
 		out.flush();
 	}
 
@@ -212,8 +235,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override // Read ClientInterface for details
-	public void loginResponse(String result, String extraInfo) {
-		out.println(encode("login_response", result, extraInfo));
+	public void loginResponse(String... result) {
+		if(result[0].equals("success"))
+			out.println(encode("login_response", result[0], result[1], result[2]));	//Encode "success", username, sessionId
+		else
+			out.println(encode("login_response", result[0], result[1]));	//Encode "fail", code
 		out.flush();
 		if(result.equals("success")) {
 			try {

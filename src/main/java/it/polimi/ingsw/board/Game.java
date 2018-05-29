@@ -126,24 +126,20 @@ public class Game {
     }
 
     private void startRound() { //TODO to be renamed
-        WindowPattern[] allWindowPatterns = new WindowPattern[players.size()];
-
-        for(int i = 0; i < players.size(); i ++) {
-            allWindowPatterns[i] = players.get(i).getWindowPattern();
-        }
+        rollDicesFromDiceBag();
 
         for(Player player : players) {
             player.getClientInterface().startGame();
-            player.getClientInterface().updateWindowPatterns(allWindowPatterns);
-
-            rollDicesFromDiceBag();
-            sendDraft();
         }
+
+        updateAllWindowPatterns();
+        sendDraft();
     }
 
     private void sendDraft() {
         for(Player player : players) {
             player.getClientInterface().updateDraft(gameBoard.getDraft().getDices().toArray(new Dice[0]));
+            System.out.println(gameBoard.getDraft());
         }
     }
 
@@ -161,9 +157,38 @@ public class Game {
         }
     }
 
+    public void placeDiceFromDraft(Player player, Dice dice, int row, int col) {
+        Dice diceFromDraft = gameBoard.getDraft().getDice(dice);
+        if(diceFromDraft != null) {
+            try {
+                player.getWindowPattern().placeDice(diceFromDraft, row, col);   //Place the dice
+
+                updateAllWindowPatterns();
+                sendDraft();
+            } catch(WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException e) {
+                gameBoard.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
+
+                if(e instanceof WindowPattern.WindowPatternOutOfBoundException) {
+                    //TODO
+                    ((WindowPattern.WindowPatternOutOfBoundException)e).printStackTrace();
+                }
+                else    //Restriction broken
+                   player.getClientInterface().dicePlacementRestictionBroken();
+            }
+        }
+    }
+
     public boolean isInGame() {
         return inGame;
     }
 
+    private void updateAllWindowPatterns() {    //Send all the WP to all the players
+        WindowPattern[] allWindowPatterns = new WindowPattern[players.size()];
 
+        for(int i = 0; i < players.size(); i ++)
+            allWindowPatterns[i] = players.get(i).getWindowPattern();
+
+        for(Player player : players)
+            player.getClientInterface().updateWindowPatterns(allWindowPatterns);
+    }
 }
