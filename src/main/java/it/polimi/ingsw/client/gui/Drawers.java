@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
+import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -19,7 +20,7 @@ public class Drawers {
 		try {
 			for(int row = 0; row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER; row++)
 				for(int col = 0; col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER; col++) {
-					Object restriction = windowPattern.getRestriction(row, col);
+					Restriction restriction = windowPattern.getRestriction(row, col);
 
 					AnchorPane cell = new AnchorPane();
 					cell.setPrefWidth(50);
@@ -28,11 +29,11 @@ public class Drawers {
 					if(eventHandler != null)
 						cell.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
 
-					if(restriction instanceof Integer) {    //Value restriction
-						Label label = new Label(String.valueOf(restriction));
+					if(restriction.getValue()!=null) {    //Value restriction
+						Label label = new Label(String.valueOf(restriction.getValue()));
 						cell.getChildren().add(label);
-					} else if(restriction instanceof Color) {    //Color restriction
-						cell.setStyle("-fx-background-color:" + ((Color)restriction).getHexColor() + ";");
+					} else if(restriction.getColor()!=null) {    //Color restriction
+						cell.setStyle("-fx-background-color:" + (restriction.getColor()).getHexColor() + ";");
 					}
 
 					if(showDices) {

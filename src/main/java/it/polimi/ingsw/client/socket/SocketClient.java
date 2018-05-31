@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.socket;
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.Cell;
+import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.server.ServerInterface;
@@ -141,24 +142,22 @@ public class SocketClient extends Socket implements ServerInterface {
 
 				String name = msg[i];
 				i++;
-
 				int diff = Integer.parseInt(msg[i]);
 				i++;
 
 				Cell[][] cells = new Cell[WindowPattern.WINDOW_PATTERN_ROWS_NUMBER][WindowPattern.WINDOW_PATTERN_COLS_NUMBER];
 				for(int row = 0; row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER; row++) {
 					for(int col = 0; col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER; col++) {
-						Object restriction;
-
-						if(msg[i].equals("null"))
-							restriction = null;
+						if(msg[i].equals("null")) {
+							cells[row][col] = new Cell(new Restriction());
+						}
 						else if(Character.isDigit(msg[i].charAt(0))) {
-							restriction = Integer.parseInt(msg[i]);
+							cells[row][col]=new Cell(new Restriction(Integer.valueOf((msg[i]))));
+
 						} else {
-							restriction = Color.findColor(msg[i]);
+							cells[row][col] = new Cell(new Restriction(Color.findColor(msg[i])));
 						}
 
-						cells[row][col] = new Cell(restriction);
 						i++;
 
 						if(! msg[i].equals("null")) {    //If there's a dice

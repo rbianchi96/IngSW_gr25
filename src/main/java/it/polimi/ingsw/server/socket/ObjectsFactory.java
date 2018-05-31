@@ -4,6 +4,7 @@ import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.Player;
 import it.polimi.ingsw.board.dice.*;
 import it.polimi.ingsw.board.windowpattern.Cell;
+import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 
@@ -16,7 +17,7 @@ public class ObjectsFactory {
     }
 
 
-    public static Cell CellFactory(Object restriction, Dice d)
+    public static Cell CellFactory(Restriction restriction, Dice d)
     {
         Dice d2;
         d2 = DiceFactory(d.getValue(), d.getColor());

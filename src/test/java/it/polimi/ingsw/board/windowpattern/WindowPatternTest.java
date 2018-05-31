@@ -2,9 +2,6 @@ package it.polimi.ingsw.board.windowpattern;
 
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.windowpattern.Cell;
-import it.polimi.ingsw.board.windowpattern.Restriction;
-import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,11 +20,11 @@ public class WindowPatternTest {
 
 		WindowPattern windowPattern;
 
-		ArrayList<Restriction> ignoredRestrictions = new ArrayList<>();
-		ignoredRestrictions.add(Restriction.FIRST_DICE_RESTRICTION);
-		ignoredRestrictions.add(Restriction.NEAR_DICE_VALUE_RESTRICTION);
-		ignoredRestrictions.add(Restriction.NEAR_DICE_COLOR_RESTRICTION);
-		ignoredRestrictions.add(Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
+		ArrayList<RestrictionEnum> ignoredRestrictionEnums = new ArrayList<>();
+		ignoredRestrictionEnums.add(RestrictionEnum.FIRST_DICE_RESTRICTION);
+		ignoredRestrictionEnums.add(RestrictionEnum.NEAR_DICE_VALUE_RESTRICTION);
+		ignoredRestrictionEnums.add(RestrictionEnum.NEAR_DICE_COLOR_RESTRICTION);
+		ignoredRestrictionEnums.add(RestrictionEnum.MUST_HAVE_NEAR_DICE_RESTRICTION);
 
 		for(int i = 0; i < 20; i++) {    //For all dice
 			dices[i] = new Dice(random.nextInt(7), colors[random.nextInt(5)]);    //Create a random dice
@@ -39,11 +36,11 @@ public class WindowPatternTest {
 		for(int row = 0; row < 4; row++) {    //For all rows
 			for(int col = 0; col < 5; col++) {    //For all cols
 				if(random.nextBoolean()) {    //Randomly
-					cells[row][col] = new Cell(
-							random.nextBoolean() ?    //Randomly...
-									random.nextInt(7) :    //...create a value restriction...
-									colors[random.nextInt(5)]    //...or a color restriction
-					);
+					if (random.nextBoolean())
+						cells[row][col] = new Cell(random.nextInt(7));
+					else
+						cells[row][col] = new Cell(colors[random.nextInt(5)]);
+
 				} else
 					cells[row][col] = new Cell();    //Cell without restriction
 			}
@@ -60,15 +57,15 @@ public class WindowPatternTest {
 
 					boolean expectedReturnValue =    //Expected return value of dice placement
 							currCell.getRestriction() == null
-									|| (currCell.getRestriction() instanceof Integer && currCell.getRestriction() == (Integer)currDice.getValue())
-									|| (currCell.getRestriction() instanceof Color && currCell.getRestriction() == currDice.getColor());
+									|| currCell.getRestriction().getRestrictionValue() == (Integer)currDice.getValue()
+									|| (currCell.getRestriction().getRestrictionValue() == currDice.getColor());
 
 					if(expectedReturnValue)    //Expected success
-						windowPattern.placeDice(currDice, row, col, ignoredRestrictions);    //Verify correct dice placement
+						windowPattern.placeDice(currDice, row, col, ignoredRestrictionEnums);    //Verify correct dice placement
 					else {    //Expect an exception
 						int finalRow = row;
 						int finalCol = col;
-						assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(currDice, finalRow, finalCol, ignoredRestrictions));
+						assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(currDice, finalRow, finalCol, ignoredRestrictionEnums));
 					}
 				}
 			}
@@ -81,8 +78,8 @@ public class WindowPatternTest {
 
 					boolean expectedCellOccupation =    //Expected cell occupation
 							currCell.getRestriction() == null
-									|| (currCell.getRestriction() instanceof Integer && currCell.getRestriction() == (Integer)currDice.getValue())
-									|| (currCell.getRestriction() instanceof Color && currCell.getRestriction() == currDice.getColor());
+									|| currCell.getRestriction().getRestrictionValue() == (Integer)currDice.getValue()
+									|| currCell.getRestriction().getRestrictionValue() == currDice.getColor();
 
 					if(expectedCellOccupation) {    //Expected cell with dice
 						assertEquals(windowPattern.getDice(row, col), currDice);    //Verify same dice
@@ -208,20 +205,20 @@ public class WindowPatternTest {
 			WindowPattern windowPattern = new WindowPattern("aWP", 0, cells);
 
 			assertEquals(
-					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(firstDice, 2, 3)).getRestrictionType(),
-					Restriction.FIRST_DICE_RESTRICTION);    //First dice
+					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(firstDice, 2, 3)).getRestrictionEnumType(),
+					RestrictionEnum.FIRST_DICE_RESTRICTION);    //First dice
 
 			windowPattern.placeDice(firstDice, 0, 0);    //Correct placement (top left)
 
 			assertEquals(
-					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(new Dice(3, Color.YELLOW), 1, 0)).getRestrictionType(),
-					Restriction.NEAR_DICE_VALUE_RESTRICTION);    //Same value of first dice
+					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(new Dice(3, Color.YELLOW), 1, 0)).getRestrictionEnumType(),
+					RestrictionEnum.NEAR_DICE_VALUE_RESTRICTION);    //Same value of first dice
 			assertEquals(
-					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(new Dice(2, Color.RED), 0, 1)).getRestrictionType(),
-					Restriction.NEAR_DICE_COLOR_RESTRICTION);    //Same color of first dice
+					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(new Dice(2, Color.RED), 0, 1)).getRestrictionEnumType(),
+					RestrictionEnum.NEAR_DICE_COLOR_RESTRICTION);    //Same color of first dice
 			assertEquals(
-					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(new Dice(3, Color.YELLOW), 2, 3)).getRestrictionType(),
-					Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION);    //Not near first dice
+					assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(new Dice(3, Color.YELLOW), 2, 3)).getRestrictionEnumType(),
+					RestrictionEnum.MUST_HAVE_NEAR_DICE_RESTRICTION);    //Not near first dice
 		} catch(Exception e) {
 			fail("Unexpected exception: " + e.toString());
 		}

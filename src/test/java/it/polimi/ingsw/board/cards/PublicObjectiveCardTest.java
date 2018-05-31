@@ -4,7 +4,7 @@ import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.cardsloaders.PublicObjectiveCardsLoader;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.Cell;
-import it.polimi.ingsw.board.windowpattern.Restriction;
+import it.polimi.ingsw.board.windowpattern.RestrictionEnum;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class PublicObjectiveCardTest {
 
 		for(int row = 0; row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER; row ++)
 			for(int col = 0; col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER; col ++)
-				cells[row][col] = new Cell(null);
+				cells[row][col] = new Cell();
 
 		try {
 			PublicObjectiveCard[] objectiveCards = (new PublicObjectiveCardsLoader("src/main/resources/publicObjectiveCards.json")).getRandomCards(10);
@@ -43,7 +43,7 @@ public class PublicObjectiveCardTest {
 
 				for(int row = 0; row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER; row ++)
 					for(int col = 0; col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER; col ++)
-						windowPattern1.placeDice(new Dice(values[row][col], colors[row][col]), row, col, Restriction.allRestrictions());	//Place dices regardless of restrictions
+						windowPattern1.placeDice(new Dice(values[row][col], colors[row][col]), row, col, RestrictionEnum.allRestrictions());	//Place dices regardless of restrictions
 
 				for(PublicObjectiveCard thisCard : objectiveCards) {	//For each public objective card
 					int pointsCalculated = thisCard.calculateScore(windowPattern1);

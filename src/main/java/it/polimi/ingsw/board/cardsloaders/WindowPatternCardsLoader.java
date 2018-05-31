@@ -3,6 +3,7 @@ package it.polimi.ingsw.board.cardsloaders;
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.cards.WindowPatternCard;
 import it.polimi.ingsw.board.windowpattern.Cell;
+import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 import javax.json.*;
@@ -46,16 +47,16 @@ public class WindowPatternCardsLoader extends CardsLoader {
 			for(int col = 0; col < 5; col++) {    //For each cols in a row
 				JsonValue rawRestriction = currRow.get(col);
 
-				Object restriction = null;
-
-				if(rawRestriction.getValueType() == JsonValue.ValueType.NUMBER)    //Value restriction
-					restriction = ((JsonNumber) rawRestriction).intValue();
-				else if(rawRestriction.getValueType() == JsonValue.ValueType.STRING)    //Color restriction
-					restriction = Color.findColor(((JsonString) rawRestriction).getString());
-
-				cells[row][col] = new Cell(restriction);
+				if (rawRestriction.getValueType() == JsonValue.ValueType.NUMBER)    //Value restriction
+					cells[row][col] = new Cell(new Restriction(((JsonNumber) rawRestriction).intValue()));
+				else if (rawRestriction.getValueType() == JsonValue.ValueType.STRING)  {  //Color restriction
+					cells[row][col] = new Cell(new Restriction(Color.findColor(((JsonString) rawRestriction).getString())));
+				}
+				else
+					cells[row][col]  = new Cell(new Restriction());
 			}
 		}
+
 
 
 		return new WindowPattern(windowPattern.getString("name"), windowPattern.getInt("difficulty"), cells);
