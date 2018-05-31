@@ -151,7 +151,7 @@ public class RMIServerToClient implements ClientInterface {
 	// ping the RMI Client
 	private boolean ping() {
 		try {
-			rmiClientInterface.ping();
+ 			rmiClientInterface.ping();
 			return true;
 		} catch(Exception e) {
 			e.printStackTrace();

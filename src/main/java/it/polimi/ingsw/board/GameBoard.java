@@ -9,25 +9,21 @@ import it.polimi.ingsw.board.dice.RoundTrack;
 import java.util.ArrayList;
 
 public class GameBoard {
-    private ArrayList<Player> players;
     private DiceBag diceBag;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ToolCard[] toolCards;
     private RoundTrack roundTrack;
     private Draft draft;
 
-    public GameBoard(ArrayList<Player> players, DiceBag diceBag, PublicObjectiveCard[] publicObjectiveCards, ToolCard[] toolCards, RoundTrack roundTrack){
-        this.players = players;
+    public GameBoard(DiceBag diceBag, Draft draft, PublicObjectiveCard[] publicObjectiveCards, ToolCard[] toolCards, RoundTrack roundTrack){
         this.diceBag = diceBag;
+        this.draft = draft;
         this.publicObjectiveCards = publicObjectiveCards;
         this.toolCards = toolCards;
         this.roundTrack = roundTrack;
     }
 
     // Getters
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
     public DiceBag getDiceBag() {
         return diceBag;
     }
@@ -40,17 +36,11 @@ public class GameBoard {
     public RoundTrack getRoundTrack() {
         return roundTrack;
     }
-    public void setDraft(Draft draft){ this.draft = draft; }
     public Draft getDraft(){ return draft; }
 
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder("// Game Board \\" +"\n");
-        sb.append("Players: ");
-        for ( Player player : players){
-            sb.append(player.getPlayerName() +"  ");
-        }
-        sb.append("\n");
         sb.append("Dice Bag: " + diceBag.getSize() +" dices remaining.");
         sb.append("Public Objective Cards: ");
         for(PublicObjectiveCard publicObjectiveCard : publicObjectiveCards){

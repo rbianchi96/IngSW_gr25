@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.server.ServerInterface;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,6 +16,8 @@ public class Controller {
 	private Timer lobbyTimer;
 	private int waitSeconds;
 	private int waitSecondsServer = 20;
+
+	private HashMap<ClientInterface, String> playersUsernames;
 
 	public Controller(Lobby lobby) {
 		this.lobby = lobby;
@@ -99,7 +102,7 @@ public class Controller {
 	}
 
 	public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
-		lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface), i);
+		lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface).getPlayerName(), i);
 	}
 
 

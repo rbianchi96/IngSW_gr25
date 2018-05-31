@@ -7,6 +7,7 @@ import javafx.application.Platform;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Observable;
 
 public class Lobby {
     private static final int MAX_PLAYERS = 4;
@@ -192,6 +193,11 @@ public class Lobby {
 
     // Method to call to start the game
     public void startGame(){
+        //Add observer to model (TEMPORARY, TO BE MIGRATED TO CONTROLLER)
+        for(Player player : players) {
+            ModelObserver observer = new ModelObserver(player.getPlayerName(), player.getClientInterface());
+            currentGame.addObserver(observer);
+        }
         currentGame.startGame(players);
     }
 

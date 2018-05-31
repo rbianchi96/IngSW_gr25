@@ -71,7 +71,7 @@ public class Dice implements Serializable {
 
     public void rollDice() {
         Random ran = new Random();
-        int i = 1 + (ran.nextInt(5));
+        int i = 1 + (ran.nextInt(6));
         setValue(i);
     }
 
