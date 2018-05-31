@@ -15,14 +15,13 @@ import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 import java.util.Observable;
-import java.util.logging.Logger;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Game extends Observable {
-	private static final int TOOL_CARDS_NUMBER = 3;
-	private static final int PUBLIC_OBJECTIVE_CARDS_NUMBER = 3;
+	public static final int TOOL_CARDS_NUMBER = 3;
+	public static final int PUBLIC_OBJECTIVE_CARDS_NUMBER = 3;
 
 	private static final int ROUNDS_NUMBER = 10;
 
@@ -99,6 +98,10 @@ public class Game extends Observable {
 		toolCards = toolCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
 
 		gameBoard = new GameBoard(diceBag, new Draft(players.size()), publicObjectiveCards, toolCards, roundTrack);
+
+		//Notify to all
+		setChanged();
+		notifyObservers(NotifyType.PUBLIC_OBJECTIVE_CARDS);
 	}
 
 	// Method to call to start the next round
@@ -114,9 +117,6 @@ public class Game extends Observable {
 			e.printStackTrace();
 		}
 		inGame = true;
-		rounds.nextRound();
-
-		notifyNewTurn();
 	}
 
 	public void rollDicesFromDiceBag() {
@@ -130,7 +130,10 @@ public class Game extends Observable {
 		setChanged();
 		notifyObservers(NotifyType.START_GAME);
 
+		rounds.nextRound();
+
 		startRound();
+		notifyNewTurn();
 	}
 
 	private void startRound() {
@@ -154,25 +157,23 @@ public class Game extends Observable {
 		}
 	}
 
-	public void placeDiceFromDraft(Player player, Dice dice, int row, int col) {
+	public void placeDiceFromDraft(Player player, Dice dice, int row, int col)
+			throws WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException {
+
 		if(players.get(rounds.getCurrentPlayer()) == player && ! player.getHasPlacedDice()) {
 			Dice diceFromDraft = gameBoard.getDraft().getDice(dice);
 			if(diceFromDraft != null) {
 				try {
 					player.getWindowPattern().placeDice(diceFromDraft, row, col);   //Place the dice
+					player.setHasPlacedDice(true);
 
 					//NOTIFY to all
 					updateAllWindowPatterns();
 					updateDraft();
-
-					player.setHasPlacedDice(true);
-				} catch (WindowPattern.WindowPatternOutOfBoundException e) {
+				} catch (WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException | WindowPattern.CellAlreadyOccupiedException e) {
 					gameBoard.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
-					e.printStackTrace();
-				} catch(WindowPattern.PlacementRestrictionException e1){   //RestrictionEnum broken
-					gameBoard.getDraft().addDice(diceFromDraft);
-					player.getClientInterface().dicePlacementRestictionBroken();
-					e1.printStackTrace();
+
+					throw e;	//Throw the exception to the caller (tipically the Controller)
 				}
 			}
 		} else
@@ -218,6 +219,10 @@ public class Game extends Observable {
 	}
 
 	//GETTER for observer
+	public int getCurrentPlayer() {
+		return rounds.getCurrentPlayer();
+	}
+
 	public PrivateObjectiveCard getPrivateObjectiveCard(String username) {
 		return findPlayer(username).getPrivateObjectiveCard();
 	}

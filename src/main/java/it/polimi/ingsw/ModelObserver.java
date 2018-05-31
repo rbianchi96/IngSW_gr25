@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.board.Game;
-import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 
 import java.util.Observable;
@@ -17,16 +16,26 @@ public class ModelObserver implements java.util.Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		Game model = (Game)o;
-		Game.NotifyType notifyType = (Game.NotifyType)arg;
+		Game model = (Game)o;	//The observable
+		Game.NotifyType notifyType = (Game.NotifyType)arg;	//The type of notify (what is changed)
 
 		switch(notifyType) {
 			case SELECT_WINDOW_PATTERN:
 				clientInterface.sendWindowPatternsToChoose(model.getWindowPatternsToChoose(playerUsername));
 
 				break;
+			case PRIVATE_OBJECTIVE_CARD:
+
+
+				break;
+			case PUBLIC_OBJECTIVE_CARDS:
+				break;
 			case START_GAME:
 				clientInterface.startGame();
+
+				break;
+			case NEW_TURN:
+				clientInterface.newTurn(model.getCurrentPlayer());
 
 				break;
 			case DRAFT:
@@ -37,13 +46,5 @@ public class ModelObserver implements java.util.Observer {
 				clientInterface.updateWindowPatterns(model.getAllWindowPatterns());
 				break;
 		}
-	}
-
-	public void update(Observable o, WindowPattern[] windowPatterns) {
-		clientInterface.updateWindowPatterns(windowPatterns);
-	}
-
-	public void update(Observable o, String msg) {
-		System.out.println("msg");
 	}
 }

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.socket;
 
 import it.polimi.ingsw.board.Color;
+import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
@@ -15,6 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+
 public class SocketClientHandler implements Runnable, ClientInterface {
 	// If reached without any interaction, the connection will be close
 	private static final int MAX_TIMEOUT = 90000;
@@ -28,6 +32,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		this.controller = controller;
 		this.socket = socket;
 	}
+
 	private void pingTimer() {
 		pingTimer = new Timer();
 		pingTimer.scheduleAtFixedRate(new TimerTask() {
@@ -37,17 +42,19 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 			}
 		}, 500, 2500);
 	}
+
 	private boolean ping() {
 		try {
 			out.println("Ping");
 			out.flush();
 			return true;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 			pingTimer.cancel();
 			return false;
 		}
 	}
+
 	public void run() {
 		try {
 			//socket.setSoTimeout(MAX_TIMEOUT); // set the timeout MAX_TIMEOUT
@@ -106,22 +113,19 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		String[] request = line.split("#");
 		if(request[0] != null) {
 			switch(request[0]) {
-				case "login": {
+				case "login":
 					controller.login(this, request[1]); // login with nickname = request[1]
 					break;
-				}
-				case "logout": { // logout call
+				case "logout": // logout call
 					controller.logout(this);
 					break;
-				}
-				case "reconnect": {
+				case "reconnect":
 					controller.reconnect(this, request[0], request[1]);
 					break;
-				}
-				case "ping":{
+				case "ping":
 					out.println("pong");
 					out.flush();
-				}
+					break;
 				case "selectWindowPattern":
 					controller.selectWindowPattern(this, Integer.parseInt(request[1]));
 					break;
@@ -149,14 +153,9 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	private String encode(String... args) {
 		StringBuilder sb = new StringBuilder();
 		for(String arg : args) {
-			sb.append(arg + "#");
+			sb.append(arg).append("#");
 		}
 		return sb.toString().substring(0, sb.toString().length() - 1); // remove the extra '#'
-	}
-
-	@Override // Read ClientInterface for details
-	public void yourTurn() {
-
 	}
 
 	@Override
@@ -170,8 +169,24 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void sendToolCards(ToolCard[] toolCards) {
+
+	}
+
+	@Override
+	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
+
+	}
+
+	@Override
 	public void startGame() {
 		out.println("startGame");
+		out.flush();
+	}
+
+	@Override
+	public void newTurn(int currentPlayer) {
+		out.println("newTurn#" + currentPlayer);
 		out.flush();
 	}
 
@@ -183,6 +198,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		}
 		out.println();
 		out.flush();
+	}
+
+	@Override
+	public void updateToolCardsTokens(int[] tokens) {
+
 	}
 
 	@Override
@@ -229,6 +249,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
+
+	}
+
+	@Override
 	public void notifyReconnectionStatus(boolean status, String message) {
 		out.println(encode("reconnect", String.valueOf(status), message));
 		out.flush();
@@ -237,9 +262,9 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override // Read ClientInterface for details
 	public void loginResponse(String... result) {
 		if(result[0].equals("success"))
-			out.println(encode("login_response", result[0], result[1], result[2]));	//Encode "success", username, sessionId
+			out.println(encode("login_response", result[0], result[1], result[2]));    //Encode "success", username, sessionId
 		else
-			out.println(encode("login_response", result[0], result[1]));	//Encode "fail", code
+			out.println(encode("login_response", result[0], result[1]));    //Encode "fail", code
 		out.flush();
 		if(result.equals("success")) {
 			try {
@@ -268,13 +293,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 					//Restiction
 					Restriction restriction = windowPattern.getRestriction(row, col);
-					if(!restriction.hasAnyRestriction())
+					if(! restriction.hasAnyRestriction())
 						builder.append("null");
-					else if(restriction.getValue()!=null)
+					else if(restriction.getValue() != null)
 						builder.append(restriction.getValue());
-					else{
+					else {
 						builder.append((restriction.getColor().toString().toLowerCase().substring(0, 1)));
-						System.out.println(restriction.getColor().toString().toLowerCase().substring(0,1));
 					}
 					builder.append("#");
 

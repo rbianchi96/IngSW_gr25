@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
@@ -14,14 +17,18 @@ public interface ClientInterface {
 	public void notifySuspendedUser(String username); // notify that an user leaved the lobby or the game
 	public void sendPlayersList(String[] players);
 
-	//Game preparation methods
+	//Game and players preparation methods
+	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard);
 	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns);
+	public void sendToolCards(ToolCard[] toolCards);
+	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards);
 
 	//Game methods
 	public void startGame();
-	public void yourTurn();
-	public void updateWindowPatterns(WindowPattern[] windowPatterns);
+	public void newTurn(int currentPlayer);
 	public void updateDraft(Dice[] dices);
+	public void updateWindowPatterns(WindowPattern[] windowPatterns);
+	public void updateToolCardsTokens(int[] tokens);
 
 	public void dicePlacementRestictionBroken();
 

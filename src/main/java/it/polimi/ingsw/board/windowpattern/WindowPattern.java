@@ -60,11 +60,13 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		return diceToReturn;
 	}
 
-	public void placeDice(Dice dice, int row, int col) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
+	public void placeDice(Dice dice, int row, int col) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException, CellAlreadyOccupiedException {
 		placeDice(dice, row, col, null);
 	}
 
-	public void placeDice(Dice dice, int row, int col, ArrayList<RestrictionEnum> ignoredRestrictionEnums) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
+	public void placeDice(Dice dice, int row, int col, ArrayList<RestrictionEnum> ignoredRestrictionEnums)
+			throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException, CellAlreadyOccupiedException {
+
 		if(dice == null) throw new NullPointerException();
 		checkIndexes(row, col);    //Throws an exception
 
@@ -172,7 +174,7 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		}
 
 		if(!currCell.putDice(dice))
-			throw new PlacementRestrictionException(null);    //Place dice
+			throw new CellAlreadyOccupiedException();    //Place dice
 
 		placedDices++;
 	}
@@ -219,6 +221,12 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 
 		public RestrictionEnum getRestrictionEnumType() {
 			return restrictionEnumType;
+		}
+	}
+
+	public class CellAlreadyOccupiedException extends Exception {
+		public CellAlreadyOccupiedException() {
+			super();
 		}
 	}
 }

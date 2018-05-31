@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.board.Player;
 import it.polimi.ingsw.board.dice.Dice;
+import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.server.ServerInterface;
 
@@ -118,20 +119,23 @@ public class Controller {
 		return null;
 	}
 
-	public synchronized void placeDiceFromDraft(ClientInterface clientInterface, Dice dice, int row, int col) {
+	/*public synchronized void placeDiceFromDraft(ClientInterface clientInterface, Dice dice, int row, int col) {
 		if(isConnected(clientInterface)) {
 			lobby.getCurrentGame().placeDiceFromDraft(findPlayer(clientInterface), dice, row, col);
 		} else {
 
 		}
-	}
+	}*/
 
 	public synchronized void placeDice(ClientInterface clientInterface, Dice dice, int row, int col) {
-		System.out.println("Place dice");
-		if(isConnected(clientInterface)) {
+		try {
 			lobby.getCurrentGame().placeDiceFromDraft(findPlayer(clientInterface), dice, row, col);
-		} else {
-
+		} catch(WindowPattern.WindowPatternOutOfBoundException e) {	//Invalid WP indexes
+			//TODO invalid WP indexes
+		} catch(WindowPattern.PlacementRestrictionException e) {
+			clientInterface.dicePlacementRestictionBroken();
+		} catch(WindowPattern.CellAlreadyOccupiedException e) {
+			clientInterface.dicePlacementRestictionBroken();	//TODO replace with a new diceAlreadyOccupied like method
 		}
 	}
 }

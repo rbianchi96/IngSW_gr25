@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.Client;
@@ -79,11 +82,6 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	//	FROM SERVER METHODS
 	@Override
-	public void yourTurn() {
-
-	}
-
-	@Override
 	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -93,6 +91,16 @@ public class ClientGUI extends Application implements ClientInterface {
 			}
 		});
 		selectWPGUI.showWindowPattern(windowPatterns);
+	}
+
+	@Override
+	public void sendToolCards(ToolCard[] toolCards) {
+
+	}
+
+	@Override
+	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
+
 	}
 
 	@Override
@@ -109,8 +117,18 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void newTurn(int currentPlayer) {
+		gameGUI.newTurn(currentPlayer);
+	}
+
+	@Override
 	public void updateWindowPatterns(WindowPattern[] windowPatterns) {
 		gameGUI.sendWindowPatterns(windowPatterns);
+	}
+
+	@Override
+	public void updateToolCardsTokens(int[] tokens) {
+
 	}
 
 	@Override
@@ -175,6 +193,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	public void sendPlayersList(String[] players) {
 		lastPlayersList = players;
 		lobbyGUI.sendPlayersList(players);
+	}
+
+	@Override
+	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
+
 	}
 
 	@Override

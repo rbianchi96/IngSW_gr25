@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
@@ -20,12 +23,17 @@ public interface RMIClientInterface extends Remote {
 	public void sendPlayersList(String[] players) throws RemoteException;
 
 	//Game preparation methods
+	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) throws RemoteException;
 	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) throws RemoteException;
+	public void sendToolCards(ToolCard[] toolCards) throws RemoteException;
+	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) throws RemoteException;
 
 	//Game methods
 	public void startGame() throws RemoteException;
-	public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException;
+	public void newTurn(int currentPlayer) throws RemoteException;
 	public void updateDraft(Dice[] dices) throws RemoteException;
+	public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException;
+	public void updateToolCardsTokens(int[] tokens) throws RemoteException;
 
 	public void dicePlacementRestictionBroken() throws RemoteException;
 }

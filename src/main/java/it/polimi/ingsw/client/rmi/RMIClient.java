@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
@@ -11,7 +14,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     private ClientInterface client;
     private String sessionID;
 
-    public RMIClient(ClientInterface client) throws RemoteException{
+    public RMIClient(ClientInterface client) throws RemoteException {
         this.client = client;
     }
 
@@ -31,6 +34,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     @Override
     public void sendPlayersList(String[] players) throws RemoteException {
         client.sendPlayersList(players);
+    }
+
+    @Override
+    public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) throws RemoteException {
+
     }
 
     @Override
@@ -54,13 +62,33 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
+    public void sendToolCards(ToolCard[] toolCards) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) throws RemoteException {
+
+    }
+
+    @Override
     public void startGame() throws RemoteException {
         client.startGame();
     }
 
     @Override
+    public void newTurn(int currentPlayer) throws RemoteException {
+        client.newTurn(currentPlayer);
+    }
+
+    @Override
     public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException {
         client.updateWindowPatterns(windowPatterns);
+    }
+
+    @Override
+    public void updateToolCardsTokens(int[] tokens) throws RemoteException {
+
     }
 
     @Override

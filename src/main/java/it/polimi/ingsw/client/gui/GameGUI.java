@@ -11,6 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import java.util.HashMap;
+
 public class GameGUI extends GUIController {
 	@FXML
 	GridPane pattern0, pattern1, pattern2, pattern3, draft;
@@ -23,6 +25,8 @@ public class GameGUI extends GUIController {
 
 	private State state = State.WAIT;
 
+	private HashMap<Integer, Integer> playersMap = new HashMap<>();
+
 	public void initialize() {
 		patterns = new GridPane[]{pattern0, pattern1, pattern2, pattern3};
 	}
@@ -31,6 +35,17 @@ public class GameGUI extends GUIController {
 		for(int i = 0; i < players.length; i++) {
 			if(players[i].equals(username))
 				myIndex = i;
+		}
+
+		for(int i = 0; i < players.length; i++) {
+			if(i == myIndex)
+				playersMap.put(i, 0);
+			else {
+				if(i < myIndex)
+					playersMap.put(i, i + 1);
+				else
+					playersMap.put(i, i);
+			}
 		}
 	}
 
@@ -42,10 +57,11 @@ public class GameGUI extends GUIController {
 					if(i == myIndex)
 						Drawers.drawWindowPattern(patterns[0], windowPatterns[i], true, onCellSelected);
 					else {
-						if(i < myIndex)
+						Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], true);
+						/*if(i < myIndex)
 							Drawers.drawWindowPattern(patterns[i + 1], windowPatterns[i], true);
 						else
-							Drawers.drawWindowPattern(patterns[i], windowPatterns[i], true);
+							Drawers.drawWindowPattern(patterns[i], windowPatterns[i], true);*/
 					}
 			}
 		});
@@ -57,6 +73,23 @@ public class GameGUI extends GUIController {
 			public void run() {
 				Alert alert = new Alert(Alert.AlertType.ERROR, "Restrizioni infrante!");
 				alert.showAndWait();
+			}
+		});
+	}
+
+	public void newTurn(int currentPlayer) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for(int i = 0; i < playersMap.size(); i++) {
+					if(currentPlayer == i) {
+						patterns[playersMap.get(i)].setStyle("-fx-background-color: #fff");
+					}
+					else {
+						patterns[playersMap.get(i)].setStyle("-fx-background-color: #ccc");
+					}
+				}
+
 			}
 		});
 	}
