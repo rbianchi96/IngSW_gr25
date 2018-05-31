@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.socket;
 
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
+import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.Controller;
@@ -266,14 +267,15 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					builder.append("#");
 
 					//Restiction
-					Object restriction = windowPattern.getRestriction(row, col);
-					if(restriction == null)
+					Restriction restriction = windowPattern.getRestriction(row, col);
+					if(!restriction.hasAnyRestriction())
 						builder.append("null");
-					else if(restriction instanceof Integer)
-						builder.append(restriction);
-					else if(restriction instanceof Color)
-						builder.append(((Color)restriction).toString());
-
+					else if(restriction.getValue()!=null)
+						builder.append(restriction.getValue());
+					else{
+						builder.append((restriction.getColor().toString().toLowerCase().substring(0, 1)));
+						System.out.println(restriction.getColor().toString().toLowerCase().substring(0,1));
+					}
 					builder.append("#");
 
 					//Dice

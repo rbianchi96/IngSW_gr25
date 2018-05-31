@@ -40,7 +40,7 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		return this.cells[i][j];
 	}
 
-	public Object getRestriction(int row, int col) throws WindowPatternOutOfBoundException {
+	public Restriction getRestriction(int row, int col) throws WindowPatternOutOfBoundException {
 		checkIndexes(row, col);
 
 		return cells[row][col].getRestriction();
@@ -64,43 +64,41 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		placeDice(dice, row, col, null);
 	}
 
-	public void placeDice(Dice dice, int row, int col, ArrayList<Restriction> ignoredRestrictions) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
+	public void placeDice(Dice dice, int row, int col, ArrayList<RestrictionEnum> ignoredRestrictionEnums) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException {
 		if(dice == null) throw new NullPointerException();
 		checkIndexes(row, col);    //Throws an exception
 
 		//First dice restriction
 		if(
 				placedDices == 0
-						&& (ignoredRestrictions == null || ignoredRestrictions.indexOf(Restriction.FIRST_DICE_RESTRICTION) < 0)    //Don't ignore first dice restriction
+						&& (ignoredRestrictionEnums == null || ignoredRestrictionEnums.indexOf(RestrictionEnum.FIRST_DICE_RESTRICTION) < 0)    //Don't ignore first dice restriction
 						&& !(
 						(row == 0 || row == WindowPattern.WINDOW_PATTERN_ROWS_NUMBER - 1 || col == 0 || col == WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)
 				)
 				)
-			throw new PlacementRestrictionException(Restriction.FIRST_DICE_RESTRICTION);    //First dice wrong placement
+			throw new PlacementRestrictionException(RestrictionEnum.FIRST_DICE_RESTRICTION);    //First dice wrong placement
 
 
 		Cell currCell = cells[row][col];
 		//Cell's restrictions check
-		if(currCell.getRestriction() != null) {    //Has restiction
-			if(    //IF...
-					(ignoredRestrictions == null || ignoredRestrictions.indexOf(Restriction.CELL_VALUE_RESTRICTION) < 0)    //...don't ignore cell value restriction...
-							&& currCell.getRestriction() instanceof Integer && currCell.getRestriction() != (Integer)dice.getValue())    //...ADN value restr. not respected
-
-				throw new PlacementRestrictionException(Restriction.CELL_VALUE_RESTRICTION, currCell.getRestriction(), dice.getValue());    //Exception
-
-			else if(    //IF
-					(ignoredRestrictions == null || ignoredRestrictions.indexOf(Restriction.CELL_COLOR_RESTRICTION) < 0)    //...don't ignore first dice restriction...
-							&& currCell.getRestriction() instanceof Color && currCell.getRestriction() != dice.getColor())   //...AND color restr. not respected
-
-				throw new PlacementRestrictionException(Restriction.CELL_COLOR_RESTRICTION);    //Exception
+		RestrictionEnum restrictionEnumEx = currCell.compatibleDiceException(dice);
+		if(currCell.getRestriction().hasAnyRestriction()) {    //Has restiction
+			if (    //IF...
+					(ignoredRestrictionEnums == null || ignoredRestrictionEnums.indexOf(RestrictionEnum.CELL_VALUE_RESTRICTION) < 0)    //...don't ignore cell value restriction...
+							&& restrictionEnumEx != null) {   //...ADN value restr. not respected
+				if (restrictionEnumEx == RestrictionEnum.CELL_VALUE_RESTRICTION)
+					throw new PlacementRestrictionException(RestrictionEnum.CELL_VALUE_RESTRICTION, currCell.getRestriction().getRestrictionValue(), dice.getValue());    //Exception
+				else
+					throw new PlacementRestrictionException(RestrictionEnum.CELL_COLOR_RESTRICTION);    //Exception
+			}
 		}
 
 		//Check near dices to verify restrictions about near dice presence, color and value
 		if(placedDices > 0) {    //If there's an already placed dice
 			//Near cells dices check
 			boolean foundADice = false,    //Set to true if there's at least one dice in a near cell
-					ignoreValueRest = ignoredRestrictions != null && ignoredRestrictions.indexOf(Restriction.NEAR_DICE_VALUE_RESTRICTION) >= 0,
-					ignoreColorRest = ignoredRestrictions != null && ignoredRestrictions.indexOf(Restriction.NEAR_DICE_COLOR_RESTRICTION) >= 0;
+					ignoreValueRest = ignoredRestrictionEnums != null && ignoredRestrictionEnums.indexOf(RestrictionEnum.NEAR_DICE_VALUE_RESTRICTION) >= 0,
+					ignoreColorRest = ignoredRestrictionEnums != null && ignoredRestrictionEnums.indexOf(RestrictionEnum.NEAR_DICE_COLOR_RESTRICTION) >= 0;
 			Dice diceToCheck;    //Near dice to check
 
 			//Check N, NW and NE dices
@@ -168,9 +166,9 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 			}
 
 			if(
-					! (ignoredRestrictions != null && ignoredRestrictions.indexOf(Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION) >= 0)    //NOT ignore restr.
+					! (ignoredRestrictionEnums != null && ignoredRestrictionEnums.indexOf(RestrictionEnum.MUST_HAVE_NEAR_DICE_RESTRICTION) >= 0)    //NOT ignore restr.
 							&& ! foundADice)    //...AND not found any dice
-				throw new PlacementRestrictionException(Restriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
+				throw new PlacementRestrictionException(RestrictionEnum.MUST_HAVE_NEAR_DICE_RESTRICTION);
 		}
 
 		if(!currCell.putDice(dice))
@@ -195,9 +193,9 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 
 	private void checkNearDices(Dice dice1, Dice dice2, boolean ignoreValueRest, boolean ignoreColorRestr) throws PlacementRestrictionException {
 		if(! ignoreValueRest && dice1.getValue() == dice2.getValue())    //IF don't ignore restr. AND same value
-			throw new PlacementRestrictionException(Restriction.NEAR_DICE_VALUE_RESTRICTION);
+			throw new PlacementRestrictionException(RestrictionEnum.NEAR_DICE_VALUE_RESTRICTION);
 		else if(! ignoreColorRestr && dice1.getColor() == dice2.getColor())    //IF don't ignore restr. AND same color
-			throw new PlacementRestrictionException(Restriction.NEAR_DICE_COLOR_RESTRICTION);
+			throw new PlacementRestrictionException(RestrictionEnum.NEAR_DICE_COLOR_RESTRICTION);
 	}
 
 	public class WindowPatternOutOfBoundException extends Exception {
@@ -207,20 +205,20 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 	}
 
 	public class PlacementRestrictionException extends Exception {
-		final Restriction restrictionType;
+		final RestrictionEnum restrictionEnumType;
 
-		PlacementRestrictionException(Restriction restrictionType) {
-			super(restrictionType.toString());
-			this.restrictionType = restrictionType;
+		PlacementRestrictionException(RestrictionEnum restrictionEnumType) {
+			super(restrictionEnumType.toString());
+			this.restrictionEnumType = restrictionEnumType;
 		}
 
-		PlacementRestrictionException(Restriction restrictionType, Object expected, Object real) {
-			super(restrictionType.toString() + ": expected " + expected.toString() + ", found" + real.toString());
-			this.restrictionType = restrictionType;
+		PlacementRestrictionException(RestrictionEnum restrictionEnumType, Object expected, Object real) {
+			super(restrictionEnumType.toString() + ": expected " + expected.toString() + ", found" + real.toString());
+			this.restrictionEnumType = restrictionEnumType;
 		}
 
-		public Restriction getRestrictionType() {
-			return restrictionType;
+		public RestrictionEnum getRestrictionEnumType() {
+			return restrictionEnumType;
 		}
 	}
 }

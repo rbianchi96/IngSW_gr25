@@ -14,7 +14,7 @@ public class Controller {
 	private boolean timerStarted = false;
 	private Timer lobbyTimer;
 	private int waitSeconds;
-	private int waitSecondsServer = 20;
+	private int waitSecondsServer = 5;
 
 	public Controller(Lobby lobby) {
 		this.lobby = lobby;

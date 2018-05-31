@@ -37,7 +37,7 @@ public class Server {
 				//System.setSecurityManager(new RMISecurityManager());
 				java.rmi.registry.LocateRegistry.createRegistry(netParamsLoader.getRMIServerPort());
 				RMIServerInterface server = new RMIServer(controller);
-				System.setProperty("java.rmi.server.hostname", "192.168.4.20");
+				//System.setProperty("java.rmi.server.hostname", "192.168.4.20");
 				Naming.rebind("rmi://localhost/" + netParamsLoader.getRMIServerName(), server);
 				System.out.println("[System] RMI Server is ready on port " + netParamsLoader.getRMIServerPort() + "!");
 			} catch(Exception e) {

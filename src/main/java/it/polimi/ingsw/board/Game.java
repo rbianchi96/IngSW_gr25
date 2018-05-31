@@ -171,14 +171,13 @@ public class Game {
                     updateAllWindowPatterns();
                     sendDraft();
                     player.setPhase1(true);
-                } catch (WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException e) {
+                } catch (WindowPattern.WindowPatternOutOfBoundException e) {
                     gameBoard.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
-
-                    if (e instanceof WindowPattern.WindowPatternOutOfBoundException) {
-                        //TODO
-                        ((WindowPattern.WindowPatternOutOfBoundException) e).printStackTrace();
-                    } else    //Restriction broken
-                        player.getClientInterface().dicePlacementRestictionBroken();
+                    e.printStackTrace();
+                } catch(WindowPattern.PlacementRestrictionException e1){   //RestrictionEnum broken
+                    gameBoard.getDraft().addDice(diceFromDraft);
+                    player.getClientInterface().dicePlacementRestictionBroken();
+                    e1.printStackTrace();
                 }
             }
         }else

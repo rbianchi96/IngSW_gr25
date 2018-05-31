@@ -37,7 +37,7 @@ public class CellTest {
     public void getRestrictionTest(){
         System.out.println("CellTest: Testing getRestriction()...");
         // Very simples tests.
-        Cell cell1 = new Cell(null);
+        Cell cell1 = new Cell();
         Cell cell2 = new Cell(4);
         Cell cell3 = new Cell(Color.BLUE);
         assertEquals(null,cell1.getRestriction());
@@ -58,18 +58,15 @@ public class CellTest {
         Cell c1 = new Cell(2);
         Cell c2 = new Cell(Color.GREEN);
         Cell c3 = new Cell();
-        Cell c4 = new Cell(null);
-        Cell c5 = new Cell("testString");
+        Cell c4 = new Cell();
         Cell c1_2 = new Cell(2);
         Cell c2_2 = new Cell(Color.GREEN);
         Cell c3_2 = new Cell();
-        Cell c4_2 = new Cell(null);
-        Cell c5_2 = new Cell("testString");
+        Cell c4_2 = new Cell();
         assertTrue(c1.equals(c1_2));
         assertTrue(c2.equals(c2_2));
         assertTrue(c3.equals(c3_2));
         assertTrue(c4.equals(c4_2));
-        assertTrue(c5.equals(c5_2));
         assertFalse(c1.equals(c2_2));
     }
 }

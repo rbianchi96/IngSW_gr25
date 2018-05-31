@@ -35,10 +35,10 @@ class ObjectsFactoryTest {
         assertEquals(4, c2fact.getRestriction());
         assertEquals(c2.getDice().toString(),c2fact.getDice().toString());
         //Cell without restriction
-        Cell c3 = new Cell(null);
+        Cell c3 = new Cell();
         try {
-            Cell c3fact = CellFactory((Color) null, null);
-            assertEquals(null, (Color) c3fact.getRestriction());
+            Cell c3fact = CellFactory(null,null);
+            assertEquals(null,  c3fact.getRestriction().getRestrictionValue());
             assertEquals(c3.getDice().toString(), c3fact.getDice().toString());
         }
         catch(NullPointerException ex){
