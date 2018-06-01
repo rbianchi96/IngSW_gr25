@@ -100,7 +100,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
-
+		gameGUI.sendPublicObjectiveCards(publicObjectiveCards);
 	}
 
 	@Override

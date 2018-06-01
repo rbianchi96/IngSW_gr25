@@ -187,7 +187,19 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override
 	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
-
+		out.print(encode(SEND_PUBLIC_OBJECTIVE_CARDS));
+		for(int i = 0; i < publicObjectiveCards.length; i ++) {
+			out.print("#");
+			out.print(publicObjectiveCards[i].getId());
+			out.print("#");
+			out.print(publicObjectiveCards[i].getName());
+			out.print("#");
+			out.print(publicObjectiveCards[i].getDescription());
+			out.print("#");
+			out.print(publicObjectiveCards[i].getPoints());
+		}
+		out.println();
+		out.flush();
 	}
 
 	@Override

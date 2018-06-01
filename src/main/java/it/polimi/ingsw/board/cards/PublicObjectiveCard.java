@@ -5,7 +5,9 @@ import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.CellIterator;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
-public class PublicObjectiveCard extends Card {
+import java.io.Serializable;
+
+public class PublicObjectiveCard extends Card implements Serializable {
 	private PublicObjectiveCardsIds id;
 	private String name;
 	private String description;
@@ -300,6 +302,10 @@ public class PublicObjectiveCard extends Card {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public int getPoints() {

@@ -25,4 +25,9 @@ public enum PublicObjectiveCardsIds {
 
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return id;
+	}
 }

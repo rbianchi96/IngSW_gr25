@@ -29,6 +29,8 @@ public class ModelObserver implements java.util.Observer {
 
 				break;
 			case PUBLIC_OBJECTIVE_CARDS:
+				clientInterface.sendPublicObjectiveCards(model.getPublicObjectiveCards());
+
 				break;
 			case TOOL_CARDS:
 				clientInterface.sendToolCards(model.getToolCards());

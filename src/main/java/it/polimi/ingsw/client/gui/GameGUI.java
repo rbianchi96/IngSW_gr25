@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
@@ -30,8 +31,12 @@ public class GameGUI extends GUIController {
 	private Circle difficulties[];
 
 	@FXML
-	ImageView privateObjectiveCard, toolCard0, toolCard1, toolCard2;
-	private ImageView toolCards[];
+	ImageView
+			privateObjectiveCard,
+			toolCard0, toolCard1, toolCard2,
+			publicObjectiveCard0, publicObjectiveCard1, publicObjectiveCard2;
+
+	private ImageView toolCards[], publicObjectiveCards[];
 
 	private GridPane patterns[];
 
@@ -47,6 +52,7 @@ public class GameGUI extends GUIController {
 		patterns = new GridPane[]{pattern0, pattern1, pattern2, pattern3};
 		difficulties = new Circle[]{difficulty0, difficulty1, difficulty2, difficulty3, difficulty4, difficulty5};
 		toolCards = new ImageView[]{toolCard0, toolCard1, toolCard2};
+		publicObjectiveCards = new ImageView[] {publicObjectiveCard0, publicObjectiveCard1, publicObjectiveCard2};
 	}
 
 	public void sendPlayersList(String username, String[] players) {
@@ -85,10 +91,6 @@ public class GameGUI extends GUIController {
 					}
 					else {
 						Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], true);
-						/*if(i < myIndex)
-							Drawers.drawWindowPattern(patterns[i + 1], windowPatterns[i], true);
-						else
-							Drawers.drawWindowPattern(patterns[i], windowPatterns[i], true);*/
 					}
 			}
 		});
@@ -217,6 +219,19 @@ public class GameGUI extends GUIController {
 			@Override
 			public void run() {
 				GameGUI.this.privateObjectiveCard.setImage(new Image("/imgs/cards/privateOC/" + privateObjectiveCard.getColor().toString() + ".png"));
+			}
+		});
+	}
+
+	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for(int i = 0; i < publicObjectiveCards.length; i ++) {
+					GameGUI.this.publicObjectiveCards[i].setImage(
+							new Image("/imgs/cards/publicOC/" + publicObjectiveCards[i].getId().toString() + ".png")
+					);
+				}
 			}
 		});
 	}
