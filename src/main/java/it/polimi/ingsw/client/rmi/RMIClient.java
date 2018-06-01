@@ -101,6 +101,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         client.dicePlacementRestictionBroken();
     }
 
+    @Override
+    public void cellAlreadyOccupied() throws RemoteException {
+        client.cellAlreadyOccupied();
+    }
+
     protected String getSessionID() {
         return sessionID;
     }

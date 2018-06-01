@@ -70,6 +70,8 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		if(dice == null) throw new NullPointerException();
 		checkIndexes(row, col);    //Throws an exception
 
+		if(cells[row][col].getDice() != null) throw new CellAlreadyOccupiedException();
+
 		//First dice restriction
 		if(
 				placedDices == 0

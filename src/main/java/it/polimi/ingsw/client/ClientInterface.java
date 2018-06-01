@@ -31,6 +31,7 @@ public interface ClientInterface {
 	public void updateToolCardsTokens(int[] tokens);
 
 	public void dicePlacementRestictionBroken();
+	public void cellAlreadyOccupied();
 
 	public void closeConnection();  // close the connection from the Model in case of an handled logout
 }

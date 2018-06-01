@@ -135,7 +135,7 @@ public class Controller {
 		} catch(WindowPattern.PlacementRestrictionException e) {
 			clientInterface.dicePlacementRestictionBroken();
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {
-			clientInterface.dicePlacementRestictionBroken();	//TODO replace with a new diceAlreadyOccupied like method
+			clientInterface.cellAlreadyOccupied();
 		}
 	}
 }

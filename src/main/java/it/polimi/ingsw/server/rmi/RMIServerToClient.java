@@ -204,6 +204,16 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void cellAlreadyOccupied() {
+		try {
+			rmiClientInterface.cellAlreadyOccupied();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void closeConnection() {
 		pingTimer.cancel();
 	}

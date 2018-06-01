@@ -143,6 +143,10 @@ public class SocketClient extends Socket implements ServerInterface {
 				client.dicePlacementRestictionBroken();
 
 				break;
+			case "cellAlreadyOccupied":
+				client.cellAlreadyOccupied();
+
+				break;
 			default:
 				break;
 		}

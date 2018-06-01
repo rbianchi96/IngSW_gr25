@@ -142,6 +142,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void cellAlreadyOccupied() {
+		gameGUI.cellAlreadyOccupied();
+	}
+
+	@Override
 	public void loginResponse(String... result) {
 		if(result[0].equals("success"))
 			this.myUsername = result[1];

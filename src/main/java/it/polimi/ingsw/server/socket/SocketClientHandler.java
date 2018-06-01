@@ -221,6 +221,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	@Override
+	public void cellAlreadyOccupied() {
+		out.println("cellAlreadyOccupied");
+		out.flush();
+	}
+
 	@Override // Read ClientInterface for details
 	public void closeConnection() {
 		closeSocket();

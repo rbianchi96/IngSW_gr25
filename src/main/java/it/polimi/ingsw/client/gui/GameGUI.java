@@ -77,6 +77,16 @@ public class GameGUI extends GUIController {
 		});
 	}
 
+	public void cellAlreadyOccupied() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Alert alert = new Alert(Alert.AlertType.ERROR, "Cella già occupata!");
+				alert.showAndWait();
+			}
+		});
+	}
+
 	public void newTurn(int currentPlayer) {
 		Platform.runLater(new Runnable() {
 			@Override
