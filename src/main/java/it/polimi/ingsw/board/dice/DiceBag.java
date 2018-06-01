@@ -34,10 +34,10 @@ public class DiceBag {
     public Dice getRandomDice() {
         if (dices.size() > MINSIZE) {
             Dice dice = dices.get(new Random().nextInt(dices.size()));
-            dices.remove(0);
-
             dice.rollDice();
-            return dice;
+            Dice d2 = dice.getClone();
+            dices.remove(dice);
+            return d2;
         }
         return null;
     }
