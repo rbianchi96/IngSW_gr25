@@ -25,10 +25,14 @@ public class ModelObserver implements java.util.Observer {
 
 				break;
 			case PRIVATE_OBJECTIVE_CARD:
-
+				clientInterface.sendPrivateObjectiveCard(model.getPrivateObjectiveCard(playerUsername));
 
 				break;
 			case PUBLIC_OBJECTIVE_CARDS:
+				break;
+			case TOOL_CARDS:
+				clientInterface.sendToolCards(model.getToolCards());
+
 				break;
 			case START_GAME:
 				clientInterface.startGame();
@@ -44,6 +48,8 @@ public class ModelObserver implements java.util.Observer {
 
 			case WINDOW_PATTERNS:
 				clientInterface.updateWindowPatterns(model.getAllWindowPatterns());
+				break;
+			case TOOL_CARDS_TOKENS:
 				break;
 		}
 	}

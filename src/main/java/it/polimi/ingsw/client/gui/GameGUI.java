@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import javafx.application.Platform;
@@ -7,15 +9,29 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 import java.util.HashMap;
 
 public class GameGUI extends GUIController {
 	@FXML
 	GridPane pattern0, pattern1, pattern2, pattern3, draft;
+
+	@FXML
+	Label patternName0;
+
+	@FXML
+	Circle difficulty0, difficulty1, difficulty2, difficulty3, difficulty4, difficulty5;
+	private Circle difficulties[];
+
+	@FXML
+	ImageView privateObjectiveCard, toolCard0, toolCard1, toolCard2;
+	private ImageView toolCards[];
 
 	private GridPane patterns[];
 
@@ -29,6 +45,8 @@ public class GameGUI extends GUIController {
 
 	public void initialize() {
 		patterns = new GridPane[]{pattern0, pattern1, pattern2, pattern3};
+		difficulties = new Circle[]{difficulty0, difficulty1, difficulty2, difficulty3, difficulty4, difficulty5};
+		toolCards = new ImageView[]{toolCard0, toolCard1, toolCard2};
 	}
 
 	public void sendPlayersList(String username, String[] players) {
@@ -54,8 +72,17 @@ public class GameGUI extends GUIController {
 			@Override
 			public void run() {
 				for(int i = 0; i < windowPatterns.length; i++)
-					if(i == myIndex)
+					if(i == myIndex) {
 						Drawers.drawWindowPattern(patterns[0], windowPatterns[i], true, onCellSelected);
+						patternName0.setText(windowPatterns[i].getName());
+
+						for(int i2 = 0; i2 < difficulties.length; i2 ++) {
+							if(i2 < windowPatterns[i].getDifficulty())
+								difficulties[i2].setVisible(true);
+							else
+								difficulties[i2].setVisible(false);
+						}
+					}
 					else {
 						Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], true);
 						/*if(i < myIndex)
@@ -96,7 +123,7 @@ public class GameGUI extends GUIController {
 						patterns[playersMap.get(i)].setStyle("-fx-background-color: #fff");
 					}
 					else {
-						patterns[playersMap.get(i)].setStyle("-fx-background-color: #ccc");
+						patterns[playersMap.get(i)].setStyle("-fx-background-color: #000");
 					}
 				}
 
@@ -173,6 +200,26 @@ public class GameGUI extends GUIController {
 			}
 		}
 	};
+
+	public void sendToolCards(ToolCard[] toolCards) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for(int i = 0; i < toolCards.length; i ++) {
+					GameGUI.this.toolCards[i].setImage(new Image("/imgs/cards/toolCards/toolCard" + toolCards[i].getId() + ".png"));
+				}
+			}
+		});
+	}
+
+	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				GameGUI.this.privateObjectiveCard.setImage(new Image("/imgs/cards/privateOC/" + privateObjectiveCard.getColor().toString() + ".png"));
+			}
+		});
+	}
 
 	private enum State {
 		WAIT, PLACE_DICE_IN_HAND

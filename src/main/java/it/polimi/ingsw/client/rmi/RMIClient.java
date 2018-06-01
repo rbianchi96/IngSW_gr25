@@ -38,7 +38,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) throws RemoteException {
-
+        client.sendPrivateObjectiveCard(privateObjectiveCard);
     }
 
     @Override
@@ -63,12 +63,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void sendToolCards(ToolCard[] toolCards) throws RemoteException {
-
+        client.sendToolCards(toolCards);
     }
 
     @Override
     public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) throws RemoteException {
-
+        client.sendPublicObjectiveCards(publicObjectiveCards);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void updateToolCardsTokens(int[] tokens) throws RemoteException {
-
+        client.updateToolCardsTokens(tokens);
     }
 
     @Override

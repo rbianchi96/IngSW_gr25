@@ -95,7 +95,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void sendToolCards(ToolCard[] toolCards) {
-
+		gameGUI.sendToolCards(toolCards);
 	}
 
 	@Override
@@ -202,7 +202,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
-
+		gameGUI.sendPrivateObjectiveCard(privateObjectiveCard);
 	}
 
 	@Override

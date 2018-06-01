@@ -32,9 +32,11 @@ public class Drawers {
 					if(restriction.getValue()!=null) {    //Value restriction
 						Label label = new Label(String.valueOf(restriction.getValue()));
 						cell.getChildren().add(label);
+						cell.setStyle("-fx-background-color: #fff;");
 					} else if(restriction.getColor()!=null) {    //Color restriction
 						cell.setStyle("-fx-background-color:" + (restriction.getColor()).getHexColor() + ";");
-					}
+					} else
+						cell.setStyle("-fx-background-color: #fff;");
 
 					if(showDices) {
 						Dice dice = windowPattern.getDice(row, col);

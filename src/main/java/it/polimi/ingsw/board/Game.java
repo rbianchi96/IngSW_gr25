@@ -93,15 +93,21 @@ public class Game extends Observable {
 		PublicObjectiveCardsLoader publicObjectiveCardsLoader = new PublicObjectiveCardsLoader("src/main/resources/publicObjectiveCards.json");
 		publicObjectiveCards = publicObjectiveCardsLoader.getRandomCards(PUBLIC_OBJECTIVE_CARDS_NUMBER);
 
+		//Notify to all
+		setChanged();
+		notifyObservers(NotifyType.PUBLIC_OBJECTIVE_CARDS);
+
 		// Loading of tools cards
 		ToolCardsLoader toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards.json");
 		toolCards = toolCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
 
-		gameBoard = new GameBoard(diceBag, new Draft(players.size()), publicObjectiveCards, toolCards, roundTrack);
-
 		//Notify to all
 		setChanged();
-		notifyObservers(NotifyType.PUBLIC_OBJECTIVE_CARDS);
+		notifyObservers(NotifyType.TOOL_CARDS);
+
+		gameBoard = new GameBoard(diceBag, new Draft(players.size()), publicObjectiveCards, toolCards, roundTrack);
+
+
 	}
 
 	// Method to call to start the next round
@@ -233,6 +239,10 @@ public class Game extends Observable {
 		return publicObjectiveCards;
 	}
 
+	public ToolCard[] getToolCards() {
+		return toolCards;
+	}
+
 	public WindowPattern[] getWindowPatternsToChoose(String username) {
 		return findPlayer(username).getWindowPatternToChoose();
 	}
@@ -251,7 +261,7 @@ public class Game extends Observable {
 	}
 
 	public enum NotifyType {
-		SELECT_WINDOW_PATTERN, PRIVATE_OBJECTIVE_CARD, PUBLIC_OBJECTIVE_CARDS,
-		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS
+		SELECT_WINDOW_PATTERN, PRIVATE_OBJECTIVE_CARD, PUBLIC_OBJECTIVE_CARDS, TOOL_CARDS,
+		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, TOOL_CARDS_TOKENS
 	}
 }

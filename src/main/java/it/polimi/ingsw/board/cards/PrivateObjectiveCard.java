@@ -5,7 +5,9 @@ import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
-public class PrivateObjectiveCard extends Card {
+import java.io.Serializable;
+
+public class PrivateObjectiveCard extends Card implements Serializable {
 	private Color color;
 	private String name;
 	private String description;
@@ -31,6 +33,14 @@ public class PrivateObjectiveCard extends Card {
 
 	public Color getColor() {
 		return color;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	@Override

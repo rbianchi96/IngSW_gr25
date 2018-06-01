@@ -1,28 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.GameGUI">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.GameGUI">
     <children>
-        <GridPane fx:id="pattern0" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="10.0" layoutX="255.0" layoutY="370.0" vgap="10.0" AnchorPane.bottomAnchor="0.0">
-            <columnConstraints>
-                <ColumnConstraints prefWidth="50" />
-                <ColumnConstraints prefWidth="50" />
-                <ColumnConstraints prefWidth="50" />
-                <ColumnConstraints prefWidth="50" />
-                <ColumnConstraints prefWidth="50" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints prefHeight="50.0" />
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                <RowConstraints prefHeight="50.0" />
-            </rowConstraints>
-        </GridPane>
+        <AnchorPane layoutX="243.0" layoutY="542.0" style="-fx-background-color: #000;" AnchorPane.bottomAnchor="0.0">
+            <children>
+                <GridPane fx:id="pattern0" alignment="CENTER" gridLinesVisible="true" hgap="10.0" layoutX="14.0" layoutY="45.0" style="-fx-background-color: #fff;" vgap="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="50" />
+                        <ColumnConstraints prefWidth="50" />
+                        <ColumnConstraints prefWidth="50" />
+                        <ColumnConstraints prefWidth="50" />
+                        <ColumnConstraints prefWidth="50" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="50.0" />
+                        <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                        <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                        <RowConstraints prefHeight="50.0" />
+                    </rowConstraints>
+                </GridPane>
+                <Label fx:id="patternName0" alignment="CENTER" contentDisplay="RIGHT" layoutX="78.0" layoutY="240.0" prefWidth="150.0" style="-fx-text-fill: #fff;" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="4.0">
+                    <font>
+                        <Font name="Times New Roman Bold" size="13.0" />
+                    </font>
+                </Label>
+                <Circle fx:id="difficulty0" fill="WHITE" layoutX="292.0" layoutY="247.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                <Circle fx:id="difficulty1" fill="WHITE" layoutX="282.0" layoutY="247.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                <Circle fx:id="difficulty2" fill="WHITE" layoutX="272.0" layoutY="247.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                <Circle fx:id="difficulty3" fill="WHITE" layoutX="262.0" layoutY="247.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                <Circle fx:id="difficulty4" fill="WHITE" layoutX="252.0" layoutY="247.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                <Circle fx:id="difficulty5" fill="WHITE" layoutX="242.0" layoutY="247.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+            </children>
+        </AnchorPane>
 
         <GridPane fx:id="pattern1" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="6.0" layoutX="21.0" vgap="6.0" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
@@ -38,9 +59,12 @@
                 <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" />
                 <RowConstraints prefHeight="30.0" />
             </rowConstraints>
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
         </GridPane>
 
-        <GridPane fx:id="pattern2" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="6.0" layoutX="309.0" vgap="6.0" AnchorPane.topAnchor="0.0">
+        <GridPane fx:id="pattern2" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="6.0" layoutX="303.0" vgap="6.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
                 <ColumnConstraints prefWidth="30" />
                 <ColumnConstraints prefWidth="30" />
@@ -54,6 +78,9 @@
                 <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" />
                 <RowConstraints prefHeight="30.0" />
             </rowConstraints>
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
         </GridPane>
 
         <GridPane fx:id="pattern3" alignment="BOTTOM_CENTER" gridLinesVisible="true" hgap="6.0" layoutX="618.0" vgap="6.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="0.0">
@@ -70,9 +97,12 @@
                 <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" />
                 <RowConstraints prefHeight="30.0" />
             </rowConstraints>
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
         </GridPane>
-        
-        <ScrollPane hbarPolicy="NEVER" layoutX="28.0" layoutY="370.0" prefHeight="230.0" prefWidth="190.0" vbarPolicy="ALWAYS">
+
+        <ScrollPane hbarPolicy="NEVER" layoutX="28.0" layoutY="370.0" prefHeight="230.0" prefWidth="190.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="32.0">
             <content>
                 <GridPane fx:id="draft" prefWidth="170.0">
                     <columnConstraints>
@@ -85,7 +115,29 @@
                 </GridPane>
             </content>
         </ScrollPane>
-
-
+      <AnchorPane layoutX="46.0" layoutY="157.0" prefWidth="700.0" AnchorPane.topAnchor="160.0">
+         <children>
+              <ImageView fx:id="toolCard0" fitHeight="300.0" fitWidth="200.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="0.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+              <ImageView fx:id="toolCard1" fitHeight="300.0" fitWidth="200.0" layoutX="250.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+              <ImageView fx:id="toolCard2" fitHeight="300.0" fitWidth="200.0" layoutX="392.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="0.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="privateObjectiveCard" fitHeight="300.0" fitWidth="200.0" layoutX="600.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="8.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
     </children>
 </AnchorPane>
