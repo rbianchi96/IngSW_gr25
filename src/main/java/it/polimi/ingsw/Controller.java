@@ -29,7 +29,7 @@ public class Controller {
 	// Make login request from client to Model
 	public synchronized void login(ClientInterface clientInterface, String username) {
 		lobby.login(clientInterface, username);
-		if(lobby.getPlayers().size() > 1 && ! timerStarted) {
+		if(lobby.getPlayersConnectionData().size() > 1 && ! timerStarted) {
 			lobbyTimer = new Timer();
 			lobbyTimer.scheduleAtFixedRate(new TimerTask() {
 				@Override
@@ -38,7 +38,7 @@ public class Controller {
 				}
 			}, 10, 1000);
 			timerStarted = true;
-		} else if(lobby.getPlayers().size() == 4 && timerStarted) {
+		} else if(lobby.getPlayersConnectionData().size() == 4 && timerStarted) {
 			lobbyTimer.cancel();
 			timerStarted = false;
 			startGame();
@@ -48,8 +48,8 @@ public class Controller {
 	private void time() {
 		waitSeconds++;
 		System.out.println(waitSeconds);
-		System.out.println("Giocatori: " + lobby.getPlayers().size());
-		if(waitSeconds >= waitSecondsServer && lobby.getPlayers().size() > 1 && timerStarted) {
+		System.out.println("Giocatori: " + lobby.getPlayersConnectionData().size());
+		if(waitSeconds >= waitSecondsServer && lobby.getPlayersConnectionData().size() > 1 && timerStarted) {
 			System.out.println("Starting game...");
 			startGame();
 			lobbyTimer.cancel();
@@ -61,7 +61,7 @@ public class Controller {
 	// Make logout request from client to Model
 	public synchronized void logout(ClientInterface clientInterface) {
 		lobby.logout(clientInterface);
-		if(lobby.getPlayers().size() <= 1 && timerStarted) {
+		if(lobby.getPlayersConnectionData().size() <= 1 && timerStarted) {
 			lobbyTimer.cancel();
 			timerStarted = false;
 		}
@@ -70,7 +70,7 @@ public class Controller {
 	// Notify a lost connection from Socket / Rmi server to Model in order to handle it
 	public synchronized void lostConnection(ClientInterface clientInterface) {
 		lobby.lostConnection(clientInterface);
-		if(lobby.getPlayers().size() <= 1 && timerStarted) {
+		if(lobby.getPlayersConnectionData().size() <= 1 && timerStarted) {
 			lobbyTimer.cancel();
 			timerStarted = false;
 		}
@@ -82,9 +82,9 @@ public class Controller {
 
 	public void reconnect(ClientInterface clientInterface, String sessionID, String username) {
 		System.out.println(username + " wants to reconnect.");
-		ArrayList<Player> players = lobby.getPlayers();
+		ArrayList<PlayerConnectionData> players = lobby.getPlayersConnectionData();
 		for(int i = 0; i < players.size(); i++) {
-			if(! players.get(i).getIsOnline() && players.get(i).getClientInterface() == null && players.get(i).getSessionID().equals(sessionID) && players.get(i).getPlayerName().equals(username)) {
+			if(! players.get(i).getIsOnline() && players.get(i).getClientInterface() == null && players.get(i).getSessionID().equals(sessionID) && players.get(i).getNickName().equals(username)) {
 				// Client can reconnect
 				players.get(i).setClientInterface(clientInterface);
 				clientInterface.notifyReconnectionStatus(true, "You are successfully reconnected to the game!");
@@ -103,17 +103,17 @@ public class Controller {
 	}
 
 	public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
-		lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface).getPlayerName(), i);
+		lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface), i);
 	}
 
 
 	///// GAME \\\\\\
-	private Player findPlayer(ClientInterface clientInterface) {
-		ArrayList<Player> players = lobby.getPlayers();
+	private String findPlayer(ClientInterface clientInterface) {
+		ArrayList<PlayerConnectionData> players = lobby.getPlayersConnectionData();
 
-		for(Player player : players) {
+		for(PlayerConnectionData player : players) {
 			if(player.getClientInterface() == clientInterface)
-				return player;
+				return player.getNickName();
 		}
 
 		return null;

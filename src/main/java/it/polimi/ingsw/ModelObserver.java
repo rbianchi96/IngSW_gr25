@@ -9,8 +9,8 @@ public class ModelObserver implements java.util.Observer {
 	private String playerUsername;
 	private ClientInterface clientInterface;
 
-	public ModelObserver(String playernUsername, ClientInterface view) {
-		this.playerUsername = playernUsername;
+	public ModelObserver(String playerUsername, ClientInterface view) {
+		this.playerUsername = playerUsername;
 		this.clientInterface = view;
 	}
 

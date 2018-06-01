@@ -13,16 +13,12 @@ public class Player {
 	private int favourTokens;
 	private Color scoreToken;
 	private String playerName;
-	private ClientInterface clientInterface;
-	private String sessionID;
 	private boolean isOnline; // = true if player is still connected and playing
 
 	private boolean hasPlacedDice = false, hasPlayedToolCard = false;
 
-	public Player(ClientInterface clientInterface, String username, String sessionID) {
-		this.clientInterface = clientInterface;
+	public Player(String username) {
 		this.playerName = username;
-		this.sessionID = sessionID;
 		isOnline = true;
 	}
 
@@ -90,22 +86,6 @@ public class Player {
 
 	public void setIsOnline(boolean online) {
 		isOnline = online;
-	}
-
-	public ClientInterface getClientInterface() {
-		return clientInterface;
-	}
-
-	public void setClientInterface(ClientInterface clientInterface) {
-		this.clientInterface = clientInterface;
-	}
-
-	public String getSessionID() {
-		return sessionID;
-	}
-
-	public void setSessionID(String sessionID) {
-		this.sessionID = sessionID;
 	}
 
 	public boolean getHasPlacedDice() {

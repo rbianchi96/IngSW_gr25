@@ -105,10 +105,12 @@ public class Game extends Observable {
 	}
 
 	// Method to call to start the next round
-	public void startGame(ArrayList<Player> players) {
+	public void startGame(ArrayList<String> playersNicknames) {
 		System.out.println("Game is starting!");
-
-		this.players = players;
+		players = new ArrayList();
+		for (int i=0;i<playersNicknames.size();i++){
+			players.add(new Player(playersNicknames.get(i)));
+		}
 		initialize();
 		try {
 			playersPreparation();
@@ -157,9 +159,9 @@ public class Game extends Observable {
 		}
 	}
 
-	public void placeDiceFromDraft(Player player, Dice dice, int row, int col)
+	public void placeDiceFromDraft(String username, Dice dice, int row, int col)
 			throws WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException {
-
+		Player player = findPlayer(username);
 		if(players.get(rounds.getCurrentPlayer()) == player && ! player.getHasPlacedDice()) {
 			Dice diceFromDraft = gameBoard.getDraft().getDice(dice);
 			if(diceFromDraft != null) {
