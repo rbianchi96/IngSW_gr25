@@ -5,17 +5,18 @@ import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCardsIds;
+import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.Cell;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.server.ServerInterface;
+import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.*;
 
 public class SocketClient extends Socket implements ServerInterface {
@@ -51,105 +52,124 @@ public class SocketClient extends Socket implements ServerInterface {
 
 	void decode(String message) {
 		String[] msgVector = message.split("#");    //Split message
-		switch(msgVector[0]) {
-			case "login_response":
-				if(msgVector[1].equals("success")) {
-					client.loginResponse(msgVector[1], msgVector[2], msgVector[3]);
-					sessionID = msgVector[3];
-				} else if(msgVector[1].equals("fail")) {
-					client.loginResponse(msgVector[1], msgVector[2]);
-				}
-				break;
-			case "not_logged":
-				client.notLoggedYet(msgVector[1]);
-				break;
-			case "suspended_user":
-				client.notifySuspendedUser(msgVector[1]);
-				break;
-			case "new_user":
-				client.notifyNewUser(msgVector[1]);
-				break;
-			case "players_list":
-				client.sendPlayersList(Arrays.copyOfRange(msgVector, 1, msgVector.length));
-				break;
-			case "reconnect_response":
-				client.notifyReconnectionStatus(Boolean.getBoolean(msgVector[1]), msgVector[2]);
-				break;
 
-			//Game and players preparation methods
-			case "privateObjectiveCard":
-				PrivateObjectiveCard card = new PrivateObjectiveCard(
-						Color.findColor(msgVector[1]),
-						msgVector[2],
-						msgVector[3]
-				);
+		SocketServerToClientCommands command = SocketServerToClientCommands.convertMessageToEnum(msgVector[0]);
 
-				client.sendPrivateObjectiveCard(card);
+		if(command != null)	//Convert the command to the enum
+			switch(command) {
+				case CONNECTION_STATUS:
+					System.out.println(msgVector[1]);
+					System.out.println(msgVector[2]);
 
-				break;
-			case "windowPatternsToChose":
-				client.sendWindowPatternsToChoose(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
+					break;
+				case LOGIN_RESPONSE:
+					if(msgVector[1].equals("success")) {
+						client.loginResponse(msgVector[1], msgVector[2], msgVector[3]);
+						sessionID = msgVector[3];
+					} else if(msgVector[1].equals("fail")) {
+						client.loginResponse(msgVector[1], msgVector[2]);
+					}
+					break;
+				case NOT_LOGGED_YET:
+					client.notLoggedYet(msgVector[1]);
+					break;
+				case NOTIFY_SUSPENDED_USER:
+					client.notifySuspendedUser(msgVector[1]);
+					break;
+				case NOTIFY_NEW_USER:
+					client.notifyNewUser(msgVector[1]);
+					break;
+				case SEND_PLAYERS_LIST:
+					client.sendPlayersList(Arrays.copyOfRange(msgVector, 1, msgVector.length));
+					break;
+				case NOTIFY_RECONNECTION:
+					client.notifyReconnectionStatus(Boolean.getBoolean(msgVector[1]), msgVector[2]);
+					break;
 
-				break;
-			case "sendToolCards":
-
-
-				break;
-			case "sendPublicObjectiveCards":
-				PublicObjectiveCard[] cards = new PublicObjectiveCard[Game.PUBLIC_OBJECTIVE_CARDS_NUMBER];
-
-				for(int i = 0; i < Game.PUBLIC_OBJECTIVE_CARDS_NUMBER; i ++)
-					cards[i] = new PublicObjectiveCard(
-							PublicObjectiveCardsIds.findId(msgVector[1]),
+				//Game and players preparation methods
+				case SEND_PRIVATE_OBJECTIVE_CARD:
+					PrivateObjectiveCard card = new PrivateObjectiveCard(
+							Color.findColor(msgVector[1]),
 							msgVector[2],
-							msgVector[3],
-							Integer.parseInt(msgVector[4])
+							msgVector[3]
 					);
 
-				client.sendPublicObjectiveCards(cards);
+					client.sendPrivateObjectiveCard(card);
 
-				break;
+					break;
+				case SEND_WINDOW_PATTERNS_TO_CHOOSE:
+					client.sendWindowPatternsToChoose(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
 
-			//Game methods
-			case "startGame":
-				client.startGame();
-				break;
-			case "newTurn":
-				client.newTurn(Integer.parseInt(msgVector[1]));
-				break;
-			case "updateDraft":
-				Dice[] dices = new Dice[(msgVector.length - 1) / 2];
+					break;
+				case SEND_TOOL_CARDS:
+					ToolCard[] toolCards = new ToolCard[Game.TOOL_CARDS_NUMBER];
 
-				for(int i = 0; i < (msgVector.length - 1) / 2; i++) {
-					dices[i] = new Dice(Integer.parseInt(msgVector[i * 2 + 1]), Color.findColor(msgVector[i * 2 + 2]));
-				}
+					for(int i = 0; i < Game.TOOL_CARDS_NUMBER; i++) {
+						toolCards[i] = new ToolCard(
+								Integer.parseInt(msgVector[2 * i + 1]),
+								msgVector[2 * i + 2],
+								null
+						);
+					}
 
-				client.updateDraft(dices);
+					client.sendToolCards(toolCards);
 
-				break;
-			case "updateWindowPatterns":
-				client.updateWindowPatterns(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
-				break;
-			case "updateToolCardsTokens":
-				int[] tokens = new int[msgVector.length - 1];
+					break;
+				case SEND_PUBLIC_OBJECTIVE_CARDS:
+					PublicObjectiveCard[] cards = new PublicObjectiveCard[Game.PUBLIC_OBJECTIVE_CARDS_NUMBER];
 
-				for(int i = 1; i < msgVector.length; i++)
-					tokens[i - 1] = Integer.parseInt(msgVector[i]);
+					for(int i = 0; i < Game.PUBLIC_OBJECTIVE_CARDS_NUMBER; i++)
+						cards[i] = new PublicObjectiveCard(
+								PublicObjectiveCardsIds.findId(msgVector[1]),
+								msgVector[2],
+								msgVector[3],
+								Integer.parseInt(msgVector[4])
+						);
 
-				client.updateToolCardsTokens(tokens);
+					client.sendPublicObjectiveCards(cards);
 
-				break;
-			case "dicePlacementRestBroken":
-				client.dicePlacementRestictionBroken();
+					break;
 
-				break;
-			case "cellAlreadyOccupied":
-				client.cellAlreadyOccupied();
+				//Game methods
+				case START_GAME:
+					client.startGame();
+					break;
+				case NEW_TURN:
+					client.newTurn(Integer.parseInt(msgVector[1]));
+					break;
+				case UPDATE_DRAFT:
+					Dice[] dices = new Dice[(msgVector.length - 1) / 2];
 
-				break;
-			default:
-				break;
-		}
+					for(int i = 0; i < (msgVector.length - 1) / 2; i++) {
+						dices[i] = new Dice(Integer.parseInt(msgVector[i * 2 + 1]), Color.findColor(msgVector[i * 2 + 2]));
+					}
+
+					client.updateDraft(dices);
+
+					break;
+				case UPDATE_WINDOW_PATTERNS:
+					client.updateWindowPatterns(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
+					break;
+				case UPDATE_TOOL_CARDS_TOKENS:
+					int[] tokens = new int[msgVector.length - 1];
+
+					for(int i = 1; i < msgVector.length; i++)
+						tokens[i - 1] = Integer.parseInt(msgVector[i]);
+
+					client.updateToolCardsTokens(tokens);
+
+					break;
+				case DICE_PLACEMENT_RESTRICTION_BROKEN:
+					client.dicePlacementRestictionBroken();
+
+					break;
+				case CELL_ALREADY_OCUPIED:
+					client.cellAlreadyOccupied();
+
+					break;
+			}
+		else
+			System.out.println("Command not found!");
 	}
 
 	@Override
