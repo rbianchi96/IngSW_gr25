@@ -1,14 +1,15 @@
 package it.polimi.ingsw.board;
 
 public enum Color {
-    BLUE("b", "#3e5bef"), GREEN("g", "#5bbf5b"), PURPLE("p", "#d660d6"), RED("r", "#c64747"), YELLOW("y", "#d1d14d");
+    BLUE("b", "#3e5bef","\u001B[34m"), GREEN("g", "#5bbf5b", "\u001B[32m"), PURPLE("p", "#d660d6","\u001B[35m"), RED("r", "#c64747","\u001B[31m"), YELLOW("y", "#d1d14d","\u001B[33m");
 
-    String abbr, hexColor;
+
+    String abbr, hexColor, escape;
 
     public static final int COLOR_NUMBERS = 5;
 
-    Color(String abbreviation, String hexColor) {
-        abbr = abbreviation; this.hexColor = hexColor;
+    Color(String abbreviation, String hexColor, String escape) {
+        abbr = abbreviation; this.hexColor = hexColor; this.escape = escape;
     }
 
     public static Color findColor(String abbreviation) {
@@ -17,6 +18,11 @@ public enum Color {
                 return aColor;
 
         return null;
+    }
+
+
+    public String escape() {
+        return escape;
     }
 
     public String getHexColor() {
