@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.ClientInterface;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.board.Game.NotifyType.NEW_TURN;
+
 public class Lobby {
     private static final int MAX_PLAYERS = 4;
     private static final int SESSIONID_LENGTH = 5;
@@ -175,10 +177,19 @@ public class Lobby {
                 playersConnectionData.get(i).setIsOnline(true);
                 playersConnectionData.get(i).setSessionID(sessionID);
                 System.out.println(username + " successfully re-logged in! | SessionID: " + sessionID);
-                clientInterface.loginResponse("success", sessionID);
+                clientInterface.loginResponse("success",username,sessionID);
+                clientInterface.sendPlayersList(players.toArray(new String[players.size()]));
+                clientInterface.startGame();
+                clientInterface.sendPublicObjectiveCards(currentGame.getPublicObjectiveCards());
+                clientInterface.sendToolCards(currentGame.getToolCards());
+                clientInterface.updateDraft(currentGame.getDraft());
+                clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
+                ModelObserver observer = new ModelObserver(username, clientInterface);
+                currentGame.addObserver(observer);
+                observer.update(currentGame,NEW_TURN);
                 break;
             }else
-                clientInterface.loginResponse("fail");
+                clientInterface.loginResponse("fail","0");
 
         }
     }
