@@ -9,7 +9,8 @@ import java.util.Random;
 public class Dice implements Serializable {
     private int value;
     private Color color;
-    public Dice(int value, Color color){
+
+    public Dice(int value, Color color) {
         this.value = value;
         this.color = color;
     }
@@ -31,42 +32,50 @@ public class Dice implements Serializable {
     }
 
     //it increments the value of the dice of one unit
-    public void increment(){
-        if(this.value >=1 && this.value < 6){
+    public void increment() {
+        if (this.value >= 1 && this.value < 6) {
             this.value += 1;
         }
 
     }
 
     //it decrements the value of the dice of one unit
-    public void decrement () {
-        if(this.value > 1 && this.value <= 6){
-            this.value -= 1;}
+    public void decrement() {
+        if (this.value > 1 && this.value <= 6) {
+            this.value -= 1;
+        }
     }
 
     // it rotates the face of the dice
-    public void rotate () {
-        switch (this.value){
-            case 1: this.value = 6;
+    public void rotate() {
+        switch (this.value) {
+            case 1:
+                this.value = 6;
                 break;
-            case 2: this.value = 5;
+            case 2:
+                this.value = 5;
                 break;
-            case 3: this.value = 4;
+            case 3:
+                this.value = 4;
                 break;
-            case 4: this.value = 3;
+            case 4:
+                this.value = 3;
                 break;
-            case 5: this.value = 2;
+            case 5:
+                this.value = 2;
                 break;
-            case 6: this.value = 1;
+            case 6:
+                this.value = 1;
                 break;
-            default: break;
+            default:
+                break;
 
         }
     }
 
     // It returns a copy of this dice
-    public Dice getClone(){
-        return new Dice(this.value,this.color);
+    public Dice getClone() {
+        return new Dice(this.value, this.color);
     }
 
     public void rollDice() {
@@ -81,13 +90,21 @@ public class Dice implements Serializable {
         return "{Dice: value " + s + ", Color " + getColor() + "}";
     }
 
+    public String toString2() {
+        String RESET = "\u001B[0m";
+        String escape = this.color.escape();
+        String s = String.valueOf(this.getValue());
+        return escape + "[" + s + "]" + RESET;
+    }
+
     @Override
-    public boolean equals(Object other){
+    public boolean equals(Object other) {
         if ((other == null) || (!(other instanceof Dice))) return false;
         if (other == this) return true;
-        Dice otherDice = (Dice)other;
+        Dice otherDice = (Dice) other;
         return (this.toString().equals(otherDice.toString()));
     }
+
 }
 
 
