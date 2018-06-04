@@ -1,14 +1,12 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.board.Game;
-import it.polimi.ingsw.board.cards.MoveWindowPattenDiceEffect;
+import it.polimi.ingsw.board.cards.MoveWindowPatternDiceEffect;
 import it.polimi.ingsw.board.cards.SelectDiceFromDraftEffect;
 import it.polimi.ingsw.board.cards.SelectDiceFromWindowPatternEffect;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
-import it.polimi.ingsw.server.socket.SocketServer;
 import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
 
 import java.util.ArrayList;
@@ -111,19 +109,15 @@ public class Controller {
 		lobby.getCurrentGame().selectWindowPattern(findUsername(clientInterface), i);
 	}
 
-
 	///// GAME \\\\\\
 	private String findUsername(ClientInterface clientInterface) {
 		ArrayList<PlayerConnectionData> players = lobby.getPlayersConnectionData();
-
 		for(PlayerConnectionData player : players) {
 			if(player.getClientInterface() == clientInterface)
 				return player.getNickName();
 		}
-
 		return null;
 	}
-
 	public synchronized void placeDice(ClientInterface clientInterface, Dice dice, int row, int col) {
 		try {
 			lobby.getCurrentGame().placeDiceFromDraft(findUsername(clientInterface), dice, row, col);
@@ -147,6 +141,7 @@ public class Controller {
 				break;
 		}
 	}
+
 	public synchronized void useToolCard(ClientInterface clientInterface, int index){
 		try{
 			SocketServerToClientCommands command = lobby.getCurrentGame().useToolCard(findUsername(clientInterface),index);
@@ -201,11 +196,11 @@ public class Controller {
 
 		}catch(Game.InvalidCall ex){
 
-		}catch(MoveWindowPattenDiceEffect.DiceNotFoundException ex){
+		}catch(MoveWindowPatternDiceEffect.DiceNotFoundException ex){
 			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA WINDOWPATTERN
-		} catch (MoveWindowPattenDiceEffect.CellNotFoundException e) {
+		} catch (MoveWindowPatternDiceEffect.CellNotFoundException e) {
 
-		}catch (MoveWindowPattenDiceEffect.CellAlreadyOccupiedException e) {
+		}catch (MoveWindowPatternDiceEffect.CellAlreadyOccupiedException e) {
 
 		}
 	}
