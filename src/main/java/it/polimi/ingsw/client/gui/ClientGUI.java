@@ -132,6 +132,16 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void selectDiceFromDraft() {
+		gameGUI.selectDiceFromDraft();
+	}
+
+	@Override
+	public void selectIncrementOrDecrement() {
+		gameGUI.selectIncreaseOrDecrease();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) {
 		gameGUI.updateDraft(dices);
 	}

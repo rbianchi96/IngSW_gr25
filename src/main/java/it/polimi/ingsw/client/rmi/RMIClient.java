@@ -92,6 +92,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
+    public void selectIncrementOrDecrement() throws RemoteException {
+        client.selectIncrementOrDecrement();
+    }
+
+    @Override
     public void updateDraft(Dice[] dices) throws RemoteException {
         client.updateDraft(dices);
     }

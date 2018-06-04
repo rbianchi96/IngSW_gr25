@@ -57,6 +57,8 @@ public class SocketClient extends Socket implements ServerInterface {
 
 		if(command != null)	//Convert the command to the enum
 			switch(command) {
+				case PING:
+					break;
 				case CONNECTION_STATUS:
 					System.out.println(msgVector[1]);
 					System.out.println(msgVector[2]);
@@ -159,6 +161,14 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.updateToolCardsTokens(tokens);
 
 					break;
+				case SELECT_DICE_FROM_DRAFT:
+					client.selectDiceFromDraft();
+
+					break;
+				case SELECT_INCREMENT_OR_DECREMENT:
+					client.selectIncrementOrDecrement();
+
+					break;
 				case DICE_PLACEMENT_RESTRICTION_BROKEN:
 					client.dicePlacementRestictionBroken();
 
@@ -166,6 +176,8 @@ public class SocketClient extends Socket implements ServerInterface {
 				case CELL_ALREADY_OCUPIED:
 					client.cellAlreadyOccupied();
 
+					break;
+				case INVALID_COMMAND:
 					break;
 			}
 		else
@@ -194,12 +206,31 @@ public class SocketClient extends Socket implements ServerInterface {
 
 	@Override
 	public void selectDiceFromDraft(int index) {
-
+		out.println("selectDiceFromDraft#" + index);
+		out.flush();
 	}
 
 	@Override
 	public void placeDice(Dice dice, int row, int col) {
-		out.println("placeDice#" + dice.getValue() + "#" + dice.getColor().toString() + "#" + row + "#" + col);
+		out.println("placeDice#" + encodeDice(dice) + "#" + row + "#" + col);
+		out.flush();
+	}
+
+	@Override
+	public void useToolCard(int index) {
+		out.println("useToolCard#" + index);
+		out.flush();
+	}
+
+	@Override
+	public void selectDiceFromDraftEffect(Dice dice) {
+		out.println("selectDiceFromDraftEffect#" + encodeDice(dice));
+		out.flush();
+	}
+
+	@Override
+	public void incrementOrDecrementDiceEffect(boolean mode) {
+		out.println("incrementOrDecrementDiceEffect#" + mode);
 		out.flush();
 	}
 
@@ -252,5 +283,14 @@ public class SocketClient extends Socket implements ServerInterface {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private String encodeDice(Dice dice) {
+		String str =
+				String.valueOf(dice.getValue()) +
+				"#" +
+				dice.getColor();
+
+		return str;
 	}
 }

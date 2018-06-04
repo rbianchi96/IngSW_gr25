@@ -143,4 +143,19 @@ public class RMIClientToServer implements ServerInterface {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void useToolCard(int index) {
+		//TODO
+	}
+
+	@Override
+	public void selectDiceFromDraftEffect(Dice dice) {
+
+	}
+
+	@Override
+	public void incrementOrDecrementDiceEffect(boolean mode) {
+
+	}
 }

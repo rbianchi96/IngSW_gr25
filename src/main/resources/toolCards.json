@@ -3,16 +3,17 @@
 		"id": 1,
 		"name": "Pinza Sgrossatrice",
 		"effects": [
-				"SELECT_DICE_FROM_DRAFT",
-				"INCREMENT_DECREMENT_DICE"
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "INCREMENT_DECREMENT_DICE"}
 		]
 	},
 	{
 		"id": 2,
 		"name": "Pennello per Eglomise",
 		"effects": [
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
 			{
-				"effect": "moveDice",
+				"effect": "MOVE_WINDOW_PATTERN_DICE",
 				"ignoreRestriction": "color"
 			}
 		]
@@ -21,8 +22,9 @@
 		"id": 3,
 		"name": "Alesatore per lamina di rame",
 		"effects": [
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
 			{
-				"effect": "moveDice",
+				"effect": "MOVE_WINDOW_PATTERN_DICE",
 				"ignoreRestriction": "value"
 			}
 		]

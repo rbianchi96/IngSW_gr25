@@ -123,17 +123,17 @@
         </ImageView>
         <HBox layoutX="-40.0" layoutY="189.0" spacing="16.0" AnchorPane.topAnchor="170.0">
             <children>
-                <ImageView fx:id="toolCard0" fitHeight="250.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="toolCard0" fitHeight="250.0" fitWidth="200.0" onMouseClicked="#toolCardSelected" pickOnBounds="true" preserveRatio="true">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </ImageView>
-                <ImageView fx:id="toolCard1" fitHeight="250.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="toolCard1" fitHeight="250.0" fitWidth="200.0" onMouseClicked="#toolCardSelected" pickOnBounds="true" preserveRatio="true">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </ImageView>
-                <ImageView fx:id="toolCard2" fitHeight="250.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="toolCard2" fitHeight="250.0" fitWidth="200.0" onMouseClicked="#toolCardSelected" pickOnBounds="true" preserveRatio="true">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>

@@ -138,37 +138,43 @@ public class Controller {
 	private void sendCommand(ClientInterface clientInterface, SocketServerToClientCommands socketServerToClientCommands){
 		switch(socketServerToClientCommands){
 			case SELECT_DICE_FROM_DRAFT:
-				//clientInterface.selectDiceFromDraft();
+				clientInterface.selectDiceFromDraft();
 				break;
 			case SELECT_INCREMENT_OR_DECREMENT:
-				//TODO
+				clientInterface.selectIncrementOrDecrement();
 				break;
 			default:
 				break;
 		}
 	}
 	public synchronized void useToolCard(ClientInterface clientInterface, int index){
+		System.out.println("Use tool card " + index);
 		try{
 			SocketServerToClientCommands command = lobby.getCurrentGame().useToolCard(findUsername(clientInterface),index);
 			sendCommand(clientInterface,command);
 		}catch(Game.WrongTurnException ex){
-
+			System.out.println("Wron turn!");
 		}catch(Game.NotEnoughFavorTokens ex){
-
+			System.out.println("Not enogh FT!");
 		}catch(Game.AlreadyUsedToolCard ex){
+			System.out.println("Already used a TC!");
 			//TODO
 		}
 	}
 
 	public synchronized void selectDiceFromDraftEffect(ClientInterface clientInterface, Dice dice){
+		System.out.println("Selected a dice!");
 		try{
-			lobby.getCurrentGame().selectDiceFromDraftEffect(findUsername(clientInterface),dice);
-			// CHIEDI SE SI VUOLE INCREMENTARE O DECREMENTARE
+			sendCommand(
+					clientInterface,
+					lobby.getCurrentGame().selectDiceFromDraftEffect(findUsername(clientInterface),dice)
+			);
 		}catch(Game.WrongTurnException ex) {
-
+			System.out.println("Wron turn!");
 		}catch(Game.InvalidCall ex){
-
+			System.out.println("-_-'");
 		}catch(SelectDiceFromDraftEffect.DiceNotFoundException ex){
+			System.out.println("Dice not in draft!");
 			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA DRAFT POOL
 		}
 	}

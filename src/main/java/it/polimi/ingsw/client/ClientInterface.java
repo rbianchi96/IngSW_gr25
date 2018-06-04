@@ -30,6 +30,9 @@ public interface ClientInterface {
 	public void updateWindowPatterns(WindowPattern[] windowPatterns);
 	public void updateToolCardsTokens(int[] tokens);
 
+	public void selectDiceFromDraft();
+	public void selectIncrementOrDecrement();
+
 	public void dicePlacementRestictionBroken();
 	public void cellAlreadyOccupied();
 

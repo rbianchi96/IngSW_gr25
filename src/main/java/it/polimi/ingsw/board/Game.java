@@ -95,7 +95,7 @@ public class Game extends Observable {
 		notifyObservers(NotifyType.PUBLIC_OBJECTIVE_CARDS);
 
 		// Loading of tools cards
-		ToolCardsLoader toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards.json");
+		ToolCardsLoader toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards_ready.json");
 		toolCards = toolCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
 
 		//Notify to all
@@ -202,7 +202,7 @@ public class Game extends Observable {
 	public SocketServerToClientCommands useToolCard(String username, int index) throws NotEnoughFavorTokens,WrongTurnException,AlreadyUsedToolCard{
 		Player player = findPlayer(username);
 		turnCheck(player);
-		if(!player.getHasPlayedToolCard()){
+		if(player.getHasPlayedToolCard()){
 			throw new AlreadyUsedToolCard();
 		}
 		//Controllo favourTokens mancante

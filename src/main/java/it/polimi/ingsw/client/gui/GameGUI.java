@@ -6,9 +6,11 @@ import it.polimi.ingsw.board.cards.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,7 +54,7 @@ public class GameGUI extends GUIController {
 		patterns = new GridPane[]{pattern0, pattern1, pattern2, pattern3};
 		difficulties = new Circle[]{difficulty0, difficulty1, difficulty2, difficulty3, difficulty4, difficulty5};
 		toolCards = new ImageView[]{toolCard0, toolCard1, toolCard2};
-		publicObjectiveCards = new ImageView[] {publicObjectiveCard0, publicObjectiveCard1, publicObjectiveCard2};
+		publicObjectiveCards = new ImageView[]{publicObjectiveCard0, publicObjectiveCard1, publicObjectiveCard2};
 	}
 
 	public void sendPlayersList(String username, String[] players) {
@@ -82,14 +84,13 @@ public class GameGUI extends GUIController {
 						Drawers.drawWindowPattern(patterns[0], windowPatterns[i], true, onCellSelected);
 						patternName0.setText(windowPatterns[i].getName());
 
-						for(int i2 = 0; i2 < difficulties.length; i2 ++) {
+						for(int i2 = 0; i2 < difficulties.length; i2++) {
 							if(i2 < windowPatterns[i].getDifficulty())
 								difficulties[i2].setVisible(true);
 							else
 								difficulties[i2].setVisible(false);
 						}
-					}
-					else {
+					} else {
 						Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], true);
 					}
 			}
@@ -123,8 +124,7 @@ public class GameGUI extends GUIController {
 				for(int i = 0; i < playersMap.size(); i++) {
 					if(currentPlayer == i) {
 						patterns[playersMap.get(i)].setStyle("-fx-background-color: #fff");
-					}
-					else {
+					} else {
 						patterns[playersMap.get(i)].setStyle("-fx-background-color: #000");
 					}
 				}
@@ -179,7 +179,15 @@ public class GameGUI extends GUIController {
 		diceIndex = GridPane.getRowIndex(dice) * 2;
 		diceIndex += GridPane.getColumnIndex(dice) % 2;
 
-		diceInHand = draftDice[diceIndex];
+		switch(state) {
+			case WAIT:
+				diceInHand = draftDice[diceIndex];
+				break;
+			case SELECT_DICE_FROM_DRAFT:
+				client.getServerInterface().selectDiceFromDraftEffect(draftDice[diceIndex]);
+				System.out.println("Selected a dice!");
+				state = State.WAIT;
+		}
 
 		System.out.println("Selected dice");
 
@@ -207,7 +215,7 @@ public class GameGUI extends GUIController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				for(int i = 0; i < toolCards.length; i ++) {
+				for(int i = 0; i < toolCards.length; i++) {
 					GameGUI.this.toolCards[i].setImage(new Image("/imgs/cards/toolCards/toolCard" + toolCards[i].getId() + ".png"));
 				}
 			}
@@ -227,7 +235,7 @@ public class GameGUI extends GUIController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				for(int i = 0; i < publicObjectiveCards.length; i ++) {
+				for(int i = 0; i < publicObjectiveCards.length; i++) {
 					GameGUI.this.publicObjectiveCards[i].setImage(
 							new Image("/imgs/cards/publicOC/" + publicObjectiveCards[i].getId().toString() + ".png")
 					);
@@ -236,7 +244,57 @@ public class GameGUI extends GUIController {
 		});
 	}
 
+	public void selectIncreaseOrDecrease() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				ButtonType
+						inc = new ButtonType("Incrementa"),
+						dec = new ButtonType("Decrementa");
+
+				Alert alert = new Alert(
+						Alert.AlertType.CONFIRMATION,
+						"Scegli se incrementsre o decreentare il valore del dado",
+						inc, dec);
+
+				alert.showAndWait();
+				ButtonType result = alert.getResult();
+				if(result == inc) {
+					client.getServerInterface().incrementOrDecrementDiceEffect(true);
+				} else if(result == dec) {
+					client.getServerInterface().incrementOrDecrementDiceEffect(false);
+				}
+			}
+		});
+	}
+
+	public void toolCardSelected(MouseEvent mouseEvent) {
+		ImageView source = (ImageView)mouseEvent.getSource();
+
+		int index = - 1;
+
+		switch(source.getId()) {
+			case "toolCard0":
+				index = 0;
+				break;
+			case "toolCard1":
+				index = 1;
+				break;
+			case "toolCard2":
+				index = 2;
+				break;
+		}
+
+		client.getServerInterface().useToolCard(index);
+	}
+
+	public void selectDiceFromDraft() {
+		//TODO notify user to select dice...
+		System.out.println("Select a dice from draft...");
+		state = State.SELECT_DICE_FROM_DRAFT;
+	}
+
 	private enum State {
-		WAIT, PLACE_DICE_IN_HAND
+		WAIT, PLACE_DICE_IN_HAND, SELECT_DICE_FROM_DRAFT, SELECT_DICE_FROM_WINDOWPATTERN
 	}
 }

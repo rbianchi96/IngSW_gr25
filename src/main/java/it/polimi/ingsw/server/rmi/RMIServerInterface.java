@@ -15,4 +15,6 @@ public interface RMIServerInterface extends Remote {
     public void selectWindowPattern(int i) throws RemoteException;
 
     public void placeDice(Dice dice, int row, int col) throws RemoteException;
+
+    public void useToolCard(int index) throws RemoteException;
 }

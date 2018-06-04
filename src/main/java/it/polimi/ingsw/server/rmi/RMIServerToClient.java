@@ -194,6 +194,21 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void selectDiceFromDraft() {
+		//TODO
+	}
+
+	@Override
+	public void selectIncrementOrDecrement() {
+		try {
+			rmiClientInterface.selectIncrementOrDecrement();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void dicePlacementRestictionBroken() {
 		try {
 			rmiClientInterface.dicePlacementRestictionBroken();

@@ -27,8 +27,11 @@ public class ToolCardsLoader extends CardsLoader {
 				ArrayList<EffectsEnum> effects = new ArrayList<>();
 
 				JsonArray effectsArray = currCard.getJsonArray("effects");
-				for(int c2 = 0; c2 < effectsArray.size(); c2 ++)
-					effects.add(EffectsEnum.valueOf(effectsArray.getString(c2)));
+				for(int c2 = 0; c2 < effectsArray.size(); c2 ++) {
+					JsonObject effect = effectsArray.getJsonObject(c2);
+					effects.add(EffectsEnum.valueOf(effect.getString("effect")));
+					//TODO ignoredRestr.
+				}
 
 				toolCards[c] =
 						new ToolCard(currCard.getInt("id"), currCard.getString("name"), effects);

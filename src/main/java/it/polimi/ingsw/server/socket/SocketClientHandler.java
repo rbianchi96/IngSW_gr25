@@ -10,6 +10,7 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.Controller;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -62,7 +63,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 			//socket.setSoTimeout(MAX_TIMEOUT); // set the timeout MAX_TIMEOUT
 			in = new Scanner(socket.getInputStream());
 			out = new PrintWriter(socket.getOutputStream());
-			out.println(encode(CONNECTION_STATUS,  "success", "Connection Established!"));
+			out.println(encode(CONNECTION_STATUS, "success", "Connection Established!"));
 			out.flush();
 			System.out.println("New Socket connection: " + socket.getRemoteSocketAddress().toString());
 			pingTimer();
@@ -142,6 +143,23 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					);
 
 					break;
+				case "useToolCard":
+					controller.useToolCard(this, Integer.parseInt(request[1]));
+
+					break;
+				case "selectDiceFromDraftEffect":
+					controller.selectDiceFromDraftEffect(this,
+							new Dice(
+									Integer.parseInt(request[1]),
+									Color.findColor(request[2])
+							)
+					);
+
+					break;
+				case "incrementOrDecrementDiceEffect":
+					controller.incrementDecrement(this, Boolean.parseBoolean(request[1]));
+
+					break;
 				default: { // Invalid command
 					out.println(encode(INVALID_COMMAND));
 					out.flush();
@@ -175,7 +193,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override
 	public void sendToolCards(ToolCard[] toolCards) {
 		out.print(encode(SEND_TOOL_CARDS));
-		for(int i = 0; i < toolCards.length; i ++) {
+		for(int i = 0; i < toolCards.length; i++) {
 			out.print("#");
 			out.print(toolCards[i].getId());
 			out.print("#");
@@ -188,7 +206,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override
 	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
 		out.print(encode(SEND_PUBLIC_OBJECTIVE_CARDS));
-		for(int i = 0; i < publicObjectiveCards.length; i ++) {
+		for(int i = 0; i < publicObjectiveCards.length; i++) {
 			out.print("#");
 			out.print(publicObjectiveCards[i].getId());
 			out.print("#");
@@ -227,6 +245,18 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override
 	public void updateToolCardsTokens(int[] tokens) {
 
+	}
+
+	@Override
+	public void selectDiceFromDraft() {
+		out.println(encode(SELECT_DICE_FROM_DRAFT));
+		out.flush();
+	}
+
+	@Override
+	public void selectIncrementOrDecrement() {
+		out.println(encode(SELECT_INCREMENT_OR_DECREMENT));
+		out.flush();
 	}
 
 	@Override
