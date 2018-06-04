@@ -23,6 +23,9 @@ public enum SocketServerToClientCommands {
 	UPDATE_WINDOW_PATTERNS("updateWindowPatterns"),
 	UPDATE_TOOL_CARDS_TOKENS("updateToolCardsTokens"),
 
+	SELECT_DICE_FROM_DRAFT("selectDiceFromDraft"),
+	SELECT_INCREMENT_OR_DECREMENT("selectIncOrDec"),
+
 	DICE_PLACEMENT_RESTRICTION_BROKEN("dicePlacementRestrictionBroken"),
 	CELL_ALREADY_OCUPIED("cellAlreadyOccupied"),
 

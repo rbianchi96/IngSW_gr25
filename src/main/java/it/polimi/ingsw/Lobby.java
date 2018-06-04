@@ -182,7 +182,7 @@ public class Lobby {
                 clientInterface.startGame();
                 clientInterface.sendPublicObjectiveCards(currentGame.getPublicObjectiveCards());
                 clientInterface.sendToolCards(currentGame.getToolCards());
-                clientInterface.updateDraft(currentGame.getDraft());
+                clientInterface.updateDraft(currentGame.getDraftDices());
                 clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
                 ModelObserver observer = new ModelObserver(username, clientInterface);
                 currentGame.addObserver(observer);

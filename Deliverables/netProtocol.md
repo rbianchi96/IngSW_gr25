@@ -1,6 +1,6 @@
 Spaces is replaced with hash (`#`).
 
-## Connection commands
+## Connection command
 
 ### From client to server
 - `login username` Client request to login with username.
@@ -50,7 +50,7 @@ Spaces is replaced with hash (`#`).
 - `updateRoundTrack DiceList ... [DiceList]` Update the round track.
   - `DiceList := (Dice ... [Dice])`
 
-## Dice commands
+## Dice command
 
 #### From client to server
 
@@ -62,7 +62,7 @@ Spaces is replaced with hash (`#`).
 - `sendDraft Dice ... [Dice]` Send dices in draft.
 - `placeDice_response success|failed [errMsg]`
 
-## Cards commands
+## Cards command
 
 ### From client to server
 
@@ -73,7 +73,7 @@ Spaces is replaced with hash (`#`).
 - `useToolCard_response success|failde [errMsg]`
 - `setToolCardTokens id num` Set favor tokens of a tool card.
 
-## End game commands
+## End game command
 
 - `sendScores score score [score] [score]` Send all players' score.
 - `sendWinner index`

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.board;
 
-import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
-import it.polimi.ingsw.board.cards.PublicObjectiveCard;
-import it.polimi.ingsw.board.cards.ToolCard;
-import it.polimi.ingsw.board.cards.WindowPatternCard;
+import it.polimi.ingsw.board.cards.*;
 import it.polimi.ingsw.board.cardsloaders.PrivateObjectiveCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.PublicObjectiveCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.ToolCardsLoader;
@@ -13,6 +10,7 @@ import it.polimi.ingsw.board.dice.DiceBag;
 import it.polimi.ingsw.board.dice.Draft;
 import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
 
 import java.util.Observable;
 
@@ -22,8 +20,7 @@ import java.util.ArrayList;
 public class Game extends Observable {
 	public static final int TOOL_CARDS_NUMBER = 3;
 	public static final int PUBLIC_OBJECTIVE_CARDS_NUMBER = 3;
-
-	private static final int ROUNDS_NUMBER = 10;
+	public static final int ROUNDS_NUMBER = 10;
 
 	private ArrayList<Player> players;
 
@@ -38,7 +35,7 @@ public class Game extends Observable {
 	private boolean inGame; // boolean to check if there is a game going on
 
 	private int readyPlayers = 0;
-
+	private int currentToolCardInUse = -1;
 	public Game() {
 		inGame = false;
 	}
@@ -147,8 +144,13 @@ public class Game extends Observable {
 	private void startRound() {
 		rollDicesFromDiceBag();
 		updateDraft();
-
 		updateAllWindowPatterns();
+	}
+	public void skipTurn(String username){
+		if(rounds.nextPlayer() == - 1) {
+			startRound();
+		}
+		notifyNewTurn();
 	}
 
 
@@ -187,16 +189,81 @@ public class Game extends Observable {
 		} else
 			System.out.println(player.getPlayerName() + " is not your turn or you already played this move!");
 
-		if(player.getHasPlacedDice()) {
-			player.setHasPlacedDice(false);
+		if(players.get(rounds.getCurrentPlayer()).getHasPlacedDice() && players.get(rounds.getCurrentPlayer()).getHasPlayedToolCard()) {
+			players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);
+			players.get(rounds.getCurrentPlayer()).setHasPlayedToolCard(false);
 			if(rounds.nextPlayer() == - 1) {
 				startRound();
 			}
+			notifyNewTurn();
 		}
-
-		notifyNewTurn();
 	}
 
+	public SocketServerToClientCommands useToolCard(String username, int index) throws NotEnoughFavorTokens,WrongTurnException,AlreadyUsedToolCard{
+		Player player = findPlayer(username);
+		turnCheck(player);
+		if(!player.getHasPlayedToolCard()){
+			throw new AlreadyUsedToolCard();
+		}
+		//Controllo favourTokens mancante
+
+		currentToolCardInUse = index;
+		findPlayer(username).setHasPlayedToolCard(true);
+		return toolCards[index].getEffects().get(0).getMyEnum().getCommand();
+	}
+
+	public SocketServerToClientCommands selectDiceFromDraftEffect(String username, Dice dice) throws WrongTurnException,InvalidCall,SelectDiceFromDraftEffect.DiceNotFoundException {
+		Player player = findPlayer(username);
+		turnCheck(player);
+		if(currentToolCardInUse==-1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_DRAFT);
+		if (validate==-1){
+			throw new InvalidCall();
+		}else {
+			((SelectDiceFromDraftEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(dice);
+			return getNextEffect();
+		}
+	}
+
+	public SocketServerToClientCommands incrementDecrementDiceEffect(String username, boolean incDec) throws WrongTurnException,InvalidCall{
+		Player player = findPlayer(username);
+		turnCheck(player);
+		if(currentToolCardInUse==-1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_DRAFT);
+		if (validate==-1){
+			throw new InvalidCall();
+		}else {
+			((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffects().get(0)).getSelectedDice(),incDec);
+			return getNextEffect();
+		}
+	}
+	private SocketServerToClientCommands getNextEffect(){
+		Effect nextEffect = toolCards[currentToolCardInUse].getNext();
+		if(nextEffect == null) {
+			cleanToolCard(toolCards[currentToolCardInUse]);
+			toolCardUsageFinished();
+			return null;
+		}
+		else
+			return nextEffect.getMyEnum().getCommand();
+	}
+	private void cleanToolCard(ToolCard toolCard){
+		toolCard.reNew();
+	}
+	
+	private void toolCardUsageFinished(){
+		currentToolCardInUse = -1;
+		if(players.get(rounds.getCurrentPlayer()).getHasPlacedDice() && players.get(rounds.getCurrentPlayer()).getHasPlayedToolCard()) {
+			players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);
+			players.get(rounds.getCurrentPlayer()).setHasPlayedToolCard(false);
+			if(rounds.nextPlayer() == - 1) {
+				startRound();
+			}
+			notifyNewTurn();
+		}
+	}
 	public boolean isInGame() {
 		return inGame;
 	}
@@ -247,10 +314,12 @@ public class Game extends Observable {
 		return findPlayer(username).getWindowPatternToChoose();
 	}
 
-	public Dice[] getDraft() {
+	public Dice[] getDraftDices() {
 		return gameBoard.getDraft().getDices().toArray(new Dice[0]);
 	}
-
+	public Draft getDraft(){
+		return gameBoard.getDraft();
+	}
 	public WindowPattern[] getAllWindowPatterns() {
 		WindowPattern[] allWindowPatterns = new WindowPattern[players.size()];
 
@@ -259,9 +328,36 @@ public class Game extends Observable {
 
 		return allWindowPatterns;
 	}
-
+	private void turnCheck(Player player) throws WrongTurnException{
+		if(players.get(rounds.getCurrentPlayer())!=player)
+			throw new WrongTurnException();
+	}
 	public enum NotifyType {
 		SELECT_WINDOW_PATTERN, PRIVATE_OBJECTIVE_CARD, PUBLIC_OBJECTIVE_CARDS, TOOL_CARDS,
 		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, TOOL_CARDS_TOKENS
+	}
+
+	public class WrongTurnException extends Exception {
+		public WrongTurnException() {
+			super();
+		}
+	}
+
+	public class NotEnoughFavorTokens extends Exception {
+		public NotEnoughFavorTokens() {
+			super();
+		}
+	}
+
+	public class AlreadyUsedToolCard extends Exception{
+		public AlreadyUsedToolCard(){
+			super();
+		}
+	}
+
+	public class InvalidCall extends Exception{
+		public InvalidCall(){
+			super();
+		}
 	}
 }

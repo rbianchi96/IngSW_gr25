@@ -1,5 +1,6 @@
 package it.polimi.ingsw.board.cardsloaders;
 
+import it.polimi.ingsw.board.cards.Effect;
 import it.polimi.ingsw.board.cards.ToolCard;
 import org.junit.Test;
 
@@ -17,8 +18,8 @@ public class ToolCardsLoaderTest {
 
 			for(ToolCard toolCard : result) {
 				System.out.println(toolCard.getId() + " - " + toolCard.getName());
-				for(String effect : toolCard.getEffects())
-					System.out.println("    " + effect);
+				for(Effect effect : toolCard.getEffects())
+					System.out.println("    " + effect.getMyEnum().toString());
 			}
 		} catch(FileNotFoundException e) {
 			fail(e);

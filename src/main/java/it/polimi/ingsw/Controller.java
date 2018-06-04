@@ -1,10 +1,13 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.board.Player;
+import it.polimi.ingsw.board.Game;
+import it.polimi.ingsw.board.cards.SelectDiceFromDraftEffect;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
-import it.polimi.ingsw.server.ServerInterface;
+import it.polimi.ingsw.server.socket.SocketServer;
+import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,12 +106,12 @@ public class Controller {
 	}
 
 	public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
-		lobby.getCurrentGame().selectWindowPattern(findPlayer(clientInterface), i);
+		lobby.getCurrentGame().selectWindowPattern(findUsername(clientInterface), i);
 	}
 
 
 	///// GAME \\\\\\
-	private String findPlayer(ClientInterface clientInterface) {
+	private String findUsername(ClientInterface clientInterface) {
 		ArrayList<PlayerConnectionData> players = lobby.getPlayersConnectionData();
 
 		for(PlayerConnectionData player : players) {
@@ -119,17 +122,9 @@ public class Controller {
 		return null;
 	}
 
-	/*public synchronized void placeDiceFromDraft(ClientInterface clientInterface, Dice dice, int row, int col) {
-		if(isConnected(clientInterface)) {
-			lobby.getCurrentGame().placeDiceFromDraft(findPlayer(clientInterface), dice, row, col);
-		} else {
-
-		}
-	}*/
-
 	public synchronized void placeDice(ClientInterface clientInterface, Dice dice, int row, int col) {
 		try {
-			lobby.getCurrentGame().placeDiceFromDraft(findPlayer(clientInterface), dice, row, col);
+			lobby.getCurrentGame().placeDiceFromDraft(findUsername(clientInterface), dice, row, col);
 		} catch(WindowPattern.WindowPatternOutOfBoundException e) {	//Invalid WP indexes
 			//TODO invalid WP indexes
 		} catch(WindowPattern.PlacementRestrictionException e) {
@@ -137,5 +132,45 @@ public class Controller {
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {
 			clientInterface.cellAlreadyOccupied();
 		}
+	}
+	private void sendCommand(ClientInterface clientInterface, SocketServerToClientCommands socketServerToClientCommands){
+		switch(socketServerToClientCommands){
+			case SELECT_DICE_FROM_DRAFT:
+				//clientInterface.selectDiceFromDraft();
+				break;
+			case SELECT_INCREMENT_OR_DECREMENT:
+				//TODO
+				break;
+			default:
+				break;
+		}
+	}
+	public synchronized void useToolCard(ClientInterface clientInterface, int index){
+		try{
+			SocketServerToClientCommands command = lobby.getCurrentGame().useToolCard(findUsername(clientInterface),index);
+			sendCommand(clientInterface,command);
+		}catch(Game.WrongTurnException ex){
+
+		}catch(Game.NotEnoughFavorTokens ex){
+
+		}catch(Game.AlreadyUsedToolCard ex){
+			//TODO
+		}
+	}
+
+	public synchronized void selectDiceFromDraftEffect(ClientInterface clientInterface, Dice dice){
+		try{
+			lobby.getCurrentGame().selectDiceFromDraftEffect(findUsername(clientInterface),dice);
+			// CHIEDI SE SI VUOLE INCREMENTARE O DECREMENTARE
+		}catch(Game.WrongTurnException ex) {
+
+		}catch(Game.InvalidCall ex){
+
+		}catch(SelectDiceFromDraftEffect.DiceNotFoundException ex){
+			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA DRAFT POOL
+		}
+	}
+	public synchronized void incrementDecrement(ClientInterface clientInterface,boolean incDec) {
+
 	}
 }

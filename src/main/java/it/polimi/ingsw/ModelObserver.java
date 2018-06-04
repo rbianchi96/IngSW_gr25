@@ -45,7 +45,7 @@ public class ModelObserver implements java.util.Observer {
 
 				break;
 			case DRAFT:
-				clientInterface.updateDraft(model.getDraft());
+				clientInterface.updateDraft(model.getDraftDices());
 				break;
 
 			case WINDOW_PATTERNS:

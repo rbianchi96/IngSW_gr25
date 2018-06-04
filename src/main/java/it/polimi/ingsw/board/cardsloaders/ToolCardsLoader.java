@@ -1,5 +1,7 @@
 package it.polimi.ingsw.board.cardsloaders;
 
+import it.polimi.ingsw.board.cards.Effect;
+import it.polimi.ingsw.board.cards.EffectsEnum;
 import it.polimi.ingsw.board.cards.ToolCard;
 
 import javax.json.*;
@@ -22,11 +24,11 @@ public class ToolCardsLoader extends CardsLoader {
 				int currIndex = random.nextInt(cardsArray.size());    //Select a random index
 
 				JsonObject currCard = cardsArray.get(currIndex);
-				ArrayList<String> effects = new ArrayList<>();
+				ArrayList<EffectsEnum> effects = new ArrayList<>();
 
 				JsonArray effectsArray = currCard.getJsonArray("effects");
 				for(int c2 = 0; c2 < effectsArray.size(); c2 ++)
-					effects.add(effectsArray.get(c2).asJsonObject().getString("effect"));
+					effects.add(EffectsEnum.valueOf(effectsArray.getString(c2)));
 
 				toolCards[c] =
 						new ToolCard(currCard.getInt("id"), currCard.getString("name"), effects);
