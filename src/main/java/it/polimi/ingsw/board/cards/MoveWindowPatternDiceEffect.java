@@ -8,20 +8,20 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 import java.util.ArrayList;
 
-public class MoveWindowPattenDiceEffect extends Effect {
+public class MoveWindowPatternDiceEffect extends Effect {
     private RestrictionEnum ignoredRestriction;
     private int newX,newY;
-    public MoveWindowPattenDiceEffect(Game game, RestrictionEnum ignoredRestriction){
+    public MoveWindowPatternDiceEffect(Game game, RestrictionEnum ignoredRestriction){
         this.game = game;
         this.ignoredRestriction = ignoredRestriction;
         this.myEnum= EffectsEnum.MOVE_WINDOW_PATTERN_DICE;
     }
     public void apply(WindowPattern windowPattern, int newX, int newY,int oldX, int oldY)throws DiceNotFoundException,CellNotFoundException,CellAlreadyOccupiedException{
-       Dice newCellDice=null;
-       Dice oldDice=null;
+        Dice newCellDice=null;
+        Dice oldDice=null;
         try{
-           newCellDice = windowPattern.getDice(newX,newY);
-           oldDice = windowPattern.getDice(oldX,oldY);
+            newCellDice = windowPattern.getDice(newX,newY);
+            oldDice = windowPattern.getDice(oldX,oldY);
         }catch (WindowPattern.WindowPatternOutOfBoundException ex){
             System.out.println("The selected cell isn't present in the Window Pattern.");
             used = false;
@@ -53,6 +53,7 @@ public class MoveWindowPattenDiceEffect extends Effect {
             e.printStackTrace();
         }
     }
+
     public class DiceNotFoundException extends Exception{
         public DiceNotFoundException(){
             super();
@@ -68,4 +69,5 @@ public class MoveWindowPattenDiceEffect extends Effect {
             super();
         }
     }
+
 }

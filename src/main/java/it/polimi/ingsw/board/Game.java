@@ -251,7 +251,7 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
-	public SocketServerToClientCommands moveWindowPatternDiceEffect(String username,int x,int y) throws WrongTurnException,InvalidCall,MoveWindowPattenDiceEffect.DiceNotFoundException,MoveWindowPattenDiceEffect.CellNotFoundException,MoveWindowPattenDiceEffect.CellAlreadyOccupiedException {
+	public SocketServerToClientCommands moveWindowPatternDiceEffect(String username,int x,int y) throws WrongTurnException,InvalidCall,MoveWindowPatternDiceEffect.DiceNotFoundException,MoveWindowPatternDiceEffect.CellNotFoundException,MoveWindowPatternDiceEffect.CellAlreadyOccupiedException {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse==-1)
@@ -260,7 +260,7 @@ public class Game extends Observable {
 		if (validate==-1){
 			throw new InvalidCall();
 		}else {
-			((MoveWindowPattenDiceEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(),x,y,((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getX(),((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getY());
+			((MoveWindowPatternDiceEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(),x,y,((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getX(),((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getY());
 			return getNextEffect();
 		}
 	}
