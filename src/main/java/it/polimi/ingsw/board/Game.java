@@ -35,7 +35,8 @@ public class Game extends Observable {
 	private boolean inGame; // boolean to check if there is a game going on
 
 	private int readyPlayers = 0;
-	private int currentToolCardInUse = -1;
+	private int currentToolCardInUse = - 1;
+
 	public Game() {
 		inGame = false;
 	}
@@ -97,6 +98,10 @@ public class Game extends Observable {
 		// Loading of tools cards
 		ToolCardsLoader toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards_ready.json");
 		toolCards = toolCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
+		for(ToolCard toolCard : toolCards) {
+			toolCard.setGame(this);
+			toolCard.populateEffects();
+		}
 
 		//Notify to all
 		setChanged();
@@ -111,7 +116,7 @@ public class Game extends Observable {
 	public void startGame(ArrayList<String> playersNicknames) {
 		System.out.println("Game is starting!");
 		players = new ArrayList();
-		for (int i=0;i<playersNicknames.size();i++){
+		for(int i = 0; i < playersNicknames.size(); i++) {
 			players.add(new Player(playersNicknames.get(i)));
 		}
 		initialize();
@@ -146,7 +151,8 @@ public class Game extends Observable {
 		updateDraft();
 		updateAllWindowPatterns();
 	}
-	public void skipTurn(String username){
+
+	public void skipTurn(String username) {
 		if(rounds.nextPlayer() == - 1) {
 			startRound();
 		}
@@ -180,10 +186,10 @@ public class Game extends Observable {
 					//NOTIFY to all
 					updateAllWindowPatterns();
 					updateDraft();
-				} catch (WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException | WindowPattern.CellAlreadyOccupiedException e) {
+				} catch(WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException | WindowPattern.CellAlreadyOccupiedException e) {
 					gameBoard.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
 
-					throw e;	//Throw the exception to the caller (tipically the Controller)
+					throw e;    //Throw the exception to the caller (tipically the Controller)
 				}
 			}
 		} else
@@ -199,10 +205,10 @@ public class Game extends Observable {
 		}
 	}
 
-	public SocketServerToClientCommands useToolCard(String username, int index) throws NotEnoughFavorTokens,WrongTurnException,AlreadyUsedToolCard{
+	public SocketServerToClientCommands useToolCard(String username, int index) throws NotEnoughFavorTokens, WrongTurnException, AlreadyUsedToolCard {
 		Player player = findPlayer(username);
 		turnCheck(player);
-		if(player.getHasPlayedToolCard()){
+		if(player.getHasPlayedToolCard()) {
 			throw new AlreadyUsedToolCard();
 		}
 		//Controllo favourTokens mancante
@@ -212,74 +218,84 @@ public class Game extends Observable {
 		return toolCards[index].getEffects().get(0).getMyEnum().getCommand();
 	}
 
-	public SocketServerToClientCommands selectDiceFromDraftEffect(String username, Dice dice) throws WrongTurnException,InvalidCall,SelectDiceFromDraftEffect.DiceNotFoundException {
+	public SocketServerToClientCommands selectDiceFromDraftEffect(String username, Dice dice) throws WrongTurnException, InvalidCall, SelectDiceFromDraftEffect.DiceNotFoundException {
 		Player player = findPlayer(username);
 		turnCheck(player);
-		if(currentToolCardInUse==-1)
+		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_DRAFT);
-		if (validate==-1){
+		System.out.println("Eh, eh!");
+		if(validate == - 1) {
 			throw new InvalidCall();
-		}else {
-			((SelectDiceFromDraftEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(dice);
+		} else {
+			((SelectDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(dice);
 			return getNextEffect();
 		}
 	}
-	public SocketServerToClientCommands selectDiceFromWindowPatternEffect(String username,int x, int y) throws WrongTurnException,InvalidCall,SelectDiceFromWindowPatternEffect.DiceNotFoundException ,SelectDiceFromWindowPatternEffect.CellNotFoundException {
+
+	public SocketServerToClientCommands selectDiceFromWindowPatternEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.CellNotFoundException {
 		Player player = findPlayer(username);
 		turnCheck(player);
-		if(currentToolCardInUse==-1)
+		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_WINDOW_PATTERN);
-		if (validate==-1){
+		if(validate == - 1) {
 			throw new InvalidCall();
-		}else {
-			((SelectDiceFromWindowPatternEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(),x,y);
+		} else {
+			((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(), x, y);
 			return getNextEffect();
 		}
 	}
-	public SocketServerToClientCommands incrementDecrementDiceEffect(String username, boolean incDec) throws WrongTurnException,InvalidCall{
+
+	public SocketServerToClientCommands incrementDecrementDiceEffect(String username, boolean incDec) throws WrongTurnException, InvalidCall {
 		Player player = findPlayer(username);
 		turnCheck(player);
-		if(currentToolCardInUse==-1)
+		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.INCREMENT_DECREMENT_DICE);
-		if (validate==-1){
+		if(validate == - 1) {
 			throw new InvalidCall();
-		}else {
-			((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffects().get(0)).getSelectedDice(),incDec);
+		} else {
+			((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffects().get(0)).getSelectedDice(), incDec);
+
+			setChanged();
+			notifyObservers(NotifyType.DRAFT);
+
 			return getNextEffect();
 		}
 	}
-	public SocketServerToClientCommands moveWindowPatternDiceEffect(String username,int x,int y) throws WrongTurnException,InvalidCall,MoveWindowPatternDiceEffect.DiceNotFoundException,MoveWindowPatternDiceEffect.CellNotFoundException,MoveWindowPatternDiceEffect.CellAlreadyOccupiedException {
+
+	public SocketServerToClientCommands moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, MoveWindowPatternDiceEffect.CellNotFoundException, MoveWindowPatternDiceEffect.CellAlreadyOccupiedException {
 		Player player = findPlayer(username);
 		turnCheck(player);
-		if(currentToolCardInUse==-1)
+		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.MOVE_WINDOW_PATTERN_DICE);
-		if (validate==-1){
+		if(validate == - 1) {
 			throw new InvalidCall();
-		}else {
-			((MoveWindowPatternDiceEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(),x,y,((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getX(),((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getY());
+		} else {
+			((MoveWindowPatternDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(), x, y, ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getX(), ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getY());
 			return getNextEffect();
 		}
 	}
-	private SocketServerToClientCommands getNextEffect(){
+
+	private SocketServerToClientCommands getNextEffect() {
 		Effect nextEffect = toolCards[currentToolCardInUse].getNext();
 		if(nextEffect == null) {
 			cleanToolCard(toolCards[currentToolCardInUse]);
 			toolCardUsageFinished();
 			return null;
-		}
-		else
+		} else
 			return nextEffect.getMyEnum().getCommand();
 	}
-	private void cleanToolCard(ToolCard toolCard){
+
+	private void cleanToolCard(ToolCard toolCard) {
 		toolCard.reNew();
 	}
 
-	private void toolCardUsageFinished(){
-		currentToolCardInUse = -1;
+	private void toolCardUsageFinished() {
+		System.out.println("End of TC effects!");
+		currentToolCardInUse = - 1;
 		if(players.get(rounds.getCurrentPlayer()).getHasPlacedDice() && players.get(rounds.getCurrentPlayer()).getHasPlayedToolCard()) {
 			players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);
 			players.get(rounds.getCurrentPlayer()).setHasPlayedToolCard(false);
@@ -289,6 +305,7 @@ public class Game extends Observable {
 			notifyNewTurn();
 		}
 	}
+
 	public boolean isInGame() {
 		return inGame;
 	}
@@ -342,9 +359,11 @@ public class Game extends Observable {
 	public Dice[] getDraftDices() {
 		return gameBoard.getDraft().getDices().toArray(new Dice[0]);
 	}
-	public Draft getDraft(){
+
+	public Draft getDraft() {
 		return gameBoard.getDraft();
 	}
+
 	public WindowPattern[] getAllWindowPatterns() {
 		WindowPattern[] allWindowPatterns = new WindowPattern[players.size()];
 
@@ -353,10 +372,12 @@ public class Game extends Observable {
 
 		return allWindowPatterns;
 	}
-	private void turnCheck(Player player) throws WrongTurnException{
-		if(players.get(rounds.getCurrentPlayer())!=player)
+
+	private void turnCheck(Player player) throws WrongTurnException {
+		if(players.get(rounds.getCurrentPlayer()) != player)
 			throw new WrongTurnException();
 	}
+
 	public enum NotifyType {
 		SELECT_WINDOW_PATTERN, PRIVATE_OBJECTIVE_CARD, PUBLIC_OBJECTIVE_CARDS, TOOL_CARDS,
 		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, TOOL_CARDS_TOKENS
@@ -374,14 +395,14 @@ public class Game extends Observable {
 		}
 	}
 
-	public class AlreadyUsedToolCard extends Exception{
-		public AlreadyUsedToolCard(){
+	public class AlreadyUsedToolCard extends Exception {
+		public AlreadyUsedToolCard() {
 			super();
 		}
 	}
 
-	public class InvalidCall extends Exception{
-		public InvalidCall(){
+	public class InvalidCall extends Exception {
+		public InvalidCall() {
 			super();
 		}
 	}

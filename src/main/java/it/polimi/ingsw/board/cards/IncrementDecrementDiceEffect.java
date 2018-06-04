@@ -16,12 +16,12 @@ public class IncrementDecrementDiceEffect extends Effect{
             dice.increment();
         }else
             dice.decrement();
-        if(dice.getValue()!=originalDice.getValue()) {
+        //if(dice.getValue()!=originalDice.getValue()) {
             used=true;
             System.out.println("Dice Incremented/Decremented.");
             return true;
-        }else {
+        /*}else {
             return false;
-        }
+        }*/
     }
 }

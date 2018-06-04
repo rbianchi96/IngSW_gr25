@@ -148,7 +148,7 @@ public class Controller {
 			SocketServerToClientCommands command = lobby.getCurrentGame().useToolCard(findUsername(clientInterface),index);
 			sendCommand(clientInterface,command);
 		}catch(Game.WrongTurnException ex){
-			System.out.println("Wron turn!");
+			System.out.println("Wrong turn!");
 		}catch(Game.NotEnoughFavorTokens ex){
 			System.out.println("Not enogh FT!");
 		}catch(Game.AlreadyUsedToolCard ex){
@@ -162,7 +162,7 @@ public class Controller {
 		try{
 			sendCommand(
 					clientInterface,
-					lobby.getCurrentGame().selectDiceFromDraftEffect(findUsername(clientInterface),dice)
+					lobby.getCurrentGame().selectDiceFromDraftEffect(findUsername(clientInterface), dice)
 			);
 		}catch(Game.WrongTurnException ex) {
 			System.out.println("Wron turn!");
@@ -170,7 +170,6 @@ public class Controller {
 			System.out.println("-_-'");
 		}catch(SelectDiceFromDraftEffect.DiceNotFoundException ex){
 			System.out.println("Dice not in draft!");
-			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA DRAFT POOL
 		}
 	}
 	public synchronized void selectDiceFromWindowPatternEffect(ClientInterface clientInterface, int x, int y){

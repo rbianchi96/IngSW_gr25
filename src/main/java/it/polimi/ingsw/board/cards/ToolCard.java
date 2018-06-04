@@ -21,7 +21,7 @@ public class ToolCard extends Card implements Serializable {
 		this.favorTokensNumber = 0;
 		if(effects != null) {
 			this.effectsEnums = new ArrayList<>(effects);
-			populateEffects();
+			//populateEffects();
 		}
 		else
 			this.effectsEnums = null;
@@ -30,7 +30,7 @@ public class ToolCard extends Card implements Serializable {
 	public void reNew(){
 		populateEffects();
 	}
-	private void populateEffects(){
+	public void populateEffects(){
 		//totalSteps=0;
 		effects = new ArrayList<>();
 		for(int i=0;i<effectsEnums.size();i++){

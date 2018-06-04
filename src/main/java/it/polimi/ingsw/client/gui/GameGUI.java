@@ -245,6 +245,8 @@ public class GameGUI extends GUIController {
 	}
 
 	public void selectIncreaseOrDecrease() {
+		System.out.println("Select inc. or dec.!");
+
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {

@@ -77,6 +77,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					} catch(RuntimeException ex) {
 						out.println(encode(INVALID_COMMAND));
 						out.flush();
+						ex.printStackTrace();
 					}
 				}
 			}
