@@ -2,6 +2,7 @@ package it.polimi.ingsw.board.cards;
 
 import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.dice.Dice;
+import it.polimi.ingsw.board.windowpattern.RestrictionEnum;
 import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
 
 import java.io.Serializable;
@@ -40,8 +41,16 @@ public class ToolCard extends Card implements Serializable {
 				case SELECT_DICE_FROM_DRAFT:
 					effects.add(new SelectDiceFromDraftEffect(game));
 					break;
+				case SELECT_DICE_FROM_WINDOW_PATTERN:
+					effects.add(new SelectDiceFromWindowPatternEffect(game));
+					break;
 				case INCREMENT_DECREMENT_DICE:
 					effects.add(new IncrementDecrementDiceEffect(game));
+					break;
+				case MOVE_WINDOW_PATTERN_DICE:
+					if (id==2)
+						effects.add(new MoveWindowPattenDiceEffect(game,RestrictionEnum.CELL_COLOR_RESTRICTION));
+					break;
 				default:
 					break;
 			}

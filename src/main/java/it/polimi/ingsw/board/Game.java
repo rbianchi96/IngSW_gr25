@@ -225,17 +225,42 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
-
+	public SocketServerToClientCommands selectDiceFromWindowPatternEffect(String username,int x, int y) throws WrongTurnException,InvalidCall,SelectDiceFromWindowPatternEffect.DiceNotFoundException ,SelectDiceFromWindowPatternEffect.CellNotFoundException {
+		Player player = findPlayer(username);
+		turnCheck(player);
+		if(currentToolCardInUse==-1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_WINDOW_PATTERN);
+		if (validate==-1){
+			throw new InvalidCall();
+		}else {
+			((SelectDiceFromWindowPatternEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(),x,y);
+			return getNextEffect();
+		}
+	}
 	public SocketServerToClientCommands incrementDecrementDiceEffect(String username, boolean incDec) throws WrongTurnException,InvalidCall{
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse==-1)
 			throw new InvalidCall();
-		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_DRAFT);
+		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.INCREMENT_DECREMENT_DICE);
 		if (validate==-1){
 			throw new InvalidCall();
 		}else {
 			((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffects().get(0)).getSelectedDice(),incDec);
+			return getNextEffect();
+		}
+	}
+	public SocketServerToClientCommands moveWindowPatternDiceEffect(String username,int x,int y) throws WrongTurnException,InvalidCall,MoveWindowPattenDiceEffect.DiceNotFoundException,MoveWindowPattenDiceEffect.CellNotFoundException,MoveWindowPattenDiceEffect.CellAlreadyOccupiedException {
+		Player player = findPlayer(username);
+		turnCheck(player);
+		if(currentToolCardInUse==-1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.MOVE_WINDOW_PATTERN_DICE);
+		if (validate==-1){
+			throw new InvalidCall();
+		}else {
+			((MoveWindowPattenDiceEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(),x,y,((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getX(),((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getY());
 			return getNextEffect();
 		}
 	}
@@ -252,7 +277,7 @@ public class Game extends Observable {
 	private void cleanToolCard(ToolCard toolCard){
 		toolCard.reNew();
 	}
-	
+
 	private void toolCardUsageFinished(){
 		currentToolCardInUse = -1;
 		if(players.get(rounds.getCurrentPlayer()).getHasPlacedDice() && players.get(rounds.getCurrentPlayer()).getHasPlayedToolCard()) {

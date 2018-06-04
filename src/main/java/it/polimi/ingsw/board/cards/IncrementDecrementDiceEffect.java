@@ -17,7 +17,8 @@ public class IncrementDecrementDiceEffect extends Effect{
         }else
             dice.decrement();
         if(dice.getValue()!=originalDice.getValue()) {
-            // END OF TOOLCARD USE, CLEAN THE TOOLCARD
+            used=true;
+            System.out.println("Dice Incremented/Decremented.");
             return true;
         }else {
             return false;

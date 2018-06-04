@@ -1,7 +1,9 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.board.Game;
+import it.polimi.ingsw.board.cards.MoveWindowPattenDiceEffect;
 import it.polimi.ingsw.board.cards.SelectDiceFromDraftEffect;
+import it.polimi.ingsw.board.cards.SelectDiceFromWindowPatternEffect;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.Client;
@@ -170,7 +172,41 @@ public class Controller {
 			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA DRAFT POOL
 		}
 	}
-	public synchronized void incrementDecrement(ClientInterface clientInterface,boolean incDec) {
+	public synchronized void selectDiceFromWindowPatternEffect(ClientInterface clientInterface, int x, int y){
+		try{
+			lobby.getCurrentGame().selectDiceFromWindowPatternEffect(findUsername(clientInterface), x,y);
+		}catch(Game.WrongTurnException ex) {
 
+		}catch(Game.InvalidCall ex){
+
+		}catch(SelectDiceFromWindowPatternEffect.DiceNotFoundException ex){
+			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA WINDOWPATTERN
+		} catch (SelectDiceFromWindowPatternEffect.CellNotFoundException e) {
+
+		}
+	}
+	public synchronized void incrementDecrement(ClientInterface clientInterface,boolean incDec) {
+		try{
+			lobby.getCurrentGame().incrementDecrementDiceEffect(findUsername(clientInterface),incDec);
+		}catch(Game.WrongTurnException ex) {
+
+		}catch(Game.InvalidCall ex) {
+
+		}
+	}
+	public synchronized void moveWindowPatternDiceEffect(ClientInterface clientInterface, int x, int y){
+		try{
+			lobby.getCurrentGame().moveWindowPatternDiceEffect(findUsername(clientInterface), x,y);
+		}catch(Game.WrongTurnException ex) {
+
+		}catch(Game.InvalidCall ex){
+
+		}catch(MoveWindowPattenDiceEffect.DiceNotFoundException ex){
+			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA WINDOWPATTERN
+		} catch (MoveWindowPattenDiceEffect.CellNotFoundException e) {
+
+		}catch (MoveWindowPattenDiceEffect.CellAlreadyOccupiedException e) {
+
+		}
 	}
 }

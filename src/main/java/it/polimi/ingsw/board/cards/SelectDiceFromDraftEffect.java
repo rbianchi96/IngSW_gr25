@@ -19,7 +19,7 @@ public class SelectDiceFromDraftEffect extends Effect {
         }
         selectedDice = dice;
         used = true;
-        System.out.println("Ok, selected Dice is valid.");
+        System.out.println("Ok, selected dice is valid.");
     }
 
     public class DiceNotFoundException extends Exception{
