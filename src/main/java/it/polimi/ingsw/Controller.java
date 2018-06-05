@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.cards.MoveWindowPatternDiceEffect;
 import it.polimi.ingsw.board.cards.SelectDiceFromDraftEffect;
+import it.polimi.ingsw.board.cards.SelectDiceFromRoundTrackAndSwitch;
 import it.polimi.ingsw.board.cards.SelectDiceFromWindowPatternEffect;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
@@ -183,6 +184,8 @@ public class Controller {
 			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA WINDOWPATTERN
 		} catch (SelectDiceFromWindowPatternEffect.CellNotFoundException e) {
 
+		} catch (SelectDiceFromWindowPatternEffect.AlreadyMovedDice alreadyMovedDice) {
+			alreadyMovedDice.printStackTrace();
 		}
 	}
 	public synchronized void incrementDecrement(ClientInterface clientInterface,boolean incDec) {
@@ -207,6 +210,19 @@ public class Controller {
 
 		}catch (MoveWindowPatternDiceEffect.CellAlreadyOccupiedException e) {
 
+		}
+	}
+	public synchronized void selectDiceFromRoundTrackAndSwitch(ClientInterface clientInterface, int round, int index){
+		try {
+			lobby.getCurrentGame().selectDiceFromRoundTrackAndSwitch(findUsername(clientInterface),round,index);
+		} catch (Game.WrongTurnException e) {
+			e.printStackTrace();
+		} catch (Game.InvalidCall invalidCall) {
+			invalidCall.printStackTrace();
+		} catch (SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition invaliDiceOrPosition) {
+			invaliDiceOrPosition.printStackTrace();
+		} catch (SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 }

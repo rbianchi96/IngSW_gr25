@@ -33,18 +33,18 @@
 		"id": 4,
 		"name": "Lathekin",
 		"effects": [
-			{
-				"effect": "moveTwoDice"
-			}
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE"},
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE"}
 		]
 	},
 	{
 		"id": 5,
-		"name": "Taglierina circolare",
+		"name": "Taglierina Circolare",
 		"effects": [
-			{
-				"effect": "swapDiceWithRoundTrack"
-			}
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH"}
 		]
 	},
 	{
