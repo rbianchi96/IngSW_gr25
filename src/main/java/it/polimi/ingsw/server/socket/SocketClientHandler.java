@@ -280,12 +280,18 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override
 	public void selectDiceFromWindowPattern() {
-
+		out.println(encode(
+				SELECT_DICE_FROM_WINDOW_PATTERN
+		));
+		out.flush();
 	}
 
 	@Override
-	public void modeDiceInWindowPattern() {
-
+	public void moveDiceInWindowPattern() {
+		out.println(encode(
+				MOVE_WINDOW_PATTERN_DICE
+		));
+		out.flush();
 	}
 
 	@Override

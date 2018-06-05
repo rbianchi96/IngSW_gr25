@@ -182,23 +182,17 @@ public class GameGUI extends GUIController {
 		switch(state) {
 			case WAIT:
 				diceInHand = draftDice[diceIndex];
+				state = State.PLACE_DICE_IN_HAND;
 				break;
 			case SELECT_DICE_FROM_DRAFT:
 				client.getServerInterface().selectDiceFromDraftEffect(draftDice[diceIndex]);
-				System.out.println("Selected a dice!");
 				state = State.WAIT;
 		}
-
-		System.out.println("Selected dice");
-
-		state = State.PLACE_DICE_IN_HAND;
 	}
 
 	private EventHandler<MouseEvent> onCellSelected = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
-			System.out.println("Place dice");
-
 			switch(state) {
 				case PLACE_DICE_IN_HAND:
 					client.getServerInterface().placeDice(
@@ -207,20 +201,25 @@ public class GameGUI extends GUIController {
 							GridPane.getColumnIndex((Pane)event.getSource())
 					);
 
-					state = State.WAIT;	//TODO
+					state = State.WAIT;    //TODO
 
 					break;
 				case SELECT_DICE_FROM_WINDOWPATTERN:
-					/*client.getServerInterface()(
-							diceInHand,
+					client.getServerInterface().selectDiceFromWindowPatternEffect(
 							GridPane.getRowIndex((Pane)event.getSource()),
 							GridPane.getColumnIndex((Pane)event.getSource())
-					);*/
+					);
 
-					state = State.WAIT;	//TODO
+					state = State.WAIT;    //TODO
 
+					break;
 				case MOVE_DICE_IN_WINDOW_PATTERN:
+					client.getServerInterface().moveDiceInWindowPatternEffect(
+							GridPane.getRowIndex((Pane)event.getSource()),
+							GridPane.getColumnIndex((Pane)event.getSource())
+					);
 
+					state = State.WAIT;    //TODO
 			}
 		}
 	};
@@ -259,7 +258,7 @@ public class GameGUI extends GUIController {
 	}
 
 	public void selectIncreaseOrDecrease() {
-		System.out.println("Select inc. or dec.!");
+		System.out.println("Select inc. or dec.");
 
 		Platform.runLater(() -> {
 			ButtonType
@@ -302,17 +301,29 @@ public class GameGUI extends GUIController {
 	}
 
 	public void selectDiceFromDraft() {
-		//TODO notify user to select dice...
-		System.out.println("Select a dice from draft...");
+		showInfoAlert("Seleziona un dado dalla riserva.");
 		state = State.SELECT_DICE_FROM_DRAFT;
 	}
 
 	public void selectDiceFromWindowPattern() {
+		showInfoAlert("Seleziona un dado dalla finestra.");
 		state = State.SELECT_DICE_FROM_WINDOWPATTERN;
 	}
 
 	public void modeDiceInWindowPattern() {
+		showInfoAlert("Seleziona una cella in cui muovere il dado.");
 		state = State.MOVE_DICE_IN_WINDOW_PATTERN;
+	}
+
+	private void showInfoAlert(String text) {
+		Platform.runLater(() -> {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION, text);
+			alert.showAndWait();
+		});
+	}
+
+	public void endTurn(MouseEvent mouseEvent) {
+		client.getServerInterface().endTurn();
 	}
 
 	private enum State {

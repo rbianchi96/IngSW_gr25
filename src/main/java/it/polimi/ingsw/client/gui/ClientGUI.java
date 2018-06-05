@@ -147,7 +147,7 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void modeDiceInWindowPattern() {
+	public void moveDiceInWindowPattern() {
 		gameGUI.modeDiceInWindowPattern();
 	}
 

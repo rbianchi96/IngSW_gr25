@@ -214,7 +214,7 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
-	public void modeDiceInWindowPattern() {
+	public void moveDiceInWindowPattern() {
 
 	}
 

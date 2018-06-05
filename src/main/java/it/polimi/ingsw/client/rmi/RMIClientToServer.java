@@ -145,12 +145,27 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	@Override
+	public void endTurn() {
+		//TODO
+	}
+
+	@Override
 	public void selectDiceFromDraftEffect(Dice dice) {
 
 	}
 
 	@Override
 	public void incrementOrDecrementDiceEffect(boolean mode) {
+
+	}
+
+	@Override
+	public void selectDiceFromWindowPatternEffect(int row, int col) {
+
+	}
+
+	@Override
+	public void moveDiceInWindowPatternEffect(int row, int col) {
 
 	}
 }

@@ -12,7 +12,10 @@ public interface ServerInterface {
     public void placeDice(Dice dice, int row, int col);
 
     public void useToolCard(int index);
+    public void endTurn();
 
     public void selectDiceFromDraftEffect(Dice dice);
     public void incrementOrDecrementDiceEffect(boolean mode);
+    public void selectDiceFromWindowPatternEffect(int row, int col);
+    public void moveDiceInWindowPatternEffect(int row, int col);
 }

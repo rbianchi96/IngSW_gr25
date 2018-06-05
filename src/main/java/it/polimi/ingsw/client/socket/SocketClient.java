@@ -175,7 +175,7 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					break;
 				case MOVE_WINDOW_PATTERN_DICE:
-					client.modeDiceInWindowPattern();
+					client.moveDiceInWindowPattern();
 
 					break;
 				case DICE_PLACEMENT_RESTRICTION_BROKEN:
@@ -240,6 +240,13 @@ public class SocketClient extends Socket implements ServerInterface {
 	}
 
 	@Override
+	public void endTurn() {
+		out.println(encode(
+				ServerCommand.END_TURN
+		));
+	}
+
+	@Override
 	public void selectDiceFromDraftEffect(Dice dice) {
 		out.println(encode(
 				ServerCommand.SELECT_DICE_FROM_DRAFT_EFFECT,
@@ -253,6 +260,26 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.println(encode(
 				ServerCommand.INCREMENT_OR_DECREMENT_DICE_EFFECT,
 				String.valueOf(mode)
+		));
+		out.flush();
+	}
+
+	@Override
+	public void selectDiceFromWindowPatternEffect(int row, int col) {
+		out.println(encode(
+				ServerCommand.SELECT_DICE_FROM_WINDOW_PATTERN,
+				String.valueOf(row),
+				String.valueOf(col)
+		));
+		out.flush();
+	}
+
+	@Override
+	public void moveDiceInWindowPatternEffect(int row, int col) {
+		out.println(encode(
+				ServerCommand.MOVE_DICE_IN_WINDOW_PATTERN,
+				String.valueOf(row),
+				String.valueOf(col)
 		));
 		out.flush();
 	}

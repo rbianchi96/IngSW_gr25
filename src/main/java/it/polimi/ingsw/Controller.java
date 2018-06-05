@@ -137,7 +137,11 @@ public class Controller {
 			case SELECT_INCREMENT_OR_DECREMENT:
 				clientInterface.selectIncrementOrDecrement();
 				break;
-			default:
+			case SELECT_DICE_FROM_WINDOW_PATTERN:
+				clientInterface.selectDiceFromWindowPattern();
+				break;
+			case MOVE_WINDOW_PATTERN_DICE:
+				clientInterface.moveDiceInWindowPattern();
 				break;
 		}
 	}
@@ -208,5 +212,9 @@ public class Controller {
 		}catch (MoveWindowPatternDiceEffect.CellAlreadyOccupiedException e) {
 
 		}
+	}
+
+	public synchronized void endTurn(ClientInterface clientInterface) {
+		lobby.getCurrentGame().skipTurn(findUsername(clientInterface));
 	}
 }

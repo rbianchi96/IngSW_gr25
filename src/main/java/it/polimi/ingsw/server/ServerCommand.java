@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
-
 public enum ServerCommand {
 	LOGIN("login"),
 	LOGOUT("logout"),
@@ -12,6 +10,7 @@ public enum ServerCommand {
 	PLACE_DICE_FROM_DRAFT("placeDice"),
 
 	USE_TOOL_CARD("useToolCard"),
+	END_TURN("endTurn"),
 
 	SELECT_DICE_FROM_DRAFT_EFFECT("selectDiceFromDraftEffect"),
 	INCREMENT_OR_DECREMENT_DICE_EFFECT("incOrDecDiceEffect"),
