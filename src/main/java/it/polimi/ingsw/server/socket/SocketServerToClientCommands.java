@@ -27,6 +27,7 @@ public enum SocketServerToClientCommands {
 	SELECT_INCREMENT_OR_DECREMENT("selectIncOrDec"),
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
+	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
 
 	DICE_PLACEMENT_RESTRICTION_BROKEN("dicePlacementRestrictionBroken"),
 	CELL_ALREADY_OCUPIED("cellAlreadyOccupied"),

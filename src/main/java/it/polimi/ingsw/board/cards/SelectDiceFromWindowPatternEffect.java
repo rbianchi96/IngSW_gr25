@@ -12,26 +12,35 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
         this.game = game;
         this.myEnum = EffectsEnum.SELECT_DICE_FROM_WINDOW_PATTERN;
     }
-    public void apply(WindowPattern windowPattern, int x, int y)throws DiceNotFoundException,CellNotFoundException {
-        try{
-            Dice dice = windowPattern.getDice(x,y);
-            if (dice==null){
-                throw new DiceNotFoundException();
+    public void apply(WindowPattern windowPattern, int x, int y,int forbidX, int forbidY)throws DiceNotFoundException,CellNotFoundException,AlreadyMovedDice {
+        if (forbidX>=0 && forbidY>=0) {
+            try {
+                Dice dice = windowPattern.getDice(x, y);
+                if (dice == null) {
+                    throw new DiceNotFoundException();
+                }
+                selectedDice = dice;
+                this.x = x;
+                this.y = y;
+                used = true;
+                System.out.println("Ok, selected Dice is valid.");
+            } catch (WindowPattern.WindowPatternOutOfBoundException ex) {
+                selectedDice = null;
+                System.out.println("The selected cell isn't present in the Window Pattern.");
+                used = false;
+                throw new CellNotFoundException();
             }
-            selectedDice= dice;
-            this.x=x;
-            this.y=y;
-            used= true;
-            System.out.println("Ok, selected Dice is valid.");
-        }catch(WindowPattern.WindowPatternOutOfBoundException ex){
-            selectedDice = null;
-            System.out.println("The selected cell isn't present in the Window Pattern.");
-            used = false;
-            throw new CellNotFoundException();
         }
     }
     public Dice getSelectedDice() {
         return selectedDice;
+    }
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
     public class DiceNotFoundException extends Exception{
         public DiceNotFoundException(){
@@ -43,11 +52,10 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
             super();
         }
     }
-    public int getX() {
-        return x;
+    public class AlreadyMovedDice extends Exception{
+        public AlreadyMovedDice(){
+            super();
+        }
     }
 
-    public int getY() {
-        return y;
-    }
 }

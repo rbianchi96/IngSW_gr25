@@ -50,6 +50,11 @@ public class ToolCard extends Card implements Serializable {
 						effects.add(new MoveWindowPatternDiceEffect(game,RestrictionEnum.CELL_COLOR_RESTRICTION));
 					else if(id==3)
 						effects.add(new MoveWindowPatternDiceEffect(game,RestrictionEnum.CELL_VALUE_RESTRICTION));
+					else if (id==4)
+						effects.add(new MoveWindowPatternDiceEffect(game,null));
+					break;
+				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
+					effects.add(new SelectDiceFromRoundTrackAndSwitch(game));
 					break;
 				default:
 					break;
@@ -103,5 +108,15 @@ public class ToolCard extends Card implements Serializable {
 		}
 
 		return null;
+	}
+
+	public int alreadyAppliedEffect(EffectsEnum effectEnum){
+		int mostRecentEffectEnum = -1;
+		for(int i=0;effects.get(i).getMyEnum() != effectEnum && effects.get(i).isUsed();i++){
+			if(effects.get(i).getMyEnum()==effectEnum){
+				mostRecentEffectEnum = i;
+			}
+		}
+		return mostRecentEffectEnum;
 	}
 }

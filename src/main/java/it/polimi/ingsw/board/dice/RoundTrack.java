@@ -48,6 +48,26 @@ public class RoundTrack {
             throw new ArrayIndexOutOfBoundsException("The game only have 10 ROUNDS!");
     }
 
+    public boolean addDice(int round, int index, Dice dice){
+
+        if (round>=0 && round<10) {
+            if (dice != null) {
+                if (round > 0 && track[round-1].getDices().isEmpty())
+                    throw new IllegalArgumentException("You can't add dices to a round, when the previous one doesn't contains any!");
+                if (track[round].getDices().size() < (2*playersNumber) + 1) {
+                    if (index<0 || index >track[round].getDices().size()-1)
+                        throw new IndexOutOfBoundsException("You are trying to add a Dice in an invalid index.");
+                    else {
+                        track[round].getDices().add(index, dice);
+                        return true;
+                    }
+                } else
+                    return false;
+            }else
+                throw new NullPointerException("The dice cannot be null!");
+        }else
+            throw new ArrayIndexOutOfBoundsException("The game only have 10 Rounds!");
+    }
     // Returns the specified Dice(if it's not null, else it throws NullPointerException)
     // from the specified round by removing it from the Round Track.
     // If there is no such dice, it throws NoSuchElementException.
@@ -70,6 +90,21 @@ public class RoundTrack {
         }else
             throw new ArrayIndexOutOfBoundsException("The game only have 10 ROUNDS!");
     }
+
+    public Dice getDice(int round, int index) {
+        if (round>=0 && round<10) {
+            if (index<0 || index >track[round].getDices().size()-1)
+                throw new IndexOutOfBoundsException("You are trying to get a Dice from an invalid index.");
+            else {
+                Dice dice = track[round].getDices().get(index);
+                track[round].getDices().remove(index);
+                return dice;
+            }
+        }else
+            throw new ArrayIndexOutOfBoundsException("The game only have 10 ROUNDS!");
+    }
+
+
     public int size(){
         int tot=0;
         for(int i = 0; i< ROUNDS; i++){
