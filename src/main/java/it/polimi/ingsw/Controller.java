@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.board.Game;
-import it.polimi.ingsw.board.cards.MoveWindowPatternDiceEffect;
-import it.polimi.ingsw.board.cards.SelectDiceFromDraftEffect;
-import it.polimi.ingsw.board.cards.SelectDiceFromRoundTrackAndSwitch;
-import it.polimi.ingsw.board.cards.SelectDiceFromWindowPatternEffect;
+import it.polimi.ingsw.board.cards.toolcard.effects.MoveWindowPatternDiceEffect;
+import it.polimi.ingsw.board.cards.toolcard.effects.SelectDiceFromDraftEffect;
+import it.polimi.ingsw.board.cards.toolcard.effects.SelectDiceFromRoundTrackAndSwitch;
+import it.polimi.ingsw.board.cards.toolcard.effects.SelectDiceFromWindowPatternEffect;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.board;
 
 import it.polimi.ingsw.board.cards.*;
+import it.polimi.ingsw.board.cards.toolcard.ToolCard;
+import it.polimi.ingsw.board.cards.toolcard.effects.*;
 import it.polimi.ingsw.board.cardsloaders.PrivateObjectiveCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.PublicObjectiveCardsLoader;
 import it.polimi.ingsw.board.cardsloaders.ToolCardsLoader;

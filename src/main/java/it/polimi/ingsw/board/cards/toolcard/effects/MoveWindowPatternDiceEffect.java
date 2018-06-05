@@ -1,4 +1,4 @@
-package it.polimi.ingsw.board.cards;
+package it.polimi.ingsw.board.cards.toolcard.effects;
 
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.PlacementRestriction;

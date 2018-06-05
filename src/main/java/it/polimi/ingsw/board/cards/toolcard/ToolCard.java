@@ -1,7 +1,9 @@
-package it.polimi.ingsw.board.cards;
+package it.polimi.ingsw.board.cards.toolcard;
 
 import it.polimi.ingsw.board.Game;
-import it.polimi.ingsw.board.windowpattern.PlacementRestriction;
+import it.polimi.ingsw.board.cards.Card;
+import it.polimi.ingsw.board.cards.toolcard.effects.Effect;
+import it.polimi.ingsw.board.cards.toolcard.effects.EffectsEnum;
 
 import java.io.Serializable;
 import java.util.ArrayList;

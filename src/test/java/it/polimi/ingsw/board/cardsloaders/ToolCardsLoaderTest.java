@@ -1,7 +1,7 @@
 package it.polimi.ingsw.board.cardsloaders;
 
-import it.polimi.ingsw.board.cards.Effect;
-import it.polimi.ingsw.board.cards.ToolCard;
+import it.polimi.ingsw.board.cards.toolcard.effects.Effect;
+import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.board.cardsloaders;
 
-import it.polimi.ingsw.board.cards.*;
+import it.polimi.ingsw.board.cards.toolcard.ToolCard;
+import it.polimi.ingsw.board.cards.toolcard.effects.*;
 import it.polimi.ingsw.board.windowpattern.PlacementRestriction;
 
 import javax.json.*;

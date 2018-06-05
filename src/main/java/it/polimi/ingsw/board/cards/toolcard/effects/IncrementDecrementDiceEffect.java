@@ -1,6 +1,5 @@
-package it.polimi.ingsw.board.cards;
+package it.polimi.ingsw.board.cards.toolcard.effects;
 
-import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.dice.Dice;
 
 public class IncrementDecrementDiceEffect extends Effect {

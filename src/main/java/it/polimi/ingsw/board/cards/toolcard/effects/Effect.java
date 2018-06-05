@@ -1,4 +1,4 @@
-package it.polimi.ingsw.board.cards;
+package it.polimi.ingsw.board.cards.toolcard.effects;
 
 import it.polimi.ingsw.board.Game;
 

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.board.cards;
+package it.polimi.ingsw.board.cards.toolcard.effects;
 
-import it.polimi.ingsw.board.Game;
+import it.polimi.ingsw.board.cards.toolcard.effects.Effect;
+import it.polimi.ingsw.board.cards.toolcard.effects.EffectsEnum;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 

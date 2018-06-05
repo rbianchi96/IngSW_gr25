@@ -1,12 +1,10 @@
 package it.polimi.ingsw.board;
 
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
-import it.polimi.ingsw.board.cards.ToolCard;
+import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.DiceBag;
 import it.polimi.ingsw.board.dice.Draft;
 import it.polimi.ingsw.board.dice.RoundTrack;
-
-import java.util.ArrayList;
 
 public class GameBoard {
     private DiceBag diceBag;
