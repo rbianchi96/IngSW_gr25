@@ -32,6 +32,8 @@ public interface ClientInterface {
 
 	public void selectDiceFromDraft();
 	public void selectIncrementOrDecrement();
+	public void selectDiceFromWindowPattern();
+	public void modeDiceInWindowPattern();
 
 	public void dicePlacementRestictionBroken();
 	public void cellAlreadyOccupied();

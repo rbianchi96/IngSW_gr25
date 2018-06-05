@@ -97,6 +97,16 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
+    public void selectDiceFromWindowPattern() throws RemoteException {
+
+    }
+
+    @Override
+    public void modeDiceInWindowPattern() throws RemoteException {
+
+    }
+
+    @Override
     public void updateDraft(Dice[] dices) throws RemoteException {
         client.updateDraft(dices);
     }

@@ -11,6 +11,7 @@ import it.polimi.ingsw.board.windowpattern.Cell;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
+import it.polimi.ingsw.server.ServerCommand;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
 
@@ -55,7 +56,7 @@ public class SocketClient extends Socket implements ServerInterface {
 
 		SocketServerToClientCommands command = SocketServerToClientCommands.convertMessageToEnum(msgVector[0]);
 
-		if(command != null)	//Convert the command to the enum
+		if(command != null)    //Convert the command to the enum
 			switch(command) {
 				case PING:
 					break;
@@ -169,6 +170,14 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.selectIncrementOrDecrement();
 
 					break;
+				case SELECT_DICE_FROM_WINDOW_PATTERN:
+					client.selectDiceFromWindowPattern();
+
+					break;
+				case MOVE_WINDOW_PATTERN_DICE:
+					client.modeDiceInWindowPattern();
+
+					break;
 				case DICE_PLACEMENT_RESTRICTION_BROKEN:
 					client.dicePlacementRestictionBroken();
 
@@ -186,52 +195,77 @@ public class SocketClient extends Socket implements ServerInterface {
 
 	@Override
 	public void login(String username) {
-		out.println("login#" + username);
+		out.println(encode(
+				ServerCommand.LOGIN,
+				username
+		));
 		out.flush();
 		sessionNickname = username;
 	}
 
 	@Override
 	public void logout() {
-		out.println("logout");
+		out.println(encode(ServerCommand.LOGOUT));
 		out.flush();
 		reconnectTimer.cancel();
 	}
 
 	@Override
 	public void selectWindowPattern(int i) {
-		out.println("selectWindowPattern#" + i);
-		out.flush();
-	}
-
-	@Override
-	public void selectDiceFromDraft(int index) {
-		out.println("selectDiceFromDraft#" + index);
+		out.println(encode(
+				ServerCommand.SELECT_WINDOW_PATTERN,
+				String.valueOf(i)
+		));
 		out.flush();
 	}
 
 	@Override
 	public void placeDice(Dice dice, int row, int col) {
-		out.println("placeDice#" + encodeDice(dice) + "#" + row + "#" + col);
+		out.println(encode(
+				ServerCommand.PLACE_DICE_FROM_DRAFT,
+				encodeDice(dice),
+				String.valueOf(row),
+				String.valueOf(col)
+		));
 		out.flush();
 	}
 
 	@Override
 	public void useToolCard(int index) {
-		out.println("useToolCard#" + index);
+		out.println(encode(
+				ServerCommand.USE_TOOL_CARD,
+				String.valueOf(index)
+		));
 		out.flush();
 	}
 
 	@Override
 	public void selectDiceFromDraftEffect(Dice dice) {
-		out.println("selectDiceFromDraftEffect#" + encodeDice(dice));
+		out.println(encode(
+				ServerCommand.SELECT_DICE_FROM_DRAFT_EFFECT,
+				encodeDice(dice)
+		));
 		out.flush();
 	}
 
 	@Override
 	public void incrementOrDecrementDiceEffect(boolean mode) {
-		out.println("incrementOrDecrementDiceEffect#" + mode);
+		out.println(encode(
+				ServerCommand.INCREMENT_OR_DECREMENT_DICE_EFFECT,
+				String.valueOf(mode)
+		));
 		out.flush();
+	}
+
+	// This method encode call's arguments based on Protocol'rules. Necessary before send to Client.
+	private String encode(ServerCommand command, String... params) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(command.toString());
+
+		for(String param : params) {
+			sb.append("#").append(param);
+		}
+		return sb.toString();
 	}
 
 	private WindowPattern[] decodeWindowPatterns(String[] msg) {
@@ -288,8 +322,8 @@ public class SocketClient extends Socket implements ServerInterface {
 	private String encodeDice(Dice dice) {
 		String str =
 				String.valueOf(dice.getValue()) +
-				"#" +
-				dice.getColor();
+						"#" +
+						dice.getColor();
 
 		return str;
 	}

@@ -24,8 +24,8 @@ public enum SocketServerToClientCommands {
 	UPDATE_TOOL_CARDS_TOKENS("updateToolCardsTokens"),
 
 	SELECT_DICE_FROM_DRAFT("selectDiceFromDraft"),
-	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	SELECT_INCREMENT_OR_DECREMENT("selectIncOrDec"),
+	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
 

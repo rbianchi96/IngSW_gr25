@@ -279,6 +279,10 @@ public class Game extends Observable {
 			throw new InvalidCall();
 		} else {
 			((MoveWindowPatternDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(), x, y, ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getX(), ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getY());
+
+			setChanged();
+			notifyObservers(NotifyType.WINDOW_PATTERNS);
+
 			return getNextEffect();
 		}
 	}

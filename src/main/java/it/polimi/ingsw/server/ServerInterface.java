@@ -9,7 +9,6 @@ public interface ServerInterface {
 
     public void selectWindowPattern(int i);
 
-    public void selectDiceFromDraft(int index);
     public void placeDice(Dice dice, int row, int col);
 
     public void useToolCard(int index);
