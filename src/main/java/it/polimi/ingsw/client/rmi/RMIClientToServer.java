@@ -131,11 +131,6 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	@Override
-	public void selectDiceFromDraft(int index) {
-
-	}
-
-	@Override
 	public void placeDice(Dice dice, int row, int col) {
 		try {
 			server.placeDice(dice, row, col);

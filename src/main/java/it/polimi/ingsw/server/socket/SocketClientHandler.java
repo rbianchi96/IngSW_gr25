@@ -9,8 +9,8 @@ import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.Controller;
+import it.polimi.ingsw.server.ServerCommand;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -115,25 +115,23 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	// This method decode the input from client based Protocol's rules and calling the right Controller's method
 	public void decode(String line) {
 		String[] request = line.split("#");
-		if(request[0] != null) {
-			switch(request[0]) {
-				case "login":
+
+		ServerCommand command = ServerCommand.convertMessageToEnum(request[0]);
+		if(command != null) {
+			switch(command) {
+				case LOGIN:
 					controller.login(this, request[1]); // login with nickname = request[1]
 					break;
-				case "logout": // logout call
+				case LOGOUT: // logout call
 					controller.logout(this);
 					break;
-				case "reconnect":
+				case RECONNECT:
 					controller.reconnect(this, request[0], request[1]);
 					break;
-				case "ping":
-					out.println("pong");
-					out.flush();
-					break;
-				case "selectWindowPattern":
+				case SELECT_WINDOW_PATTERN:
 					controller.selectWindowPattern(this, Integer.parseInt(request[1]));
 					break;
-				case "placeDice":
+				case PLACE_DICE_FROM_DRAFT:
 					Dice dice = new Dice(Integer.valueOf(request[1]), Color.findColor(request[2]));
 
 					controller.placeDice(
@@ -144,11 +142,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					);
 
 					break;
-				case "useToolCard":
+				case USE_TOOL_CARD:
 					controller.useToolCard(this, Integer.parseInt(request[1]));
 
 					break;
-				case "selectDiceFromDraftEffect":
+				case SELECT_DICE_FROM_DRAFT_EFFECT:
 					controller.selectDiceFromDraftEffect(this,
 							new Dice(
 									Integer.parseInt(request[1]),
@@ -157,9 +155,29 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					);
 
 					break;
-				case "incrementOrDecrementDiceEffect":
+				case INCREMENT_OR_DECREMENT_DICE_EFFECT:
 					controller.incrementDecrement(this, Boolean.parseBoolean(request[1]));
 
+					break;
+				case SELECT_DICE_FROM_WINDOW_PATTERN:
+					controller.selectDiceFromWindowPatternEffect(
+							this,
+							Integer.parseInt(request[1]),
+							Integer.parseInt(request[2])
+							);
+
+					break;
+				case MOVE_DICE_IN_WINDOW_PATTERN:
+					controller.moveWindowPatternDiceEffect(
+							this,
+							Integer.parseInt(request[1]),
+							Integer.parseInt(request[2])
+					);
+
+					break;
+				case PING:
+					out.println("pong");
+					out.flush();
 					break;
 				default: { // Invalid command
 					out.println(encode(INVALID_COMMAND));
@@ -258,6 +276,16 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	public void selectIncrementOrDecrement() {
 		out.println(encode(SELECT_INCREMENT_OR_DECREMENT));
 		out.flush();
+	}
+
+	@Override
+	public void selectDiceFromWindowPattern() {
+
+	}
+
+	@Override
+	public void modeDiceInWindowPattern() {
+
 	}
 
 	@Override

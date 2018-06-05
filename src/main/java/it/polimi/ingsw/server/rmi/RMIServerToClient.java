@@ -209,6 +209,16 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void selectDiceFromWindowPattern() {
+
+	}
+
+	@Override
+	public void modeDiceInWindowPattern() {
+
+	}
+
+	@Override
 	public void dicePlacementRestictionBroken() {
 		try {
 			rmiClientInterface.dicePlacementRestictionBroken();

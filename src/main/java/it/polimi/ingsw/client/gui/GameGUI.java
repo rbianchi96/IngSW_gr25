@@ -199,14 +199,28 @@ public class GameGUI extends GUIController {
 		public void handle(MouseEvent event) {
 			System.out.println("Place dice");
 
-			if(state == State.PLACE_DICE_IN_HAND) {
-				client.getServerInterface().placeDice(
-						diceInHand,
-						GridPane.getRowIndex((Pane)event.getSource()),
-						GridPane.getColumnIndex((Pane)event.getSource())
-				);
+			switch(state) {
+				case PLACE_DICE_IN_HAND:
+					client.getServerInterface().placeDice(
+							diceInHand,
+							GridPane.getRowIndex((Pane)event.getSource()),
+							GridPane.getColumnIndex((Pane)event.getSource())
+					);
 
-				state = State.WAIT;
+					state = State.WAIT;	//TODO
+
+					break;
+				case SELECT_DICE_FROM_WINDOWPATTERN:
+					/*client.getServerInterface()(
+							diceInHand,
+							GridPane.getRowIndex((Pane)event.getSource()),
+							GridPane.getColumnIndex((Pane)event.getSource())
+					);*/
+
+					state = State.WAIT;	//TODO
+
+				case MOVE_DICE_IN_WINDOW_PATTERN:
+
 			}
 		}
 	};
@@ -247,25 +261,22 @@ public class GameGUI extends GUIController {
 	public void selectIncreaseOrDecrease() {
 		System.out.println("Select inc. or dec.!");
 
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				ButtonType
-						inc = new ButtonType("Incrementa"),
-						dec = new ButtonType("Decrementa");
+		Platform.runLater(() -> {
+			ButtonType
+					inc = new ButtonType("Incrementa"),
+					dec = new ButtonType("Decrementa");
 
-				Alert alert = new Alert(
-						Alert.AlertType.CONFIRMATION,
-						"Scegli se incrementsre o decreentare il valore del dado",
-						inc, dec);
+			Alert alert = new Alert(
+					Alert.AlertType.CONFIRMATION,
+					"Scegli se incrementsre o decreentare il valore del dado",
+					inc, dec);
 
-				alert.showAndWait();
-				ButtonType result = alert.getResult();
-				if(result == inc) {
-					client.getServerInterface().incrementOrDecrementDiceEffect(true);
-				} else if(result == dec) {
-					client.getServerInterface().incrementOrDecrementDiceEffect(false);
-				}
+			alert.showAndWait();
+			ButtonType result = alert.getResult();
+			if(result == inc) {
+				client.getServerInterface().incrementOrDecrementDiceEffect(true);
+			} else if(result == dec) {
+				client.getServerInterface().incrementOrDecrementDiceEffect(false);
 			}
 		});
 	}
@@ -296,7 +307,15 @@ public class GameGUI extends GUIController {
 		state = State.SELECT_DICE_FROM_DRAFT;
 	}
 
+	public void selectDiceFromWindowPattern() {
+		state = State.SELECT_DICE_FROM_WINDOWPATTERN;
+	}
+
+	public void modeDiceInWindowPattern() {
+		state = State.MOVE_DICE_IN_WINDOW_PATTERN;
+	}
+
 	private enum State {
-		WAIT, PLACE_DICE_IN_HAND, SELECT_DICE_FROM_DRAFT, SELECT_DICE_FROM_WINDOWPATTERN
+		WAIT, PLACE_DICE_IN_HAND, SELECT_DICE_FROM_DRAFT, SELECT_DICE_FROM_WINDOWPATTERN, MOVE_DICE_IN_WINDOW_PATTERN
 	}
 }
