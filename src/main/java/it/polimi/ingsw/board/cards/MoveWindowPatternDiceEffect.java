@@ -16,7 +16,7 @@ public class MoveWindowPatternDiceEffect extends Effect {
         this.ignoredRestriction = ignoredRestriction;
         this.myEnum= EffectsEnum.MOVE_WINDOW_PATTERN_DICE;
     }
-    public void apply(WindowPattern windowPattern, int newX, int newY,int oldX, int oldY)throws DiceNotFoundException,CellNotFoundException,CellAlreadyOccupiedException{
+    public void apply(WindowPattern windowPattern, int newX, int newY,int oldX, int oldY) throws DiceNotFoundException, CellNotFoundException, CellAlreadyOccupiedException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
             Dice newCellDice = null;
             Dice oldDice = null;
             try {
@@ -51,10 +51,13 @@ public class MoveWindowPatternDiceEffect extends Effect {
                 this.newY = newY;
             } catch (WindowPattern.WindowPatternOutOfBoundException e) {
                 e.printStackTrace();
+                throw e;
             } catch (WindowPattern.PlacementRestrictionException e) {
                 e.printStackTrace();
+                throw e;
             } catch (WindowPattern.CellAlreadyOccupiedException e) {
                 e.printStackTrace();
+                throw e;
             }
     }
     public int getNewX() {

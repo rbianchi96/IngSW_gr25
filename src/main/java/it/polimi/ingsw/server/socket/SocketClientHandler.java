@@ -146,6 +146,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					controller.useToolCard(this, Integer.parseInt(request[1]));
 
 					break;
+				case END_TURN:
+					controller.endTurn(this);
+
+					break;
 				case SELECT_DICE_FROM_DRAFT_EFFECT:
 					controller.selectDiceFromDraftEffect(this,
 							new Dice(

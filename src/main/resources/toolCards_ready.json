@@ -38,13 +38,5 @@
 			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
 			{"effect": "MOVE_WINDOW_PATTERN_DICE"}
 		]
-	},
-	{
-		"id": 5,
-		"name": "Taglierina Circolare",
-		"effects": [
-			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH"}
-		]
 	}
 ]

@@ -12,7 +12,7 @@ public class ToolCard extends Card implements Serializable {
 	private ArrayList<EffectsEnum> effectsEnums;
 	private ArrayList<Effect> effects;
 	private int favorTokensNumber;
-//	private int totalSteps;
+	//	private int totalSteps;
 	private Game game;
 
 	public ToolCard(int id, String name, ArrayList<EffectsEnum> effects) {
@@ -22,20 +22,21 @@ public class ToolCard extends Card implements Serializable {
 		if(effects != null) {
 			this.effectsEnums = new ArrayList<>(effects);
 			//populateEffects();
-		}
-		else
+		} else
 			this.effectsEnums = null;
 
 	}
-	public void reNew(){
+
+	public void reNew() {
 		populateEffects();
 	}
-	public void populateEffects(){
+
+	public void populateEffects() {
 		//totalSteps=0;
 		effects = new ArrayList<>();
-		for(int i=0;i<effectsEnums.size();i++){
-		//	totalSteps++;
-			switch(effectsEnums.get(i)){
+		for(int i = 0; i < effectsEnums.size(); i++) {
+			//	totalSteps++;
+			switch(effectsEnums.get(i)) {
 				case SELECT_DICE_FROM_DRAFT:
 					effects.add(new SelectDiceFromDraftEffect(game));
 					break;
@@ -46,12 +47,12 @@ public class ToolCard extends Card implements Serializable {
 					effects.add(new IncrementDecrementDiceEffect(game));
 					break;
 				case MOVE_WINDOW_PATTERN_DICE:
-					if (id==2)
-						effects.add(new MoveWindowPatternDiceEffect(game,RestrictionEnum.CELL_COLOR_RESTRICTION));
-					else if(id==3)
-						effects.add(new MoveWindowPatternDiceEffect(game,RestrictionEnum.CELL_VALUE_RESTRICTION));
-					else if (id==4)
-						effects.add(new MoveWindowPatternDiceEffect(game,null));
+					if(id == 2)
+						effects.add(new MoveWindowPatternDiceEffect(game, RestrictionEnum.CELL_COLOR_RESTRICTION));
+					else if(id == 3)
+						effects.add(new MoveWindowPatternDiceEffect(game, RestrictionEnum.CELL_VALUE_RESTRICTION));
+					else if(id == 4)
+						effects.add(new MoveWindowPatternDiceEffect(game, null));
 					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					effects.add(new SelectDiceFromRoundTrackAndSwitch(game));
@@ -86,23 +87,24 @@ public class ToolCard extends Card implements Serializable {
 		this.game = game;
 	}
 
-	public int validate(EffectsEnum effectsEnum){
+	public int validate(EffectsEnum effectsEnum) {
 		int i;
-		for (i=0;effects.get(i).getMyEnum() != effectsEnum;i++) {
-			if (!effects.get(i).isUsed()) {
-				return -1;
+		for(i = 0; i < effects.size(); i++) {
+			if(! effects.get(i).isUsed()) {	//First unused
+				if(effects.get(i).getMyEnum() == effectsEnum)
+					return i;
+				else
+					return - 1;
 			}
 		}
-		if (!effects.get(i).isUsed()){
-			return i;
-		}else
-			return -1;
+
+		return - 1;
 	}
 
-	public Effect getNext(){
+	public Effect getNext() {
 		int i;
-		for (i=0;i < effects.size();i++) {
-			if (!effects.get(i).isUsed()) {
+		for(i = 0; i < effects.size(); i++) {
+			if(! effects.get(i).isUsed()) {
 				return effects.get(i);
 			}
 		}
@@ -110,10 +112,10 @@ public class ToolCard extends Card implements Serializable {
 		return null;
 	}
 
-	public int alreadyAppliedEffect(EffectsEnum effectEnum){
-		int mostRecentEffectEnum = -1;
-		for(int i=0;effects.get(i).getMyEnum() != effectEnum && effects.get(i).isUsed();i++){
-			if(effects.get(i).getMyEnum()==effectEnum){
+	public int alreadyAppliedEffect(EffectsEnum effectEnum) {
+		int mostRecentEffectEnum = - 1;
+		for(int i = 0; i < effects.size(); i++) {
+			if(effects.get(i).getMyEnum() == effectEnum && effects.get(i).isUsed()) {
 				mostRecentEffectEnum = i;
 			}
 		}

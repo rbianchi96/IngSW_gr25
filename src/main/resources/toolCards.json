@@ -46,7 +46,7 @@
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
 			{"effect": "SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH"}
 		]
-	},
+	}
 	{
 		"id": 6,
 		"name": "Pennello per Pasta Salda",

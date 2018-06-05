@@ -244,6 +244,7 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.println(encode(
 				ServerCommand.END_TURN
 		));
+		out.flush();
 	}
 
 	@Override

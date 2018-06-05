@@ -152,7 +152,12 @@ public class Game extends Observable {
 		updateAllWindowPatterns();
 	}
 
-	public void skipTurn(String username) {
+	public void skipTurn(String username) throws WrongTurnException {
+		Player player = findPlayer(username);
+		turnCheck(player);
+
+		player.setHasPlacedDice(false);
+		player.setHasPlayedToolCard(false);
 		if(rounds.nextPlayer() == - 1) {
 			startRound();
 		}
@@ -269,7 +274,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public SocketServerToClientCommands moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, MoveWindowPatternDiceEffect.CellNotFoundException, MoveWindowPatternDiceEffect.CellAlreadyOccupiedException {
+	public SocketServerToClientCommands moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, MoveWindowPatternDiceEffect.CellNotFoundException, MoveWindowPatternDiceEffect.CellAlreadyOccupiedException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse == - 1)
@@ -278,7 +283,8 @@ public class Game extends Observable {
 		if(validate == - 1) {
 			throw new InvalidCall();
 		} else {
-			((MoveWindowPatternDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(), x, y, ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getX(), ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(0))).getY());
+			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectsEnum.SELECT_DICE_FROM_WINDOW_PATTERN);
+			((MoveWindowPatternDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(player.getWindowPattern(), x, y, ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(lastSelect))).getX(), ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffects().get(lastSelect))).getY());
 
 			setChanged();
 			notifyObservers(NotifyType.WINDOW_PATTERNS);
