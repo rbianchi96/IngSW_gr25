@@ -76,7 +76,7 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		if(
 				placedDices == 0
 						&& (ignoredRestrictionEnums == null || ignoredRestrictionEnums.indexOf(RestrictionEnum.FIRST_DICE_RESTRICTION) < 0)    //Don't ignore first dice restriction
-						&& !(
+						&& ! (
 						(row == 0 || row == WindowPattern.WINDOW_PATTERN_ROWS_NUMBER - 1 || col == 0 || col == WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)
 				)
 				)
@@ -85,17 +85,20 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 
 		Cell currCell = cells[row][col];
 		//Cell's restrictions check
-		RestrictionEnum restrictionEnumEx = currCell.compatibleDiceException(dice);
-		if(currCell.getRestriction().hasAnyRestriction()) {    //Has restiction
-			if (    //IF...
-					(ignoredRestrictionEnums == null || ignoredRestrictionEnums.indexOf(RestrictionEnum.CELL_VALUE_RESTRICTION) < 0)    //...don't ignore cell value restriction...
-							&& restrictionEnumEx != null) {   //...ADN value restr. not respected
-				if (restrictionEnumEx == RestrictionEnum.CELL_VALUE_RESTRICTION)
-					throw new PlacementRestrictionException(RestrictionEnum.CELL_VALUE_RESTRICTION, currCell.getRestriction().getRestrictionValue(), dice.getValue());    //Exception
-				else
-					throw new PlacementRestrictionException(RestrictionEnum.CELL_COLOR_RESTRICTION);    //Exception
-			}
-		}
+		RestrictionEnum restrictionEnumEx;
+		if(ignoredRestrictionEnums == null)
+			restrictionEnumEx = currCell.compatibleDiceException(dice);
+		else
+			restrictionEnumEx = currCell.compatibleDiceException(
+					dice,
+					ignoredRestrictionEnums.indexOf(RestrictionEnum.CELL_VALUE_RESTRICTION) >= 0,
+					ignoredRestrictionEnums.indexOf(RestrictionEnum.CELL_COLOR_RESTRICTION) >= 0
+			);
+
+		if(restrictionEnumEx == RestrictionEnum.CELL_VALUE_RESTRICTION)
+			throw new PlacementRestrictionException(RestrictionEnum.CELL_VALUE_RESTRICTION);
+		if(restrictionEnumEx == RestrictionEnum.CELL_COLOR_RESTRICTION)
+			throw new PlacementRestrictionException(RestrictionEnum.CELL_COLOR_RESTRICTION);
 
 		//Check near dices to verify restrictions about near dice presence, color and value
 		if(placedDices > 0) {    //If there's an already placed dice
@@ -175,7 +178,7 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 				throw new PlacementRestrictionException(RestrictionEnum.MUST_HAVE_NEAR_DICE_RESTRICTION);
 		}
 
-		if(!currCell.putDice(dice))
+		if(! currCell.putDice(dice))
 			throw new CellAlreadyOccupiedException();    //Place dice
 
 		placedDices++;
