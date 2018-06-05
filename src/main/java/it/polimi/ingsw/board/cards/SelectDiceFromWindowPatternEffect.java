@@ -8,8 +8,7 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
     private Dice selectedDice = null;
     private int x;
     private int y;
-    public SelectDiceFromWindowPatternEffect(Game game){
-        this.game = game;
+    public SelectDiceFromWindowPatternEffect(){
         this.myEnum = EffectsEnum.SELECT_DICE_FROM_WINDOW_PATTERN;
     }
     public void apply(WindowPattern windowPattern, int x, int y,int forbidX, int forbidY)throws DiceNotFoundException,CellNotFoundException,AlreadyMovedDice {

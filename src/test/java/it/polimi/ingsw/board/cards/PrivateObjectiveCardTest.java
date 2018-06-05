@@ -4,7 +4,7 @@ import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.cardsloaders.PrivateObjectiveCardsLoader;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.Cell;
-import it.polimi.ingsw.board.windowpattern.RestrictionEnum;
+import it.polimi.ingsw.board.windowpattern.PlacementRestriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import org.junit.Test;
 
@@ -20,11 +20,11 @@ public class PrivateObjectiveCardTest {
 		Color[] colors = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.RED, Color.YELLOW};
 		Cell[][] cells = new Cell[4][5];
 
-		ArrayList<RestrictionEnum> ignoredRestrictionEnums = new ArrayList<>();
-		ignoredRestrictionEnums.add(RestrictionEnum.FIRST_DICE_RESTRICTION);
-		ignoredRestrictionEnums.add(RestrictionEnum.NEAR_DICE_VALUE_RESTRICTION);
-		ignoredRestrictionEnums.add(RestrictionEnum.NEAR_DICE_COLOR_RESTRICTION);
-		ignoredRestrictionEnums.add(RestrictionEnum.MUST_HAVE_NEAR_DICE_RESTRICTION);
+		ArrayList<PlacementRestriction> ignoredPlacementRestrictions = new ArrayList<>();
+		ignoredPlacementRestrictions.add(PlacementRestriction.FIRST_DICE_RESTRICTION);
+		ignoredPlacementRestrictions.add(PlacementRestriction.NEAR_DICE_VALUE_RESTRICTION);
+		ignoredPlacementRestrictions.add(PlacementRestriction.NEAR_DICE_COLOR_RESTRICTION);
+		ignoredPlacementRestrictions.add(PlacementRestriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
 
 		//Create cells without restrictions
 		for(int row = 0; row < 4; row++)
@@ -50,7 +50,7 @@ public class PrivateObjectiveCardTest {
 
 				Dice currDice = new Dice(currDiceValue = random.nextInt(7), colors[random.nextInt(5)]);    //Create random dice
 
-				windowPattern.placeDice(currDice, i / 5, i % 5, ignoredRestrictionEnums);    //Place the dice
+				windowPattern.placeDice(currDice, i / 5, i % 5, ignoredPlacementRestrictions);    //Place the dice
 
 				switch(currDice.getColor()) {    //Sum the dice value to the related score
 					case BLUE:

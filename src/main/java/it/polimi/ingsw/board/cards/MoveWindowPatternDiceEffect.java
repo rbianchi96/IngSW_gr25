@@ -1,18 +1,15 @@
 package it.polimi.ingsw.board.cards;
 
-import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.windowpattern.Restriction;
-import it.polimi.ingsw.board.windowpattern.RestrictionEnum;
+import it.polimi.ingsw.board.windowpattern.PlacementRestriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 import java.util.ArrayList;
 
 public class MoveWindowPatternDiceEffect extends Effect {
-    private RestrictionEnum ignoredRestriction;
+    private ArrayList<PlacementRestriction> ignoredRestriction;
     private int newX,newY;
-    public MoveWindowPatternDiceEffect(Game game, RestrictionEnum ignoredRestriction){
-        this.game = game;
+    public MoveWindowPatternDiceEffect(ArrayList<PlacementRestriction> ignoredRestriction){
         this.ignoredRestriction = ignoredRestriction;
         this.myEnum= EffectsEnum.MOVE_WINDOW_PATTERN_DICE;
     }
@@ -35,17 +32,13 @@ public class MoveWindowPatternDiceEffect extends Effect {
                 System.out.println("CRITICAL: The old cell doesn't contain any dice."); // This is critical, should never happen.
                 throw new DiceNotFoundException();
             }
-            ArrayList<RestrictionEnum> restrictionsToIgnore = new ArrayList<>();
-            if (ignoredRestriction!=null)
-                restrictionsToIgnore.add(ignoredRestriction);
-            else
-                restrictionsToIgnore=null;
-            try {
 
-                windowPattern.placeDice(oldDice, newX, newY, restrictionsToIgnore);
-                System.out.println("Dice placed in the new cell.");
+            try {
                 windowPattern.removeDice(oldX, oldY);
                 System.out.println("Dice removed from old position.");
+
+                windowPattern.placeDice(oldDice, newX, newY, ignoredRestriction);
+                System.out.println("Dice placed in the new cell.");
                 used = true;
                 this.newX = newX;
                 this.newY = newY;
@@ -53,7 +46,7 @@ public class MoveWindowPatternDiceEffect extends Effect {
                 e.printStackTrace();
                 throw e;
             } catch (WindowPattern.PlacementRestrictionException e) {
-                e.printStackTrace();
+                windowPattern.placeDice(oldDice, oldX, oldY, PlacementRestriction.allRestrictions());   //Undo (ignoring all restriction in case the dice was placed using a tool card's effect
                 throw e;
             } catch (WindowPattern.CellAlreadyOccupiedException e) {
                 e.printStackTrace();

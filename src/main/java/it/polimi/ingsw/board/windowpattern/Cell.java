@@ -71,7 +71,7 @@ public class Cell implements Serializable {
         Cell otherCell = (Cell)other;
         return this.toString().equals(otherCell.toString());
     }
-    public RestrictionEnum compatibleDiceException(Dice dice,boolean ignoreValueRestriction,boolean ignoreColorRestriction){
+    public PlacementRestriction compatibleDiceException(Dice dice, boolean ignoreValueRestriction, boolean ignoreColorRestriction){
         int exception;
         if (restriction.hasAnyRestriction()) { // IF restriction has atleast 1 type of restriction(value of color)...
             if ((restriction.getValue()!=null  && (((Integer) dice.getValue() == restriction.getValue()) ||  ignoreValueRestriction))) {  //IF there is a Value Restriction and the dice value match the restriction value, or simply I got to ignore this restriction...
@@ -81,11 +81,11 @@ public class Cell implements Serializable {
                 return null;// then the Dice is compatible with this cell
             }
             else
-                return (restriction.getValue()!=null?RestrictionEnum.CELL_VALUE_RESTRICTION:RestrictionEnum.CELL_COLOR_RESTRICTION);
+                return (restriction.getValue()!=null?PlacementRestriction.CELL_VALUE_RESTRICTION:PlacementRestriction.CELL_COLOR_RESTRICTION);
         }else // ELSE it hasn't any restriction at all...
             return null;
     }
-    public RestrictionEnum compatibleDiceException(Dice dice){
+    public PlacementRestriction compatibleDiceException(Dice dice){
         return compatibleDiceException(dice,false,false);
     }
     @Override

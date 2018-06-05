@@ -133,20 +133,21 @@ public class Controller {
 	}
 
 	private void sendCommand(ClientInterface clientInterface, SocketServerToClientCommands socketServerToClientCommands) {
-		switch(socketServerToClientCommands) {
-			case SELECT_DICE_FROM_DRAFT:
-				clientInterface.selectDiceFromDraft();
-				break;
-			case SELECT_INCREMENT_OR_DECREMENT:
-				clientInterface.selectIncrementOrDecrement();
-				break;
-			case SELECT_DICE_FROM_WINDOW_PATTERN:
-				clientInterface.selectDiceFromWindowPattern();
-				break;
-			case MOVE_WINDOW_PATTERN_DICE:
-				clientInterface.moveDiceInWindowPattern();
-				break;
-		}
+		if(socketServerToClientCommands != null)
+			switch(socketServerToClientCommands) {
+				case SELECT_DICE_FROM_DRAFT:
+					clientInterface.selectDiceFromDraft();
+					break;
+				case SELECT_INCREMENT_OR_DECREMENT:
+					clientInterface.selectIncrementOrDecrement();
+					break;
+				case SELECT_DICE_FROM_WINDOW_PATTERN:
+					clientInterface.selectDiceFromWindowPattern();
+					break;
+				case MOVE_WINDOW_PATTERN_DICE:
+					clientInterface.moveDiceInWindowPattern();
+					break;
+			}
 	}
 
 	public synchronized void useToolCard(ClientInterface clientInterface, int index) {

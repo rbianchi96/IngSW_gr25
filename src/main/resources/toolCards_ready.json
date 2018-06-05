@@ -2,6 +2,7 @@
 	{
 		"id": 1,
 		"name": "Pinza Sgrossatrice",
+		"pre": "notDraftedDice",
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
 			{"effect": "INCREMENT_DECREMENT_DICE"}
@@ -14,7 +15,9 @@
 			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
 			{
 				"effect": "MOVE_WINDOW_PATTERN_DICE",
-				"ignoreRestriction": "color"
+				"ignoredRestrictions": [
+					"CELL_COLOR_RESTRICTION"
+				]
 			}
 		]
 	},
@@ -25,7 +28,9 @@
 			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
 			{
 				"effect": "MOVE_WINDOW_PATTERN_DICE",
-				"ignoreRestriction": "value"
+				"ignoredRestrictions": [
+					"CELL_VALUE_RESTRICTION"
+				]
 			}
 		]
 	},

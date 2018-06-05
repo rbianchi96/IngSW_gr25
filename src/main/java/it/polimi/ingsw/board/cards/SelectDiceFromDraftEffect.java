@@ -6,8 +6,7 @@ import it.polimi.ingsw.board.dice.Dice;
 public class SelectDiceFromDraftEffect extends Effect {
 
     private Dice selectedDice = null;
-    public SelectDiceFromDraftEffect(Game game){
-        this.game = game;
+    public SelectDiceFromDraftEffect(){
         this.myEnum= EffectsEnum.SELECT_DICE_FROM_DRAFT;
     }
 

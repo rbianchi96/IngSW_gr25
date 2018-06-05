@@ -5,8 +5,7 @@ import it.polimi.ingsw.board.dice.Dice;
 
 public class IncrementDecrementDiceEffect extends Effect {
 
-	public IncrementDecrementDiceEffect(Game game) {
-		this.game = game;
+	public IncrementDecrementDiceEffect() {
 		this.myEnum = EffectsEnum.INCREMENT_DECREMENT_DICE;
 	}
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.board.cards;
 
 import it.polimi.ingsw.board.Game;
-import it.polimi.ingsw.board.windowpattern.RestrictionEnum;
+import it.polimi.ingsw.board.windowpattern.PlacementRestriction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,58 +9,32 @@ import java.util.ArrayList;
 public class ToolCard extends Card implements Serializable {
 	private int id;
 	private String name;
-	private ArrayList<EffectsEnum> effectsEnums;
+	//private ArrayList<EffectsEnum> effectsEnums;
 	private ArrayList<Effect> effects;
 	private int favorTokensNumber;
 	//	private int totalSteps;
 	private Game game;
 
-	public ToolCard(int id, String name, ArrayList<EffectsEnum> effects) {
+	public ToolCard(int id, String name, ArrayList<Effect> effects) {
 		this.id = id;
 		this.name = name;
 		this.favorTokensNumber = 0;
 		if(effects != null) {
-			this.effectsEnums = new ArrayList<>(effects);
-			//populateEffects();
+			this.effects = effects;	//TODO clone
+			populateEffects();
 		} else
-			this.effectsEnums = null;
+			this.effects = null;
 
 	}
 
 	public void reNew() {
-		populateEffects();
+		for(Effect effect : effects)
+			effect.setUsed(false);
 	}
 
 	public void populateEffects() {
-		//totalSteps=0;
-		effects = new ArrayList<>();
-		for(int i = 0; i < effectsEnums.size(); i++) {
-			//	totalSteps++;
-			switch(effectsEnums.get(i)) {
-				case SELECT_DICE_FROM_DRAFT:
-					effects.add(new SelectDiceFromDraftEffect(game));
-					break;
-				case SELECT_DICE_FROM_WINDOW_PATTERN:
-					effects.add(new SelectDiceFromWindowPatternEffect(game));
-					break;
-				case INCREMENT_DECREMENT_DICE:
-					effects.add(new IncrementDecrementDiceEffect(game));
-					break;
-				case MOVE_WINDOW_PATTERN_DICE:
-					if(id == 2)
-						effects.add(new MoveWindowPatternDiceEffect(game, RestrictionEnum.CELL_COLOR_RESTRICTION));
-					else if(id == 3)
-						effects.add(new MoveWindowPatternDiceEffect(game, RestrictionEnum.CELL_VALUE_RESTRICTION));
-					else if(id == 4)
-						effects.add(new MoveWindowPatternDiceEffect(game, null));
-					break;
-				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
-					effects.add(new SelectDiceFromRoundTrackAndSwitch(game));
-					break;
-				default:
-					break;
-			}
-		}
+		for(Effect effect : effects)
+			effect.setGame(game);
 	}
 
 	public int getId() {
