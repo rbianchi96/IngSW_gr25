@@ -9,6 +9,14 @@ import java.util.Random;
 public class Dice implements Serializable {
     private int value;
     private Color color;
+    private static final String[] faces = {
+            "\u2680",  //1
+            "\u2681",  //2
+            "\u2682",  //3
+            "\u2683",  //4
+            "\u2684",  //5
+            "\u2685"   //6
+    };
 
     public Dice(int value, Color color) {
         this.value = value;
@@ -84,17 +92,27 @@ public class Dice implements Serializable {
         setValue(i);
     }
 
+    public String drawDice() {
+        String reset = "\u001B[0m";
+        if (this.getValue() == -1) {
+            String escape = this.color.escape();
+            return escape + "[-1]" + reset;
+        }
+        else {
+            String escape = this.color.escape();
+            return escape + " [" + faces[this.getValue() - 1] + "]"+reset;
+        }
+    }
+
     @Override
     public String toString() {
         String s = String.valueOf(this.value);
         return "{Dice: value " + s + ", Color " + getColor() + "}";
     }
 
-    public String toString2() {
-        String RESET = "\u001B[0m";
-        String escape = this.color.escape();
-        String s = String.valueOf(this.getValue());
-        return escape + "[" + s + "]" + RESET;
+
+    public void dump() {
+        System.out.println(this.drawDice());
     }
 
     @Override
