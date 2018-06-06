@@ -73,6 +73,31 @@ public class DiceBag {
             return db;
     }
 
+    public String drawDiceBag(){
+        if (this.getSize() > MINSIZE) {
+            StringBuilder s = new StringBuilder("DiceBag:" + "\n" + "number of Dice " + dices.size() + "\n");
+            int j = 0;
+            for (Dice d : dices) {
+                s.append("|");
+                s.append(d.drawDice());
+                if (j < 5) {
+                    j++;
+                }
+                if (j >= 5) {
+                    s.append("|");
+                    s.append("\n");
+                    j = 0;
+                }
+            }
+            if(dices.size()<MAXSIZE){
+                s.append("|");}
+            return s.toString();
+        }
+        else{
+            return "DiceBag is empty";
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("DiceBag:" + "\n" + "number of Dice " + dices.size() + "\n");
@@ -82,14 +107,17 @@ public class DiceBag {
         return sb.toString();
     }
 
+    public void dump() {
+        System.out.println(this.drawDiceBag());
+    }
+
     @Override
-   public boolean equals(Object other){
+    public boolean equals(Object other){
         if ((other == null) || (!(other instanceof DiceBag))) return false;
         if (other == this) return true;
         DiceBag otherDiceBag = (DiceBag) other;
         return (this.toString().equals(otherDiceBag.toString()));
     }
-
 }
 
 
