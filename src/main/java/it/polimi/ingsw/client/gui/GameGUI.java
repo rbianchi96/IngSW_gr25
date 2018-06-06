@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
+import com.sun.corba.se.spi.logging.CORBALogDomains;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
@@ -16,7 +17,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
 
@@ -25,11 +28,22 @@ public class GameGUI extends GUIController {
 	GridPane pattern0, pattern1, pattern2, pattern3, draft;
 
 	@FXML
-	Label patternName0;
+	Label
+			playerName0, playerName1, playerName2, playerName3,
+			patternName0, patternName1, patternName2, patternName3;
+
+	private Label
+			playersNames[],
+			patternNames[];
 
 	@FXML
-	Circle difficulty0, difficulty1, difficulty2, difficulty3, difficulty4, difficulty5;
-	private Circle difficulties[];
+	Circle
+			difficulty0_0, difficulty0_1, difficulty0_2, difficulty0_3, difficulty0_4, difficulty0_5,
+			difficulty1_0, difficulty1_1, difficulty1_2, difficulty1_3, difficulty1_4, difficulty1_5,
+			difficulty2_0, difficulty2_1, difficulty2_2, difficulty2_3, difficulty2_4, difficulty2_5,
+			difficulty3_0, difficulty3_1, difficulty3_2, difficulty3_3, difficulty3_4, difficulty3_5;
+
+	private Circle difficulties[][] = new Circle[4][];
 
 	@FXML
 	ImageView
@@ -51,7 +65,15 @@ public class GameGUI extends GUIController {
 
 	public void initialize() {
 		patterns = new GridPane[]{pattern0, pattern1, pattern2, pattern3};
-		difficulties = new Circle[]{difficulty0, difficulty1, difficulty2, difficulty3, difficulty4, difficulty5};
+
+		difficulties[0] = new Circle[]{difficulty0_0, difficulty0_1, difficulty0_2, difficulty0_3, difficulty0_4, difficulty0_5};
+		difficulties[1] = new Circle[]{difficulty1_0, difficulty1_1, difficulty1_2, difficulty1_3, difficulty1_4, difficulty1_5};
+		difficulties[2] = new Circle[]{difficulty2_0, difficulty2_1, difficulty2_2, difficulty2_3, difficulty2_4, difficulty2_5};
+		difficulties[3] = new Circle[]{difficulty3_0, difficulty3_1, difficulty3_2, difficulty3_3, difficulty3_4, difficulty3_5};
+
+		playersNames = new Label[]{playerName0, playerName1, playerName2, playerName3};
+		patternNames = new Label[]{patternName0, patternName1, patternName2, patternName3};
+
 		toolCards = new ImageView[]{toolCard0, toolCard1, toolCard2};
 		publicObjectiveCards = new ImageView[]{publicObjectiveCard0, publicObjectiveCard1, publicObjectiveCard2};
 	}
@@ -72,26 +94,31 @@ public class GameGUI extends GUIController {
 					playersMap.put(i, i);
 			}
 		}
+
+		for(int i = 0; i < players.length; i ++)
+			playersNames[playersMap.get(i)].setText(players[i]);
 	}
 
 	public void sendWindowPatterns(WindowPattern[] windowPatterns) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				for(int i = 0; i < windowPatterns.length; i++)
+				for(int i = 0; i < windowPatterns.length; i++) {
 					if(i == myIndex) {
 						Drawers.drawWindowPattern(patterns[0], windowPatterns[i], true, onCellSelected);
-						patternName0.setText(windowPatterns[i].getName());
-
-						for(int i2 = 0; i2 < difficulties.length; i2++) {
-							if(i2 < windowPatterns[i].getDifficulty())
-								difficulties[i2].setVisible(true);
-							else
-								difficulties[i2].setVisible(false);
-						}
 					} else {
 						Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], true);
 					}
+
+					patternNames[playersMap.get(i)].setText(windowPatterns[i].getName());
+
+					for(int i2 = 0; i2 < difficulties[playersMap.get(i)].length; i2++) {
+						if(i2 < windowPatterns[i].getDifficulty())
+							difficulties[playersMap.get(i)][i2].setVisible(true);
+						else
+							difficulties[playersMap.get(i)][i2].setVisible(false);
+					}
+				}
 			}
 		});
 	}
@@ -122,9 +149,9 @@ public class GameGUI extends GUIController {
 			public void run() {
 				for(int i = 0; i < playersMap.size(); i++) {
 					if(currentPlayer == i) {
-						patterns[playersMap.get(i)].setStyle("-fx-background-color: #fff");
+						playersNames[playersMap.get(i)].setTextFill(Color.RED);
 					} else {
-						patterns[playersMap.get(i)].setStyle("-fx-background-color: #000");
+						playersNames[playersMap.get(i)].setTextFill(Color.BLACK);
 					}
 				}
 
@@ -140,7 +167,7 @@ public class GameGUI extends GUIController {
 				draft.getChildren().clear();
 
 				for(int i = 0; i < dices.length; i++) {
-					Pane diceToDraw = createDice(dices[i], 40);
+					Pane diceToDraw = Drawers.createDice(dices[i], 40);
 					diceToDraw.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
@@ -153,23 +180,6 @@ public class GameGUI extends GUIController {
 			}
 		});
 
-	}
-
-	private static Pane createDice(Dice dice, int size) {
-		Pane pane = new Pane();
-
-		pane.setPrefWidth(size);
-		pane.setMaxWidth(size);
-
-		pane.setPrefHeight(size);
-		pane.setMaxHeight(size);
-
-		pane.setStyle("-fx-background-color:" + dice.getColor().getHexColor());
-
-		Label val = new Label(String.valueOf(dice.getValue()));
-		pane.getChildren().add(val);
-
-		return pane;
 	}
 
 	private void diceSelectedFromDraft(Pane dice) {
