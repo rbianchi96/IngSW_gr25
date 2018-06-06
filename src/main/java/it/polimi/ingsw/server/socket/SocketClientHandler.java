@@ -36,7 +36,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		this.socket = socket;
 	}
 
-	private void pingTimer() {
+	private synchronized void pingTimer() {
 		pingTimer = new Timer();
 		pingTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
@@ -204,7 +204,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) {
+	public synchronized void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) {
 		out.print(encode(SEND_WINDOW_PATTERNS_TO_CHOOSE));
 		for(WindowPattern windowPattern : windowPatterns) {
 			out.print("#" + encodeWindowPattern(windowPattern));
@@ -214,7 +214,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void sendToolCards(ToolCard[] toolCards) {
+	public synchronized void sendToolCards(ToolCard[] toolCards) {
 		out.print(encode(SEND_TOOL_CARDS));
 		for(int i = 0; i < toolCards.length; i++) {
 			out.print("#");
@@ -227,7 +227,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
+	public synchronized void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
 		out.print(encode(SEND_PUBLIC_OBJECTIVE_CARDS));
 		for(int i = 0; i < publicObjectiveCards.length; i++) {
 			out.print("#");
@@ -244,19 +244,19 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void startGame() {
+	public synchronized void startGame() {
 		out.println(encode(START_GAME));
 		out.flush();
 	}
 
 	@Override
-	public void newTurn(int currentPlayer) {
+	public synchronized void newTurn(int currentPlayer) {
 		out.println(encode(NEW_TURN, String.valueOf(currentPlayer)));
 		out.flush();
 	}
 
 	@Override
-	public void updateWindowPatterns(WindowPattern[] windowPatterns) {
+	public synchronized void updateWindowPatterns(WindowPattern[] windowPatterns) {
 		out.print(encode(UPDATE_WINDOW_PATTERNS));
 		for(WindowPattern windowPattern : windowPatterns) {
 			out.print("#" + encodeWindowPattern(windowPattern));
@@ -266,24 +266,24 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void updateToolCardsTokens(int[] tokens) {
+	public synchronized void updateToolCardsTokens(int[] tokens) {
 
 	}
 
 	@Override
-	public void selectDiceFromDraft() {
+	public synchronized void selectDiceFromDraft() {
 		out.println(encode(SELECT_DICE_FROM_DRAFT));
 		out.flush();
 	}
 
 	@Override
-	public void selectIncrementOrDecrement() {
+	public synchronized void selectIncrementOrDecrement() {
 		out.println(encode(SELECT_INCREMENT_OR_DECREMENT));
 		out.flush();
 	}
 
 	@Override
-	public void selectDiceFromWindowPattern() {
+	public synchronized void selectDiceFromWindowPattern() {
 		out.println(encode(
 				SELECT_DICE_FROM_WINDOW_PATTERN
 		));
@@ -291,7 +291,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void moveDiceInWindowPattern() {
+	public synchronized void moveDiceInWindowPattern() {
 		out.println(encode(
 				MOVE_WINDOW_PATTERN_DICE
 		));
@@ -299,7 +299,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void updateDraft(Dice[] dices) {
+	public synchronized void updateDraft(Dice[] dices) {
 		out.print(encode(UPDATE_DRAFT));
 		for(Dice dice : dices) {
 			out.print("#" + dice.getValue() + "#" + dice.getColor().toString());
@@ -309,36 +309,36 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void dicePlacementRestictionBroken() {
+	public synchronized void dicePlacementRestictionBroken() {
 		out.println(encode(DICE_PLACEMENT_RESTRICTION_BROKEN));
 		out.flush();
 	}
 
 	@Override
-	public void cellAlreadyOccupied() {
+	public synchronized void cellAlreadyOccupied() {
 		out.println(encode(CELL_ALREADY_OCUPIED));
 		out.flush();
 	}
 
 	@Override // Read ClientInterface for details
-	public void closeConnection() {
+	public synchronized void closeConnection() {
 		closeSocket();
 	}
 
 	@Override // Read ClientInterface for details
-	public void notifyNewUser(String username) {
+	public synchronized void notifyNewUser(String username) {
 		out.println(encode(NOTIFY_NEW_USER, username));
 		out.flush();
 	}
 
 	@Override // Read ClientInterface for details
-	public void notifySuspendedUser(String username) {
+	public synchronized void notifySuspendedUser(String username) {
 		out.println(encode(NOTIFY_SUSPENDED_USER, username));
 		out.flush();
 	}
 
 	@Override
-	public void sendPlayersList(String[] players) {
+	public synchronized void sendPlayersList(String[] players) {
 		out.print(encode(SEND_PLAYERS_LIST));
 		for(String player : players) {
 			out.print("#" + player);
@@ -348,7 +348,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
+	public synchronized void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
 		out.println(encode(
 				SEND_PRIVATE_OBJECTIVE_CARD,
 				privateObjectiveCard.getColor().toString(),
@@ -359,13 +359,13 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void notifyReconnectionStatus(boolean status, String message) {
+	public synchronized void notifyReconnectionStatus(boolean status, String message) {
 		out.println(encode(NOTIFY_RECONNECTION, String.valueOf(status), message));
 		out.flush();
 	}
 
 	@Override // Read ClientInterface for details
-	public void loginResponse(String... result) {
+	public synchronized void loginResponse(String... result) {
 		if(result[0].equals("success"))
 			out.println(encode(LOGIN_RESPONSE, result[0], result[1], result[2]));    //Encode "success", username, sessionId
 		else
@@ -381,7 +381,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override // Read ClientInterface for details
-	public void notLoggedYet(String message) {
+	public synchronized void notLoggedYet(String message) {
 		out.println(encode(NOT_LOGGED_YET, message));
 		out.flush();
 	}
