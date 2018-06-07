@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.board.Game;
+import it.polimi.ingsw.board.Player;
 import it.polimi.ingsw.client.ClientInterface;
 
 import java.security.SecureRandom;
@@ -13,7 +14,6 @@ public class Lobby {
     private static final int SESSIONID_LENGTH = 5;
     private static final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_=+";
     private static SecureRandom random = new SecureRandom();
-    private ArrayList<String> players; // Players nicknames
 
 
 
@@ -22,7 +22,6 @@ public class Lobby {
 
     public Lobby(){
         this.playersConnectionData = new ArrayList<>();
-        this.players = new ArrayList<>();
         currentGame = new Game();
     }
 
@@ -115,7 +114,7 @@ public class Lobby {
 
     // log out the client, then call the suspendPlayer method on that client and close the linked socket
     public boolean logout(ClientInterface clientInterface) {
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < getPlayersUsernamesArrayList().size(); i++) {
             if (playersConnectionData.get(i).getClientInterface() == clientInterface) {
                 System.out.println(playersConnectionData.get(i).getNickName() + " logged out.");
                 suspendPlayer(i);
@@ -159,7 +158,7 @@ public class Lobby {
         }else{
             System.out.println(playersConnectionData.get(index).getNickName() + " has been removed from the lobby.");
             playersConnectionData.remove(index);
-            for(int i=0;i<players.size();i++){
+            for(int i=0;i<getPlayersUsernamesArrayList().size();i++){
                 playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
             }
             sendPlayersListToAll();
@@ -178,10 +177,10 @@ public class Lobby {
                 playersConnectionData.get(i).setSessionID(sessionID);
                 System.out.println(username + " successfully re-logged in! | SessionID: " + sessionID);
                 clientInterface.loginResponse("success",username,sessionID);
-                clientInterface.sendPlayersList(players.toArray(new String[players.size()]));
+                clientInterface.sendPlayersList(getPlayersUsernamesArray());
                 clientInterface.startGame();
                 clientInterface.sendPublicObjectiveCards(currentGame.getPublicObjectiveCards());
-                clientInterface.sendToolCards(currentGame.getToolCards());
+                clientInterface.sendToolCards(currentGame.getCleanToolCards());
                 clientInterface.updateDraft(currentGame.getDraftDices());
                 clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
                 ModelObserver observer = new ModelObserver(username, clientInterface);
@@ -205,14 +204,11 @@ public class Lobby {
     // Method to call to start the game
     public void startGame(){
         //Add observer to model (TEMPORARY, TO BE MIGRATED TO CONTROLLER)
-        for(int i=0;i<playersConnectionData.size();i++){
-            players.add(playersConnectionData.get(i).getNickName());
-        }
         for(PlayerConnectionData player : playersConnectionData) {
             ModelObserver observer = new ModelObserver(player.getNickName(), player.getClientInterface());
             currentGame.addObserver(observer);
         }
-        currentGame.startGame(players);
+        currentGame.startGame(getPlayersUsernamesArrayList());
     }
 
 
@@ -230,22 +226,34 @@ public class Lobby {
         playersArray.addAll(this.playersConnectionData);
         return playersArray;
     }
-
-    //Method to send players list after adding or removing players
-    private void sendPlayersListToAll() {
+    private String[] getPlayersUsernamesArray(){
         String[] playersList = new String[playersConnectionData.size()];
 
         for(int i = 0; i < playersConnectionData.size(); i ++) {
             playersList[i] = playersConnectionData.get(i).getNickName();
         }
+        return playersList;
+
+    }
+    private ArrayList<String> getPlayersUsernamesArrayList(){
+       ArrayList<String> playersList = new ArrayList<>();
+
+        for(int i = 0; i < playersConnectionData.size(); i ++) {
+            playersList.add(playersConnectionData.get(i).getNickName());
+        }
+        return playersList;
+
+    }
+    //Method to send players list after adding or removing players
+    private void sendPlayersListToAll() {
 
         for(PlayerConnectionData player : playersConnectionData) {
-            player.getClientInterface().sendPlayersList(playersList);
+            player.getClientInterface().sendPlayersList(getPlayersUsernamesArray());
         }
     }
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder("Lobby | Status: " + (currentGame.isInGame()?"In game":"Waiting for players") + " | Numbers of players: " + players.size());
+        StringBuilder sb = new StringBuilder("Lobby | Status: " + (currentGame.isInGame()?"In game":"Waiting for players") + " | Numbers of players: " + getPlayersUsernamesArrayList().size());
         for(int i= 0; i<playersConnectionData.size();i++){
             sb.append("Player #"+ (i+1) +": " + playersConnectionData.get(i).getNickName() + " | Status: " + (playersConnectionData.get(i).getIsOnline()?"Online":"Offline"));
         }

@@ -33,10 +33,11 @@ public class ModelObserver implements java.util.Observer {
 
 				break;
 			case TOOL_CARDS:
-				clientInterface.sendToolCards(model.getToolCards());
+				clientInterface.sendToolCards(model.getCleanToolCards());
 
 				break;
 			case START_GAME:
+				System.out.println("ARRIVATO A START GAME");
 				clientInterface.startGame();
 
 				break;

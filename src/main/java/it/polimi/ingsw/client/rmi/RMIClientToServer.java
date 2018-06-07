@@ -84,7 +84,7 @@ public class RMIClientToServer implements ServerInterface {
 				//Notify the client is back online and will try to restore the connection with the server
 				System.out.println("You are back online, trying to restore the connection with RMI Server...");
 				reconnectTimer.cancel();
-				server.reconnect(client.getSessionID(), sessionNickname);
+				server.reconnect(client, client.getSessionID(), sessionNickname);
 				pingTimer();
 			} catch (Exception e) {
 				// e.printStackTrace();
@@ -99,7 +99,7 @@ public class RMIClientToServer implements ServerInterface {
 	}
 	public boolean reconnect(){
 		try {
-			server.reconnect(client.getSessionID(), sessionNickname);
+			server.reconnect(client, client.getSessionID(), sessionNickname);
 			pingTimer();
 			return true;
 		} catch (RemoteException e) {
@@ -124,7 +124,7 @@ public class RMIClientToServer implements ServerInterface {
 	@Override
 	public void selectWindowPattern(int i) {
 		try {
-			server.selectWindowPattern(i);
+			server.selectWindowPattern(client,i);
 		} catch(RemoteException e) {
 			e.printStackTrace();
 		}
@@ -133,7 +133,7 @@ public class RMIClientToServer implements ServerInterface {
 	@Override
 	public void placeDice(Dice dice, int row, int col) {
 		try {
-			server.placeDice(dice, row, col);
+			server.placeDice(client,dice, row, col);
 		} catch(RemoteException e) {
 			e.printStackTrace();
 		}

@@ -139,6 +139,7 @@ public class Game extends Observable {
 	}
 
 	private void startGameAfterPreparation() {
+		System.out.println("ARRIVATO A SYARTGAMEAFTERPREPARATION");
 		setChanged();
 		notifyObservers(NotifyType.START_GAME);
 
@@ -168,6 +169,7 @@ public class Game extends Observable {
 
 
 	public void selectWindowPattern(String username, int wpIndex) {
+		System.out.println(username);
 		Player player = findPlayer(username);
 
 		if(player.getWindowPattern() == null) {
@@ -383,8 +385,12 @@ public class Game extends Observable {
 		return publicObjectiveCards;
 	}
 
-	public ToolCard[] getToolCards() {
-		return toolCards;
+	public ToolCard[] getCleanToolCards() {
+		ToolCard[] cleanToolCards = new ToolCard[toolCards.length];
+		for (int i = 0; i<toolCards.length;i++){
+			cleanToolCards[i] = toolCards[i].getCleanClone();
+		}
+		return cleanToolCards;
 	}
 
 	public WindowPattern[] getWindowPatternsToChoose(String username) {

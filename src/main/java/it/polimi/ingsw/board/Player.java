@@ -25,7 +25,7 @@ public class Player {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder(playerName + "is playing with " + windowPattern.getName() + " pattern.\n");
+		StringBuilder sb = new StringBuilder(playerName + "is playing with " + (windowPattern==null?"null":windowPattern.getName()) + " pattern.\n");
 		sb.append("Favour Tokens: " + favourTokens + "\n" +
 				"Score Token: " + scoreToken.toString().toLowerCase());
 		return sb.toString();

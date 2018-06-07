@@ -2,7 +2,9 @@ package it.polimi.ingsw.board.cards.toolcard.effects;
 
 import it.polimi.ingsw.board.Game;
 
-public abstract class Effect {
+import java.io.Serializable;
+
+public abstract class Effect implements Serializable {
 	EffectsEnum myEnum;
 	boolean used;
 	Game game;

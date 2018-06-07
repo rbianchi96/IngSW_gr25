@@ -11,7 +11,7 @@ public class PlayerConnectionData {
         this.clientInterface = clientInterface;
         this.nickName = nickName;
         this.sessionID = sessionID;
-        this.isOnline = false;
+        this.isOnline = true;
     }
 
     public void setClientInterface(ClientInterface clientInterface) {

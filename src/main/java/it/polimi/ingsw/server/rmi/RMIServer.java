@@ -8,25 +8,27 @@ import it.polimi.ingsw.server.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 	private Controller controller;
-	private RMIServerToClient rmiServerToClient;
+	private HashMap<RMIClientInterface,RMIServerToClient> map;
 
 	public RMIServer(Controller controller) throws RemoteException {
 		super();
+		this.map = new HashMap<>();
 		this.controller = controller;
 	}
 
 	@Override
 	public void login(String username, RMIClientInterface rmiClient) throws RemoteException {
-		rmiServerToClient = new RMIServerToClient(rmiClient, controller);
-		controller.login(rmiServerToClient, username);
+		map.put(rmiClient,new RMIServerToClient(rmiClient, controller));
+		controller.login(map.get(rmiClient), username);
 	}
 
 	@Override
-	public void logout() throws RemoteException {
-		controller.logout(rmiServerToClient);
+	public void logout(RMIClientInterface rmiClientInterface) throws RemoteException {
+		controller.logout(map.get(rmiClientInterface));
 	}
 
 	@Override
@@ -35,23 +37,23 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	}
 
 	@Override
-	public void reconnect(String sessionID, String username) throws RemoteException {
-		controller.reconnect(rmiServerToClient, sessionID, username);
+	public void reconnect(RMIClientInterface rmiClientInterface,String sessionID, String username) throws RemoteException {
+		controller.reconnect(map.get(rmiClientInterface), sessionID, username);
 	}
 
 	@Override
-	public void selectWindowPattern(int i) throws RemoteException {
-		controller.selectWindowPattern(rmiServerToClient, i);
+	public void selectWindowPattern(RMIClientInterface rmiClientInterface, int i) throws RemoteException {
+		controller.selectWindowPattern(map.get(rmiClientInterface), i);
 	}
 
 	@Override
-	public void placeDice(Dice dice, int row, int col) throws RemoteException {
-		controller.placeDice(rmiServerToClient, dice, row, col);
+	public void placeDice(RMIClientInterface rmiClientInterface,Dice dice, int row, int col) throws RemoteException {
+		controller.placeDice(map.get(rmiClientInterface), dice, row, col);
 	}
 
 	@Override
-	public void useToolCard(int index) throws RemoteException {
-		controller.useToolCard(rmiServerToClient, index);
+	public void useToolCard(RMIClientInterface rmiClientInterface,int index) throws RemoteException {
+		controller.useToolCard(map.get(rmiClientInterface), index);
 	}
 
 }

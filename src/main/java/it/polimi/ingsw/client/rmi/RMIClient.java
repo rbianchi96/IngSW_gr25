@@ -73,6 +73,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void startGame() throws RemoteException {
+        System.out.println("ARRIVATO QUI");
         client.startGame();
     }
 

@@ -97,4 +97,11 @@ public class ToolCard extends Card implements Serializable {
 		}
 		return mostRecentEffectEnum;
 	}
+
+	public ToolCard getCleanClone(){
+		ArrayList<Effect> noneEffects = new ArrayList<>();
+		noneEffects = null;
+		ToolCard cleanToolCard = new ToolCard(this.id, this.name,noneEffects);
+		return cleanToolCard;
+	}
 }

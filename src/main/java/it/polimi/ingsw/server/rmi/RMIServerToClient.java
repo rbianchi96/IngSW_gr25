@@ -145,6 +145,7 @@ public class RMIServerToClient implements ClientInterface {
 
 	@Override
 	public void startGame() {
+		System.out.println("Arrivato qui");
 		try {
 			rmiClientInterface.startGame();
 		} catch(RemoteException e) {

@@ -22,8 +22,6 @@ public class Controller {
 	private int waitSeconds;
 	private int waitSecondsServer = 5;
 
-	private HashMap<ClientInterface, String> playersUsernames;
-
 	public Controller(Lobby lobby) {
 		this.lobby = lobby;
 		waitSeconds = 0;
@@ -33,6 +31,7 @@ public class Controller {
 	// Make login request from client to Model
 	public synchronized void login(ClientInterface clientInterface, String username) {
 		lobby.login(clientInterface, username);
+		System.out.println(username);
 		if(lobby.getPlayersConnectionData().size() > 1 && ! timerStarted && ! lobby.getCurrentGame().isInGame()) {
 			lobbyTimer = new Timer();
 			lobbyTimer.scheduleAtFixedRate(new TimerTask() {
