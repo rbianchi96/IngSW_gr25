@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.rmi.RMIServerInterface;
 import it.polimi.ingsw.server.socket.SocketServer;
 
 import java.io.FileNotFoundException;
+import java.net.InetAddress;
 import java.rmi.Naming;
 
 public class Server {
@@ -35,9 +36,10 @@ public class Server {
 			//Start RMI Server
 			try {
 				//System.setSecurityManager(new RMISecurityManager());
+				System.out.println(InetAddress.getLocalHost().getHostAddress());
 				java.rmi.registry.LocateRegistry.createRegistry(netParamsLoader.getRMIServerPort());
 				RMIServerInterface server = new RMIServer(controller);
-				//System.setProperty("java.rmi.server.hostname", "192.168.4.20");
+				System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
 				Naming.rebind("rmi://localhost/" + netParamsLoader.getRMIServerName(), server);
 				System.out.println("[System] RMI Server is ready on port " + netParamsLoader.getRMIServerPort() + "!");
 			} catch(Exception e) {

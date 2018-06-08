@@ -185,7 +185,7 @@ public class ClientGUI extends Application implements ClientInterface {
 					}
 				} else if(result[0].equals("fail")) {
 					if(result[1].equals("0")) {
-						Alert alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso myUsername è già registato!");
+						Alert alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso  username è già registato!");
 						alert.showAndWait();
 					}
 				}
