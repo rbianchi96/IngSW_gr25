@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class RoundTrack {
-    private  static final int ROUNDS = 10;
+    public static final int ROUNDS = 10;
     private RoundTrackDices[] track;
     private int playersNumber;
     public RoundTrack(int playersNumber){

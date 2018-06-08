@@ -1,31 +1,39 @@
 package it.polimi.ingsw.client.gui;
 
-import com.sun.corba.se.spi.logging.CORBALogDomains;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
+import it.polimi.ingsw.board.dice.RoundTrack;
+import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameGUI extends GUIController {
 	@FXML
-	GridPane pattern0, pattern1, pattern2, pattern3, draft;
+	AnchorPane playerContainer1, playerContainer2, playerContainer3;
+
+	@FXML
+	GridPane pattern0, pattern1, pattern2, pattern3;
+
+	@FXML
+	GridPane draft, roundTrack;
 
 	@FXML
 	Label
@@ -86,97 +94,105 @@ public class GameGUI extends GUIController {
 
 		for(int i = 0; i < players.length; i++) {
 			if(i == myIndex)
-				playersMap.put(i, 0);
+				playersMap.put(i, 0);    //Map the i players (me) to pattern0
 			else {
-				if(i < myIndex)
-					playersMap.put(i, i + 1);
-				else
-					playersMap.put(i, i);
+				int newI = i;
+
+				if(i < myIndex) newI++;
+
+				if(players.length == 2) {    //Two players
+					newI++;
+				} else if(players.length == 3) {    //Three players
+					if(newI == 2)
+						newI++;
+				}
+
+				playersMap.put(i, newI);
 			}
 		}
 
-		for(int i = 0; i < players.length; i ++)
+		switch(players.length) {
+			case 2:
+				playerContainer1.setVisible(false);
+				playerContainer3.setVisible(false);
+
+				break;
+			case 3:
+				playerContainer2.setVisible(false);
+
+		}
+
+
+		for(int i = 0; i < players.length; i++)
 			playersNames[playersMap.get(i)].setText(players[i]);
 	}
 
 	public void sendWindowPatterns(WindowPattern[] windowPatterns) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				for(int i = 0; i < windowPatterns.length; i++) {
-					if(i == myIndex) {
-						Drawers.drawWindowPattern(patterns[0], windowPatterns[i], true, onCellSelected);
-					} else {
-						Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], true);
-					}
+		Platform.runLater(() -> {
+			for(int i = 0; i < windowPatterns.length; i++) {
+				if(i == myIndex) {
+					Drawers.drawWindowPattern(patterns[0], windowPatterns[i], true, onCellSelected);
+				} else {
+					Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], true);
+				}
 
-					patternNames[playersMap.get(i)].setText(windowPatterns[i].getName());
+				patternNames[playersMap.get(i)].setText(windowPatterns[i].getName());
 
-					for(int i2 = 0; i2 < difficulties[playersMap.get(i)].length; i2++) {
-						if(i2 < windowPatterns[i].getDifficulty())
-							difficulties[playersMap.get(i)][i2].setVisible(true);
-						else
-							difficulties[playersMap.get(i)][i2].setVisible(false);
-					}
+				for(int i2 = 0; i2 < difficulties[playersMap.get(i)].length; i2++) {
+					if(i2 < windowPatterns[i].getDifficulty())
+						difficulties[playersMap.get(i)][i2].setVisible(true);
+					else
+						difficulties[playersMap.get(i)][i2].setVisible(false);
 				}
 			}
 		});
 	}
 
 	public void dicePlacementRestictionBroken() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				Alert alert = new Alert(Alert.AlertType.ERROR, "Restrizioni infrante!");
-				alert.showAndWait();
-			}
+		Platform.runLater(() -> {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Restrizioni infrante!");
+			alert.showAndWait();
 		});
 	}
 
 	public void cellAlreadyOccupied() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				Alert alert = new Alert(Alert.AlertType.ERROR, "Cella già occupata!");
-				alert.showAndWait();
-			}
+		Platform.runLater(() -> {
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Cella già occupata!");
+			alert.showAndWait();
 		});
 	}
 
 	public void newTurn(int currentPlayer) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				for(int i = 0; i < playersMap.size(); i++) {
-					if(currentPlayer == i) {
-						playersNames[playersMap.get(i)].setTextFill(Color.RED);
-					} else {
-						playersNames[playersMap.get(i)].setTextFill(Color.BLACK);
-					}
+		Platform.runLater(() -> {
+			for(int i = 0; i < playersMap.size(); i++) {
+				if(currentPlayer == i) {
+					playersNames[playersMap.get(i)].setTextFill(Color.RED);
+				} else {
+					playersNames[playersMap.get(i)].setTextFill(Color.BLACK);
 				}
-
 			}
+
 		});
 	}
 
 	public void updateDraft(Dice[] dices) {
 		draftDice = dices;
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				draft.getChildren().clear();
+		Platform.runLater(() -> {
+			draft.getChildren().clear();
 
-				for(int i = 0; i < dices.length; i++) {
-					Pane diceToDraw = Drawers.createDice(dices[i], 40);
-					diceToDraw.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-						@Override
-						public void handle(MouseEvent event) {
-							diceSelectedFromDraft((Pane)event.getSource());
-						}
-					});
-					draft.add(diceToDraw, i % 2, i / 2);
-				}
+			for(int i = 0; i < dices.length; i++) {
+				Pane diceToDraw = Drawers.createDice(dices[i], 40);
 
+				GridPane.setHalignment(diceToDraw, HPos.CENTER);
+				GridPane.setValignment(diceToDraw, VPos.CENTER);
+
+				diceToDraw.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						diceSelectedFromDraft((Pane)event.getSource());
+					}
+				});
+				draft.add(diceToDraw, i / 2, i % 2);
 			}
 		});
 
@@ -185,8 +201,8 @@ public class GameGUI extends GUIController {
 	private void diceSelectedFromDraft(Pane dice) {
 		int diceIndex;
 
-		diceIndex = GridPane.getRowIndex(dice) * 2;
-		diceIndex += GridPane.getColumnIndex(dice) % 2;
+		diceIndex = GridPane.getRowIndex(dice) % 2;
+		diceIndex += GridPane.getColumnIndex(dice) * 2;
 
 		switch(state) {
 			case WAIT:
@@ -234,34 +250,23 @@ public class GameGUI extends GUIController {
 	};
 
 	public void sendToolCards(ToolCard[] toolCards) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				for(int i = 0; i < toolCards.length; i++) {
-					GameGUI.this.toolCards[i].setImage(new Image("/imgs/cards/toolCards/toolCard" + toolCards[i].getId() + ".png"));
-				}
+		Platform.runLater(() -> {
+			for(int i = 0; i < toolCards.length; i++) {
+				GameGUI.this.toolCards[i].setImage(new Image("/imgs/cards/toolCards/toolCard" + toolCards[i].getId() + ".png"));
 			}
 		});
 	}
 
 	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				GameGUI.this.privateObjectiveCard.setImage(new Image("/imgs/cards/privateOC/" + privateObjectiveCard.getColor().toString() + ".png"));
-			}
-		});
+		Platform.runLater(() -> GameGUI.this.privateObjectiveCard.setImage(new Image("/imgs/cards/privateOC/" + privateObjectiveCard.getColor().toString() + ".png")));
 	}
 
 	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				for(int i = 0; i < publicObjectiveCards.length; i++) {
-					GameGUI.this.publicObjectiveCards[i].setImage(
-							new Image("/imgs/cards/publicOC/" + publicObjectiveCards[i].getId().toString() + ".png")
-					);
-				}
+		Platform.runLater(() -> {
+			for(int i = 0; i < publicObjectiveCards.length; i++) {
+				GameGUI.this.publicObjectiveCards[i].setImage(
+						new Image("/imgs/cards/publicOC/" + publicObjectiveCards[i].getId().toString() + ".png")
+				);
 			}
 		});
 	}
@@ -324,6 +329,25 @@ public class GameGUI extends GUIController {
 		state = State.MOVE_DICE_IN_WINDOW_PATTERN;
 	}
 
+	public void updateRoundTrack(RoundTrack roundTrack) {
+		Platform.runLater(() -> {
+			RoundTrackDices[] roundDice = roundTrack.getTrack();
+
+			this.roundTrack.getChildren().clear();
+
+			for(int round = 0; round < RoundTrack.ROUNDS; round++) {
+				HBox hBox = new HBox();
+				GridPane.setValignment(hBox, VPos.CENTER);
+
+				for(int i = 0; i < roundDice[round].diceNumber(); i++)    //For every dice
+					hBox.getChildren().add(Drawers.createDice(roundDice[round].getDices().get(i), 30));
+
+				this.roundTrack.add(hBox, round, 0);
+			}
+
+		});
+	}
+
 	private void showInfoAlert(String text) {
 		Platform.runLater(() -> {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION, text);
@@ -331,7 +355,7 @@ public class GameGUI extends GUIController {
 		});
 	}
 
-	public void endTurn(MouseEvent mouseEvent) {
+	public void endTurn() {
 		client.getServerInterface().endTurn();
 	}
 

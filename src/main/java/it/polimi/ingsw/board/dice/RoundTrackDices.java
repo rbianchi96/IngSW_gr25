@@ -13,4 +13,6 @@ public class RoundTrackDices {
         return dices;
     }
 
+    public int diceNumber() { return  dices.size();}
+
 }
