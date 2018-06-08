@@ -9,6 +9,7 @@ import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.Controller;
+import it.polimi.ingsw.client.ClientCommand;
 import it.polimi.ingsw.server.ServerCommand;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static it.polimi.ingsw.server.socket.SocketServerToClientCommands.*;
+import static it.polimi.ingsw.client.ClientCommand.*;
 
 public class SocketClientHandler implements Runnable, ClientInterface {
 	// If reached without any interaction, the connection will be close
@@ -193,7 +194,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	// This method encode call's arguments based on Protocol'rules. Necessary before send to Client.
-	private String encode(SocketServerToClientCommands command, String... params) {
+	private String encode(ClientCommand command, String... params) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(command.toString());
 

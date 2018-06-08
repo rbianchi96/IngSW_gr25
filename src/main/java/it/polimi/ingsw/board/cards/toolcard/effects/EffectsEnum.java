@@ -1,20 +1,20 @@
 package it.polimi.ingsw.board.cards.toolcard.effects;
 
-import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
+import it.polimi.ingsw.client.ClientCommand;
 
 public enum EffectsEnum {
-    SELECT_DICE_FROM_DRAFT(SocketServerToClientCommands.SELECT_DICE_FROM_DRAFT),
-    INCREMENT_DECREMENT_DICE(SocketServerToClientCommands.SELECT_INCREMENT_OR_DECREMENT),
-    SELECT_DICE_FROM_WINDOW_PATTERN(SocketServerToClientCommands.SELECT_DICE_FROM_WINDOW_PATTERN),
-    MOVE_WINDOW_PATTERN_DICE(SocketServerToClientCommands.MOVE_WINDOW_PATTERN_DICE),
-    SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH(SocketServerToClientCommands.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH);
-    SocketServerToClientCommands command;
+    SELECT_DICE_FROM_DRAFT(ClientCommand.SELECT_DICE_FROM_DRAFT),
+    INCREMENT_DECREMENT_DICE(ClientCommand.SELECT_INCREMENT_OR_DECREMENT),
+    SELECT_DICE_FROM_WINDOW_PATTERN(ClientCommand.SELECT_DICE_FROM_WINDOW_PATTERN),
+    MOVE_WINDOW_PATTERN_DICE(ClientCommand.MOVE_WINDOW_PATTERN_DICE),
+    SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH(ClientCommand.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH);
+    ClientCommand command;
 
-    EffectsEnum(SocketServerToClientCommands command) {
+    EffectsEnum(ClientCommand command) {
         this.command = command;
     }
 
-    public SocketServerToClientCommands getCommand() {
+    public ClientCommand getCommand() {
         return command;
     }
 }

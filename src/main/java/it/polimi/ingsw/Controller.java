@@ -8,10 +8,9 @@ import it.polimi.ingsw.board.cards.toolcard.effects.SelectDiceFromWindowPatternE
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
-import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
+import it.polimi.ingsw.client.ClientCommand;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -131,9 +130,9 @@ public class Controller {
 		}
 	}
 
-	private void sendCommand(ClientInterface clientInterface, SocketServerToClientCommands socketServerToClientCommands) {
-		if(socketServerToClientCommands != null)
-			switch(socketServerToClientCommands) {
+	private void sendCommand(ClientInterface clientInterface, ClientCommand clientCommand) {
+		if(clientCommand != null)
+			switch(clientCommand) {
 				case SELECT_DICE_FROM_DRAFT:
 					clientInterface.selectDiceFromDraft();
 					break;
@@ -152,7 +151,7 @@ public class Controller {
 	public synchronized void useToolCard(ClientInterface clientInterface, int index) {
 		System.out.println("Use tool card " + index);
 		try {
-			SocketServerToClientCommands command = lobby.getCurrentGame().useToolCard(findUsername(clientInterface), index);
+			ClientCommand command = lobby.getCurrentGame().useToolCard(findUsername(clientInterface), index);
 			sendCommand(clientInterface, command);
 		} catch(Game.WrongTurnException ex) {
 			System.out.println("Wrong turn!");

@@ -13,7 +13,7 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.server.ServerCommand;
 import it.polimi.ingsw.server.ServerInterface;
-import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
+import it.polimi.ingsw.client.ClientCommand;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,7 +54,7 @@ public class SocketClient extends Socket implements ServerInterface {
 	void decode(String message) {
 		String[] msgVector = message.split("#");    //Split message
 
-		SocketServerToClientCommands command = SocketServerToClientCommands.convertMessageToEnum(msgVector[0]);
+		ClientCommand command = ClientCommand.convertMessageToEnum(msgVector[0]);
 
 		if(command != null)    //Convert the command to the enum
 			switch(command) {

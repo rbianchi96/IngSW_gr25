@@ -12,7 +12,7 @@ import it.polimi.ingsw.board.dice.DiceBag;
 import it.polimi.ingsw.board.dice.Draft;
 import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
-import it.polimi.ingsw.server.socket.SocketServerToClientCommands;
+import it.polimi.ingsw.client.ClientCommand;
 
 import java.util.Observable;
 
@@ -214,7 +214,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public SocketServerToClientCommands useToolCard(String username, int index) throws NotEnoughFavorTokens, WrongTurnException, AlreadyUsedToolCard {
+	public ClientCommand useToolCard(String username, int index) throws NotEnoughFavorTokens, WrongTurnException, AlreadyUsedToolCard {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(player.getHasPlayedToolCard()) {
@@ -227,7 +227,7 @@ public class Game extends Observable {
 		return toolCards[index].getEffects().get(0).getMyEnum().getCommand();
 	}
 
-	public SocketServerToClientCommands selectDiceFromDraftEffect(String username, Dice dice) throws WrongTurnException, InvalidCall, SelectDiceFromDraftEffect.DiceNotFoundException {
+	public ClientCommand selectDiceFromDraftEffect(String username, Dice dice) throws WrongTurnException, InvalidCall, SelectDiceFromDraftEffect.DiceNotFoundException {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse == - 1)
@@ -242,7 +242,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public SocketServerToClientCommands selectDiceFromWindowPatternEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.CellNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice {
+	public ClientCommand selectDiceFromWindowPatternEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.CellNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse == - 1)
@@ -260,7 +260,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public SocketServerToClientCommands incrementDecrementDiceEffect(String username, boolean incDec) throws WrongTurnException, InvalidCall {
+	public ClientCommand incrementDecrementDiceEffect(String username, boolean incDec) throws WrongTurnException, InvalidCall {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse == - 1)
@@ -278,7 +278,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public SocketServerToClientCommands moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, MoveWindowPatternDiceEffect.CellNotFoundException, MoveWindowPatternDiceEffect.CellAlreadyOccupiedException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
+	public ClientCommand moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, MoveWindowPatternDiceEffect.CellNotFoundException, MoveWindowPatternDiceEffect.CellAlreadyOccupiedException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse == - 1)
@@ -297,7 +297,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public SocketServerToClientCommands selectDiceFromRoundTrackAndSwitch(String username,int round, int index) throws WrongTurnException, InvalidCall, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException {
+	public ClientCommand selectDiceFromRoundTrackAndSwitch(String username, int round, int index) throws WrongTurnException, InvalidCall, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse == - 1)
@@ -316,7 +316,7 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
-	private SocketServerToClientCommands getNextEffect() {
+	private ClientCommand getNextEffect() {
 		Effect nextEffect = toolCards[currentToolCardInUse].getNext();
 		if(nextEffect == null) {
 			cleanToolCard(toolCards[currentToolCardInUse]);

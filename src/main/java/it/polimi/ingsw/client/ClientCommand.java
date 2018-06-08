@@ -1,6 +1,6 @@
-package it.polimi.ingsw.server.socket;
+package it.polimi.ingsw.client;
 
-public enum SocketServerToClientCommands {
+public enum ClientCommand {
 	PING("ping"),
 	CONNECTION_STATUS("connectionStatus"),
 
@@ -36,12 +36,12 @@ public enum SocketServerToClientCommands {
 
 	String msg;
 
-	SocketServerToClientCommands(String msg) {
+	ClientCommand(String msg) {
 		this.msg = msg;
 	}
 
-	public static SocketServerToClientCommands convertMessageToEnum(String msg) {
-		for(SocketServerToClientCommands cmd : values())
+	public static ClientCommand convertMessageToEnum(String msg) {
+		for(ClientCommand cmd : values())
 			if(msg.equals(cmd.toString()))
 				return cmd;
 
