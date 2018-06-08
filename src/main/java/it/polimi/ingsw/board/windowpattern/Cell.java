@@ -16,13 +16,10 @@ public class Cell implements Serializable {
         new Restriction();
     }
     public Cell(int restrictionValue){
-        restriction = new Restriction(); // RICORDATI DI AGGIUNGERE CHE AGGIUNGA UN INT
+        restriction = new Restriction(restrictionValue);
     }
     public Cell(Color restrictionColor){
-        restriction = new Restriction(); // RICORDATI DI AGGIUNGERE CHE AGGIUNGA UN COLOR
-    }
-    public Cell(int restrictionValue, Color restrictionColor){
-        restriction = new Restriction(); // RICORDATI DI AGGIUNGERE CHE AGGIUNGA UN INT E UN COLOR
+        restriction = new Restriction(restrictionColor);
     }
 
     // Put the new dice in the cell if it is empty and return True.
@@ -55,6 +52,41 @@ public class Cell implements Serializable {
         else
             return null;
     }
+
+    public String drawCell() {
+        String str = ":---:";
+        //Cell with restriction
+        if (this.getRestriction() != null) {
+            //Value restriction
+            if(this.getRestriction().getValue()!= null){
+                StringBuilder s = new StringBuilder();
+                s.append(str + "\n");
+                s.append("| " + this.getRestriction().getValue() + " |" + "\n");
+                s.append(str);
+                return s.toString();
+            }
+            //Color restriction
+            else{
+                String reset = "\u001B[0m";
+                StringBuilder s = new StringBuilder();
+                s.append(restriction.getColor().escape());
+                s.append(str+"\n");
+                s.append("|   |"+"\n");
+                s.append(str);
+                s.append(reset);
+                return s.toString();
+            }
+        }
+        //Cell without restriction
+        else{
+            StringBuilder s = new StringBuilder();
+            s.append(str + "\n");
+            s.append("|   |" + "\n");
+            s.append(str);
+            return s.toString();
+        }
+    }
+
 
     //It returns a copy of this Cell
     public Cell getClone(){
@@ -100,5 +132,9 @@ public class Cell implements Serializable {
       //      sb.append("can contains only " + ((Color)restriction).toString().toLowerCase() + " dices as restriction.");
       //  }
       return sb.toString();
+    }
+
+    public void dump() {
+        System.out.println(this.drawCell());
     }
 }
