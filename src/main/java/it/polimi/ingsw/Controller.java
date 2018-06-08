@@ -210,6 +210,25 @@ public class Controller {
 		}
 	}
 
+	public synchronized void placeDice(ClientInterface clientInterface, int row, int col){
+		try {
+			sendCommand(
+					clientInterface,
+					lobby.getCurrentGame().placeDiceAfterIncDecEffect(findUsername(clientInterface), row, col)
+			);
+		} catch(Game.WrongTurnException ex) {
+			System.out.println("Wrong turn!");
+		} catch (WindowPattern.WindowPatternOutOfBoundException e) {
+			e.printStackTrace();
+		} catch (WindowPattern.CellAlreadyOccupiedException e) {
+			e.printStackTrace();
+		} catch (Game.InvalidCall invalidCall) {
+			System.out.println("Invalid call!");
+		} catch (WindowPattern.PlacementRestrictionException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public synchronized void moveWindowPatternDiceEffect(ClientInterface clientInterface, int x, int y) {
 		try {
 			sendCommand(
@@ -225,7 +244,7 @@ public class Controller {
 		} catch(MoveWindowPatternDiceEffect.CellNotFoundException e) {
 
 		} catch(MoveWindowPatternDiceEffect.CellAlreadyOccupiedException e) {
-
+			e.printStackTrace();
 		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 			e.printStackTrace();
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {

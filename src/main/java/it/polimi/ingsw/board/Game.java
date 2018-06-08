@@ -268,13 +268,39 @@ public class Game extends Observable {
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.INCREMENT_DECREMENT_DICE);
 		if(validate == - 1) {
 			throw new InvalidCall();
-		} else {
-			((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffects().get(0)).getSelectedDice(), incDec);
-
+		} else if(((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffects().get(0)).getSelectedDice(), incDec)){
 			setChanged();
 			notifyObservers(NotifyType.DRAFT);
-
 			return getNextEffect();
+		}else
+			return SocketServerToClientCommands.SELECT_INCREMENT_OR_DECREMENT;
+	}
+
+	public SocketServerToClientCommands placeDiceAfterIncDecEffect(String username,int row,int col) throws WrongTurnException, InvalidCall, WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {
+		Player player = findPlayer(username);
+		turnCheck(player);
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.PLACE_DICE);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectsEnum.INCREMENT_DECREMENT_DICE);
+			if (lastSelect!=-1) {
+				((PlaceDiceEffect) (toolCards[currentToolCardInUse].getEffects().get(validate))).apply(
+						username,
+						((IncrementDecrementDiceEffect) (toolCards[currentToolCardInUse].getEffects().get(lastSelect))).getInc_decDice(),
+						row,
+						col);
+				setChanged();
+				notifyObservers(NotifyType.WINDOW_PATTERNS);
+				setChanged();
+				notifyObservers(NotifyType.DRAFT);
+
+				return getNextEffect();
+			}else {
+				throw new InvalidCall();
+			}
 		}
 	}
 

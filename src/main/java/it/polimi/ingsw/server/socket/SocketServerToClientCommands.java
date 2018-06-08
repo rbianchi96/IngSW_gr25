@@ -28,6 +28,7 @@ public enum SocketServerToClientCommands {
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
+	PLACE_DICE("placeDice"),
 
 	DICE_PLACEMENT_RESTRICTION_BROKEN("dicePlacementRestrictionBroken"),
 	CELL_ALREADY_OCUPIED("cellAlreadyOccupied"),
