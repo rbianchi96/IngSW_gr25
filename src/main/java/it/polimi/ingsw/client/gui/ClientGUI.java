@@ -159,6 +159,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void endOfToolCardUse() {
+		gameGUI.endOfToolCardUse();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) {
 		gameGUI.updateDraft(dices);
 	}

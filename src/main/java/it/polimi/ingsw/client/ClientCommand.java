@@ -31,6 +31,8 @@ public enum ClientCommand {
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
 	PLACE_DICE("placeDice"),
 
+	END_OF_TOOL_CARD_USE("endOfTCUse"),
+
 	DICE_PLACEMENT_RESTRICTION_BROKEN("dicePlacementRestrictionBroken"),
 	CELL_ALREADY_OCUPIED("cellAlreadyOccupied"),
 

@@ -187,6 +187,12 @@ public class SocketClient extends Socket implements ServerInterface {
 					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					break;
+				case PLACE_DICE:
+					break;
+				case END_OF_TOOL_CARD_USE:
+
+					client.endOfToolCardUse();
+					break;
 				case DICE_PLACEMENT_RESTRICTION_BROKEN:
 					client.dicePlacementRestictionBroken();
 
@@ -337,6 +343,7 @@ public class SocketClient extends Socket implements ServerInterface {
 						if(! msg[i].equals("null")) {    //If there's a dice
 							cells[row][col].putDice(new Dice(Integer.parseInt(msg[i]), Color.findColor(msg[++ i])));
 						}
+
 						i++;
 					}
 				}

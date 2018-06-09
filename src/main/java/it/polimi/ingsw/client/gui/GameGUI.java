@@ -22,7 +22,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameGUI extends GUIController {
@@ -67,7 +66,7 @@ public class GameGUI extends GUIController {
 	private Dice diceInHand;    //Dice in hand
 	private int myIndex = - 1;    //Index of the player in the players array
 
-	private State state = State.WAIT;
+	private State state = State.WAIT_USER_INPUT;
 
 	private HashMap<Integer, Integer> playersMap = new HashMap<>();
 
@@ -205,7 +204,7 @@ public class GameGUI extends GUIController {
 		diceIndex += GridPane.getColumnIndex(dice) * 2;
 
 		switch(state) {
-			case WAIT:
+			case WAIT_USER_INPUT:
 				diceInHand = draftDice[diceIndex];
 				state = State.PLACE_DICE_IN_HAND;
 				break;
@@ -226,7 +225,7 @@ public class GameGUI extends GUIController {
 							GridPane.getColumnIndex((Pane)event.getSource())
 					);
 
-					state = State.WAIT;    //TODO
+					state = State.WAIT_USER_INPUT;
 
 					break;
 				case SELECT_DICE_FROM_WINDOWPATTERN:
@@ -235,7 +234,7 @@ public class GameGUI extends GUIController {
 							GridPane.getColumnIndex((Pane)event.getSource())
 					);
 
-					state = State.WAIT;    //TODO
+					state = State.WAIT;
 
 					break;
 				case MOVE_DICE_IN_WINDOW_PATTERN:
@@ -244,7 +243,7 @@ public class GameGUI extends GUIController {
 							GridPane.getColumnIndex((Pane)event.getSource())
 					);
 
-					state = State.WAIT;    //TODO
+					state = State.WAIT;
 			}
 		}
 	};
@@ -353,11 +352,15 @@ public class GameGUI extends GUIController {
 		});
 	}
 
+	public void endOfToolCardUse() {
+		state = State.WAIT_USER_INPUT;
+	}
+
 	public void endTurn() {
 		client.getServerInterface().endTurn();
 	}
 
 	private enum State {
-		WAIT, PLACE_DICE_IN_HAND, SELECT_DICE_FROM_DRAFT, SELECT_DICE_FROM_WINDOWPATTERN, MOVE_DICE_IN_WINDOW_PATTERN
+		WAIT_USER_INPUT, PLACE_DICE_IN_HAND, SELECT_DICE_FROM_DRAFT, SELECT_DICE_FROM_WINDOWPATTERN, MOVE_DICE_IN_WINDOW_PATTERN, WAIT
 	}
 }

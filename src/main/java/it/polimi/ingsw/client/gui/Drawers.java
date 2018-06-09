@@ -116,9 +116,8 @@ class Drawers {
 
 	public static void drawWindowPattern(GridPane gridPane, WindowPattern windowPattern, boolean showDices, EventHandler<MouseEvent> eventHandler) {
 		try {
-			gridPane.getChildren().removeAll();
+			gridPane.getChildren().clear();
 
-			extLoop:
 			for(int row = 0; row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER; row++)
 				for(int col = 0; col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER; col++) {
 
@@ -152,7 +151,7 @@ class Drawers {
 							if(eventHandler != null)
 								pane.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
 
-							continue extLoop;
+							continue;
 						}
 					}
 

@@ -41,6 +41,8 @@ public interface RMIClientInterface extends Remote {
 	public void selectDiceFromWindowPattern() throws RemoteException;
 	public void modeDiceInWindowPattern() throws RemoteException;
 
+	public void endOfToolCardUse() throws RemoteException;
+
 	public void dicePlacementRestictionBroken() throws RemoteException;
 	public void cellAlreadyOccupied() throws RemoteException;
 }

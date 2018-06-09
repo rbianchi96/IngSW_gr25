@@ -173,6 +173,9 @@ public class Game extends Observable {
 		Player player = findPlayer(username);
 		turnCheck(player);
 
+		if(currentToolCardInUse >= 0)
+			toolCardUsageFinished();
+
 		player.setHasPlacedDice(false);
 		player.setHasPlayedToolCard(false);
 		if(rounds.nextPlayer() == - 1) {
@@ -375,6 +378,7 @@ public class Game extends Observable {
 
 	private void toolCardUsageFinished() {
 		System.out.println("End of TC effects!");
+
 		currentToolCardInUse = - 1;
 		if(players.get(rounds.getCurrentPlayer()).getHasPlacedDice() && players.get(rounds.getCurrentPlayer()).getHasPlayedToolCard()) {
 			players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);

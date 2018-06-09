@@ -146,6 +146,7 @@ public class Controller {
 					clientInterface.moveDiceInWindowPattern();
 					break;
 			}
+		else clientInterface.endOfToolCardUse();
 	}
 
 	public synchronized void useToolCard(ClientInterface clientInterface, int index) {
@@ -201,7 +202,9 @@ public class Controller {
 
 	public synchronized void incrementDecrement(ClientInterface clientInterface, boolean incDec) {
 		try {
-			lobby.getCurrentGame().incrementDecrementDiceEffect(findUsername(clientInterface), incDec);
+			sendCommand(clientInterface,
+					lobby.getCurrentGame().incrementDecrementDiceEffect(findUsername(clientInterface), incDec)
+			);
 		} catch(Game.WrongTurnException ex) {
 
 		} catch(Game.InvalidCall ex) {
@@ -209,7 +212,7 @@ public class Controller {
 		}
 	}
 
-	public synchronized void placeDice(ClientInterface clientInterface, int row, int col){
+	public synchronized void placeDice(ClientInterface clientInterface, int row, int col) {
 		try {
 			sendCommand(
 					clientInterface,
@@ -217,13 +220,13 @@ public class Controller {
 			);
 		} catch(Game.WrongTurnException ex) {
 			System.out.println("Wrong turn!");
-		} catch (WindowPattern.WindowPatternOutOfBoundException e) {
+		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 			e.printStackTrace();
-		} catch (WindowPattern.CellAlreadyOccupiedException e) {
+		} catch(WindowPattern.CellAlreadyOccupiedException e) {
 			e.printStackTrace();
-		} catch (Game.InvalidCall invalidCall) {
+		} catch(Game.InvalidCall invalidCall) {
 			System.out.println("Invalid call!");
-		} catch (WindowPattern.PlacementRestrictionException e) {
+		} catch(WindowPattern.PlacementRestrictionException e) {
 			e.printStackTrace();
 		}
 	}

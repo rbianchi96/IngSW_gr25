@@ -38,6 +38,8 @@ public interface ClientInterface {
 	public void selectDiceFromWindowPattern();
 	public void moveDiceInWindowPattern();
 
+	public void endOfToolCardUse();
+
 	public void dicePlacementRestictionBroken();
 	public void cellAlreadyOccupied();
 

@@ -306,6 +306,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void endOfToolCardUse() {
+		out.println(encode(END_OF_TOOL_CARD_USE));
+		out.flush();
+	}
+
+	@Override
 	public synchronized void updateDraft(Dice[] dices) {
 		out.print(encode(UPDATE_DRAFT));
 		for(Dice dice : dices) {

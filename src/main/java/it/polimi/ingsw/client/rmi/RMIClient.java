@@ -114,6 +114,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void endOfToolCardUse() throws RemoteException {
+		client.endOfToolCardUse();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) throws RemoteException {
 		client.updateDraft(dices);
 	}
