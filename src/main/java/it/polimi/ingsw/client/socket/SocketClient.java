@@ -162,6 +162,10 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.updateToolCardsTokens(tokens);
 
 					break;
+				case UPDATE_ROUND_TRACK:
+
+
+					break;
 				case SELECT_DICE_FROM_DRAFT:
 					client.selectDiceFromDraft();
 
@@ -177,6 +181,8 @@ public class SocketClient extends Socket implements ServerInterface {
 				case MOVE_WINDOW_PATTERN_DICE:
 					client.moveDiceInWindowPattern();
 
+					break;
+				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					break;
 				case DICE_PLACEMENT_RESTRICTION_BROKEN:
 					client.dicePlacementRestictionBroken();

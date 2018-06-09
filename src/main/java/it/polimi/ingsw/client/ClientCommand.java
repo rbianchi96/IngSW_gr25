@@ -22,12 +22,14 @@ public enum ClientCommand {
 	UPDATE_DRAFT("updateDraft"),
 	UPDATE_WINDOW_PATTERNS("updateWindowPatterns"),
 	UPDATE_TOOL_CARDS_TOKENS("updateToolCardsTokens"),
+	UPDATE_ROUND_TRACK("updateRoundTrack"),
 
 	SELECT_DICE_FROM_DRAFT("selectDiceFromDraft"),
 	SELECT_INCREMENT_OR_DECREMENT("selectIncOrDec"),
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
+	PLACE_DICE("placeDice"),
 
 	DICE_PLACEMENT_RESTRICTION_BROKEN("dicePlacementRestrictionBroken"),
 	CELL_ALREADY_OCUPIED("cellAlreadyOccupied"),

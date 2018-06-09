@@ -5,7 +5,8 @@
 		"pre": "notDraftedDice",
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "INCREMENT_DECREMENT_DICE"}
+			{"effect": "INCREMENT_DECREMENT_DICE"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{

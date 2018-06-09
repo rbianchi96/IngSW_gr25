@@ -5,6 +5,7 @@ import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
+import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
@@ -189,6 +190,16 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.updateToolCardsTokens(tokens);
 		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
+	public void updateRoundTrack(RoundTrack roundTrack) {
+		try {
+			rmiClientInterface.updateRoundTrack(roundTrack);
+		} catch(Exception e) {
 			e.printStackTrace();
 			controller.lostConnection(this);
 		}

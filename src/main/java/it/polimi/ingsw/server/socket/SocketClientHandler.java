@@ -5,6 +5,7 @@ import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
+import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
@@ -269,6 +270,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override
 	public synchronized void updateToolCardsTokens(int[] tokens) {
 
+	}
+
+	@Override
+	public void updateRoundTrack(RoundTrack roundTrack) {
+		//TODO
 	}
 
 	@Override

@@ -57,6 +57,9 @@ public class ToolCardsLoader extends CardsLoader {
 						case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 							effects.add(new SelectDiceFromRoundTrackAndSwitch());
 							break;
+						case PLACE_DICE:
+							effects.add(new PlaceDiceEffect());
+							break;
 						default:
 							break;
 					}
