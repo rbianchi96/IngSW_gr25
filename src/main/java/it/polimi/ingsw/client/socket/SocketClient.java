@@ -7,6 +7,7 @@ import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCardsIds;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
+import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.Cell;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
@@ -163,7 +164,9 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					break;
 				case UPDATE_ROUND_TRACK:
-
+					client.updateRoundTrack(decodeRoundTrack(
+							Arrays.copyOfRange(msgVector, 1, msgVector.length)
+					));
 
 					break;
 				case SELECT_DICE_FROM_DRAFT:
@@ -360,5 +363,29 @@ public class SocketClient extends Socket implements ServerInterface {
 						dice.getColor();
 
 		return str;
+	}
+
+	private RoundTrackDices[] decodeRoundTrack(String[] msg) {
+		RoundTrackDices[] roundTrackDices = new RoundTrackDices[Game.ROUNDS_NUMBER];
+
+		int i = 0;
+
+		for(int round = 0; round < Game.ROUNDS_NUMBER; round ++) {
+			roundTrackDices[round] = new RoundTrackDices();
+
+			while(!msg[i].equals("|")) {
+				Dice dice = new Dice(
+						Integer.parseInt(msg[i]),
+						Color.findColor(msg[i + 1])
+				);
+
+				roundTrackDices[round].getDices().add(dice);
+
+				i += 2;
+			}
+			i ++;
+		}
+
+		return roundTrackDices;
 	}
 }

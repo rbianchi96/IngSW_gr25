@@ -1,6 +1,8 @@
 package it.polimi.ingsw.board;
 
-public enum Color {
+import java.io.Serializable;
+
+public enum Color implements Serializable {
     BLUE("b", "#3e5bef","\u001B[34m"), GREEN("g", "#5bbf5b", "\u001B[32m"), PURPLE("p", "#d660d6","\u001B[35m"), RED("r", "#c64747","\u001B[31m"), YELLOW("y", "#d1d14d","\u001B[33m");
 
 

@@ -37,7 +37,6 @@ public class ModelObserver implements java.util.Observer {
 
 				break;
 			case START_GAME:
-				System.out.println("ARRIVATO A START GAME");
 				clientInterface.startGame();
 
 				break;
@@ -53,6 +52,11 @@ public class ModelObserver implements java.util.Observer {
 				clientInterface.updateWindowPatterns(model.getAllWindowPatterns());
 				break;
 			case TOOL_CARDS_TOKENS:
+				break;
+
+			case ROUND_TRACK:
+				clientInterface.updateRoundTrack(model.getRoundTrackDice().getTrack());
+
 				break;
 		}
 	}

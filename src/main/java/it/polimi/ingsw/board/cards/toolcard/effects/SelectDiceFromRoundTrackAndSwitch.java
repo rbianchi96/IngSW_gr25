@@ -1,7 +1,5 @@
 package it.polimi.ingsw.board.cards.toolcard.effects;
 
-import it.polimi.ingsw.board.cards.toolcard.effects.Effect;
-import it.polimi.ingsw.board.cards.toolcard.effects.EffectsEnum;
 import it.polimi.ingsw.board.dice.Dice;
 
 public class SelectDiceFromRoundTrackAndSwitch extends Effect {
@@ -13,12 +11,12 @@ public class SelectDiceFromRoundTrackAndSwitch extends Effect {
             throw new NullPointerException();
         Dice trackDiceToSwitch;
         try {
-            trackDiceToSwitch = game.getRoundTrack().getDice(round, index);
+            trackDiceToSwitch = game.getRoundTrackDice().getDice(round, index);
         }catch (IndexOutOfBoundsException ex){
             throw new DiceNotFoundException();
         }
         try {
-            game.getRoundTrack().addDice(round,index,fromDraftDice);
+            game.getRoundTrackDice().addDice(round,index,fromDraftDice);
         }catch (IllegalArgumentException | IndexOutOfBoundsException | NullPointerException ex){
             throw new InvaliDiceOrPosition();
         }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.RoundTrack;
+import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 import java.rmi.Remote;
@@ -34,7 +35,7 @@ public interface RMIClientInterface extends Remote {
 	public void updateDraft(Dice[] dices) throws RemoteException;
 	public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException;
 	public void updateToolCardsTokens(int[] tokens) throws RemoteException;
-	public void updateRoundTrack(RoundTrack roundTrack) throws RemoteException;
+	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) throws RemoteException;
 
 	public void selectIncrementOrDecrement() throws RemoteException;
 	public void selectDiceFromWindowPattern() throws RemoteException;

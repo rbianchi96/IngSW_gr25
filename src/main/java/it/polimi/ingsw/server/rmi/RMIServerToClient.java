@@ -6,6 +6,7 @@ import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.RoundTrack;
+import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
@@ -146,7 +147,6 @@ public class RMIServerToClient implements ClientInterface {
 
 	@Override
 	public void startGame() {
-		System.out.println("Arrivato qui");
 		try {
 			rmiClientInterface.startGame();
 		} catch(RemoteException e) {
@@ -196,9 +196,9 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
-	public void updateRoundTrack(RoundTrack roundTrack) {
+	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) {
 		try {
-			rmiClientInterface.updateRoundTrack(roundTrack);
+			rmiClientInterface.updateRoundTrack(roundTrackDices);
 		} catch(Exception e) {
 			e.printStackTrace();
 			controller.lostConnection(this);

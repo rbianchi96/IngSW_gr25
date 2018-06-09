@@ -5,6 +5,7 @@ import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.RoundTrack;
+import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
@@ -133,7 +134,7 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void updateRoundTrack(RoundTrack roundTrack) {
+	public void updateRoundTrack(RoundTrackDices[] roundTrack) {
 		gameGUI.updateRoundTrack(roundTrack);
 	}
 

@@ -6,6 +6,7 @@ import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.RoundTrack;
+import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
@@ -17,10 +18,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import static it.polimi.ingsw.client.ClientCommand.*;
 
@@ -273,8 +271,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public void updateRoundTrack(RoundTrack roundTrack) {
-		//TODO
+	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) {
+		out.print(encode(UPDATE_ROUND_TRACK));
+		out.println(encodeRoundTrack(roundTrackDices));
+		out.flush();
 	}
 
 	@Override
@@ -434,4 +434,23 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		return null;
 	}
 
+	private String encodeRoundTrack(RoundTrackDices[] dices) {
+		StringBuilder sb = new StringBuilder();
+
+		for(RoundTrackDices round : dices) {
+			ArrayList<Dice> roundDice = round.getDices();
+
+			for(Dice dice : roundDice) {
+				sb
+						.append("#")
+						.append(dice.getValue())
+						.append("#")
+						.append(dice.getColor().toString())	;
+			}
+
+			sb.append("#|");
+		}
+
+		return sb.toString();
+	}
 }

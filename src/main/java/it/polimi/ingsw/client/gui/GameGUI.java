@@ -329,20 +329,18 @@ public class GameGUI extends GUIController {
 		state = State.MOVE_DICE_IN_WINDOW_PATTERN;
 	}
 
-	public void updateRoundTrack(RoundTrack roundTrack) {
+	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) {
 		Platform.runLater(() -> {
-			RoundTrackDices[] roundDice = roundTrack.getTrack();
-
 			this.roundTrack.getChildren().clear();
 
 			for(int round = 0; round < RoundTrack.ROUNDS; round++) {
-				HBox hBox = new HBox();
-				GridPane.setValignment(hBox, VPos.CENTER);
+				VBox vBox = new VBox();
+				GridPane.setValignment(vBox, VPos.CENTER);
 
-				for(int i = 0; i < roundDice[round].diceNumber(); i++)    //For every dice
-					hBox.getChildren().add(Drawers.createDice(roundDice[round].getDices().get(i), 30));
+				for(int i = 0; i < roundTrackDices[round].diceNumber(); i++)    //For every dice
+					vBox.getChildren().add(Drawers.createDice(roundTrackDices[round].getDices().get(i), 30));
 
-				this.roundTrack.add(hBox, round, 0);
+				this.roundTrack.add(vBox, round, 0);
 			}
 
 		});

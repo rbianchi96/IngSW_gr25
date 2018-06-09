@@ -5,6 +5,7 @@ import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.RoundTrack;
+import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public interface ClientInterface {
@@ -30,7 +31,7 @@ public interface ClientInterface {
 	public void updateDraft(Dice[] dices);
 	public void updateWindowPatterns(WindowPattern[] windowPatterns);
 	public void updateToolCardsTokens(int[] tokens);
-	public void updateRoundTrack(RoundTrack roundTrack);
+	public void updateRoundTrack(RoundTrackDices[] roundTrack);
 
 	public void selectDiceFromDraft();
 	public void selectIncrementOrDecrement();

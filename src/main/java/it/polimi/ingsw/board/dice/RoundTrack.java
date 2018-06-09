@@ -1,9 +1,10 @@
 package it.polimi.ingsw.board.dice;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class RoundTrack {
+public class RoundTrack implements Serializable {
     public static final int ROUNDS = 10;
     private RoundTrackDices[] track;
     private int playersNumber;
@@ -32,7 +33,7 @@ public class RoundTrack {
     // else, it will throws IllegalArgumentException).
     // iii) The given Dice isn't a null object(else it throws NullPointerException).
     // iv) You aren't trying to add a dice to an already full of max dices round.
-    public boolean addDice(int round, Dice dice)  {
+    public boolean addDice(int round, Dice dice) throws IllegalArgumentException, NullPointerException, ArrayIndexOutOfBoundsException {
         if (round>=0 && round<10) {
             if (dice != null) {
                 if (round > 0 && track[round-1].getDices().isEmpty())

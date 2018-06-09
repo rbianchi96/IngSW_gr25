@@ -1,12 +1,13 @@
 package it.polimi.ingsw.board.dice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RoundTrackDices {
+public class RoundTrackDices implements Serializable {
     private ArrayList<Dice> dices;
 
     public RoundTrackDices() {
-        dices = new ArrayList<Dice>();
+        dices = new ArrayList<>();
     }
 
     public ArrayList<Dice> getDices() {

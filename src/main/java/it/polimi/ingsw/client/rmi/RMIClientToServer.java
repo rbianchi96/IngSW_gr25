@@ -23,9 +23,10 @@ public class RMIClientToServer implements ServerInterface {
 	private Timer reconnectTimer;
 	private String sessionNickname;
 	private int reconnection_attempts = 0;
+
 	public RMIClientToServer(ClientInterface client, String ip, String serverName) {
 		try {
-			this.client = new RMIClient(client);	//RMIClient to send to server used to receive responses
+			this.client = new RMIClient(client);    //RMIClient to send to server used to receive responses
 			server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + serverName);
 			pingTimer();
 		} catch(NotBoundException e) {
@@ -39,7 +40,7 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	// Timer to ping the server set with a delay of 500 milliseconds, repeat every 2 and half minutes
-	private void pingTimer(){
+	private void pingTimer() {
 		pingTimer = new Timer();
 		pingTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
@@ -50,7 +51,7 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	// ping the RMI Server
-	private boolean ping(){
+	private boolean ping() {
 		try {
 			server.ping();
 			return true;
@@ -65,7 +66,7 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	// Timer to ping the server set with a delay of 500 milliseconds, repeat every 2 and half minutes
-	private void reconnectTimer(){
+	private void reconnectTimer() {
 		reconnection_attempts = 0;
 		reconnectTimer = new Timer();
 		reconnectTimer.scheduleAtFixedRate(new TimerTask() {
@@ -76,9 +77,9 @@ public class RMIClientToServer implements ServerInterface {
 		}, 500, 2500);
 	}
 
-	private void reconnectPing(){
+	private void reconnectPing() {
 		reconnection_attempts++;
-		if (reconnection_attempts<MAX_RECONNECTION_ATTEMPTS) {
+		if(reconnection_attempts < MAX_RECONNECTION_ATTEMPTS) {
 			try {
 				server.ping();
 				//Notify the client is back online and will try to restore the connection with the server
@@ -86,27 +87,28 @@ public class RMIClientToServer implements ServerInterface {
 				reconnectTimer.cancel();
 				server.reconnect(client, client.getSessionID(), sessionNickname);
 				pingTimer();
-			} catch (Exception e) {
+			} catch(Exception e) {
 				// e.printStackTrace();
 				// Still can't get to server
 				System.out.println("Attempt to reconnect failed");
 			}
-		}
-		else {
+		} else {
 			reconnectTimer.cancel();
 			System.out.println("Automatic reconnection attempts stopped, manual reconnection needed.");
 		}
 	}
-	public boolean reconnect(){
+
+	public boolean reconnect() {
 		try {
 			server.reconnect(client, client.getSessionID(), sessionNickname);
 			pingTimer();
 			return true;
-		} catch (RemoteException e) {
+		} catch(RemoteException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
+
 	@Override
 	public void login(String username) {
 		try {
@@ -116,6 +118,7 @@ public class RMIClientToServer implements ServerInterface {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void logout() {
 
@@ -124,7 +127,7 @@ public class RMIClientToServer implements ServerInterface {
 	@Override
 	public void selectWindowPattern(int i) {
 		try {
-			server.selectWindowPattern(client,i);
+			server.selectWindowPattern(client, i);
 		} catch(RemoteException e) {
 			e.printStackTrace();
 		}
@@ -133,7 +136,7 @@ public class RMIClientToServer implements ServerInterface {
 	@Override
 	public void placeDice(Dice dice, int row, int col) {
 		try {
-			server.placeDice(client,dice, row, col);
+			server.placeDice(client, dice, row, col);
 		} catch(RemoteException e) {
 			e.printStackTrace();
 		}
@@ -146,26 +149,46 @@ public class RMIClientToServer implements ServerInterface {
 
 	@Override
 	public void endTurn() {
-		//TODO
+		try {
+			server.endTurn(client);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void selectDiceFromDraftEffect(Dice dice) {
-
+		try {
+			server.selectDiceFromDraftEffect(client, dice);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void incrementOrDecrementDiceEffect(boolean mode) {
-
+		try {
+			server.incrementOrDecrementDiceEffect(client, mode);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void selectDiceFromWindowPatternEffect(int row, int col) {
-
+		try {
+			server.selectDiceFromWindowPatternEffect(client, row, col);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void moveDiceInWindowPatternEffect(int row, int col) {
-
+		try {
+			server.moveDiceInWindowPatternEffect(client, row, col);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 }
