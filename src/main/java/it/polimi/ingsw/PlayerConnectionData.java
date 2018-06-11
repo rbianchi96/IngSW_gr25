@@ -3,42 +3,52 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.client.ClientInterface;
 
 public class PlayerConnectionData {
-    private ClientInterface clientInterface;
-    private String nickName, sessionID;
-    private boolean isOnline;
+	private ClientInterface clientInterface;
+	private String nickName, sessionID;
+	private boolean isOnline;
+	private ModelObserver observer;
 
-    public PlayerConnectionData(ClientInterface clientInterface, String nickName, String sessionID){
-        this.clientInterface = clientInterface;
-        this.nickName = nickName;
-        this.sessionID = sessionID;
-        this.isOnline = true;
-    }
+	public PlayerConnectionData(ClientInterface clientInterface, String nickName, String sessionID) {
+		this.clientInterface = clientInterface;
+		this.nickName = nickName;
+		this.sessionID = sessionID;
+		this.isOnline = true;
+	}
 
-    public void setClientInterface(ClientInterface clientInterface) {
-        this.clientInterface = clientInterface;
-    }
+	public void setObserver(ModelObserver observer) {
+		this.observer = observer;
+	}
 
-    public void setSessionID(String sessionID) {
-        this.sessionID = sessionID;
-    }
+	public ModelObserver getObserver() {
+		return observer;
 
-    public boolean getIsOnline() {
-        return isOnline;
-    }
+	}
 
-    public void setIsOnline(boolean online) {
-        isOnline = online;
-    }
+	public void setClientInterface(ClientInterface clientInterface) {
+		this.clientInterface = clientInterface;
+	}
 
-    public ClientInterface getClientInterface() {
-        return clientInterface;
-    }
+	public void setSessionID(String sessionID) {
+		this.sessionID = sessionID;
+	}
 
-    public String getNickName() {
-        return nickName;
-    }
+	public boolean getIsOnline() {
+		return isOnline;
+	}
 
-    public String getSessionID() {
-        return sessionID;
-    }
+	public void setIsOnline(boolean online) {
+		isOnline = online;
+	}
+
+	public ClientInterface getClientInterface() {
+		return clientInterface;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public String getSessionID() {
+		return sessionID;
+	}
 }

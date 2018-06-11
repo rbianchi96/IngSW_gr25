@@ -146,24 +146,28 @@ public class Lobby {
     // If the games is already started it suspends the player from the game by setting "false" to isOnline Player's attribute
     // and setting "null" to his Client Interface.
     // If the game isn't started yet, it removes the player to suspend from the Lobby and notify the actions to other clients.
-    private void suspendPlayer(int index){
+    private void suspendPlayer(int index) {
         String playerNickname = playersConnectionData.get(index).getNickName();
-        if (currentGame.isInGame()) {
+        if(currentGame.isInGame()) {       //If the game started
             playersConnectionData.get(index).setIsOnline(false);
             playersConnectionData.get(index).setClientInterface(null);
-            System.out.println(playerNickname + " is now suspended.");
-            for(int i = 0; i< playersConnectionData.size() && i!=index ; i++){
-                playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
-            }
-        }else{
+
+            currentGame.deleteObserver(playersConnectionData.get(index).getObserver());	//Remove the observer from the model
+			playersConnectionData.get(index).setObserver(null);	//Delete the observer
+
+            System.out.println(playerNickname + " is now suspended from the game.");
+            for(int i = 0; i < playersConnectionData.size(); i++) {
+				if(i != index)
+					playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
+			}
+		} else {  //If the game isn't started yet (lobby phase)
             System.out.println(playersConnectionData.get(index).getNickName() + " has been removed from the lobby.");
             playersConnectionData.remove(index);
-            for(int i=0;i<getPlayersUsernamesArrayList().size();i++){
+            for(int i = 0; i < getPlayersUsernamesArrayList().size(); i++) {
                 playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
             }
             sendPlayersListToAll();
         }
-
     }
 
     // This method is called if it's requested a Login during a game(that is going on). It will check if the user who want to login is a disconnected
@@ -183,9 +187,14 @@ public class Lobby {
                 clientInterface.sendToolCards(currentGame.getCleanToolCards());
                 clientInterface.updateDraft(currentGame.getDraftDices());
                 clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
-                ModelObserver observer = new ModelObserver(username, clientInterface);
+
+                ModelObserver observer = new ModelObserver(username, clientInterface);  //Create a new observer
+
+                playersConnectionData.get(i).setObserver(observer);
                 currentGame.addObserver(observer);
+
                 observer.update(currentGame,NEW_TURN);
+
                 break;
             }else
                 clientInterface.loginResponse("fail","0");
@@ -203,10 +212,12 @@ public class Lobby {
 
     // Method to call to start the game
     public void startGame(){
-        //Add observer to model (TEMPORARY, TO BE MIGRATED TO CONTROLLER)
+        //Add observer to model
         for(PlayerConnectionData player : playersConnectionData) {
-            ModelObserver observer = new ModelObserver(player.getNickName(), player.getClientInterface());
-            currentGame.addObserver(observer);
+            ModelObserver observer = new ModelObserver(player.getNickName(), player.getClientInterface());  //Create a new observer
+
+            player.setObserver(observer);   //Set it to the player
+            currentGame.addObserver(observer);  //Add it to the model
         }
         currentGame.startGame(getPlayersUsernamesArrayList());
     }
