@@ -7,7 +7,7 @@ public enum ServerCommand {
 
 	SELECT_WINDOW_PATTERN("selectWP"),
 
-	PLACE_DICE_FROM_DRAFT("placeDice"),
+	PLACE_DICE_FROM_DRAFT("placeDiceFromDraft"),
 
 	USE_TOOL_CARD("useToolCard"),
 	END_TURN("endTurn"),
@@ -16,6 +16,7 @@ public enum ServerCommand {
 	INCREMENT_OR_DECREMENT_DICE_EFFECT("incOrDecDiceEffect"),
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWP"),
 	MOVE_DICE_IN_WINDOW_PATTERN("moveDiceInWP"),
+	PLACE_DICE("placeDice"),
 
 	PING("ping");
 

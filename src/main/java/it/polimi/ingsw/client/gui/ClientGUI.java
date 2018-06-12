@@ -149,6 +149,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void placeDice() {
+		gameGUI.placeDice();
+	}
+
+	@Override
 	public void selectDiceFromWindowPattern() {
 		gameGUI.selectDiceFromWindowPattern();
 	}

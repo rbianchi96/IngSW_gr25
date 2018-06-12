@@ -9,7 +9,7 @@ public interface ServerInterface {
 
     public void selectWindowPattern(int i);
 
-    public void placeDice(Dice dice, int row, int col);
+    public void placeDiceFromDraft(Dice dice, int row, int col);
 
     public void useToolCard(int index);
     public void endTurn();
@@ -18,4 +18,5 @@ public interface ServerInterface {
     public void incrementOrDecrementDiceEffect(boolean mode);
     public void selectDiceFromWindowPatternEffect(int row, int col);
     public void moveDiceInWindowPatternEffect(int row, int col);
+    public void placeDice(int row, int col);
 }

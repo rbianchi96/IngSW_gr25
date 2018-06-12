@@ -252,7 +252,6 @@ public class Game extends Observable {
 		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_DRAFT);
-		System.out.println("Eh, eh!");
 		if(validate == - 1) {
 			throw new InvalidCall();
 		} else {
@@ -307,10 +306,13 @@ public class Game extends Observable {
 			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectsEnum.INCREMENT_DECREMENT_DICE);
 			if(lastSelect != - 1) {
 				((PlaceDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(validate))).apply(
-						username,
 						((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffects().get(lastSelect))).getInc_decDice(),
+						player.getWindowPattern(),
 						row,
 						col);
+
+				player.setHasPlacedDice(true);
+
 				setChanged();
 				notifyObservers(NotifyType.WINDOW_PATTERNS);
 				setChanged();

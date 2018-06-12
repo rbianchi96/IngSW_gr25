@@ -163,7 +163,7 @@ public class WindowPatternTest {
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getDice(2, - 10));    //Invalid col (below bottom bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.getDice(2, 10));    //Invalid col (over top bound)
 
-			//placeDice
+			//placeDiceFromDraft
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, - 10, 4));    //Invalid row (below bottom bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, 10, 4));    //Invalid row (over top bound)
 			assertThrows(WindowPattern.WindowPatternOutOfBoundException.class, () -> windowPattern.placeDice(dice, 2, - 10));    //Invalid col (below bottom bound)

@@ -2,9 +2,7 @@ package it.polimi.ingsw.server.rmi;
 
 import it.polimi.ingsw.Controller;
 import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.rmi.RMIClientInterface;
-import it.polimi.ingsw.server.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -47,8 +45,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	}
 
 	@Override
-	public void placeDice(RMIClientInterface rmiClientInterface, Dice dice, int row, int col) throws RemoteException {
-		controller.placeDice(map.get(rmiClientInterface), dice, row, col);
+	public void placeDiceFromDraft(RMIClientInterface rmiClientInterface, Dice dice, int row, int col) throws RemoteException {
+		controller.placeDiceFromDraft(map.get(rmiClientInterface), dice, row, col);
 	}
 
 	@Override
@@ -89,6 +87,15 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	@Override
 	public void moveDiceInWindowPatternEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
 		controller.moveWindowPatternDiceEffect(
+				map.get(rmiClientInterface),
+				row,
+				col
+		);
+	}
+
+	@Override
+	public void placeDice(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
+		controller.placeDice(
 				map.get(rmiClientInterface),
 				row,
 				col

@@ -8,6 +8,7 @@ import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -210,41 +211,60 @@ public class GameGUI extends GUIController {
 				break;
 			case SELECT_DICE_FROM_DRAFT:
 				client.getServerInterface().selectDiceFromDraftEffect(draftDice[diceIndex]);
-				state = State.WAIT;
 		}
 	}
 
-	private EventHandler<MouseEvent> onCellSelected = new EventHandler<MouseEvent>() {
-		@Override
-		public void handle(MouseEvent event) {
-			switch(state) {
-				case PLACE_DICE_IN_HAND:
-					client.getServerInterface().placeDice(
-							diceInHand,
-							GridPane.getRowIndex((Pane)event.getSource()),
-							GridPane.getColumnIndex((Pane)event.getSource())
-					);
+	private EventHandler<MouseEvent> onCellSelected = event -> {
+		switch(state) {
+			case PLACE_DICE_IN_HAND:
+				client.getServerInterface().placeDiceFromDraft(
+						diceInHand,
+						GridPane.getRowIndex((Pane)event.getSource()),
+						GridPane.getColumnIndex((Pane)event.getSource())
+				);
 
-					state = State.WAIT_USER_INPUT;
+				state = State.WAIT_USER_INPUT;
 
+				break;
+			case SELECT_DICE_FROM_WINDOWPATTERN:
+				client.getServerInterface().selectDiceFromWindowPatternEffect(
+						GridPane.getRowIndex((Pane)event.getSource()),
+						GridPane.getColumnIndex((Pane)event.getSource())
+				);
+
+				break;
+			case MOVE_DICE_IN_WINDOW_PATTERN:
+				client.getServerInterface().moveDiceInWindowPatternEffect(
+						GridPane.getRowIndex((Pane)event.getSource()),
+						GridPane.getColumnIndex((Pane)event.getSource())
+				);
+
+			case PLACE_DICE:
+				client.getServerInterface().placeDice(
+						GridPane.getRowIndex((Pane)event.getSource()),
+						GridPane.getColumnIndex((Pane)event.getSource())
+				);
+		}
+	};
+
+	private EventHandler<MouseEvent> onRoundTrackDiceSelected = event -> {
+		if(state == State.SELECT_DICE_FROM_ROUND_TRACK) {
+			AnchorPane selectedDice = (AnchorPane)event.getSource();
+
+			VBox round = (VBox)selectedDice.getParent();
+
+			int r, diceIndex = - 1;
+			r = GridPane.getColumnIndex(round);
+
+			ObservableList<javafx.scene.Node> allDice = round.getChildren();
+			for(int i = 0; i < allDice.size(); i++)
+				if(allDice.get(i) == selectedDice) {
+					diceIndex = i;
 					break;
-				case SELECT_DICE_FROM_WINDOWPATTERN:
-					client.getServerInterface().selectDiceFromWindowPatternEffect(
-							GridPane.getRowIndex((Pane)event.getSource()),
-							GridPane.getColumnIndex((Pane)event.getSource())
-					);
+				}
 
-					state = State.WAIT;
-
-					break;
-				case MOVE_DICE_IN_WINDOW_PATTERN:
-					client.getServerInterface().moveDiceInWindowPatternEffect(
-							GridPane.getRowIndex((Pane)event.getSource()),
-							GridPane.getColumnIndex((Pane)event.getSource())
-					);
-
-					state = State.WAIT;
-			}
+			System.out.println("Selected dice " + r + ", " + diceIndex);
+			//TODO
 		}
 	};
 
@@ -271,8 +291,6 @@ public class GameGUI extends GUIController {
 	}
 
 	public void selectIncreaseOrDecrease() {
-		System.out.println("Select inc. or dec.");
-
 		Platform.runLater(() -> {
 			ButtonType
 					inc = new ButtonType("Incrementa"),
@@ -280,7 +298,7 @@ public class GameGUI extends GUIController {
 
 			Alert alert = new Alert(
 					Alert.AlertType.CONFIRMATION,
-					"Scegli se incrementsre o decreentare il valore del dado",
+					"Scegli se incrementare o decrementare il valore del dado",
 					inc, dec);
 
 			alert.showAndWait();
@@ -313,6 +331,11 @@ public class GameGUI extends GUIController {
 		client.getServerInterface().useToolCard(index);
 	}
 
+	public void placeDice() {
+		showInfoAlert("Seleziona dove posizionare il dado.");
+		state = State.PLACE_DICE;
+	}
+
 	public void selectDiceFromDraft() {
 		showInfoAlert("Seleziona un dado dalla riserva.");
 		state = State.SELECT_DICE_FROM_DRAFT;
@@ -336,8 +359,12 @@ public class GameGUI extends GUIController {
 				VBox vBox = new VBox();
 				GridPane.setValignment(vBox, VPos.CENTER);
 
-				for(int i = 0; i < roundTrackDices[round].diceNumber(); i++)    //For every dice
-					vBox.getChildren().add(Drawers.createDice(roundTrackDices[round].getDices().get(i), 30));
+				for(int i = 0; i < roundTrackDices[round].diceNumber(); i++) {   //For every dice
+					AnchorPane dice = Drawers.createDice(roundTrackDices[round].getDices().get(i), 30);
+					dice.setOnMouseClicked(onRoundTrackDiceSelected);
+
+					vBox.getChildren().add(dice);
+				}
 
 				this.roundTrack.add(vBox, round, 0);
 			}
@@ -361,6 +388,12 @@ public class GameGUI extends GUIController {
 	}
 
 	private enum State {
-		WAIT_USER_INPUT, PLACE_DICE_IN_HAND, SELECT_DICE_FROM_DRAFT, SELECT_DICE_FROM_WINDOWPATTERN, MOVE_DICE_IN_WINDOW_PATTERN, WAIT
+		WAIT_USER_INPUT,
+		SELECT_DICE_FROM_DRAFT, PLACE_DICE_IN_HAND,
+
+		SELECT_DICE_FROM_WINDOWPATTERN,
+		MOVE_DICE_IN_WINDOW_PATTERN,
+		PLACE_DICE,
+		SELECT_DICE_FROM_ROUND_TRACK
 	}
 }

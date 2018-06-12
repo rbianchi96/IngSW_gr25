@@ -4,9 +4,23 @@ import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public class PlaceDiceEffect extends Effect {
-    public void apply(String username, Dice dice, int row, int col) throws WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {
-        game.placeDiceFromDraft(username, dice, row, col);
-        used=true;
-        System.out.println("Dice placed.");
-    }
+	public PlaceDiceEffect() {
+		this.myEnum = EffectsEnum.PLACE_DICE;
+	}
+
+	public void apply(Dice dice, WindowPattern windowPattern, int row, int col) throws WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {
+		Dice diceFromDraft = game.getDraft().getDice(dice);
+		if(diceFromDraft != null) {
+			try {
+				windowPattern.placeDice(diceFromDraft, row, col);   //Place the dice
+			} catch(WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException | WindowPattern.CellAlreadyOccupiedException e) {
+				game.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
+
+				throw e;    //Throw the exception to the caller
+			}
+		}
+
+		used = true;
+		System.out.println("Dice placed.");
+	}
 }

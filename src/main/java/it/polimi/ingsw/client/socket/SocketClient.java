@@ -186,8 +186,12 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
+					//TODO
+
 					break;
 				case PLACE_DICE:
+					client.placeDice();
+
 					break;
 				case END_OF_TOOL_CARD_USE:
 
@@ -202,6 +206,8 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					break;
 				case INVALID_COMMAND:
+					//TODO ???
+
 					break;
 			}
 		else
@@ -235,7 +241,7 @@ public class SocketClient extends Socket implements ServerInterface {
 	}
 
 	@Override
-	public void placeDice(Dice dice, int row, int col) {
+	public void placeDiceFromDraft(Dice dice, int row, int col) {
 		out.println(encode(
 				ServerCommand.PLACE_DICE_FROM_DRAFT,
 				encodeDice(dice),
@@ -294,6 +300,16 @@ public class SocketClient extends Socket implements ServerInterface {
 	public void moveDiceInWindowPatternEffect(int row, int col) {
 		out.println(encode(
 				ServerCommand.MOVE_DICE_IN_WINDOW_PATTERN,
+				String.valueOf(row),
+				String.valueOf(col)
+		));
+		out.flush();
+	}
+
+	@Override
+	public void placeDice(int row, int col) {
+		out.println(encode(
+				ServerCommand.PLACE_DICE,
 				String.valueOf(row),
 				String.valueOf(col)
 		));

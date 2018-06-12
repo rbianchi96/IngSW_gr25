@@ -1,13 +1,10 @@
 package it.polimi.ingsw.client.rmi;
 
 import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
-import it.polimi.ingsw.paramsloader.NetParamsLoader;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.server.rmi.RMIServerInterface;
 
-import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -24,19 +21,10 @@ public class RMIClientToServer implements ServerInterface {
 	private String sessionNickname;
 	private int reconnection_attempts = 0;
 
-	public RMIClientToServer(ClientInterface client, String ip, String serverName) {
-		try {
+	public RMIClientToServer(ClientInterface client, String ip, String serverName) throws RemoteException, NotBoundException, MalformedURLException {
 			this.client = new RMIClient(client);    //RMIClient to send to server used to receive responses
 			server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + serverName);
 			pingTimer();
-		} catch(NotBoundException e) {
-			e.printStackTrace();
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		} catch(RemoteException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	// Timer to ping the server set with a delay of 500 milliseconds, repeat every 2 and half minutes
@@ -134,9 +122,9 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	@Override
-	public void placeDice(Dice dice, int row, int col) {
+	public void placeDiceFromDraft(Dice dice, int row, int col) {
 		try {
-			server.placeDice(client, dice, row, col);
+			server.placeDiceFromDraft(client, dice, row, col);
 		} catch(RemoteException e) {
 			e.printStackTrace();
 		}
@@ -144,7 +132,11 @@ public class RMIClientToServer implements ServerInterface {
 
 	@Override
 	public void useToolCard(int index) {
-		//TODO
+		try {
+			server.useToolCard(client, index);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -187,6 +179,15 @@ public class RMIClientToServer implements ServerInterface {
 	public void moveDiceInWindowPatternEffect(int row, int col) {
 		try {
 			server.moveDiceInWindowPatternEffect(client, row, col);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void placeDice(int row, int col) {
+		try {
+			server.placeDice(client, row, col);
 		} catch(RemoteException e) {
 			e.printStackTrace();
 		}

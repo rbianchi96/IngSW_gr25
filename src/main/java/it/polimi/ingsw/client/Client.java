@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.ServerInterface;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.NotBoundException;
 
 public class Client {
 	private ServerInterface serverInterface = null;
@@ -23,7 +24,7 @@ public class Client {
 		paramsLoader = new NetParamsLoader("src/main/resources/netParams.json");
 	}
 
-	public void loginAndConnect(ConnectionMode connectionMode, String ip, String username) throws IOException {
+	public void loginAndConnect(ConnectionMode connectionMode, String ip, String username) throws IOException, NotBoundException {
 		switch(connectionMode) {
 			case SOCKET:
 				serverInterface = new SocketClient(

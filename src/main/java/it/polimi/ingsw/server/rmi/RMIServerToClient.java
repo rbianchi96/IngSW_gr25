@@ -5,7 +5,6 @@ import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
@@ -16,7 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class RMIServerToClient implements ClientInterface {
-	Controller controller;
+	private Controller controller;
 	private RMIClientInterface rmiClientInterface;
 	private Timer pingTimer;
 
@@ -207,7 +206,12 @@ public class RMIServerToClient implements ClientInterface {
 
 	@Override
 	public void selectDiceFromDraft() {
-		//TODO
+		try {
+			rmiClientInterface.selectDiceFromDraft();
+		} catch(Exception e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
 	}
 
 	@Override
@@ -221,13 +225,33 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
-	public void selectDiceFromWindowPattern() {
+	public void placeDice() {
+		try {
+			rmiClientInterface.placeDice();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
 
+	@Override
+	public void selectDiceFromWindowPattern() {
+		try {
+			rmiClientInterface.selectDiceFromWindowPattern();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
 	}
 
 	@Override
 	public void moveDiceInWindowPattern() {
-
+		try {
+			rmiClientInterface.moveDiceInWindowPattern();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public interface RMIServerInterface extends Remote {
 
     public void selectWindowPattern(RMIClientInterface rmiClientInterface,int i) throws RemoteException;
 
-    public void placeDice(RMIClientInterface rmiClientInterface,Dice dice, int row, int col) throws RemoteException;
+    public void placeDiceFromDraft(RMIClientInterface rmiClientInterface, Dice dice, int row, int col) throws RemoteException;
 
     public void useToolCard(RMIClientInterface rmiClientInterface, int index) throws RemoteException;
     public void endTurn(RMIClientInterface rmiClientInterface) throws RemoteException;
@@ -23,4 +23,5 @@ public interface RMIServerInterface extends Remote {
     public void incrementOrDecrementDiceEffect(RMIClientInterface rmiClientInterface, boolean mode) throws RemoteException;
     public void selectDiceFromWindowPatternEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
     public void moveDiceInWindowPatternEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
+    public void placeDice(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
 }

@@ -118,7 +118,7 @@ public class Controller {
 		return null;
 	}
 
-	public synchronized void placeDice(ClientInterface clientInterface, Dice dice, int row, int col) {
+	public synchronized void placeDiceFromDraft(ClientInterface clientInterface, Dice dice, int row, int col) {
 		try {
 			lobby.getCurrentGame().placeDiceFromDraft(findUsername(clientInterface), dice, row, col);
 		} catch(WindowPattern.WindowPatternOutOfBoundException e) {    //Invalid WP indexes
@@ -145,6 +145,8 @@ public class Controller {
 				case MOVE_WINDOW_PATTERN_DICE:
 					clientInterface.moveDiceInWindowPattern();
 					break;
+				case PLACE_DICE:
+					clientInterface.placeDice();
 			}
 		else clientInterface.endOfToolCardUse();
 	}

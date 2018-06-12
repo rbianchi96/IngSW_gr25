@@ -99,8 +99,18 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void selectDiceFromDraft() throws RemoteException {
+		client.selectDiceFromDraft();
+	}
+
+	@Override
 	public void selectIncrementOrDecrement() throws RemoteException {
 		client.selectIncrementOrDecrement();
+	}
+
+	@Override
+	public void placeDice() throws RemoteException {
+		client.placeDice();
 	}
 
 	@Override
@@ -109,7 +119,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
-	public void modeDiceInWindowPattern() throws RemoteException {
+	public void moveDiceInWindowPattern() throws RemoteException {
 		client.moveDiceInWindowPattern();
 	}
 

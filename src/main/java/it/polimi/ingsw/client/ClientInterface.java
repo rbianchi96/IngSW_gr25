@@ -35,6 +35,7 @@ public interface ClientInterface {
 
 	public void selectDiceFromDraft();
 	public void selectIncrementOrDecrement();
+	public void placeDice();
 	public void selectDiceFromWindowPattern();
 	public void moveDiceInWindowPattern();
 

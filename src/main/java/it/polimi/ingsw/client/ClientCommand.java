@@ -29,7 +29,7 @@ public enum ClientCommand {
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
-	PLACE_DICE("placeDice"),
+	PLACE_DICE("placeDiceFromDraft"),
 
 	END_OF_TOOL_CARD_USE("endOfTCUse"),
 

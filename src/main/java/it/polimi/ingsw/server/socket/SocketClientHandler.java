@@ -5,7 +5,6 @@ import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.dice.RoundTrack;
 import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
@@ -134,7 +133,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 				case PLACE_DICE_FROM_DRAFT:
 					Dice dice = new Dice(Integer.valueOf(request[1]), Color.findColor(request[2]));
 
-					controller.placeDice(
+					controller.placeDiceFromDraft(
 							this,
 							dice,
 							Integer.valueOf(request[3]),
@@ -173,6 +172,14 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					break;
 				case MOVE_DICE_IN_WINDOW_PATTERN:
 					controller.moveWindowPatternDiceEffect(
+							this,
+							Integer.parseInt(request[1]),
+							Integer.parseInt(request[2])
+					);
+
+					break;
+				case PLACE_DICE:
+					controller.placeDice(
 							this,
 							Integer.parseInt(request[1]),
 							Integer.parseInt(request[2])
@@ -267,7 +274,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override
 	public synchronized void updateToolCardsTokens(int[] tokens) {
-
+		//TODO
 	}
 
 	@Override
@@ -286,6 +293,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override
 	public synchronized void selectIncrementOrDecrement() {
 		out.println(encode(SELECT_INCREMENT_OR_DECREMENT));
+		out.flush();
+	}
+
+	@Override
+	public void placeDice() {
+		out.println(encode(PLACE_DICE));
 		out.flush();
 	}
 

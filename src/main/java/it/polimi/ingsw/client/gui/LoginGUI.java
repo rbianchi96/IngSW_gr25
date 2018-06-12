@@ -7,6 +7,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 
 public class LoginGUI extends GUIController {
 	@FXML
@@ -28,7 +29,7 @@ public class LoginGUI extends GUIController {
 						ip,
 						username
 				);
-			} catch(IOException e) {
+			} catch(IOException | NotBoundException e) {
 				Alert alert = new Alert(Alert.AlertType.ERROR, "Errore durante la connessione. Verifica la connessione e l'indirizzo IP inserito.");    //Create an alert
 				alert.showAndWait();
 			}
