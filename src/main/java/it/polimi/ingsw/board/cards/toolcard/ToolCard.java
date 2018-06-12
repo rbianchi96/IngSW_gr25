@@ -63,6 +63,7 @@ public class ToolCard extends Card implements Serializable {
 		this.game = game;
 	}
 
+	// return the position in the effects'list of the requested effect if it can be "played" in this step, -1 if not
 	public int validate(EffectsEnum effectsEnum) {
 		int i;
 		for(i = 0; i < effects.size(); i++) {
@@ -77,6 +78,7 @@ public class ToolCard extends Card implements Serializable {
 		return - 1;
 	}
 
+	// return the next never used effect
 	public Effect getNext() {
 		int i;
 		for(i = 0; i < effects.size(); i++) {
@@ -88,6 +90,7 @@ public class ToolCard extends Card implements Serializable {
 		return null;
 	}
 
+	// return the position in the list of effects, of the most recent use of requested Effect, -1 if was never used
 	public int alreadyAppliedEffect(EffectsEnum effectEnum) {
 		int mostRecentEffectEnum = - 1;
 		for(int i = 0; i < effects.size(); i++) {
@@ -98,6 +101,7 @@ public class ToolCard extends Card implements Serializable {
 		return mostRecentEffectEnum;
 	}
 
+	// return a clone of a clean toolcard( without all the data saved in the effects)
 	public ToolCard getCleanClone(){
 		ArrayList<Effect> noneEffects = new ArrayList<>();
 		noneEffects = null;

@@ -46,11 +46,10 @@ public class RoundTrack implements Serializable {
             }else
                 throw new NullPointerException("The dice cannot be null!");
         }else
-            throw new ArrayIndexOutOfBoundsException("The game only have 10 ROUNDS!");
+            throw new ArrayIndexOutOfBoundsException("The game only have 10 rounds!");
     }
-
+    // Same requestes as previous addDice(), but try to add the dice in the [round][index] position
     public boolean addDice(int round, int index, Dice dice){
-
         if (round>=0 && round<10) {
             if (dice != null) {
                 if (round > 0 && track[round-1].getDices().isEmpty())
@@ -67,7 +66,7 @@ public class RoundTrack implements Serializable {
             }else
                 throw new NullPointerException("The dice cannot be null!");
         }else
-            throw new ArrayIndexOutOfBoundsException("The game only have 10 Rounds!");
+            throw new ArrayIndexOutOfBoundsException("The game only have 10 rounds!");
     }
     // Returns the specified Dice(if it's not null, else it throws NullPointerException)
     // from the specified round by removing it from the Round Track.
@@ -89,9 +88,10 @@ public class RoundTrack implements Serializable {
             }else
                 throw new NullPointerException("The requested dice cannot be null!");
         }else
-            throw new ArrayIndexOutOfBoundsException("The game only have 10 ROUNDS!");
+            throw new ArrayIndexOutOfBoundsException("The game only have 10 rounds!");
     }
 
+    // Same requests as the previous getDice but try to get a precise dice from [round][index]
     public Dice getDice(int round, int index) {
         if (round>=0 && round<10) {
             if (index<0 || index >track[round].getDices().size()-1)
@@ -102,10 +102,10 @@ public class RoundTrack implements Serializable {
                 return dice;
             }
         }else
-            throw new ArrayIndexOutOfBoundsException("The game only have 10 ROUNDS!");
+            throw new ArrayIndexOutOfBoundsException("The game only have 10 rounds!");
     }
 
-
+    // It returns the size value of all dices in RoundTrack
     public int size(){
         int tot=0;
         for(int i = 0; i< ROUNDS; i++){
@@ -113,6 +113,7 @@ public class RoundTrack implements Serializable {
         }
         return tot;
     }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder("Round Track:\n");

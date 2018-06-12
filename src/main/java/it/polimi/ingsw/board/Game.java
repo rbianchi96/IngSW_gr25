@@ -130,7 +130,7 @@ public class Game extends Observable {
 		}
 		inGame = true;
 	}
-
+	// add the right amount of random dices in the draftPool
 	public void rollDicesFromDiceBag() {
 		for(int i = 0; i < 2 * players.size() + 1; i++) {
 			gameBoard.getDraft().addDice(gameBoard.getDiceBag().getRandomDice());
@@ -148,11 +148,13 @@ public class Game extends Observable {
 		notifyNewTurn();
 	}
 
+	//end of round method
 	private void endRound() {
-		int currRound = rounds.getCurrentRound() - 2;
+		int currRound = rounds.getCurrentRound() - 2; //fix the index to refer to the right round
 
 		ArrayList<Dice> draftDice = gameBoard.getDraft().getDices();
 
+ 		// add all left dices in draft, in the round track
 		for(Dice dice : draftDice)
 			gameBoard.getRoundTrack().addDice(
 					currRound,
@@ -163,29 +165,31 @@ public class Game extends Observable {
 		notifyObservers(NotifyType.ROUND_TRACK);
 	}
 
+	// initialize the new round
 	private void startRound() {
 		rollDicesFromDiceBag();
 		updateDraft();
 		updateAllWindowPatterns();
 	}
 
+	// to call in order to skip the current turn of the player who request it
 	public void skipTurn(String username) throws WrongTurnException {
 		Player player = findPlayer(username);
 		turnCheck(player);
 
-		if(currentToolCardInUse >= 0)
-			toolCardUsageFinished();
+		if(currentToolCardInUse >= 0)	// if the player's using some card
+			toolCardUsageFinished();	// end the usage
 
-		player.setHasPlacedDice(false);
+		player.setHasPlacedDice(false);	// reset the in-turn steps
 		player.setHasPlayedToolCard(false);
-		if(rounds.nextPlayer() == - 1) {
+		if(rounds.nextPlayer() == - 1) { //if the round is finished...
 			endRound();
 			startRound();
 		}
 		notifyNewTurn();
 	}
 
-
+	// set the windowPattern the user selected
 	public void selectWindowPattern(String username, int wpIndex) {
 		System.out.println(username);
 		Player player = findPlayer(username);
@@ -194,17 +198,18 @@ public class Game extends Observable {
 			player.setWindowPattern(player.getWindowPatternToChoose()[wpIndex]);
 			readyPlayers++;
 		}
-
+		// if all the players are ready...
 		if(readyPlayers == players.size()) {
-			startGameAfterPreparation();
+			startGameAfterPreparation(); // start the match
 		}
 	}
 
+	// place a dice from the draft pool to player's window pattern
 	public void placeDiceFromDraft(String username, Dice dice, int row, int col)
-			throws WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException {
+			throws WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException,InvalidCall {
 		Player player = findPlayer(username);
-		if(players.get(rounds.getCurrentPlayer()) == player && ! player.getHasPlacedDice()) {
-			Dice diceFromDraft = gameBoard.getDraft().getDice(dice);
+		if(players.get(rounds.getCurrentPlayer()) == player && ! player.getHasPlacedDice()) { // if the request is legit, and the player didn't place another dice in this turn...
+			Dice diceFromDraft = gameBoard.getDraft().getDice(dice); // get the dice from
 			if(diceFromDraft != null) {
 				try {
 					player.getWindowPattern().placeDice(diceFromDraft, row, col);   //Place the dice
@@ -218,21 +223,24 @@ public class Game extends Observable {
 
 					throw e;    //Throw the exception to the caller (tipically the Controller)
 				}
+			}else{
+				throw new InvalidCall();
 			}
-		} else
+		} else {
 			System.out.println(player.getPlayerName() + " is not your turn or you already played this move!");
-
+		}
+		// if the player already played all his possible moves in this turn
 		if(players.get(rounds.getCurrentPlayer()).getHasPlacedDice() && players.get(rounds.getCurrentPlayer()).getHasPlayedToolCard()) {
 			players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);
 			players.get(rounds.getCurrentPlayer()).setHasPlayedToolCard(false);
-			if(rounds.nextPlayer() == - 1) {
+			if(rounds.nextPlayer() == - 1) {    //...skip to the next turn
 				endRound();
 				startRound();
 			}
 			notifyNewTurn();
 		}
 	}
-
+	// Tool card usage request
 	public ClientCommand useToolCard(String username, int index) throws NotEnoughFavorTokens, WrongTurnException, AlreadyUsedToolCard {
 		Player player = findPlayer(username);
 		turnCheck(player);
