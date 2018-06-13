@@ -29,12 +29,15 @@ public enum ClientCommand {
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
-	PLACE_DICE("placeDiceFromDraft"),
+	PLACE_DICE("placeDice"),
 
 	END_OF_TOOL_CARD_USE("endOfTCUse"),
 
 	DICE_PLACEMENT_RESTRICTION_BROKEN("dicePlacementRestrictionBroken"),
-	CELL_ALREADY_OCUPIED("cellAlreadyOccupied"),
+	CELL_ALREADY_OCCUPIED("cellAlreadyOccupied"),
+
+	SEND_SCORES("sendScores"),
+	SEND_WINNER("sendWinner"),
 
 	INVALID_COMMAND("invalidCommand");
 

@@ -1,88 +1,78 @@
 Spaces is replaced with hash (`#`).
 
-## Connection command
+# Extended commands structure
+
+The words written in capital refers to Java enumeration, the actual string sent throw net could be different.
+
+## Connection and lobby commands
 
 ### From client to server
-- `login username` Client request to login with username.
-- `logout` Client request to logout (leave game).
+- `LOGIN username` Client request to login with username.
+- `LOGOUT` Client request to logout (leave game).
 
 ### From server to client
 
-- `login_response (success username sessionID)|(fail code)` Server response to client login request. If successful a session id is sent to the user, otherwise one of the following codes are sent:
-  - `0` There's already a logged user with the same username
-  - `1` The lobby is full
-- `waitingForPlayers num` Inform client that the server is waiting to start game.
-- `gameStarts` Inform client that the game in started.
-- `new_user username` Inform client that a new user has logged in the room.
-- `suspended_user username` Inform client that another user has been suspended.
-- `players_list username [username] [username] [username]` Send the complete players list.
-- `not_logged [Msg]` Inform client that he has to login before logout.
+- `LOGIN_RESPONSE (success username sessionID)|(fail code)` Server response to client login request. If successful a session id is sent to the user, otherwise one of the following codes are sent:
+  - `0` There's already a logged user with the same username.
+  - `1` The lobby is full.
+  - `NOT_LOGGED_YET`
+- `NOTIFY_NEW_USER username` Inform client that a new user has logged in the room.
+- `NOTIFY_SUSPENDED_USER username` Inform client that another user has been suspended.
+- `SEND_PLAYERS_LIST username [username] [username] [username]` Send the complete players list.
 
-# Game
-
-## Preparation
+## Game and players preparation commands
 
 ### From server to client
 
-- `sendPrivateObjectiveCard color name description` Send private objective card to user.
-- `sendWindowPatternsToChose WindowPattern WindowPattern WindowPattern WindowPattern` Send window patterns to player.
-  - `WindowPattern := name difficulty Cell[0][0] Cell[0][1] ... Cell[4][4] cell[4][5]`
-  - `Cell := restriction Dice`
-  - `Dice := value color`
-- `showPublicObjectiveCard PublicObjectiveCard PublicObjectiveCard PublicObjectiveCard` Send public objective cards to player.
-&nbsp;&nbsp;&nbsp;&nbsp;`PublicObjectiveCard := id name description points`
-- `showToolsCard ToolCard ToolCard ToolCard` Send public objective cards to player.
-&nbsp;&nbsp;&nbsp;&nbsp;`ToolCard := id name description`
-- `sendPlayersInfos PlayerInfo` Send players infos.
-&nbsp;&nbsp;&nbsp;&nbsp;`PlayerInfo := name color`
+- `START_GAME` Inform client that the game in started.
+- `SEND_PRIVATE_OBJECTIVE_CARD color name description` Send private objective card to user.
+- `SEND_WINDOW_PATTERNS_TO_CHOOSE WindowPattern WindowPattern WindowPattern` Send window patterns to player.
+- `SEND_TOOL_CARDS ToolCard ToolCard ToolCard` Send public objective cards to player.
+- `SEND_PUBLIC_OBJECTIVE_CARDS PublicObjectiveCard PublicObjectiveCard PublicObjectiveCard` Send public objective cards to player.
 
 ### From client to server
-- `selectWindowPattern index` Send the index of the window pattern selected (after `sendWindowPattern`).
+- `SELECT_WINDOW_PATTERN index` Send the index of the window pattern selected (index of thw window pattern sent with `SEND_WINDOW_PATTERNS_TO_CHOOSE`).
 
-## Players and round command
+## Game command
+
+### From client to server
+
+- `PLACE_DICE_FROM_DRAFT row col Dice` Place dice in player's window pattern at the specified row and col.
+- `USE_TOOL_CARD index` Send the intent to use the tool card at the specified index.
+- `END_TURN` End the player's turn.
 
 ### From server to client
 
-- `sendPlayers Player [Player] [Player]` Send other players' public informations.
-  - `Player := state WindowPattern favorTokens`
 - `roundOrder roundNumber index index [index] [index]` Send players order in current round.
-- `currPlayer index` Send current player.
-- `updateRoundTrack DiceList ... [DiceList]` Update the round track.
-  - `DiceList := (Dice ... [Dice])`
+- `NEW_TURN index` Notify new turn and send the current player index.
 
-## Dice command
-
-#### From client to server
-
-- `rollDicesFromBag` Extract dices from bag, roll them and places them in draft.
-- `placeDice row col Dice` Place dice in player's window pattern.
+- `UPDATE_DRAFT Dice ... [Dice]` Send the current dice in draft.
+- `UPDATE_WINDOW_PATTERNS WindowPattern [WindowPattern] [WindowPattern] [WindowPattern]` Send all the window patterns.
+- `UPDATE_TOOL_CARDS_TOKENS token1 token2 token3` Send the favor tockens currently placed over the tool cards.
+- `UPDATE_ROUND_TRACK DiceList ... [DiceList]` Update the round track.
 
 #### From server to client
 
-- `sendDraft Dice ... [Dice]` Send dices in draft.
-- `placeDice_response success|failed [errMsg]`
+- `DICE_PLACEMENT_RESTRICTION_BROKEN` Notify that the attempt to place a dice has failed.
+- `CELL_ALREADY_OCCUPIED` Notify that the attempt to place a dice has failed because the cell is already occupied.
 
-## Cards command
+## End of game command
 
-### From client to server
+- `SEND_SCORES score score [score] [score]` Send all players' score.
+- `SEND_WINNER index` Send the index of the winner.
 
-- `useToolCard id`
+# Object definition
 
-### From server to client
+- `WindowPattern := name difficulty Cell[0][0] Cell[0][1] ... Cell[4][4] cell[4][5]`
+- `Cell := restriction Dice`
+- `Dice := value color`
+- `ToolCard := id name description`
+- `PublicObjectiveCard := id name description points`
 
-- `useToolCard_response success|failde [errMsg]`
-- `setToolCardTokens id num` Set favor tokens of a tool card.
-
-## End game command
-
-- `sendScores score score [score] [score]` Send all players' score.
-- `sendWinner index`
-
-
-### Protocol Messages Structure Examples :
-- `login#Picasso` LOgin from a user called Picasso
-- `login_response#failed#The game lobby is already full!` Login failed because the game is starting or is already started
+# Protocol structure examples
+- `login#Picasso` Login from a user called Picasso
+- `login_response#failed#1` Login failed because the game is starting or is already started
 - `roundOrder#4#0#1#2#3#3#2#1#0` In the 4th round, the order of players that will play is Players[0] -> Player[1] -> Player[2] -> Player[3] -> Player[3] > Player[2] -> Player[1] -> Player[0]
 
-### Sequence diagram connection example
+## Connection sequence diagram example
 ![](connSeq.png)

@@ -342,7 +342,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override
 	public synchronized void cellAlreadyOccupied() {
-		out.println(encode(CELL_ALREADY_OCUPIED));
+		out.println(encode(CELL_ALREADY_OCCUPIED));
 		out.flush();
 	}
 

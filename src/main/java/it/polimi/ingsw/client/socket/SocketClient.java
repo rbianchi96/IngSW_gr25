@@ -201,7 +201,7 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.dicePlacementRestictionBroken();
 
 					break;
-				case CELL_ALREADY_OCUPIED:
+				case CELL_ALREADY_OCCUPIED:
 					client.cellAlreadyOccupied();
 
 					break;
