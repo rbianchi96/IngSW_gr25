@@ -127,6 +127,8 @@ public class Controller {
 			clientInterface.dicePlacementRestictionBroken();
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {
 			clientInterface.cellAlreadyOccupied();
+		} catch (Game.InvalidCall invalidCall) {
+			invalidCall.printStackTrace();
 		}
 	}
 
