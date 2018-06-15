@@ -110,7 +110,7 @@ public class Dice implements Serializable {
         return "{Dice: value " + s + ", Color " + getColor() + "}";
     }
 
-
+    //method to draw a Dice
     public void dump() {
         System.out.println(this.drawDice());
     }

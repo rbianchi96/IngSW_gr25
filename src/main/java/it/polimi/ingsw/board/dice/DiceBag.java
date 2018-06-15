@@ -107,6 +107,7 @@ public class DiceBag {
         return sb.toString();
     }
 
+    //method to draw a DiceBag
     public void dump() {
         System.out.println(this.drawDiceBag());
     }

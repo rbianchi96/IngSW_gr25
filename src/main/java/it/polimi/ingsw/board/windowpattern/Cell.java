@@ -134,6 +134,7 @@ public class Cell implements Serializable {
       return sb.toString();
     }
 
+    //method to draw a Cell
     public void dump() {
         System.out.println(this.drawCell());
     }
