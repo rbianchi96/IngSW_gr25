@@ -13,12 +13,12 @@ public class CellTest {
         Cell cell=new Cell(Color.YELLOW);
         Dice testedDice = new Dice(2,Color.YELLOW); // New dice to test
         // Testing the funcion put the dice without issues
-        assertEquals(true,cell.putDice(testedDice));
+        assertTrue(cell.putDice(testedDice));
         // Testing if the given Dice is actually in the cell
         assertEquals(testedDice,cell.getDice());
         testedDice = new Dice(5, Color.YELLOW);
         // Testing putting new Dice in an already occupied cell
-        assertEquals(false,cell.putDice(testedDice));
+        assertFalse(cell.putDice(testedDice));
     }
     @Test
     public void getDiceTest(){
@@ -26,7 +26,7 @@ public class CellTest {
         Cell cell=new Cell(Color.RED);
         Dice testedDice = new Dice(4,Color.RED);
         // Testing if it is returned a null value asking for a dice of an empty cell
-        assertEquals(null,cell.getDice());
+        assertNull(cell.getDice());
 
         cell.putDice(testedDice);
         // Testing it returns the correct, already put, dice
@@ -34,22 +34,24 @@ public class CellTest {
 
     }
     @Test
-    public void getRestrictionTest(){
+    public void getRestrictionTest() {
         System.out.println("CellTest: Testing getRestriction()...");
         // Very simples tests.
         Cell cell1 = new Cell();
         Cell cell2 = new Cell(4);
         Cell cell3 = new Cell(Color.BLUE);
-        assertEquals(null,cell1.getRestriction());
-        assertEquals(4,cell2.getRestriction());
-        assertEquals(Color.BLUE,cell3.getRestriction());
+        assertNull(cell1.getRestriction().getValue());
+        assertNull(cell1.getRestriction().getColor());
+
+        assertEquals(4, (int)cell2.getRestriction().getValue());
+        assertEquals(Color.BLUE, cell3.getRestriction().getColor());
     }
 
     @Test
     public void getCloneTest(){
         System.out.println("CellTest: Testing getClone()...");
         Cell cell = new Cell(4);
-        assertTrue(cell.equals(cell.getClone()));
+        assertEquals(cell, cell.getClone());
     }
 
     @Test
@@ -63,10 +65,11 @@ public class CellTest {
         Cell c2_2 = new Cell(Color.GREEN);
         Cell c3_2 = new Cell();
         Cell c4_2 = new Cell();
-        assertTrue(c1.equals(c1_2));
-        assertTrue(c2.equals(c2_2));
-        assertTrue(c3.equals(c3_2));
-        assertTrue(c4.equals(c4_2));
-        assertFalse(c1.equals(c2_2));
+
+        assertEquals(c1, c1_2);
+        assertEquals(c2, c2_2);
+        assertEquals(c3, c3_2);
+        assertEquals(c4, c4_2);
+        assertNotEquals(c1, c2_2);
     }
 }

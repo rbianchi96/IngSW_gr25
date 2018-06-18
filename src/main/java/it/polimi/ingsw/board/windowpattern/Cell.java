@@ -12,8 +12,9 @@ public class Cell implements Serializable {
     public Cell(Restriction restriction){
             this.restriction=restriction;
     }
+
     public Cell() {
-        new Restriction();
+        this.restriction = new Restriction();
     }
     public Cell(int restrictionValue){
         restriction = new Restriction(restrictionValue);
@@ -104,7 +105,6 @@ public class Cell implements Serializable {
         return this.toString().equals(otherCell.toString());
     }
     public PlacementRestriction compatibleDiceException(Dice dice, boolean ignoreValueRestriction, boolean ignoreColorRestriction){
-        int exception;
         if (restriction.hasAnyRestriction()) { // IF restriction has atleast 1 type of restriction(value of color)...
             if ((restriction.getValue()!=null  && (((Integer) dice.getValue() == restriction.getValue()) ||  ignoreValueRestriction))) {  //IF there is a Value Restriction and the dice value match the restriction value, or simply I got to ignore this restriction...
              return null ;// then the Dice is compatible with this cell

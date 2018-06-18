@@ -13,8 +13,8 @@ public class ToolCardsLoaderTest {
 	@Test
 	public void toolCardsLoaderTest() {
 		try {
-			ToolCardsLoader cardsLoader = new ToolCardsLoader("src/main/resources/toolCards.json");
-			ToolCard[] result = cardsLoader.getRandomCards(12);
+			ToolCardsLoader cardsLoader = new ToolCardsLoader("src/main/resources/toolCards_ready.json");	//TODO subst. with default
+			ToolCard[] result = cardsLoader.getRandomCards(4);
 
 			for(ToolCard toolCard : result) {
 				System.out.println(toolCard.getId() + " - " + toolCard.getName());

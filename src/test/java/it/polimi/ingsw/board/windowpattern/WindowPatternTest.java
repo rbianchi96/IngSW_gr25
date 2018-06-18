@@ -16,30 +16,30 @@ public class WindowPatternTest {
 
 		Color[] colors = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.RED, Color.YELLOW};
 
-		Dice[] dices = new Dice[20];    //Create 20 dices
+		Dice[] dices = new Dice[WindowPattern.WINDOW_PATTERN_ROWS_NUMBER * WindowPattern.WINDOW_PATTERN_COLS_NUMBER];    //Create 20 dices
 
 		WindowPattern windowPattern;
 
 		ArrayList<PlacementRestriction> ignoredPlacementRestrictions = new ArrayList<>();
 		ignoredPlacementRestrictions.add(PlacementRestriction.FIRST_DICE_RESTRICTION);
+		ignoredPlacementRestrictions.add(PlacementRestriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
 		ignoredPlacementRestrictions.add(PlacementRestriction.NEAR_DICE_VALUE_RESTRICTION);
 		ignoredPlacementRestrictions.add(PlacementRestriction.NEAR_DICE_COLOR_RESTRICTION);
-		ignoredPlacementRestrictions.add(PlacementRestriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
 
 		for(int i = 0; i < 20; i++) {    //For all dice
 			dices[i] = new Dice(random.nextInt(7), colors[random.nextInt(5)]);    //Create a random dice
 		}
 
-		Cell[][] cells = new Cell[4][5];    //Matrix of cells
+		Cell[][] cells = new Cell[WindowPattern.WINDOW_PATTERN_ROWS_NUMBER][WindowPattern.WINDOW_PATTERN_COLS_NUMBER];    //Matrix of cells
 
 		//Initialize cells
-		for(int row = 0; row < 4; row++) {    //For all rows
-			for(int col = 0; col < 5; col++) {    //For all cols
+		for(int row = 0; row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER; row++) {    //For all rows
+			for(int col = 0; col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER; col++) {    //For all cols
 				if(random.nextBoolean()) {    //Randomly
-					if (random.nextBoolean())
-						cells[row][col] = new Cell(random.nextInt(7));
+					if(random.nextBoolean())
+						cells[row][col] = new Cell(random.nextInt(7));    //Value restr.
 					else
-						cells[row][col] = new Cell(colors[random.nextInt(5)]);
+						cells[row][col] = new Cell(colors[random.nextInt(5)]);    //Color restr.
 
 				} else
 					cells[row][col] = new Cell();    //Cell without restriction
@@ -53,18 +53,19 @@ public class WindowPatternTest {
 			for(int row = 0; row < 4; row++) {    //For all rows
 				for(int col = 0; col < 5; col++) {    //For all cols
 					Cell currCell = cells[row][col];
-					Dice currDice = dices[row * 5 + col];
+					Dice currDice = dices[row * WindowPattern.WINDOW_PATTERN_COLS_NUMBER + col];
+					Restriction currRestriction = currCell.getRestriction();
 
-					boolean expectedReturnValue =    //Expected return value of dice placement
-							currCell.getRestriction() == null
-									|| currCell.getRestriction().getRestrictionValue() == (Integer)currDice.getValue()
-									|| (currCell.getRestriction().getRestrictionValue() == currDice.getColor());
+					boolean expectsException =
+							(currRestriction.getValue() != null && currRestriction.getValue() != currDice.getValue())
+									|| (currRestriction.getColor() != null && currRestriction.getColor() != currDice.getColor());
 
-					if(expectedReturnValue)    //Expected success
-						windowPattern.placeDice(currDice, row, col, ignoredPlacementRestrictions);    //Verify correct dice placement
+					if(! expectsException)    //Expected success
+						windowPattern.placeDice(currDice, row, col, ignoredPlacementRestrictions);    //Correct dice placement
 					else {    //Expect an exception
 						int finalRow = row;
 						int finalCol = col;
+
 						assertThrows(WindowPattern.PlacementRestrictionException.class, () -> windowPattern.placeDice(currDice, finalRow, finalCol, ignoredPlacementRestrictions));
 					}
 				}
@@ -75,16 +76,16 @@ public class WindowPatternTest {
 				for(int col = 0; col < 5; col++) {    //For all cols
 					Cell currCell = cells[row][col];
 					Dice currDice = dices[row * 5 + col];
+					Restriction currRestriction = currCell.getRestriction();
 
-					boolean expectedCellOccupation =    //Expected cell occupation
-							currCell.getRestriction() == null
-									|| currCell.getRestriction().getRestrictionValue() == (Integer)currDice.getValue()
-									|| currCell.getRestriction().getRestrictionValue() == currDice.getColor();
+					boolean expectsEmpty =
+							(currRestriction.getValue() != null && currRestriction.getValue() != currDice.getValue())
+									|| (currRestriction.getColor() != null && currRestriction.getColor() != currDice.getColor());
 
-					if(expectedCellOccupation) {    //Expected cell with dice
-						assertEquals(windowPattern.getDice(row, col), currDice);    //Verify same dice
-					} else
+					if(expectsEmpty)    //Expected cell with dice
 						assertNull(windowPattern.getDice(row, col));    //Expected empty cell
+					else
+						assertEquals(windowPattern.getDice(row, col), currDice);    //Verify same dice
 				}
 			}
 
@@ -103,7 +104,7 @@ public class WindowPatternTest {
 			}
 
 		} catch(Exception e) {
-			fail("Unexpected exception: " + e.toString());
+			fail(e);
 		}
 	}
 
