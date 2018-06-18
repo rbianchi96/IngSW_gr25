@@ -268,7 +268,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand selectDiceFromWindowPatternEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.CellNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice {
+	public ClientCommand selectDiceFromWindowPatternEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse == - 1)
@@ -333,7 +333,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, MoveWindowPatternDiceEffect.CellNotFoundException, MoveWindowPatternDiceEffect.CellAlreadyOccupiedException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
+	public ClientCommand moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
 		Player player = findPlayer(username);
 		turnCheck(player);
 		if(currentToolCardInUse == - 1)

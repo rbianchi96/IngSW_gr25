@@ -197,7 +197,7 @@ public class Controller {
 			System.out.println("Invalid call!");
 		} catch(SelectDiceFromWindowPatternEffect.DiceNotFoundException ex) {
 			System.out.println("Dice not found!");
-		} catch(SelectDiceFromWindowPatternEffect.CellNotFoundException e) {
+		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 			System.out.println("Cell not found!");
 		} catch(SelectDiceFromWindowPatternEffect.AlreadyMovedDice alreadyMovedDice) {
 			alreadyMovedDice.printStackTrace();
@@ -247,10 +247,6 @@ public class Controller {
 
 		} catch(MoveWindowPatternDiceEffect.DiceNotFoundException ex) {
 			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA WINDOWPATTERN
-		} catch(MoveWindowPatternDiceEffect.CellNotFoundException e) {
-
-		} catch(MoveWindowPatternDiceEffect.CellAlreadyOccupiedException e) {
-			e.printStackTrace();
 		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 			e.printStackTrace();
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {

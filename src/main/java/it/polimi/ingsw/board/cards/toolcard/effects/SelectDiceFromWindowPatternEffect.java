@@ -11,7 +11,7 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
     public SelectDiceFromWindowPatternEffect(){
         this.myEnum = EffectsEnum.SELECT_DICE_FROM_WINDOW_PATTERN;
     }
-    public void apply(WindowPattern windowPattern, int x, int y,int forbidX, int forbidY)throws DiceNotFoundException,CellNotFoundException,AlreadyMovedDice {
+    public void apply(WindowPattern windowPattern, int x, int y,int forbidX, int forbidY) throws DiceNotFoundException, AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
         if(forbidX >= 0 && forbidY >= 0)
             if(x == forbidX && y == forbidY) throw new AlreadyMovedDice(); // check if the client is trying to move an already moved dice(in the same card effect)
         try {
@@ -26,7 +26,7 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
         } catch(WindowPattern.WindowPatternOutOfBoundException ex) {
             System.out.println("The selected cell isn't present in the Window Pattern.");
             used = false;
-            throw new CellNotFoundException();
+            throw ex;
         }
 
     }
@@ -42,11 +42,7 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
             super();
         }
     }
-    public class CellNotFoundException extends Exception{
-        public CellNotFoundException(){
-            super();
-        }
-    }
+
     public class AlreadyMovedDice extends Exception{
         public AlreadyMovedDice(){
             super();
