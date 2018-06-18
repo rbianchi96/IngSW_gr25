@@ -34,6 +34,7 @@ public enum ClientCommand {
 	END_OF_TOOL_CARD_USE("endOfTCUse"),
 
 	WRONG_TURN("wrongTurn"),
+	NOT_ENOUGH_FAVOR_TOKENS("notEnoughFT"),
 	DICE_PLACEMENT_RESTRICTION_BROKEN("dicePlacementRestrictionBroken"),
 	CELL_ALREADY_OCCUPIED("cellAlreadyOccupied"),
 

@@ -199,16 +199,19 @@
                           <Cursor fx:constant="HAND" />
                       </cursor>
                   </ImageView>
+            <Label fx:id="favorTokens0" text="Label" />
                   <ImageView fx:id="toolCard1" fitHeight="180.0" fitWidth="129.0" onMouseClicked="#toolCardSelected" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                       <cursor>
                           <Cursor fx:constant="HAND" />
                       </cursor>
                   </ImageView>
+            <Label fx:id="favorTokens1" text="Label" GridPane.columnIndex="1" />
                   <ImageView fx:id="toolCard2" fitHeight="180.0" fitWidth="129.0" onMouseClicked="#toolCardSelected" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                       <cursor>
                           <Cursor fx:constant="HAND" />
                       </cursor>
                   </ImageView>
+            <Label fx:id="favorTokens2" text="Label" GridPane.columnIndex="2" />
               </children>
           </GridPane>
           <GridPane fx:id="roundTrack" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="575.0" AnchorPane.bottomAnchor="250.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="250.0">

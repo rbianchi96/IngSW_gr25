@@ -274,11 +274,16 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override
 	public synchronized void updateToolCardsTokens(int[] tokens) {
-		//TODO
+		out.print(encode(UPDATE_TOOL_CARDS_TOKENS));
+		for(int t : tokens)
+			out.print("#" + String.valueOf(t));
+
+		out.println();
+		out.flush();
 	}
 
 	@Override
-	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) {
+	public synchronized void updateRoundTrack(RoundTrackDices[] roundTrackDices) {
 		out.print(encode(UPDATE_ROUND_TRACK));
 		out.println(encodeRoundTrack(roundTrackDices));
 		out.flush();
@@ -327,6 +332,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override
 	public void wrongTurn() {
 		out.println(encode(WRONG_TURN));
+		out.flush();
+	}
+
+	@Override
+	public void notEnoughFavorTokens() {
+		out.println(encode(NOT_ENOUGH_FAVOR_TOKENS));
 		out.flush();
 	}
 

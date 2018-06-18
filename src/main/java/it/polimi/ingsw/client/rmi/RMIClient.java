@@ -134,6 +134,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void notEnoughFavorTokens() throws RemoteException {
+		client.notEnoughFavorTokens();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) throws RemoteException {
 		client.updateDraft(dices);
 	}

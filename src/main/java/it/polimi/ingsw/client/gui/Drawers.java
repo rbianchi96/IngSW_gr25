@@ -1,18 +1,17 @@
 package it.polimi.ingsw.client.gui;
 
+import com.sun.scenario.effect.impl.prism.PrImage;
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -23,7 +22,14 @@ class Drawers {
 	private static final double DICE_SIZE_K = .8;
 	private static final double DOT_RADIUS_K = .10;
 
+	private static final double MIN_VALUE_BRIGHTNESS = .25;
+	private static final double MAX_VALUE_BRIGHTNESS = .75;
+
 	public static AnchorPane createDice(Dice dice, double size) {
+		return createDice(dice.getValue(), javafx.scene.paint.Color.valueOf(dice.getColor().getHexColor()).desaturate(), size);
+	}
+
+	private static AnchorPane createDice(int value, Paint color, double size) {
 		AnchorPane pane = new AnchorPane();
 
 		pane.prefWidth(size);
@@ -37,11 +43,9 @@ class Drawers {
 		rectangle.setArcWidth(size * .375);
 		rectangle.setArcHeight(size * .375);
 
-		rectangle.setFill(javafx.scene.paint.Color.valueOf(dice.getColor().getHexColor()).desaturate());
+		rectangle.setFill(color);
 
-		ArrayList<Circle> dots = new ArrayList<>(dice.getValue());
-
-		int value = dice.getValue();
+		ArrayList<Circle> dots = new ArrayList<>(value);
 
 		Circle aDot;
 
@@ -118,19 +122,30 @@ class Drawers {
 		try {
 			gridPane.getChildren().clear();
 
+			int cellSize = (int)gridPane.getColumnConstraints().get(0).getPrefWidth();
+
 			for(int row = 0; row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER; row++)
 				for(int col = 0; col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER; col++) {
 
 					Restriction restriction = windowPattern.getRestriction(row, col);
 
 					AnchorPane cell = new AnchorPane();
-					cell.setPrefWidth(50);
-					cell.setPrefHeight(50);
+					cell.setPrefWidth(cellSize);
+					cell.setPrefHeight(cellSize);
 
 					if(restriction.getValue() != null) {    //Value restriction
-						Label label = new Label(String.valueOf(restriction.getValue()));
-						cell.getChildren().add(label);
-						cell.setStyle("-fx-background-color: #fff;");
+						cell.setBackground(new Background(new BackgroundFill(
+								javafx.scene.paint.Color.hsb(
+										0,
+										0,
+										(((double)restriction.getValue() - 1) / 5) * (MAX_VALUE_BRIGHTNESS - MIN_VALUE_BRIGHTNESS) + MIN_VALUE_BRIGHTNESS
+								),
+								CornerRadii.EMPTY,
+								Insets.EMPTY
+						)));
+
+						cell.getChildren().add(createDice(restriction.getValue(), javafx.scene.paint.Color.TRANSPARENT, cellSize));    //Draw a transparent dice
+
 					} else if(restriction.getColor() != null) {    //Color restriction
 						cell.setStyle("-fx-background-color:" + (restriction.getColor()).getHexColor() + ";");
 					} else
@@ -141,7 +156,7 @@ class Drawers {
 					if(showDices) {
 						Dice dice = windowPattern.getDice(row, col);
 						if(dice != null) {
-							AnchorPane pane = createDice(dice, gridPane.getColumnConstraints().get(0).getPrefWidth() * DICE_SIZE_K);
+							AnchorPane pane = createDice(dice, cellSize * DICE_SIZE_K);
 
 							GridPane.setHalignment(pane, HPos.CENTER);
 							GridPane.setValignment(pane, VPos.CENTER);

@@ -164,7 +164,7 @@ public class Controller {
 		} catch(Game.WrongTurnException ex) {
 			clientInterface.wrongTurn();
 		} catch(Game.NotEnoughFavorTokens ex) {
-			System.out.println("Not enogh FT!");
+			clientInterface.notEnoughFavorTokens();
 		} catch(Game.AlreadyUsedToolCard ex) {
 			System.out.println("Already used a TC!");
 			//TODO

@@ -42,6 +42,7 @@ public interface ClientInterface {
 	public void endOfToolCardUse();
 
 	public void wrongTurn();	//Notify the user isn't his turn
+	public void notEnoughFavorTokens();
 	public void dicePlacementRestictionBroken();
 	public void cellAlreadyOccupied();
 

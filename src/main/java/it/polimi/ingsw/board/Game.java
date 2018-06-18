@@ -24,6 +24,9 @@ public class Game extends Observable {
 	public static final int PUBLIC_OBJECTIVE_CARDS_NUMBER = 3;
 	public static final int ROUNDS_NUMBER = 10;
 
+	private static final int UNUSED_TOOL_CARD_COST = 1;
+	private static final int USED_TOOL_CARD_COST = 2;
+
 	private ArrayList<Player> players;
 
 	private GameBoard gameBoard;
@@ -196,6 +199,7 @@ public class Game extends Observable {
 
 		if(player.getWindowPattern() == null) {
 			player.setWindowPattern(player.getWindowPatternToChoose()[wpIndex]);
+			player.setFavourTokens(player.getWindowPatternToChoose()[wpIndex].getDifficulty());
 			readyPlayers++;
 		}
 		// if all the players are ready...
@@ -252,7 +256,17 @@ public class Game extends Observable {
 		if(player.getHasPlayedToolCard()) {
 			throw new AlreadyUsedToolCard();
 		}
-		//Controllo favourTokens mancante
+
+		int toolCardCost = toolCards[index].getFavorTokensNumber() <= 0 ? UNUSED_TOOL_CARD_COST : USED_TOOL_CARD_COST;
+
+		if(player.getFavourTokens() < toolCardCost)
+			throw new NotEnoughFavorTokens();
+
+		toolCards[index].setFavorTokensNumber(toolCards[index].getFavorTokensNumber() + toolCardCost);
+		player.setFavourTokens(player.getFavourTokens() - toolCardCost);
+
+		setChanged();
+		notifyObservers(NotifyType.TOOL_CARDS_TOKENS);
 
 		currentToolCardInUse = index;
 		findPlayer(username).setHasPlayedToolCard(true);
@@ -483,6 +497,16 @@ public class Game extends Observable {
 			allWindowPatterns[i] = players.get(i).getWindowPattern();    //Add his WP to the vector of all the WP
 
 		return allWindowPatterns;
+	}
+
+	public int[] getToolCardsTokens() {
+		int tokens[] = new int[TOOL_CARDS_NUMBER];
+
+		for(int i = 0; i < tokens.length; i ++) {
+			tokens[i] = toolCards[i].getFavorTokensNumber();
+		}
+
+		return tokens;
 	}
 
 	private void checkTurn(Player player) throws WrongTurnException {

@@ -130,7 +130,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void updateToolCardsTokens(int[] tokens) {
-
+		gameGUI.updateToolCardsTokens(tokens);
 	}
 
 	@Override
@@ -171,6 +171,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	@Override
 	public void wrongTurn() {
 		gameGUI.wrongTurn();
+	}
+
+	@Override
+	public void notEnoughFavorTokens() {
+		gameGUI.notEnoughFavorTokens();
 	}
 
 	@Override

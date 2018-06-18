@@ -59,6 +59,9 @@ public class GameGUI extends GUIController {
 			toolCard0, toolCard1, toolCard2,
 			publicObjectiveCard0, publicObjectiveCard1, publicObjectiveCard2;
 
+	@FXML
+	Label favorTokens0, favorTokens1, favorTokens2;
+
 	private ImageView toolCards[], publicObjectiveCards[];
 
 	private GridPane patterns[];
@@ -372,6 +375,14 @@ public class GameGUI extends GUIController {
 		});
 	}
 
+	public void updateToolCardsTokens(int[] tokens) {
+		Platform.runLater(() -> {
+			favorTokens0.setText(String.valueOf(tokens[0]));
+			favorTokens1.setText(String.valueOf(tokens[1]));
+			favorTokens2.setText(String.valueOf(tokens[2]));
+		});
+	}
+
 	private void showInfoAlert(String text) {
 		Platform.runLater(() -> {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION, text);
@@ -381,6 +392,10 @@ public class GameGUI extends GUIController {
 
 	public void wrongTurn() {
 		showInfoAlert("Non è il tuo turno!");
+	}
+
+	public void notEnoughFavorTokens() {
+		showInfoAlert("Non hai abbastanza segnalini favore!");
 	}
 
 	public void endOfToolCardUse() {

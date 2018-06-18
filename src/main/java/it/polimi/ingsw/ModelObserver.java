@@ -52,6 +52,7 @@ public class ModelObserver implements java.util.Observer {
 				clientInterface.updateWindowPatterns(model.getAllWindowPatterns());
 				break;
 			case TOOL_CARDS_TOKENS:
+				clientInterface.updateToolCardsTokens(model.getToolCardsTokens());
 				break;
 
 			case ROUND_TRACK:
