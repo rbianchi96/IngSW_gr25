@@ -379,6 +379,10 @@ public class GameGUI extends GUIController {
 		});
 	}
 
+	public void wrongTurn() {
+		showInfoAlert("Non è il tuo turno!");
+	}
+
 	public void endOfToolCardUse() {
 		state = State.WAIT_USER_INPUT;
 	}

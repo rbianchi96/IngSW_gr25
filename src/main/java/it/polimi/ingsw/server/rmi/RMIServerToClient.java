@@ -265,6 +265,16 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void wrongTurn() {
+		try {
+			rmiClientInterface.wrongTurn();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void dicePlacementRestictionBroken() {
 		try {
 			rmiClientInterface.dicePlacementRestictionBroken();

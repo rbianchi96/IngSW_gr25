@@ -325,6 +325,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void wrongTurn() {
+		out.println(encode(WRONG_TURN));
+		out.flush();
+	}
+
+	@Override
 	public synchronized void updateDraft(Dice[] dices) {
 		out.print(encode(UPDATE_DRAFT));
 		for(Dice dice : dices) {

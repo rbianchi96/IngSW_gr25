@@ -175,7 +175,7 @@ public class Game extends Observable {
 	// to call in order to skip the current turn of the player who request it
 	public void skipTurn(String username) throws WrongTurnException {
 		Player player = findPlayer(username);
-		turnCheck(player);
+		checkTurn(player);
 
 		if(currentToolCardInUse >= 0)	// if the player's using some card
 			toolCardUsageFinished();	// end the usage
@@ -206,8 +206,11 @@ public class Game extends Observable {
 
 	// place a dice from the draft pool to player's window pattern
 	public void placeDiceFromDraft(String username, Dice dice, int row, int col)
-			throws WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException,InvalidCall {
+			throws WrongTurnException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException, InvalidCall {
 		Player player = findPlayer(username);
+
+		checkTurn(player);
+
 		if(players.get(rounds.getCurrentPlayer()) == player && ! player.getHasPlacedDice()) { // if the request is legit, and the player didn't place another dice in this turn...
 			Dice diceFromDraft = gameBoard.getDraft().getDice(dice); // get the dice from
 			if(diceFromDraft != null) {
@@ -243,7 +246,9 @@ public class Game extends Observable {
 	// Tool card usage request
 	public ClientCommand useToolCard(String username, int index) throws NotEnoughFavorTokens, WrongTurnException, AlreadyUsedToolCard {
 		Player player = findPlayer(username);
-		turnCheck(player);
+
+		checkTurn(player);
+
 		if(player.getHasPlayedToolCard()) {
 			throw new AlreadyUsedToolCard();
 		}
@@ -256,7 +261,9 @@ public class Game extends Observable {
 
 	public ClientCommand selectDiceFromDraftEffect(String username, Dice dice) throws WrongTurnException, InvalidCall, SelectDiceFromDraftEffect.DiceNotFoundException {
 		Player player = findPlayer(username);
-		turnCheck(player);
+
+		checkTurn(player);
+
 		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_DRAFT);
@@ -270,7 +277,9 @@ public class Game extends Observable {
 
 	public ClientCommand selectDiceFromWindowPatternEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
 		Player player = findPlayer(username);
-		turnCheck(player);
+
+		checkTurn(player);
+
 		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_WINDOW_PATTERN);
@@ -288,7 +297,7 @@ public class Game extends Observable {
 
 	public ClientCommand incrementDecrementDiceEffect(String username, boolean incDec) throws WrongTurnException, InvalidCall {
 		Player player = findPlayer(username);
-		turnCheck(player);
+		checkTurn(player);
 		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.INCREMENT_DECREMENT_DICE);
@@ -304,7 +313,7 @@ public class Game extends Observable {
 
 	public ClientCommand placeDiceAfterIncDecEffect(String username, int row, int col) throws WrongTurnException, InvalidCall, WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {
 		Player player = findPlayer(username);
-		turnCheck(player);
+		checkTurn(player);
 		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.PLACE_DICE);
@@ -335,7 +344,7 @@ public class Game extends Observable {
 
 	public ClientCommand moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
 		Player player = findPlayer(username);
-		turnCheck(player);
+		checkTurn(player);
 		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.MOVE_WINDOW_PATTERN_DICE);
@@ -354,7 +363,7 @@ public class Game extends Observable {
 
 	public ClientCommand selectDiceFromRoundTrackAndSwitch(String username, int round, int index) throws WrongTurnException, InvalidCall, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException {
 		Player player = findPlayer(username);
-		turnCheck(player);
+		checkTurn(player);
 		if(currentToolCardInUse == - 1)
 			throw new InvalidCall();
 		int validate = toolCards[currentToolCardInUse].validate(EffectsEnum.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH);
@@ -476,7 +485,7 @@ public class Game extends Observable {
 		return allWindowPatterns;
 	}
 
-	private void turnCheck(Player player) throws WrongTurnException {
+	private void checkTurn(Player player) throws WrongTurnException {
 		if(players.get(rounds.getCurrentPlayer()) != player)
 			throw new WrongTurnException();
 	}

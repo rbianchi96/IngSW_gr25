@@ -169,6 +169,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void wrongTurn() {
+		gameGUI.wrongTurn();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) {
 		gameGUI.updateDraft(dices);
 	}
