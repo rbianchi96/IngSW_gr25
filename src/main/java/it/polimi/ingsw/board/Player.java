@@ -1,6 +1,6 @@
 package it.polimi.ingsw.board;
 
-import it.polimi.ingsw.client.ClientInterface;
+
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 

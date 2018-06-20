@@ -1,7 +1,7 @@
 package it.polimi.ingsw.board.windowpattern;
 
 import it.polimi.ingsw.board.Color;
-import it.polimi.ingsw.board.dice.Dice;
+
 
 import java.io.Serializable;
 
