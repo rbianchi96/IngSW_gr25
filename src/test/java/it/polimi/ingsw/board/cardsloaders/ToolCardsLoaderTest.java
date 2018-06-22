@@ -21,7 +21,7 @@ public class ToolCardsLoaderTest {
 				for(Effect effect : toolCard.getEffects())
 					System.out.println("    " + effect.getMyEnum().toString());
 			}
-		} catch(FileNotFoundException e) {
+		} catch(FileNotFoundException | CardsLoader.NotEnoughCards e) {
 			fail(e);
 		}
 	}

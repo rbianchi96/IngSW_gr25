@@ -32,10 +32,13 @@ public class Game extends Observable {
 	private GameBoard gameBoard;
 
 	private DiceBag diceBag;
-	private PublicObjectiveCard[] publicObjectiveCards;
-	private ToolCard[] toolCards;
 	private RoundTrack roundTrack;
 	private Round rounds;
+
+	private WindowPatternCard[] windowPatternsCards;
+	private PublicObjectiveCard[] publicObjectiveCards;
+	private PrivateObjectiveCard[] privateObjectiveCards;
+	private ToolCard[] toolCards;
 
 	private boolean inGame; // boolean to check if there is a game going on
 
@@ -58,9 +61,6 @@ public class Game extends Observable {
 
 	// Loading of various game elements (the same of the "players preparation" of Sagrada rules).
 	private void playersPreparation() throws FileNotFoundException {
-		// Loading and assignment of private objective cards to users
-		PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader("src/main/resources/privateObjectiveCards.json");
-		PrivateObjectiveCard[] privateObjectiveCards = privateObjectiveCardsLoader.getRandomCards(players.size());
 		for(int i = 0; i < players.size(); i++) {
 			players.get(i).setPrivateObjectiveCard(privateObjectiveCards[i]);
 		}
@@ -69,19 +69,12 @@ public class Game extends Observable {
 		setChanged();
 		notifyObservers(NotifyType.PRIVATE_OBJECTIVE_CARD);
 
-
-		//Loading and sending of WindowPatternCards to be choosen
-		WindowPatternCardsLoader windowPatternCardsLoader = new WindowPatternCardsLoader("src/main/resources/windowPatterns.json");
-		WindowPatternCard[] windowPatternsCardsOfGame;
-
-		windowPatternsCardsOfGame = windowPatternCardsLoader.getRandomCards(players.size() * 2);    //Load two WP cards for every player
-
 		for(int i = 0; i < players.size(); i++) {   //For each player
 			WindowPattern[] windowPatternsToChoose = new WindowPattern[4];
-			windowPatternsToChoose[0] = windowPatternsCardsOfGame[2 * i].getPattern1();
-			windowPatternsToChoose[1] = windowPatternsCardsOfGame[2 * i].getPattern2();
-			windowPatternsToChoose[2] = windowPatternsCardsOfGame[2 * i + 1].getPattern1();
-			windowPatternsToChoose[3] = windowPatternsCardsOfGame[2 * i + 1].getPattern2();
+			windowPatternsToChoose[0] = windowPatternsCards[2 * i].getPattern1();
+			windowPatternsToChoose[1] = windowPatternsCards[2 * i].getPattern2();
+			windowPatternsToChoose[2] = windowPatternsCards[2 * i + 1].getPattern1();
+			windowPatternsToChoose[3] = windowPatternsCards[2 * i + 1].getPattern2();
 
 			players.get(i).setWindowPatternToChoose(windowPatternsToChoose);
 		}
@@ -92,17 +85,10 @@ public class Game extends Observable {
 
 	// Loading of various game elements (the same of the "game preparation" of Sagrada rules.
 	private void gamePreparation() throws FileNotFoundException {
-		// Loading of public objectives
-		PublicObjectiveCardsLoader publicObjectiveCardsLoader = new PublicObjectiveCardsLoader("src/main/resources/publicObjectiveCards.json");
-		publicObjectiveCards = publicObjectiveCardsLoader.getRandomCards(PUBLIC_OBJECTIVE_CARDS_NUMBER);
-
 		//Notify to all
 		setChanged();
 		notifyObservers(NotifyType.PUBLIC_OBJECTIVE_CARDS);
 
-		// Loading of tools cards
-		ToolCardsLoader toolCardsLoader = new ToolCardsLoader("src/main/resources/toolCards_ready.json");
-		toolCards = toolCardsLoader.getRandomCards(TOOL_CARDS_NUMBER);
 		for(ToolCard toolCard : toolCards) {
 			toolCard.setGame(this);
 			toolCard.populateEffects();
@@ -451,6 +437,13 @@ public class Game extends Observable {
 				return player;
 
 		return null;
+	}
+
+	public void insertCardsInGame(WindowPatternCard[] windowPatternCards, PublicObjectiveCard[] publicObjectiveCards, PrivateObjectiveCard[] privateObjectiveCards, ToolCard[] toolCards) {
+		this.windowPatternsCards = windowPatternCards;
+		this.publicObjectiveCards = publicObjectiveCards;
+		this.privateObjectiveCards = privateObjectiveCards;
+		this.toolCards = toolCards;
 	}
 
 	//GETTER for observer

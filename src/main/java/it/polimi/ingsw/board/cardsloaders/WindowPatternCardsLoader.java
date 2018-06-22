@@ -15,13 +15,17 @@ public class WindowPatternCardsLoader extends CardsLoader {
 		super(fileName);
 	}
 
-	public WindowPatternCard[] getRandomCards(int cardNumber) {    //Get random card and remove them
-		WindowPatternCard[] windowPatternCards = new WindowPatternCard[cardNumber];
+	@Override
+	public WindowPatternCard[] getRandomCards(int cardsNumber) throws NotEnoughCards {    //Get random card and remove them
+		if(cardsNumber > cardsArray.size())
+			throw new NotEnoughCards();
+
+		WindowPatternCard[] windowPatternCards = new WindowPatternCard[cardsNumber];
 
 		Random random = new Random();
 
 		try {
-			for(int c = 0; c < cardNumber; c++) {    //For every requested card
+			for(int c = 0; c < cardsNumber; c++) {    //For every requested card
 				int currIndex = random.nextInt(cardsArray.size());    //Select a random index
 				windowPatternCards[c] =
 						new WindowPatternCard(
@@ -47,16 +51,14 @@ public class WindowPatternCardsLoader extends CardsLoader {
 			for(int col = 0; col < 5; col++) {    //For each cols in a row
 				JsonValue rawRestriction = currRow.get(col);
 
-				if (rawRestriction.getValueType() == JsonValue.ValueType.NUMBER)    //Value restriction
-					cells[row][col] = new Cell(new Restriction(((JsonNumber) rawRestriction).intValue()));
-				else if (rawRestriction.getValueType() == JsonValue.ValueType.STRING)  {  //Color restriction
-					cells[row][col] = new Cell(new Restriction(Color.findColor(((JsonString) rawRestriction).getString())));
-				}
-				else
-					cells[row][col]  = new Cell(new Restriction());
+				if(rawRestriction.getValueType() == JsonValue.ValueType.NUMBER)    //Value restriction
+					cells[row][col] = new Cell(new Restriction(((JsonNumber)rawRestriction).intValue()));
+				else if(rawRestriction.getValueType() == JsonValue.ValueType.STRING) {  //Color restriction
+					cells[row][col] = new Cell(new Restriction(Color.findColor(((JsonString)rawRestriction).getString())));
+				} else
+					cells[row][col] = new Cell(new Restriction());
 			}
 		}
-
 
 
 		return new WindowPattern(windowPattern.getString("name"), windowPattern.getInt("difficulty"), cells);

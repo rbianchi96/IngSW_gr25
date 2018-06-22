@@ -8,11 +8,15 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class PublicObjectiveCardsLoader extends CardsLoader {
-		public PublicObjectiveCardsLoader(String fileName) throws FileNotFoundException {
+	public PublicObjectiveCardsLoader(String fileName) throws FileNotFoundException {
 		super(fileName);
 	}
 
-	public PublicObjectiveCard[] getRandomCards(int cardsNumber) {    //Get random card and remove them
+	@Override
+	public PublicObjectiveCard[] getRandomCards(int cardsNumber) throws NotEnoughCards {    //Get random card and remove them
+		if(cardsNumber > cardsArray.size())
+			throw new NotEnoughCards();
+
 		PublicObjectiveCard[] objectiveCards = new PublicObjectiveCard[cardsNumber];
 
 		Random random = new Random();

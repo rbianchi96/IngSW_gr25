@@ -2,8 +2,10 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.Player;
+import it.polimi.ingsw.board.cardsloaders.*;
 import it.polimi.ingsw.client.ClientInterface;
 
+import java.io.FileNotFoundException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
@@ -219,6 +221,20 @@ public class Lobby {
             player.setObserver(observer);   //Set it to the player
             currentGame.addObserver(observer);  //Add it to the model
         }
+
+        try {
+            currentGame.insertCardsInGame(
+                    new WindowPatternCardsLoader("src/main/resources/windowPatterns.json").getRandomCards(playersConnectionData.size() * 2),
+                    new PublicObjectiveCardsLoader("src/main/resources/publicObjectiveCards.json").getRandomCards(Game.PUBLIC_OBJECTIVE_CARDS_NUMBER),
+                    new PrivateObjectiveCardsLoader("src/main/resources/privateObjectiveCards.json").getRandomCards(playersConnectionData.size()),
+                    new ToolCardsLoader("src/main/resources/toolCards_ready.json").getRandomCards(Game.TOOL_CARDS_NUMBER)
+            );
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        } catch(CardsLoader.NotEnoughCards e) {
+            e.printStackTrace();
+        }
+
         currentGame.startGame(getPlayersUsernamesArrayList());
     }
 

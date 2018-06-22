@@ -20,5 +20,8 @@ public abstract class CardsLoader {
         reader.close();
     }
 
-    public abstract Card[] getRandomCards(int cardNumber);
+    public abstract Card[] getRandomCards(int cardNumber) throws NotEnoughCards;
+
+    public class NotEnoughCards extends Exception {
+    }
 }

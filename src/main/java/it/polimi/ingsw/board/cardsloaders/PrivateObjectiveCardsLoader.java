@@ -12,7 +12,11 @@ public class PrivateObjectiveCardsLoader extends CardsLoader {
         super(fileName);
     }
 
-    public PrivateObjectiveCard[] getRandomCards(int cardsNumber){
+    @Override
+    public PrivateObjectiveCard[] getRandomCards(int cardsNumber) throws NotEnoughCards {
+		if(cardsNumber > cardsArray.size())
+			throw new NotEnoughCards();
+
 		PrivateObjectiveCard[] objectiveCards = new PrivateObjectiveCard[cardsNumber];
 
 		Random random = new Random();

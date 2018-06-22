@@ -14,13 +14,17 @@ public class ToolCardsLoader extends CardsLoader {
 		super(fileName);
 	}
 
-	public ToolCard[] getRandomCards(int cardNumber) {    //Get random card and remove them
-		ToolCard[] toolCards = new ToolCard[cardNumber];
+	@Override
+	public ToolCard[] getRandomCards(int cardsNumber) throws NotEnoughCards {    //Get random card and remove them
+		if(cardsNumber > cardsArray.size())
+			throw new NotEnoughCards();
+
+		ToolCard[] toolCards = new ToolCard[cardsNumber];
 
 		Random random = new Random();
 
 		try {
-			for(int c = 0; c < cardNumber; c++) {    //For every requested card
+			for(int c = 0; c < cardsNumber; c++) {    //For every requested card
 				int currIndex = random.nextInt(cardsArray.size());    //Select a random index
 
 				JsonObject currCard = cardsArray.get(currIndex);
