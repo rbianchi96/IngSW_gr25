@@ -355,6 +355,24 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
+	public ClientCommand rollDiceFromDraftEffect(String username, Dice dice) throws InvalidCall, WrongTurnException {
+		Player player = findPlayer(username);
+		checkTurn(player);
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.ROLL_DICE_FROM_DRAFT);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_DRAFT);
+			((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getSelectedDice());
+
+			setChanged();
+			notifyObservers(NotifyType.DRAFT);
+
+			return getNextEffect();
+		}
+	}
 
 	public ClientCommand selectDiceFromRoundTrackAndSwitch(String username, int round, int index) throws WrongTurnException, InvalidCall, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException {
 		Player player = findPlayer(username);

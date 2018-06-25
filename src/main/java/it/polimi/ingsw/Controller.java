@@ -7,6 +7,7 @@ import it.polimi.ingsw.board.cards.toolcard.effects.SelectDiceFromRoundTrackAndS
 import it.polimi.ingsw.board.cards.toolcard.effects.SelectDiceFromWindowPatternEffect;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.ClientCommand;
 
@@ -245,7 +246,7 @@ public class Controller {
 					lobby.getCurrentGame().moveWindowPatternDiceEffect(findUsername(clientInterface), x, y)
 			);
 		} catch(Game.WrongTurnException ex) {
-clientInterface.wrongTurn();
+			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall ex) {
 
 		} catch(MoveWindowPatternDiceEffect.DiceNotFoundException ex) {
@@ -266,7 +267,15 @@ clientInterface.wrongTurn();
 			clientInterface.wrongTurn();
 		}
 	}
-
+	public synchronized void rollDiceFromDraft(ClientInterface clientInterface, Dice dice){
+		try{
+			lobby.getCurrentGame().rollDiceFromDraftEffect(findUsername(clientInterface),dice);
+		} catch (Game.WrongTurnException e) {
+			clientInterface.wrongTurn();
+		} catch (Game.InvalidCall invalidCall) {
+			invalidCall.printStackTrace();
+		}
+	}
 	public synchronized void selectDiceFromRoundTrackAndSwitch(ClientInterface clientInterface, int round, int index) {
 		try {
 			lobby.getCurrentGame().selectDiceFromRoundTrackAndSwitch(findUsername(clientInterface), round, index);
