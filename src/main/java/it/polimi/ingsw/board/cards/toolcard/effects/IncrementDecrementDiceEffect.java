@@ -7,7 +7,7 @@ public class IncrementDecrementDiceEffect extends Effect {
 	//set to null until a draft pool selection
 
 	public IncrementDecrementDiceEffect() {
-		this.myEnum = EffectsEnum.INCREMENT_DECREMENT_DICE;
+		this.myEnum = EffectType.INCREMENT_DECREMENT_DICE;
 	}
 
 	public boolean apply(Dice dice, boolean incDec) {

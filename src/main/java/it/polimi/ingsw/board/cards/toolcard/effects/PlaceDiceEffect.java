@@ -5,7 +5,7 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public class PlaceDiceEffect extends Effect {
 	public PlaceDiceEffect() {
-		this.myEnum = EffectsEnum.PLACE_DICE;
+		this.myEnum = EffectType.PLACE_DICE;
 	}
 
 	public void apply(Dice dice, WindowPattern windowPattern, int row, int col) throws WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {

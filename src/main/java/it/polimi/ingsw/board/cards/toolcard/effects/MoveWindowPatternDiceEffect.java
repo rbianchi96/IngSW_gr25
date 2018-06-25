@@ -12,7 +12,7 @@ public class MoveWindowPatternDiceEffect extends Effect {
 
 	public MoveWindowPatternDiceEffect(ArrayList<PlacementRestriction> ignoredRestriction) {
 		this.ignoredRestriction = ignoredRestriction;
-		this.myEnum = EffectsEnum.MOVE_WINDOW_PATTERN_DICE;
+		this.myEnum = EffectType.MOVE_WINDOW_PATTERN_DICE;
 	}
 
 	public void apply(WindowPattern windowPattern, int newX, int newY, int oldX, int oldY)

@@ -34,9 +34,9 @@ public class ToolCardsLoader extends CardsLoader {
 				for(int c2 = 0; c2 < effectsArray.size(); c2++) {    //For each effect
 					JsonObject effectJson = effectsArray.getJsonObject(c2);
 
-					EffectsEnum effectsEnum = EffectsEnum.valueOf(effectJson.getString("effect"));
+					EffectType effectType = EffectType.valueOf(effectJson.getString("effect"));
 
-					switch(effectsEnum) {
+					switch(effectType) {
 						case SELECT_DICE_FROM_DRAFT:
 							effects.add(new SelectDiceFromDraftEffect());
 							break;

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.board.cards.toolcard.effects;
 
-import it.polimi.ingsw.board.cards.toolcard.effects.Effect;
-import it.polimi.ingsw.board.cards.toolcard.effects.EffectsEnum;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
@@ -9,7 +7,7 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
     private int x; // saved dice coordinates
     private int y;
     public SelectDiceFromWindowPatternEffect(){
-        this.myEnum = EffectsEnum.SELECT_DICE_FROM_WINDOW_PATTERN;
+        this.myEnum = EffectType.SELECT_DICE_FROM_WINDOW_PATTERN;
     }
     public void apply(WindowPattern windowPattern, int x, int y,int forbidX, int forbidY) throws DiceNotFoundException, AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
         if(forbidX >= 0 && forbidY >= 0)

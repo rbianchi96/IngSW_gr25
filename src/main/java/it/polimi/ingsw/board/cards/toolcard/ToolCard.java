@@ -3,7 +3,7 @@ package it.polimi.ingsw.board.cards.toolcard;
 import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.cards.Card;
 import it.polimi.ingsw.board.cards.toolcard.effects.Effect;
-import it.polimi.ingsw.board.cards.toolcard.effects.EffectsEnum;
+import it.polimi.ingsw.board.cards.toolcard.effects.EffectType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,6 +62,15 @@ public class ToolCard extends Card implements Serializable {
 		this.favorTokensNumber = favorTokensNumber;
 	}
 
+	/**
+	 *
+	 * @param index the index of the requested effect
+	 * @return the effect at the selectd index
+	 */
+	public Effect getEffect(int index) {
+		return effects.get(index);
+	}
+
 	public ArrayList<Effect> getEffects() {
 		return effects;
 	}
@@ -69,14 +78,14 @@ public class ToolCard extends Card implements Serializable {
 	/**
 	 * Return the index of the first unused effect
 	 *
-	 * @param effectsEnum the effect type requested
+	 * @param effectType the effect type requested
 	 * @return the index of the first unused effect if it is of the reqeusted type, or -1 otherwise
 	 */
-	public int validate(EffectsEnum effectsEnum) {
+	public int validate(EffectType effectType) {
 		int i;
 		for(i = 0; i < effects.size(); i++) {
 			if(! effects.get(i).isUsed()) {	//First unused
-				if(effects.get(i).getMyEnum() == effectsEnum)
+				if(effects.get(i).getMyEnum() == effectType)
 					return i;
 				else
 					return - 1;
@@ -106,7 +115,7 @@ public class ToolCard extends Card implements Serializable {
 	 * @param effectEnum the effect type requested
 	 * @return the index of the last unuesed effect of a requested type, or -1 if there isn't a used effect of the requested type
 	 */
-	public int alreadyAppliedEffect(EffectsEnum effectEnum) {
+	public int alreadyAppliedEffect(EffectType effectEnum) {
 		int mostRecentEffectEnum = - 1;
 		for(int i = 0; i < effects.size(); i++) {
 			if(effects.get(i).getMyEnum() == effectEnum && effects.get(i).isUsed()) {

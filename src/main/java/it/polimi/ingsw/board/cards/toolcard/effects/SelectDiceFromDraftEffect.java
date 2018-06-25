@@ -1,14 +1,12 @@
 package it.polimi.ingsw.board.cards.toolcard.effects;
 
-import it.polimi.ingsw.board.cards.toolcard.effects.Effect;
-import it.polimi.ingsw.board.cards.toolcard.effects.EffectsEnum;
 import it.polimi.ingsw.board.dice.Dice;
 
 public class SelectDiceFromDraftEffect extends Effect {
 
     private Dice selectedDice = null; // Dice saved from the selection
     public SelectDiceFromDraftEffect(){
-        this.myEnum= EffectsEnum.SELECT_DICE_FROM_DRAFT;
+        this.myEnum= EffectType.SELECT_DICE_FROM_DRAFT;
     }
 
     public void apply(Dice dice)throws DiceNotFoundException{
