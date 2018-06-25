@@ -17,6 +17,13 @@ public class ToolCard extends Card implements Serializable {
 	//	private int totalSteps;
 	private Game game;
 
+	/**
+	 * Constructs a tool card with a list of effects.
+	 *
+	 * @param id the id of the tool card
+	 * @param name the name of the tool card
+	 * @param effects the list of effects of the tool card
+	 */
 	public ToolCard(int id, String name, ArrayList<Effect> effects) {
 		this.id = id;
 		this.name = name;
@@ -63,7 +70,12 @@ public class ToolCard extends Card implements Serializable {
 		this.game = game;
 	}
 
-	// return the position in the effects'list of the requested effect if it can be "played" in this step, -1 if not
+	/**
+	 * Return the index of the first unused effect
+	 *
+	 * @param effectsEnum the effect type requested
+	 * @return the index of the first unused effect if it is of the reqeusted type, or -1 otherwise
+	 */
 	public int validate(EffectsEnum effectsEnum) {
 		int i;
 		for(i = 0; i < effects.size(); i++) {
@@ -78,7 +90,10 @@ public class ToolCard extends Card implements Serializable {
 		return - 1;
 	}
 
-	// return the next never used effect
+	/**
+	 *
+	 * @return the next unused effects, or null if all the effects are used
+	 */
 	public Effect getNext() {
 		int i;
 		for(i = 0; i < effects.size(); i++) {
@@ -90,7 +105,11 @@ public class ToolCard extends Card implements Serializable {
 		return null;
 	}
 
-	// return the position in the list of effects, of the most recent use of requested Effect, -1 if was never used
+	/**
+	 * Return the index of the last used effect of a specific type.
+	 * @param effectEnum the effect type requested
+	 * @return the index of the last unuesed effect of a requested type, or -1 if there isn't a used effect of the requested type
+	 */
 	public int alreadyAppliedEffect(EffectsEnum effectEnum) {
 		int mostRecentEffectEnum = - 1;
 		for(int i = 0; i < effects.size(); i++) {
@@ -101,7 +120,10 @@ public class ToolCard extends Card implements Serializable {
 		return mostRecentEffectEnum;
 	}
 
-	// return a clone of a clean toolcard( without all the data saved in the effects)
+	/**
+	 * Return a tool card wothout effects (usefull to send to client)
+	 * @return a tool card without effects
+	 */
 	public ToolCard getCleanClone(){
 		ArrayList<Effect> noneEffects = new ArrayList<>();
 		noneEffects = null;
