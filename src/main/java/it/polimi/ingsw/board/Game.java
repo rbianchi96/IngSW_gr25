@@ -3,10 +3,6 @@ package it.polimi.ingsw.board;
 import it.polimi.ingsw.board.cards.*;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.board.cards.toolcard.effects.*;
-import it.polimi.ingsw.board.cardsloaders.PrivateObjectiveCardsLoader;
-import it.polimi.ingsw.board.cardsloaders.PublicObjectiveCardsLoader;
-import it.polimi.ingsw.board.cardsloaders.ToolCardsLoader;
-import it.polimi.ingsw.board.cardsloaders.WindowPatternCardsLoader;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.dice.DiceBag;
 import it.polimi.ingsw.board.dice.Draft;
@@ -90,8 +86,7 @@ public class Game extends Observable {
 		notifyObservers(NotifyType.PUBLIC_OBJECTIVE_CARDS);
 
 		for(ToolCard toolCard : toolCards) {
-			toolCard.setGame(this);
-			toolCard.populateEffects();
+			toolCard.initializeEffects(this);
 		}
 
 		//Notify to all

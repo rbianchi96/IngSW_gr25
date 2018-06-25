@@ -11,11 +11,8 @@ import java.util.ArrayList;
 public class ToolCard extends Card implements Serializable {
 	private int id;
 	private String name;
-	//private ArrayList<EffectsEnum> effectsEnums;
 	private ArrayList<Effect> effects;
 	private int favorTokensNumber;
-	//	private int totalSteps;
-	private Game game;
 
 	/**
 	 * Constructs a tool card with a list of effects.
@@ -30,7 +27,6 @@ public class ToolCard extends Card implements Serializable {
 		this.favorTokensNumber = 0;
 		if(effects != null) {
 			this.effects = effects;	//TODO clone
-			populateEffects();
 		} else
 			this.effects = null;
 
@@ -41,7 +37,11 @@ public class ToolCard extends Card implements Serializable {
 			effect.setUsed(false);
 	}
 
-	public void populateEffects() {
+	/**
+	 * Inzitialize the effects.
+	 * @param game the game to apply the effects to
+	 */
+	public void initializeEffects(Game game) {
 		for(Effect effect : effects)
 			effect.setGame(game);
 	}
@@ -64,10 +64,6 @@ public class ToolCard extends Card implements Serializable {
 
 	public ArrayList<Effect> getEffects() {
 		return effects;
-	}
-
-	public void setGame(Game game) {
-		this.game = game;
 	}
 
 	/**
@@ -124,10 +120,7 @@ public class ToolCard extends Card implements Serializable {
 	 * Return a tool card wothout effects (usefull to send to client)
 	 * @return a tool card without effects
 	 */
-	public ToolCard getCleanClone(){
-		ArrayList<Effect> noneEffects = new ArrayList<>();
-		noneEffects = null;
-		ToolCard cleanToolCard = new ToolCard(this.id, this.name,noneEffects);
-		return cleanToolCard;
+	public ToolCard getCleanClone() {
+		return new ToolCard(this.id, this.name, null);
 	}
 }
