@@ -14,6 +14,14 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 	private int difficulty, placedDices;
 	private Cell[][] cells;
 
+	/**
+	 * Object representings a window pattern with dice.
+	 *
+	 * @param name name of the window pattern
+	 * @param difficulty difficulty of the window pattern
+	 * @param cells bidimensional vector of cell
+	 * @throws Exception if the cells matrix don't have the correct dimension
+	 */
 	public WindowPattern(String name, int difficulty, Cell[][] cells) throws Exception {
 		this.name = name;
 		this.difficulty = difficulty;
@@ -27,30 +35,61 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		placedDices = 0;
 	}
 
+	/**
+	 * @return the name of the window pattern
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @return the difficulty of the window pattern
+	 */
 	public int getDifficulty() {
 		return difficulty;
 	}
 
+
+	//TODO probably delete
 	public Cell getCell(int i, int j) {
 		return this.cells[i][j];
 	}
 
+	/**
+	 *
+	 * @param row the row index of the cell
+	 * @param col the column index of the cell
+	 * @return the resctiction associated of the cell
+	 * @throws WindowPatternOutOfBoundException if the indexes are out of range
+	 */
 	public Restriction getRestriction(int row, int col) throws WindowPatternOutOfBoundException {
 		checkIndexes(row, col);
 
 		return cells[row][col].getRestriction();
 	}
 
+	/**
+	 * Return the dice in the selected cell without removing it.
+	 *
+	 * @param row the row index of the cell
+	 * @param col the column index of the cell
+	 * @return the dice placed in the selected cell
+	 * @throws WindowPatternOutOfBoundException if the indexes are out of range
+	 */
 	public Dice getDice(int row, int col) throws WindowPatternOutOfBoundException {
 		checkIndexes(row, col);
 
 		return cells[row][col].getDice();
 	}
 
+	/**
+	 * Return the dice in the selected cell removing it.
+	 *
+	 * @param row the row index of the cell
+	 * @param col the column index of the cell
+	 * @return the dice placed in the selected cell
+	 * @throws WindowPatternOutOfBoundException if the indexes are out of range
+	 */
 	public Dice removeDice(int row, int col) throws WindowPatternOutOfBoundException {
 		checkIndexes(row, col);
 
@@ -59,10 +98,33 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		return diceToReturn;
 	}
 
+	/**
+	 * Place a dice in the window pattern.
+	 *
+	 * @param dice the dice to be placed
+	 * @param row the row index of the cell
+	 * @param col the column index of the cell
+	 * @throws NullPointerException if the dice is null
+	 * @throws WindowPatternOutOfBoundException if the indexes are out of range
+	 * @throws PlacementRestrictionException if one of the placement restriction is not respected
+	 * @throws CellAlreadyOccupiedException if the selected cell is already occupied
+	 */
 	public void placeDice(Dice dice, int row, int col) throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException, CellAlreadyOccupiedException {
 		placeDice(dice, row, col, null);
 	}
 
+	/**
+	 * Place a dice in the window pattern with the possibility to ignoring some (or all) placement restriction.
+	 *
+	 * @param dice the dice to be placed
+	 * @param row the row index of the cell
+	 * @param col the column index of the cell
+	 * @param ignoredPlacementRestrictions list of the placement restricion to be ignored
+	 * @throws NullPointerException if the dice is null
+	 * @throws WindowPatternOutOfBoundException if the indexes are out of range
+	 * @throws PlacementRestrictionException if one of the placement restriction is not respected
+	 * @throws CellAlreadyOccupiedException if the selected cell is already occupied
+	 */
 	public void placeDice(Dice dice, int row, int col, ArrayList<PlacementRestriction> ignoredPlacementRestrictions)
 			throws NullPointerException, WindowPatternOutOfBoundException, PlacementRestrictionException, CellAlreadyOccupiedException {
 
@@ -188,6 +250,9 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		return "Window Pattern " + name + " (diff: " + difficulty + ")";
 	}
 
+	/**
+	 * @return the iterator over the cell
+	 */
 	public Iterator<Cell> iterator() {
 		return new CellIterator(cells);
 	}
