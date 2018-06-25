@@ -177,4 +177,13 @@ class Drawers {
 			e.printStackTrace();    //FATAL ERROR
 		}
 	}
+
+	public static void setDifficulty(Circle[] dots, int difficulty) {
+		for(int c = 0; c < dots.length; c++) {
+			if(c < difficulty)
+				dots[c].setVisible(true);
+			else
+				dots[c].setVisible(false);
+		}
+	}
 }

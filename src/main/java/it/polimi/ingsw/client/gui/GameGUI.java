@@ -142,10 +142,7 @@ public class GameGUI extends GUIController {
 				patternNames[playersMap.get(i)].setText(windowPatterns[i].getName());
 
 				for(int i2 = 0; i2 < difficulties[playersMap.get(i)].length; i2++) {
-					if(i2 < windowPatterns[i].getDifficulty())
-						difficulties[playersMap.get(i)][i2].setVisible(true);
-					else
-						difficulties[playersMap.get(i)][i2].setVisible(false);
+					Drawers.setDifficulty(difficulties[playersMap.get(i)], windowPatterns[i].getDifficulty());
 				}
 			}
 		});
