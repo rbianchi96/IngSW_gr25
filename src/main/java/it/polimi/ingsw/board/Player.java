@@ -4,6 +4,9 @@ package it.polimi.ingsw.board;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
+/**
+ * Representation of a player.
+ */
 public class Player {
 	private PrivateObjectiveCard privateObjectiveCard;
 
@@ -17,6 +20,10 @@ public class Player {
 
 	private boolean hasPlacedDice = false, hasPlayedToolCard = false;
 
+	/**
+	 * Create a new player.
+	 * @param username The username of the player
+	 */
 	public Player(String username) {
 		this.playerName = username;
 		isOnline = true;
