@@ -56,9 +56,8 @@
 		"id": 6,
 		"name": "Pennello per Pasta Salda",
 		"effects": [
-			{
-				"effect": "rollDice"
-			}
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "ROLL_DICE_FROM_DRAFT"}
 		]
 	},
 	{
