@@ -56,6 +56,7 @@ public class Round {
 
 			return true; // And return that the new round has been correctly created
 		} else {
+			currentRound = - 1;
 			return false; // The Game is finished
 		}
 	}
@@ -69,6 +70,10 @@ public class Round {
 		return firstPlayer;
 	}
 
+	/**
+	 * Return the current round number
+	 * @return the number of the current round, or - 1 if the rounds are finished
+	 */
 	public int getCurrentRound() {
 		return currentRound;
 	}

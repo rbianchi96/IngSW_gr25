@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.PlayerScore"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerScoreGUI">
+
+    <children>
+        <Label fx:id="name" alignment="CENTER" text="Giocatore" textAlignment="CENTER" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />
+        <VBox spacing="4.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+         <children>
+            <AnchorPane>
+               <children>
+                    <Label text="Punti dagli obbiettivi pubblici" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="48.0" />
+                    <Label fx:id="publicObjectivesTotalPoints" text="XX" AnchorPane.rightAnchor="8.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+            
+                    <Label fx:id="cardName0" text="Carte" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="54.0">
+                        <font>
+                            <Font name="System Italic" size="13.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="publicOPoints0" text="XX" AnchorPane.rightAnchor="12.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+            
+                    <Label fx:id="cardName1" text="Carte" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="54.0">
+                        <font>
+                            <Font name="System Italic" size="13.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="publicOPoints1" text="XX" AnchorPane.rightAnchor="12.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+            
+                    <Label fx:id="cardName2" text="Carte" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="54.0">
+                        <font>
+                            <Font name="System Italic" size="13.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="publicOPoints2" text="XX" AnchorPane.rightAnchor="12.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                    <Label text="Punti dall'obbietivo privato" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="48.0" />
+                    <Label fx:id="privateObjectivePoints" text="XX" AnchorPane.rightAnchor="8.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+            
+                    <Label text="Punti dai segnalini favore" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="48.0" />
+                    <Label fx:id="favorTokensPoints" text="XX" AnchorPane.rightAnchor="8.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+            
+                    <Label text="Penalità per celle vuote" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="48.0" />
+                    <Label fx:id="emptyCellsPenalty" text="XX" AnchorPane.rightAnchor="8.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+            
+                    <Label text="Totale" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="48.0">
+                        <font>
+                            <Font name="System Bold" size="13.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="total" text="XX" AnchorPane.rightAnchor="8.0">
+                        <font>
+                            <Font name="System Bold" size="13.0" />
+                        </font>
+                    </Label>
+               </children>
+            </AnchorPane>
+         </children></VBox>
+    </children>
 
 </AnchorPane>

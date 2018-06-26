@@ -59,6 +59,10 @@ public class ModelObserver implements java.util.Observer {
 				clientInterface.updateRoundTrack(model.getRoundTrackDice().getTrack());
 
 				break;
+			case SCORES:
+				clientInterface.sendScores(model.getScores());
+
+				break;
 		}
 	}
 }

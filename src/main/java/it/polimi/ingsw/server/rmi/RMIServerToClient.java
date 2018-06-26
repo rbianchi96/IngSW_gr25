@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.rmi;
 
 import it.polimi.ingsw.Controller;
+import it.polimi.ingsw.board.Score;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
@@ -298,6 +299,16 @@ public class RMIServerToClient implements ClientInterface {
 	public void cellAlreadyOccupied() {
 		try {
 			rmiClientInterface.cellAlreadyOccupied();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
+	public void sendScores(Score[] scores) {
+		try {
+			rmiClientInterface.sendScores(scores);
 		} catch(RemoteException e) {
 			e.printStackTrace();
 			controller.lostConnection(this);

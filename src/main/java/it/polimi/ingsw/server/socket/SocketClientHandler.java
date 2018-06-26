@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.socket;
 
 import it.polimi.ingsw.board.Color;
+import it.polimi.ingsw.board.Score;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
@@ -167,7 +168,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 							this,
 							Integer.parseInt(request[1]),
 							Integer.parseInt(request[2])
-							);
+					);
 
 					break;
 				case MOVE_DICE_IN_WINDOW_PATTERN:
@@ -363,6 +364,30 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	@Override
+	public void sendScores(Score[] scores) {
+		out.print(encode(SEND_SCORES));
+
+		StringBuilder stringBuilder = new StringBuilder();
+
+		for(Score score : scores) {
+
+			for(int s : score.getPublicObjectiveCardsScores()) {
+				stringBuilder.append("#").append(s);
+			}
+
+			stringBuilder
+					.append("#")
+					.append(score.getPrivateObjectiveCardScore())
+					.append("#")
+					.append(score.getFavorTokensScore())
+					.append("#")
+					.append(score.getEmptyCellsPenalty());
+		}
+
+		out.println(stringBuilder.toString());
+	}
+
 	@Override // Read ClientInterface for details
 	public synchronized void closeConnection() {
 		closeSocket();
@@ -481,7 +506,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 						.append("#")
 						.append(dice.getValue())
 						.append("#")
-						.append(dice.getColor().toString())	;
+						.append(dice.getColor().toString());
 			}
 
 			sb.append("#|");

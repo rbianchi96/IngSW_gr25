@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.board.Score;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
@@ -49,4 +50,6 @@ public interface RMIClientInterface extends Remote {
 	public void notEnoughFavorTokens() throws RemoteException;
 	public void dicePlacementRestictionBroken() throws RemoteException;
 	public void cellAlreadyOccupied() throws RemoteException;
+
+	public void sendScores(Score[] scores) throws RemoteException;
 }

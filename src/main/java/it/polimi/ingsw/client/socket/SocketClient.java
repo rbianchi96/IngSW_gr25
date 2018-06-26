@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.socket;
 
 import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.Game;
+import it.polimi.ingsw.board.Score;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCardsIds;
@@ -124,10 +125,10 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					for(int i = 0; i < Game.PUBLIC_OBJECTIVE_CARDS_NUMBER; i++)
 						cards[i] = new PublicObjectiveCard(
-								PublicObjectiveCardsIds.findId(msgVector[1]),
-								msgVector[2],
-								msgVector[3],
-								Integer.parseInt(msgVector[4])
+								PublicObjectiveCardsIds.findId(msgVector[i * 4 + 1]),
+								msgVector[i * 4 + 2],
+								msgVector[i * 4 + 3],
+								Integer.parseInt(msgVector[i * 4 + 4])
 						);
 
 					client.sendPublicObjectiveCards(cards);
@@ -197,6 +198,10 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					client.endOfToolCardUse();
 					break;
+				case WRONG_TURN:
+					break;
+				case NOT_ENOUGH_FAVOR_TOKENS:
+					break;
 				case DICE_PLACEMENT_RESTRICTION_BROKEN:
 					client.dicePlacementRestictionBroken();
 
@@ -204,6 +209,12 @@ public class SocketClient extends Socket implements ServerInterface {
 				case CELL_ALREADY_OCCUPIED:
 					client.cellAlreadyOccupied();
 
+					break;
+				case SEND_SCORES:
+					client.sendScores(decodeScores((Arrays.copyOfRange(msgVector, 1, msgVector.length))));
+
+					break;
+				case SEND_WINNER:
 					break;
 				case INVALID_COMMAND:
 					//TODO ???
@@ -410,5 +421,35 @@ public class SocketClient extends Socket implements ServerInterface {
 		}
 
 		return roundTrackDices;
+	}
+
+	private Score[] decodeScores(String[] msg) {
+		ArrayList<Score> scores = new ArrayList<>();
+
+		int i = 0;	//Index in msg
+
+		do {
+			int[] publicObjectiveScore = new int[Game.PUBLIC_OBJECTIVE_CARDS_NUMBER];
+
+			for(int i2 = 0; i2 < publicObjectiveScore.length; i2 ++) {
+				publicObjectiveScore[i2] = Integer.parseInt(msg[i + i2]);
+			}
+
+			i += publicObjectiveScore.length;
+
+			Score score = new Score(
+					publicObjectiveScore,
+					Integer.parseInt(msg[i]),
+					Integer.parseInt(msg[i + 1]),
+					Integer.parseInt(msg[i + 2])
+			);
+
+			i += 3;
+
+			scores.add(score);
+		} while(i < msg.length);
+
+		Score[] array = new Score[scores.size()];
+		return scores.toArray(array);
 	}
 }

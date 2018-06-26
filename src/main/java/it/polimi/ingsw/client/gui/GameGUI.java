@@ -68,7 +68,7 @@ public class GameGUI extends GUIController {
 
 	private Dice[] draftDice;    //Current dice in draft
 	private Dice diceInHand;    //Dice in hand
-	private int myIndex = - 1;    //Index of the player in the players array
+	private int myIndex = - 1;    //Index of the player in the playersContainers array
 
 	private State state = State.WAIT_USER_INPUT;
 
@@ -97,15 +97,15 @@ public class GameGUI extends GUIController {
 
 		for(int i = 0; i < players.length; i++) {
 			if(i == myIndex)
-				playersMap.put(i, 0);    //Map the i players (me) to pattern0
+				playersMap.put(i, 0);    //Map the i playersContainers (me) to pattern0
 			else {
 				int newI = i;
 
 				if(i < myIndex) newI++;
 
-				if(players.length == 2) {    //Two players
+				if(players.length == 2) {    //Two playersContainers
 					newI++;
-				} else if(players.length == 3) {    //Three players
+				} else if(players.length == 3) {    //Three playersContainers
 					if(newI == 2)
 						newI++;
 				}
@@ -172,6 +172,8 @@ public class GameGUI extends GUIController {
 				}
 			}
 
+			if(playersMap.get(currentPlayer) == 0)
+				showInfoAlert("È il tuo turno!");
 		});
 	}
 

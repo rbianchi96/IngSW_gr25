@@ -47,6 +47,8 @@ public class PublicObjectiveCard extends Card implements Serializable {
 								}
 
 							}
+							else
+								hasEveryDiceDifferentColor = false;
 
 						} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 							e.printStackTrace();
@@ -75,7 +77,8 @@ public class PublicObjectiveCard extends Card implements Serializable {
 
 										hasEveryDiceDifferentColor = false;
 								}
-							}
+							} else
+								hasEveryDiceDifferentColor = false;
 
 						} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 							e.printStackTrace();
@@ -106,6 +109,8 @@ public class PublicObjectiveCard extends Card implements Serializable {
 								}
 
 							}
+							else
+								hasEveryDiceDifferentValue = false;
 
 						} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 							e.printStackTrace();
@@ -135,6 +140,8 @@ public class PublicObjectiveCard extends Card implements Serializable {
 								}
 
 							}
+							else
+								hasEveryDiceDifferentValue = false;
 
 						} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 							e.printStackTrace();
@@ -216,29 +223,35 @@ public class PublicObjectiveCard extends Card implements Serializable {
 						boolean hasDiagonalDiceOfSameCol = false;
 
 						try {
-							thisColor = windowPattern.getDice(row, col).getColor();
+							if(windowPattern.getDice(row, col) != null) {
+								thisColor = windowPattern.getDice(row, col).getColor();
 
-							if(row > 0) {    //Not first row
-								if(col > 0)    //Not first col
-									if(windowPattern.getDice(row - 1, col - 1).getColor() == thisColor) {
-										hasDiagonalDiceOfSameCol = true;
-									}
-								if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)    //Not last col
-									if(windowPattern.getDice(row - 1, col + 1).getColor() == thisColor) {
-										hasDiagonalDiceOfSameCol = true;
-									}
-							}
-							if(row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER - 1) {    //Not last row
-								if(col > 0)    //Not first col
-									if(windowPattern.getDice(row + 1, col - 1).getColor() == thisColor) {
-										hasDiagonalDiceOfSameCol = true;
-									}
-								if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)    //Not last col
-									if(windowPattern.getDice(row + 1, col + 1).getColor() == thisColor) {
-										hasDiagonalDiceOfSameCol = true;
-									}
-							}
+								if(row > 0) {    //Not first row
+									if(col > 0)    //Not first col
+										if(windowPattern.getDice(row - 1, col - 1) != null &&
+												windowPattern.getDice(row - 1, col - 1).getColor() == thisColor) {
+											hasDiagonalDiceOfSameCol = true;
+										}
+									if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)    //Not last col
+										if(windowPattern.getDice(row - 1, col + 1) != null &&
+												windowPattern.getDice(row - 1, col + 1).getColor() == thisColor) {
+											hasDiagonalDiceOfSameCol = true;
+										}
+								}
+								if(row < WindowPattern.WINDOW_PATTERN_ROWS_NUMBER - 1) {    //Not last row
+									if(col > 0)    //Not first col
+										if(windowPattern.getDice(row + 1, col - 1) != null &&
+												windowPattern.getDice(row + 1, col - 1).getColor() == thisColor) {
+											hasDiagonalDiceOfSameCol = true;
+										}
+									if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1)    //Not last col
+										if(windowPattern.getDice(row + 1, col + 1) != null &&
+												windowPattern.getDice(row + 1, col + 1).getColor() == thisColor) {
+											hasDiagonalDiceOfSameCol = true;
+										}
+								}
 
+							}
 						} catch(Exception e) {
 							e.printStackTrace();
 						}

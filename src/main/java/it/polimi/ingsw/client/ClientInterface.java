@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.board.Score;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
@@ -45,6 +46,8 @@ public interface ClientInterface {
 	public void notEnoughFavorTokens();
 	public void dicePlacementRestictionBroken();
 	public void cellAlreadyOccupied();
+
+	public void sendScores(Score[] scores);
 
 	public void closeConnection();  // close the connection from the Model in case of an handled logout
 }

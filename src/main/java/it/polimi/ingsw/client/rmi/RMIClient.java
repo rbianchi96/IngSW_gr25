@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.board.Score;
 import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.board.cards.toolcard.ToolCard;
@@ -151,6 +152,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	@Override
 	public void cellAlreadyOccupied() throws RemoteException {
 		client.cellAlreadyOccupied();
+	}
+
+	@Override
+	public void sendScores(Score[] scores) throws RemoteException {
+		client.sendScores(scores);
 	}
 
 	protected String getSessionID() {

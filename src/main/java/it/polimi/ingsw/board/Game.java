@@ -36,6 +36,8 @@ public class Game extends Observable {
 	private PrivateObjectiveCard[] privateObjectiveCards;
 	private ToolCard[] toolCards;
 
+	private Score[] scores = null;
+
 	private boolean inGame; // boolean to check if there is a game going on
 
 	private int readyPlayers = 0;
@@ -56,7 +58,7 @@ public class Game extends Observable {
 	}
 
 	// Loading of various game elements (the same of the "players preparation" of Sagrada rules).
-	private void playersPreparation() throws FileNotFoundException {
+	private void playersPreparation() {
 		for(int i = 0; i < players.size(); i++) {
 			players.get(i).setPrivateObjectiveCard(privateObjectiveCards[i]);
 		}
@@ -80,7 +82,7 @@ public class Game extends Observable {
 	}
 
 	// Loading of various game elements (the same of the "game preparation" of Sagrada rules.
-	private void gamePreparation() throws FileNotFoundException {
+	private void gamePreparation() {
 		//Notify to all
 		setChanged();
 		notifyObservers(NotifyType.PUBLIC_OBJECTIVE_CARDS);
@@ -98,7 +100,7 @@ public class Game extends Observable {
 
 	}
 
-	// Method to call to start the next round
+	// Method to call to start the game
 	public void startGame(ArrayList<String> playersNicknames) {
 		System.out.println("Game is starting!");
 		players = new ArrayList();
@@ -106,14 +108,13 @@ public class Game extends Observable {
 			players.add(new Player(playersNicknames.get(i)));
 		}
 		initialize();
-		try {
-			playersPreparation();
-			gamePreparation();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+
+		playersPreparation();
+		gamePreparation();
+
 		inGame = true;
 	}
+
 	// add the right amount of random dices in the draftPool
 	public void rollDicesFromDiceBag() {
 		for(int i = 0; i < 2 * players.size() + 1; i++) {
@@ -134,16 +135,20 @@ public class Game extends Observable {
 
 	//end of round method
 	private void endRound() {
-		int currRound = rounds.getCurrentRound() - 2; //fix the index to refer to the right round
+		int currRound = rounds.getCurrentRound();
+		if(currRound != - 1)
+			currRound -= 2; //Fix the index to refer to the right round
+		else
+			currRound = ROUNDS_NUMBER - 1;
 
 		ArrayList<Dice> draftDice = gameBoard.getDraft().getDices();
 
- 		// add all left dices in draft, in the round track
+		// add all left dices in draft, in the round track
 		for(Dice dice : draftDice)
 			gameBoard.getRoundTrack().addDice(
 					currRound,
 					gameBoard.getDraft().getDice(dice)
-		);
+			);
 
 		setChanged();
 		notifyObservers(NotifyType.ROUND_TRACK);
@@ -151,9 +156,26 @@ public class Game extends Observable {
 
 	// initialize the new round
 	private void startRound() {
-		rollDicesFromDiceBag();
-		updateDraft();
-		updateAllWindowPatterns();
+		if(rounds.getCurrentRound() != - 1) {
+			rollDicesFromDiceBag();
+			updateDraft();
+			updateAllWindowPatterns();
+		} else
+			endGame();
+	}
+
+	private void endGame() {
+		scores = new Score[players.size()];
+
+		for(int i = 0; i < players.size(); i++) {
+			scores[i] = new Score(
+					players.get(i),
+					publicObjectiveCards
+			);
+		}
+
+		setChanged();
+		notifyObservers(NotifyType.SCORES);
 	}
 
 	// to call in order to skip the current turn of the player who request it
@@ -161,10 +183,10 @@ public class Game extends Observable {
 		Player player = findPlayer(username);
 		checkTurn(player);
 
-		if(currentToolCardInUse >= 0)	// if the player's using some card
-			toolCardUsageFinished();	// end the usage
+		if(currentToolCardInUse >= 0)    // if the player's using some card
+			toolCardUsageFinished();    // end the usage
 
-		player.setHasPlacedDice(false);	// reset the in-turn steps
+		player.setHasPlacedDice(false);    // reset the in-turn steps
 		player.setHasPlayedToolCard(false);
 		if(rounds.nextPlayer() == - 1) { //if the round is finished...
 			endRound();
@@ -211,7 +233,7 @@ public class Game extends Observable {
 
 					throw e;    //Throw the exception to the caller (tipically the Controller)
 				}
-			}else{
+			} else {
 				throw new InvalidCall();
 			}
 		} else {
@@ -228,6 +250,7 @@ public class Game extends Observable {
 			notifyNewTurn();
 		}
 	}
+
 	// Tool card usage request
 	public ClientCommand useToolCard(String username, int index) throws NotEnoughFavorTokens, WrongTurnException, AlreadyUsedToolCard {
 		Player player = findPlayer(username);
@@ -411,9 +434,11 @@ public class Game extends Observable {
 
 	//	Private methods for observers update
 	private void notifyNewTurn() {
-		setChanged();
-		notifyObservers(NotifyType.NEW_TURN);
-		System.out.println("Il prossimo è " + rounds.getCurrentPlayer());
+		if(rounds.getCurrentRound() != - 1) {
+			setChanged();
+			notifyObservers(NotifyType.NEW_TURN);
+			System.out.println("Il prossimo è " + rounds.getCurrentPlayer());
+		}
 	}
 
 	private void updateDraft() {
@@ -490,11 +515,15 @@ public class Game extends Observable {
 	public int[] getToolCardsTokens() {
 		int tokens[] = new int[TOOL_CARDS_NUMBER];
 
-		for(int i = 0; i < tokens.length; i ++) {
+		for(int i = 0; i < tokens.length; i++) {
 			tokens[i] = toolCards[i].getFavorTokensNumber();
 		}
 
 		return tokens;
+	}
+
+	public Score[] getScores() {
+		return scores;
 	}
 
 	private void checkTurn(Player player) throws WrongTurnException {
@@ -504,7 +533,8 @@ public class Game extends Observable {
 
 	public enum NotifyType {
 		SELECT_WINDOW_PATTERN, PRIVATE_OBJECTIVE_CARD, PUBLIC_OBJECTIVE_CARDS, TOOL_CARDS,
-		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, TOOL_CARDS_TOKENS, ROUND_TRACK
+		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, TOOL_CARDS_TOKENS, ROUND_TRACK,
+		SCORES
 	}
 
 	public class WrongTurnException extends Exception {
