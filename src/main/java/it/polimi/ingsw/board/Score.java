@@ -39,12 +39,11 @@ public class Score implements Serializable {
 	}
 
 	/**
-	 * Crate a new score setting all the scores.
-	 *
-	 * @param publicObjectiveCardsScores
-	 * @param privateObjectiveCardScore
-	 * @param favorTokensScore
-	 * @param freeCellsPenalty
+	 * Create a new score setting all the scores.
+	 * @param publicObjectiveCardsScores the scores related to the public objective cards
+	 * @param privateObjectiveCardScore the score related to the private objecitive card of the player
+	 * @param favorTokensScore the score related to the favor tokens of the player
+	 * @param freeCellsPenalty the penalty (negative) related to the empty cells of the player's window pattern.
 	 */
 	public Score(int[] publicObjectiveCardsScores, int privateObjectiveCardScore, int favorTokensScore, int freeCellsPenalty) {
 		this.publicObjectiveCardsScores = publicObjectiveCardsScores;
@@ -68,6 +67,9 @@ public class Score implements Serializable {
 				+ freeCellsPenalty;
 	}
 
+	/**
+	 * @return the array of the points related to the public objective cards
+	 */
 	public int getPublicObjectiveCardsTotalScore() {
 		int tot = 0;
 		for(int s : publicObjectiveCardsScores)
