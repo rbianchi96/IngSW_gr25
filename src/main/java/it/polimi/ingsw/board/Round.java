@@ -17,6 +17,14 @@ public class Round {
 		currentRound = 0;
 	}
 
+	public boolean isCurrentPlayerFirstTurn(){
+		if (currentPlayer < playersIndexes.size()/2){
+			return true;
+		}else
+			return false;
+	}
+
+
 	// It "gives" the turn to the next player and returns the index of the new currentPlayer in the Players ArrayList
 	public int nextPlayer() {
 		if(currentPlayer < playersIndexes.size() - 1) { //If there are still rounds to be played in this round...

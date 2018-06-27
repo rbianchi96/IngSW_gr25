@@ -51,7 +51,7 @@
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
 			{"effect": "SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH"}
 		]
-	}
+	},
 	{
 		"id": 6,
 		"name": "Pennello per Pasta Salda",
@@ -63,6 +63,10 @@
 	{
 		"id": 7,
 		"name": "Martelletto",
+		"pres": [
+			{"pre" : "IS_SECOND_TURN"},
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
 			{
 				"effect": "rollAllDice"

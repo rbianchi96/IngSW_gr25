@@ -29,8 +29,24 @@ public class ToolCardsLoader extends CardsLoader {
 
 				JsonObject currCard = cardsArray.get(currIndex);
 				ArrayList<Effect> effects = new ArrayList<>();
+				ArrayList<Prerequisite> prerequisiteTypes = new ArrayList<>();
 
 				JsonArray effectsArray = currCard.getJsonArray("effects");
+				JsonArray prerequisiteArray = currCard.getJsonArray("pres");
+				for(int i=0; i < prerequisiteArray.size(); i++){
+					JsonObject preJson = prerequisiteArray.getJsonObject(i);
+
+					PrerequisiteType prerequisiteType = PrerequisiteType.valueOf(preJson.getString("pre"));
+
+					switch(prerequisiteType){
+						case HAS_NOT_PLACED_DICE:
+							prerequisiteTypes.add(new HasNotPlacedDicePre());
+							break;
+						case IS_SECOND_TURN:
+							prerequisiteTypes.add(new IsSecondTurnPre());
+							break;
+					}
+				}
 				for(int c2 = 0; c2 < effectsArray.size(); c2++) {    //For each effect
 					JsonObject effectJson = effectsArray.getJsonObject(c2);
 

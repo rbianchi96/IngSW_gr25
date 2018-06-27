@@ -520,7 +520,7 @@ public class Game extends Observable {
 	public RoundTrack getRoundTrackDice() {
 		return gameBoard.getRoundTrack();
 	}
-
+	public boolean isCurrentPlayerFirstTurn() { return rounds.isCurrentPlayerFirstTurn();}
 	public WindowPattern[] getAllWindowPatterns() {
 		WindowPattern[] allWindowPatterns = new WindowPattern[players.size()];
 
