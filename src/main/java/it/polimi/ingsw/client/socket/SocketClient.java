@@ -13,6 +13,7 @@ import it.polimi.ingsw.board.windowpattern.Cell;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.ClientInterface;
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.server.ServerCommand;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.client.ClientCommand;
@@ -20,20 +21,20 @@ import it.polimi.ingsw.client.ClientCommand;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.*;
 
 public class SocketClient extends Socket implements ServerInterface {
+	private static final int TIMEOUT = 4000;	//4 seconds
+
 	private PrintWriter out;
 	private Scanner in;
-	private Timer reconnectTimer;
-	private Timer pingTimer;
-	private boolean reconnectTimerRunning = false;
-	private ClientInterface client;
+	private ClientGUI client;
 	private Socket socket;
-	private String sessionNickname;
 	private String sessionID;
+	private String sessionNickname;
 
-	public SocketClient(String ip, int port, ClientInterface client) throws IOException {
+	public SocketClient(String ip, int port, ClientGUI client) throws IOException {
 		this.client = client;
 		this.socket = new Socket(ip, port);
 		socketReceiverCreation();
@@ -41,13 +42,18 @@ public class SocketClient extends Socket implements ServerInterface {
 
 	private void socketReceiverCreation() {
 		try {
-			socket.setSoTimeout(10000);
+			socket.setSoTimeout(TIMEOUT);
 			socket.setKeepAlive(true);
+
 			out = new PrintWriter(socket.getOutputStream());
 			in = new Scanner(socket.getInputStream());
+
 			SocketClientReceiver receiver = new SocketClientReceiver(this, in);    //Create the receiver
 			Thread t = new Thread(receiver);
 			t.start();    //Start the receiver
+
+		} catch(SocketTimeoutException e) {
+			client.lostConnenction();	//Notify
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -222,7 +228,7 @@ public class SocketClient extends Socket implements ServerInterface {
 					break;
 			}
 		else
-			System.out.println("Command not found!");
+			System.out.println("Command not found!");	//TODO fatal error
 	}
 
 	@Override
@@ -239,7 +245,6 @@ public class SocketClient extends Socket implements ServerInterface {
 	public void logout() {
 		out.println(encode(ServerCommand.LOGOUT));
 		out.flush();
-		reconnectTimer.cancel();
 	}
 
 	@Override
@@ -451,5 +456,9 @@ public class SocketClient extends Socket implements ServerInterface {
 
 		Score[] array = new Score[scores.size()];
 		return scores.toArray(array);
+	}
+
+	public void lostConnection() {
+		client.lostConnenction();;
 	}
 }

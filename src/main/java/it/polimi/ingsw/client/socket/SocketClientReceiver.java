@@ -17,16 +17,13 @@ public class SocketClientReceiver implements Runnable {
 	public void run() {
 			try {
 				while(true) {
-					//socket.setSoTimeout(1000);
 					//Continue to cycle
 					String inLine = in.nextLine();  //When there's a message incoming...
 					socket.decode(inLine);    //...send to the socket decoder
 				}
 			}
 			catch (RuntimeException ex) { // Lost connection
-			// NOTIFY LOST CONNECTION TO VIEW
-				ex.printStackTrace();
-				System.out.println("Connection lost with the server!");
+				socket.lostConnection();
 			}
 		}
 

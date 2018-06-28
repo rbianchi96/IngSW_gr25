@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.rmi;
 
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.client.ClientInterface;
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.server.rmi.RMIServerInterface;
 
@@ -13,21 +14,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class RMIClientToServer implements ServerInterface {
-	private static final int MAX_RECONNECTION_ATTEMPTS = 10;
+	private static final int PING_TIMER = 2500;    //2.5 s
+
 	private RMIServerInterface server;
 	private RMIClient client;
+	private ClientGUI clientGUI;
 	private Timer pingTimer;
-	private Timer reconnectTimer;
 	private String sessionNickname;
-	private int reconnection_attempts = 0;
 
-	public RMIClientToServer(ClientInterface client, String ip, String serverName) throws RemoteException, NotBoundException, MalformedURLException {
-			this.client = new RMIClient(client);    //RMIClient to send to server used to receive responses
-			server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + serverName);
-			pingTimer();
+	public RMIClientToServer(ClientGUI client, String ip, String serverName) throws RemoteException, NotBoundException, MalformedURLException {
+		clientGUI = client;
+		this.client = new RMIClient(client);    //RMIClient to send to server used to receive responses
+		server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + serverName);
+		pingTimer();
 	}
 
-	// Timer to ping the server set with a delay of 500 milliseconds, repeat every 2 and half minutes
+	// Timer to ping the server set with a delay of 500 milliseconds, repeat every 2 and half seconds
 	private void pingTimer() {
 		pingTimer = new Timer();
 		pingTimer.scheduleAtFixedRate(new TimerTask() {
@@ -35,65 +37,17 @@ public class RMIClientToServer implements ServerInterface {
 			public void run() {
 				ping();
 			}
-		}, 500, 2500);
+		}, 500, PING_TIMER);
 	}
 
 	// ping the RMI Server
-	private boolean ping() {
+	private void ping() {
 		try {
 			server.ping();
-			return true;
-		} catch(Exception e) {
-			e.printStackTrace();
+		} catch(RemoteException e) {    //Lost connection
 			pingTimer.cancel();
-			// LOST CONNECTION
-			System.out.println("Connection lost with RMI Server!");
-			reconnectTimer();
-			return false;
-		}
-	}
 
-	// Timer to ping the server set with a delay of 500 milliseconds, repeat every 2 and half minutes
-	private void reconnectTimer() {
-		reconnection_attempts = 0;
-		reconnectTimer = new Timer();
-		reconnectTimer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				reconnectPing();
-			}
-		}, 500, 2500);
-	}
-
-	private void reconnectPing() {
-		reconnection_attempts++;
-		if(reconnection_attempts < MAX_RECONNECTION_ATTEMPTS) {
-			try {
-				server.ping();
-				//Notify the client is back online and will try to restore the connection with the server
-				System.out.println("You are back online, trying to restore the connection with RMI Server...");
-				reconnectTimer.cancel();
-				server.reconnect(client, client.getSessionID(), sessionNickname);
-				pingTimer();
-			} catch(Exception e) {
-				// e.printStackTrace();
-				// Still can't get to server
-				System.out.println("Attempt to reconnect failed");
-			}
-		} else {
-			reconnectTimer.cancel();
-			System.out.println("Automatic reconnection attempts stopped, manual reconnection needed.");
-		}
-	}
-
-	public boolean reconnect() {
-		try {
-			server.reconnect(client, client.getSessionID(), sessionNickname);
-			pingTimer();
-			return true;
-		} catch(RemoteException e) {
-			e.printStackTrace();
-			return false;
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -103,7 +57,7 @@ public class RMIClientToServer implements ServerInterface {
 			server.login(username, client);
 			sessionNickname = username;
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -117,7 +71,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.selectWindowPattern(client, i);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -126,7 +80,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.placeDiceFromDraft(client, dice, row, col);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -135,7 +89,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.useToolCard(client, index);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -144,7 +98,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.endTurn(client);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -153,7 +107,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.selectDiceFromDraftEffect(client, dice);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -162,7 +116,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.incrementOrDecrementDiceEffect(client, mode);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -171,7 +125,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.selectDiceFromWindowPatternEffect(client, row, col);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -180,7 +134,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.moveDiceInWindowPatternEffect(client, row, col);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 
@@ -189,7 +143,7 @@ public class RMIClientToServer implements ServerInterface {
 		try {
 			server.placeDice(client, row, col);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+			clientGUI.lostConnenction();
 		}
 	}
 }

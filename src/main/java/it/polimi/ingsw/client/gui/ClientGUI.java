@@ -21,7 +21,9 @@ public class ClientGUI extends Application implements ClientInterface {
 	private Client client;
 	private Stage primaryStage;
 
-	private Parent loginRoot, lobbyRoot, selectWPRoot, gameRoot, scoresRoot;
+	//private Parent loginRoot, lobbyRoot, selectWPRoot, gameRoot, scoresRoot;
+
+	private Scene login, lobby, selectWP, game, scores;
 
 	private LoginGUI loginGUI;
 	private LobbyGUI lobbyGUI;
@@ -49,35 +51,34 @@ public class ClientGUI extends Application implements ClientInterface {
 		//Load login GUI
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/login.fxml"));
 
-		loginRoot = loader.load();
+		login = new Scene(loader.load());
 		loginGUI = loader.getController();
 		loginGUI.setClient(client);
 
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/lobby.fxml"));
 
-		lobbyRoot = loader.load();
+		lobby = new Scene(loader.load());
 		lobbyGUI = loader.getController();
 		lobbyGUI.setClient(client);
 
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/selectWP.fxml"));
 
-		selectWPRoot = loader.load();
+		selectWP = new Scene(loader.load());
 		selectWPGUI = loader.getController();
 		selectWPGUI.setClient(client);
 
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/game.fxml"));
 
-		gameRoot = loader.load();
+		game = new Scene(loader.load());
 		gameGUI = loader.getController();
 		gameGUI.setClient(client);
 
 		loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/scores.fxml"));
 
-		scoresRoot = loader.load();
+		scores = new Scene(loader.load());
 		scoresGUI = loader.getController();
-		//scoresGUI.setClient(client);
 
-		primaryStage.setScene(new Scene(loginRoot));
+		primaryStage.setScene(login);
 		primaryStage.setTitle("Sagrada");
 		primaryStage.show();
 	}
@@ -86,7 +87,7 @@ public class ClientGUI extends Application implements ClientInterface {
 	@Override
 	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) {
 		Platform.runLater(() -> {
-			primaryStage.setScene(new Scene(selectWPRoot));
+			primaryStage.setScene(selectWP);
 			primaryStage.show();
 		});
 		selectWPGUI.showWindowPattern(windowPatterns);
@@ -115,7 +116,7 @@ public class ClientGUI extends Application implements ClientInterface {
 		gameGUI.sendPlayersList(myUsername, lastPlayersList);
 
 		Platform.runLater(() -> {
-			primaryStage.setScene(new Scene(gameRoot));
+			primaryStage.setScene(game);
 			primaryStage.show();
 		});
 	}
@@ -200,7 +201,7 @@ public class ClientGUI extends Application implements ClientInterface {
 		scoresGUI.sendScores(lastPlayersList, scores);
 
 		Platform.runLater(() -> {
-			primaryStage.setScene(new Scene(scoresRoot));
+			primaryStage.setScene(this.scores);
 			primaryStage.show();
 		});
 	}
@@ -210,23 +211,20 @@ public class ClientGUI extends Application implements ClientInterface {
 		if(result[0].equals("success"))
 			this.myUsername = result[1];
 
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				if(result[0].equals("success")) {
-					try {
-						//Load lobby GUI
-						primaryStage.setScene(new Scene(lobbyRoot));
-						primaryStage.show();
+		Platform.runLater(() -> {
+			if(result[0].equals("success")) {
+				try {
+					//Load lobby GUI
+					primaryStage.setScene(lobby);
+					primaryStage.show();
 
-					} catch(Exception e) {
-						e.printStackTrace();    //FATAL ERROR!
-					}
-				} else if(result[0].equals("fail")) {
-					if(result[1].equals("0")) {
-						Alert alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso  username è già registato!");
-						alert.showAndWait();
-					}
+				} catch(Exception e) {
+					e.printStackTrace();    //FATAL ERROR!
+				}
+			} else if(result[0].equals("fail")) {
+				if(result[1].equals("0")) {
+					Alert alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso  username è già registato!");
+					alert.showAndWait();
 				}
 			}
 		});
@@ -242,8 +240,6 @@ public class ClientGUI extends Application implements ClientInterface {
 	public void closeConnection() {
 
 	}
-
-
 
 	@Override
 	public void notifyNewUser(String username) {
@@ -269,5 +265,15 @@ public class ClientGUI extends Application implements ClientInterface {
 	@Override
 	public void notifyReconnectionStatus(boolean status, String message) {
 
+	}
+
+	public void lostConnenction() {
+		Platform.runLater(() -> {
+			primaryStage.setScene(login);
+			primaryStage.show();
+
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Connessione col server interrotta!");
+			alert.showAndWait();
+		});
 	}
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.rmi.RMIClientToServer;
 import it.polimi.ingsw.client.socket.SocketClient;
 import it.polimi.ingsw.paramsloader.NetParamsLoader;
@@ -15,11 +16,11 @@ public class Client {
 	private ServerInterface serverInterface = null;
 	private NetParamsLoader paramsLoader;
 
-	private ClientInterface clientOut;    //Interface to client (CLI or GUI)
+	private ClientGUI clientOut;    //Interface to client (CLI or GUI)
 
 	private String username;	//The player's username
 
-	public Client(ClientInterface clientInterface) throws FileNotFoundException {
+	public Client(ClientGUI clientInterface) throws FileNotFoundException {
 		clientOut = clientInterface;
 		paramsLoader = new NetParamsLoader("src/main/resources/netParams.json");
 	}
