@@ -31,22 +31,26 @@ public class ToolCardsLoader extends CardsLoader {
 				ArrayList<Effect> effects = new ArrayList<>();
 				ArrayList<Prerequisite> prerequisiteTypes = new ArrayList<>();
 
-				JsonArray effectsArray = currCard.getJsonArray("effects");
+				//Load pre
 				JsonArray prerequisiteArray = currCard.getJsonArray("pres");
-				for(int i=0; i < prerequisiteArray.size(); i++){
-					JsonObject preJson = prerequisiteArray.getJsonObject(i);
+				if(prerequisiteArray != null)
+					for(int i = 0; i < prerequisiteArray.size(); i++) {
+						JsonObject preJson = prerequisiteArray.getJsonObject(i);
 
-					PrerequisiteType prerequisiteType = PrerequisiteType.valueOf(preJson.getString("pre"));
+						PrerequisiteType prerequisiteType = PrerequisiteType.valueOf(preJson.getString("pre"));
 
-					switch(prerequisiteType){
-						case HAS_NOT_PLACED_DICE:
-							prerequisiteTypes.add(new HasNotPlacedDicePre());
-							break;
-						case IS_SECOND_TURN:
-							prerequisiteTypes.add(new IsSecondTurnPre());
-							break;
+						switch(prerequisiteType) {
+							case HAS_NOT_PLACED_DICE:
+								prerequisiteTypes.add(new HasNotPlacedDicePre());
+								break;
+							case IS_SECOND_TURN:
+								prerequisiteTypes.add(new IsSecondTurnPre());
+								break;
+						}
 					}
-				}
+
+				//Load effects
+				JsonArray effectsArray = currCard.getJsonArray("effects");
 				for(int c2 = 0; c2 < effectsArray.size(); c2++) {    //For each effect
 					JsonObject effectJson = effectsArray.getJsonObject(c2);
 
