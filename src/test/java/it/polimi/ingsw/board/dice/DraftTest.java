@@ -88,4 +88,18 @@ public class DraftTest {
         draft.addDice(new Dice(3,Color.BLUE));
         assertEquals("Draft's dices: {Dice: value 2, Color y}, {Dice: value 1, Color g}, {Dice: value 3, Color b}",draft.toString());
     }
+
+    @Test
+    public void getClone(){
+        Draft df = new Draft(4);
+        Draft df2 = df.getClone(4);
+        //verify that they are equals
+        assertEquals(df.toString(), df2.toString());
+        Dice d = new Dice(3, Color.GREEN);
+        df.addDice(d);
+        //verify that by adding a Dice they are no more equals
+        assertEquals(false,df.equals(df2));
+        //check if the memory address is different
+        assertEquals(false,df==df.getClone(4));
+    }
 }

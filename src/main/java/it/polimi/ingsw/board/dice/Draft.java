@@ -55,6 +55,15 @@ public class Draft {
         }
     }
 
+    public Draft getClone(int players){
+        Draft df = new Draft(players);
+        df.setMaxDices(this.maxDices);
+        for(Dice d : this.getDices()){
+            df.addDice(d);
+        }
+        return df;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Draft's dices: ");
