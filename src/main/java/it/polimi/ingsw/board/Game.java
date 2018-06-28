@@ -89,6 +89,7 @@ public class Game extends Observable {
 
 		for(ToolCard toolCard : toolCards) {
 			toolCard.initializeEffects(this);
+			toolCard.initializePres(this);
 		}
 
 		//Notify to all

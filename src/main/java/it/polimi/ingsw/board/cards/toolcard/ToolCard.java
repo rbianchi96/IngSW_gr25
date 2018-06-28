@@ -4,6 +4,7 @@ import it.polimi.ingsw.board.Game;
 import it.polimi.ingsw.board.cards.Card;
 import it.polimi.ingsw.board.cards.toolcard.effects.Effect;
 import it.polimi.ingsw.board.cards.toolcard.effects.EffectType;
+import it.polimi.ingsw.board.cards.toolcard.effects.Prerequisite;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class ToolCard extends Card implements Serializable {
 	private int id;
 	private String name;
 	private ArrayList<Effect> effects;
+	private ArrayList<Prerequisite> pres;
 	private int favorTokensNumber;
 
 	/**
@@ -20,15 +22,14 @@ public class ToolCard extends Card implements Serializable {
 	 * @param id the id of the tool card
 	 * @param name the name of the tool card
 	 * @param effects the list of effects of the tool card
+	 * @param pres the list of the prerequisites of the tool card
 	 */
-	public ToolCard(int id, String name, ArrayList<Effect> effects) {
+	public ToolCard(int id, String name, ArrayList<Effect> effects, ArrayList<Prerequisite> pres) {
 		this.id = id;
 		this.name = name;
 		this.favorTokensNumber = 0;
-		if(effects != null) {
-			this.effects = effects;	//TODO clone
-		} else
-			this.effects = null;
+		this.effects = effects;
+		this.pres = pres;
 
 	}
 
@@ -46,6 +47,14 @@ public class ToolCard extends Card implements Serializable {
 			effect.setGame(game);
 	}
 
+	/**
+	 * Inzitialize the prerequisites.
+	 * @param game the game in order to check its data
+	 */
+	public void initializePres(Game game){
+		for(Prerequisite pre : pres)
+			pre.setGame(game);
+	}
 	public int getId() {
 		return id;
 	}
@@ -130,6 +139,6 @@ public class ToolCard extends Card implements Serializable {
 	 * @return a tool card without effects
 	 */
 	public ToolCard getCleanClone() {
-		return new ToolCard(this.id, this.name, null);
+		return new ToolCard(this.id, this.name, null, null);
 	}
 }

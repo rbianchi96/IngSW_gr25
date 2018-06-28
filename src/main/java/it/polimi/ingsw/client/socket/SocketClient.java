@@ -119,6 +119,7 @@ public class SocketClient extends Socket implements ServerInterface {
 						toolCards[i] = new ToolCard(
 								Integer.parseInt(msgVector[2 * i + 1]),
 								msgVector[2 * i + 2],
+								null,
 								null
 						);
 					}

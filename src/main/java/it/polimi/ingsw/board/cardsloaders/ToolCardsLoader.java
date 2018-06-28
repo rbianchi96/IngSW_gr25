@@ -29,7 +29,7 @@ public class ToolCardsLoader extends CardsLoader {
 
 				JsonObject currCard = cardsArray.get(currIndex);
 				ArrayList<Effect> effects = new ArrayList<>();
-				ArrayList<Prerequisite> prerequisiteTypes = new ArrayList<>();
+				ArrayList<Prerequisite> prerequisites = new ArrayList<>();
 
 				//Load pre
 				JsonArray prerequisiteArray = currCard.getJsonArray("pres");
@@ -41,10 +41,10 @@ public class ToolCardsLoader extends CardsLoader {
 
 						switch(prerequisiteType) {
 							case HAS_NOT_PLACED_DICE:
-								prerequisiteTypes.add(new HasNotPlacedDicePre());
+								prerequisites.add(new HasNotPlacedDicePre());
 								break;
 							case IS_SECOND_TURN:
-								prerequisiteTypes.add(new IsSecondTurnPre());
+								prerequisites.add(new IsSecondTurnPre());
 								break;
 						}
 					}
@@ -92,7 +92,7 @@ public class ToolCardsLoader extends CardsLoader {
 				}
 
 				toolCards[c] =
-						new ToolCard(currCard.getInt("id"), currCard.getString("name"), effects);
+						new ToolCard(currCard.getInt("id"), currCard.getString("name"), effects, prerequisites);
 
 				cardsArray.remove(currIndex);    //Remove selected card
 			}
