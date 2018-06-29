@@ -6,7 +6,7 @@ public class GameParamsLoader extends ParamsLoader {
 	private int lobbyTime;
 	private int maxRoundTime;
 
-	public GameParamsLoader(String fileName) throws FileNotFoundException {
+	public GameParamsLoader(String fileName) throws NullPointerException {
 		super(fileName);
 
 		lobbyTime = root.getInt("lobbyTime");

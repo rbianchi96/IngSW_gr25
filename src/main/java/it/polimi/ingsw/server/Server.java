@@ -24,7 +24,7 @@ public class Server {
 		controller = new Controller(lobby);
 
 		try {
-			NetParamsLoader netParamsLoader = new NetParamsLoader("src/main/resources/netParams.json");
+			NetParamsLoader netParamsLoader = new NetParamsLoader("netParams.json");
 
 			// Start Socket Server
 			try {
@@ -45,7 +45,7 @@ public class Server {
 			} catch(Exception e) {
 				System.out.println("RMI Server failed: " + e);
 			}
-		} catch(FileNotFoundException e) {
+		} catch(NullPointerException e) {	//Net params file not found
 			e.printStackTrace();
 		}
 	}

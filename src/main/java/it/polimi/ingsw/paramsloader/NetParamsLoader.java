@@ -9,7 +9,7 @@ public class NetParamsLoader extends ParamsLoader {
 	private String rMIServerName;
 	private int rMIServerPort;
 
-	public NetParamsLoader(String fileName) throws FileNotFoundException {
+	public NetParamsLoader(String fileName) throws NullPointerException {
 		super(fileName);
 
 		socketServerPort = root.getJsonObject("socketServer").getInt("port");

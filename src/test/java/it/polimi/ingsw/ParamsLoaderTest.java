@@ -14,13 +14,13 @@ public class ParamsLoaderTest {
 			GameParamsLoader gameParamsLoader;
 
 			//Test with test1.jdon (expected 1 and 2)
-			gameParamsLoader = new GameParamsLoader("src/test/resources/gameParams/test1.json");
+			gameParamsLoader = new GameParamsLoader("gameParams/test1.json");
 
 			assertEquals(gameParamsLoader.getLobbyTime(), 1);
 			assertEquals(gameParamsLoader.getMaxRoundTime(), 2);
 
 			//Test with test1.jdon (expected 2 and 1)
-			gameParamsLoader = new GameParamsLoader("src/test/resources/gameParams/test2.json");
+			gameParamsLoader = new GameParamsLoader("gameParams/test2.json");
 
 			assertEquals(gameParamsLoader.getLobbyTime(), 2);
 			assertEquals(gameParamsLoader.getMaxRoundTime(), 1);

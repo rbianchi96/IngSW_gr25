@@ -22,7 +22,7 @@ public class Client {
 
 	public Client(ClientGUI clientInterface) throws FileNotFoundException {
 		clientOut = clientInterface;
-		paramsLoader = new NetParamsLoader("src/main/resources/netParams.json");
+		paramsLoader = new NetParamsLoader("netParams.json");
 	}
 
 	public void loginAndConnect(ConnectionMode connectionMode, String ip, String username) throws IOException, NotBoundException {
