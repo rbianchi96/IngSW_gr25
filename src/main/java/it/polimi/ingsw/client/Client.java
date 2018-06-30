@@ -20,7 +20,7 @@ public class Client {
 
 	private String username;	//The player's username
 
-	public Client(ClientGUI clientInterface) throws FileNotFoundException {
+	public Client(ClientGUI clientInterface) {
 		clientOut = clientInterface;
 		paramsLoader = new NetParamsLoader("netParams.json");
 	}

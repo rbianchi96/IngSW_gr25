@@ -4,7 +4,6 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
@@ -35,10 +34,10 @@ public class SelectWPGUI extends GUIController {
 
 	public void showWindowPattern(WindowPattern[] windowPatterns) {
 		Platform.runLater(() -> {
-			Drawers.drawWindowPattern(pattern0, windowPatterns[0], false);
-			Drawers.drawWindowPattern(pattern1, windowPatterns[1], false);
-			Drawers.drawWindowPattern(pattern2, windowPatterns[2], false);
-			Drawers.drawWindowPattern(pattern3, windowPatterns[3], false);
+			Drawers.drawWindowPattern(pattern0, windowPatterns[0]);
+			Drawers.drawWindowPattern(pattern1, windowPatterns[1]);
+			Drawers.drawWindowPattern(pattern2, windowPatterns[2]);
+			Drawers.drawWindowPattern(pattern3, windowPatterns[3]);
 
 			patternName0.setText(windowPatterns[0].getName());
 			Drawers.setDifficulty(difficulties[0], (windowPatterns[0].getDifficulty()));

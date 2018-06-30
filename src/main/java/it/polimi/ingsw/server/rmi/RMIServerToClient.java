@@ -186,6 +186,16 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void updatePlayersTokens(int[] tokens) {
+		try {
+			rmiClientInterface.updatePlayersTokens(tokens);
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void updateToolCardsTokens(int[] tokens) {
 		try {
 			rmiClientInterface.updateToolCardsTokens(tokens);

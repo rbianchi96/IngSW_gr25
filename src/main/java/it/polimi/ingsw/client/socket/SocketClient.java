@@ -162,13 +162,22 @@ public class SocketClient extends Socket implements ServerInterface {
 				case UPDATE_WINDOW_PATTERNS:
 					client.updateWindowPatterns(decodeWindowPatterns(Arrays.copyOfRange(msgVector, 1, msgVector.length)));
 					break;
-				case UPDATE_TOOL_CARDS_TOKENS:
-					int[] tokens = new int[msgVector.length - 1];
+				case UPDATE_PLAYERS_TOKENS:
+					int[] playersTokens = new int[msgVector.length - 1];
 
 					for(int i = 1; i < msgVector.length; i++)
-						tokens[i - 1] = Integer.parseInt(msgVector[i]);
+						playersTokens[i - 1] = Integer.parseInt(msgVector[i]);
 
-					client.updateToolCardsTokens(tokens);
+					client.updatePlayersTokens(playersTokens);
+
+					break;
+				case UPDATE_TOOL_CARDS_TOKENS:
+					int[] cardsTokens = new int[msgVector.length - 1];
+
+					for(int i = 1; i < msgVector.length; i++)
+						cardsTokens[i - 1] = Integer.parseInt(msgVector[i]);
+
+					client.updateToolCardsTokens(cardsTokens);
 
 					break;
 				case UPDATE_ROUND_TRACK:
@@ -216,6 +225,8 @@ public class SocketClient extends Socket implements ServerInterface {
 				case CELL_ALREADY_OCCUPIED:
 					client.cellAlreadyOccupied();
 
+					break;
+				case ROLL_DICE_FROM_DRAFT:
 					break;
 				case SEND_SCORES:
 					client.sendScores(decodeScores((Arrays.copyOfRange(msgVector, 1, msgVector.length))));
@@ -460,6 +471,6 @@ public class SocketClient extends Socket implements ServerInterface {
 	}
 
 	public void lostConnection() {
-		client.lostConnenction();;
+		client.lostConnenction();
 	}
 }

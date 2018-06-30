@@ -90,6 +90,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void updatePlayersTokens(int[] tokens) throws RemoteException {
+		client.updatePlayersTokens(tokens);
+	}
+
+	@Override
 	public void updateToolCardsTokens(int[] tokens) throws RemoteException {
 		client.updateToolCardsTokens(tokens);
 	}

@@ -21,6 +21,7 @@ public enum ClientCommand {
 	NEW_TURN("newTurn"),
 	UPDATE_DRAFT("updateDraft"),
 	UPDATE_WINDOW_PATTERNS("updateWindowPatterns"),
+	UPDATE_PLAYERS_TOKENS("updatePlayersTokens"),
 	UPDATE_TOOL_CARDS_TOKENS("updateToolCardsTokens"),
 	UPDATE_ROUND_TRACK("updateRoundTrack"),
 

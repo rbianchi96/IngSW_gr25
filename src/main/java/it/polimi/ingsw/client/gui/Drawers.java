@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.gui;
 
-import com.sun.scenario.effect.impl.prism.PrImage;
-import it.polimi.ingsw.board.Color;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
@@ -9,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -114,11 +111,11 @@ class Drawers {
 		return circle;
 	}
 
-	public static void drawWindowPattern(GridPane gridPane, WindowPattern windowPattern, boolean showDices) {
-		drawWindowPattern(gridPane, windowPattern, showDices, null);
+	public static void drawWindowPattern(GridPane gridPane, WindowPattern windowPattern) {
+		drawWindowPattern(gridPane, windowPattern, null);
 	}
 
-	public static void drawWindowPattern(GridPane gridPane, WindowPattern windowPattern, boolean showDices, EventHandler<MouseEvent> eventHandler) {
+	public static void drawWindowPattern(GridPane gridPane, WindowPattern windowPattern, EventHandler<MouseEvent> eventHandler) {
 		try {
 			gridPane.getChildren().clear();
 
@@ -153,21 +150,19 @@ class Drawers {
 
 					gridPane.add(cell, col, row);
 
-					if(showDices) {
-						Dice dice = windowPattern.getDice(row, col);
-						if(dice != null) {
-							AnchorPane pane = createDice(dice, cellSize * DICE_SIZE_K);
+					Dice dice = windowPattern.getDice(row, col);
+					if(dice != null) {
+						AnchorPane pane = createDice(dice, cellSize * DICE_SIZE_K);
 
-							GridPane.setHalignment(pane, HPos.CENTER);
-							GridPane.setValignment(pane, VPos.CENTER);
+						GridPane.setHalignment(pane, HPos.CENTER);
+						GridPane.setValignment(pane, VPos.CENTER);
 
-							gridPane.add(pane, col, row);
+						gridPane.add(pane, col, row);
 
-							if(eventHandler != null)
-								pane.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+						if(eventHandler != null)
+							pane.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
 
-							continue;
-						}
+						continue;
 					}
 
 					if(eventHandler != null)
@@ -184,6 +179,16 @@ class Drawers {
 				dots[c].setVisible(true);
 			else
 				dots[c].setVisible(false);
+		}
+	}
+
+	public static void setAvailbleTokens(Circle[] dots, int availableTokens) {
+		for(int c = 0; c < dots.length; c++) {
+			if(dots[c].isVisible())
+				if(c < availableTokens)
+					dots[c].setOpacity(1);
+				else
+					dots[c].setOpacity(.5);
 		}
 	}
 }

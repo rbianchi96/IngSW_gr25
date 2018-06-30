@@ -31,6 +31,7 @@ public interface ClientInterface {
 	public void newTurn(int currentPlayer);
 	public void updateDraft(Dice[] dices);
 	public void updateWindowPatterns(WindowPattern[] windowPatterns);
+	public void updatePlayersTokens(int[] tokens);
 	public void updateToolCardsTokens(int[] tokens);
 	public void updateRoundTrack(RoundTrackDices[] roundTrack);
 

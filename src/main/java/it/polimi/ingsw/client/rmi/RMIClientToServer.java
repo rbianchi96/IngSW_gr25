@@ -37,7 +37,7 @@ public class RMIClientToServer implements ServerInterface {
 			public void run() {
 				ping();
 			}
-		}, 500, PING_TIMER);
+		}, PING_TIMER, PING_TIMER);
 	}
 
 	// ping the RMI Server

@@ -67,6 +67,9 @@ public class Game extends Observable {
 		setChanged();
 		notifyObservers(NotifyType.PRIVATE_OBJECTIVE_CARD);
 
+		setChanged();
+		notifyObservers(NotifyType.PLAYERS_TOKENS);
+
 		for(int i = 0; i < players.size(); i++) {   //For each player
 			WindowPattern[] windowPatternsToChoose = new WindowPattern[4];
 			windowPatternsToChoose[0] = windowPatternsCards[2 * i].getPattern1();
@@ -269,6 +272,9 @@ public class Game extends Observable {
 
 		toolCards[index].setFavorTokensNumber(toolCards[index].getFavorTokensNumber() + toolCardCost);
 		player.setFavourTokens(player.getFavourTokens() - toolCardCost);
+
+		setChanged();
+		notifyObservers(NotifyType.PLAYERS_TOKENS);
 
 		setChanged();
 		notifyObservers(NotifyType.TOOL_CARDS_TOKENS);
@@ -531,6 +537,16 @@ public class Game extends Observable {
 		return allWindowPatterns;
 	}
 
+	public int[] getPlayersTokens() {
+		int tokens[] = new int[players.size()];
+
+		for(int i = 0; i < tokens.length; i++) {
+			tokens[i] = players.get(i).getFavourTokens();
+		}
+
+		return tokens;
+	}
+
 	public int[] getToolCardsTokens() {
 		int tokens[] = new int[TOOL_CARDS_NUMBER];
 
@@ -552,7 +568,7 @@ public class Game extends Observable {
 
 	public enum NotifyType {
 		SELECT_WINDOW_PATTERN, PRIVATE_OBJECTIVE_CARD, PUBLIC_OBJECTIVE_CARDS, TOOL_CARDS,
-		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, TOOL_CARDS_TOKENS, ROUND_TRACK,
+		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, PLAYERS_TOKENS, TOOL_CARDS_TOKENS, ROUND_TRACK,
 		SCORES
 	}
 

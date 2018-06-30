@@ -60,7 +60,7 @@ public class GameGUI extends GUIController {
 			publicObjectiveCard0, publicObjectiveCard1, publicObjectiveCard2;
 
 	@FXML
-	Label favorTokens0, favorTokens1, favorTokens2;
+	Label cardTokens0, cardTokens1, cardTokens2;
 
 	private ImageView toolCards[], publicObjectiveCards[];
 
@@ -134,16 +134,17 @@ public class GameGUI extends GUIController {
 		Platform.runLater(() -> {
 			for(int i = 0; i < windowPatterns.length; i++) {
 				if(i == myIndex) {
-					Drawers.drawWindowPattern(patterns[0], windowPatterns[i], true, onCellSelected);
+					Drawers.drawWindowPattern(patterns[0], windowPatterns[i], onCellSelected);
 				} else {
-					Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], true);
+					Drawers.drawWindowPattern(patterns[playersMap.get(i)], windowPatterns[i], null);
 				}
 
 				patternNames[playersMap.get(i)].setText(windowPatterns[i].getName());
 
-				for(int i2 = 0; i2 < difficulties[playersMap.get(i)].length; i2++) {
-					Drawers.setDifficulty(difficulties[playersMap.get(i)], windowPatterns[i].getDifficulty());
-				}
+				Drawers.setAvailbleTokens(
+						difficulties[playersMap.get(i)],
+						windowPatterns[i].getDifficulty()
+				);
 			}
 		});
 	}
@@ -374,11 +375,23 @@ public class GameGUI extends GUIController {
 		});
 	}
 
+	public void updatePlayersTokens(int[] tokens) {
+		Platform.runLater(() -> {
+					for(int i = 0; i < playersMap.size(); i++) {
+						Drawers.setAvailbleTokens(
+								difficulties[playersMap.get(i)],
+								tokens[i]
+						);
+					}
+				}
+		);
+	}
+
 	public void updateToolCardsTokens(int[] tokens) {
 		Platform.runLater(() -> {
-			favorTokens0.setText(String.valueOf(tokens[0]));
-			favorTokens1.setText(String.valueOf(tokens[1]));
-			favorTokens2.setText(String.valueOf(tokens[2]));
+			cardTokens0.setText(String.valueOf(tokens[0]));
+			cardTokens1.setText(String.valueOf(tokens[1]));
+			cardTokens2.setText(String.valueOf(tokens[2]));
 		});
 	}
 

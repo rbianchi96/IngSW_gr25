@@ -46,10 +46,15 @@ public class ModelObserver implements java.util.Observer {
 				break;
 			case DRAFT:
 				clientInterface.updateDraft(model.getDraftDices());
-				break;
 
+				break;
 			case WINDOW_PATTERNS:
 				clientInterface.updateWindowPatterns(model.getAllWindowPatterns());
+
+				break;
+			case PLAYERS_TOKENS:
+				clientInterface.updatePlayersTokens(model.getPlayersTokens());
+
 				break;
 			case TOOL_CARDS_TOKENS:
 				clientInterface.updateToolCardsTokens(model.getToolCardsTokens());

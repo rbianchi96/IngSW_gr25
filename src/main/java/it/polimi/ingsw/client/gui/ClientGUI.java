@@ -132,6 +132,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void updatePlayersTokens(int[] tokens) {
+		gameGUI.updatePlayersTokens(tokens);
+	}
+
+	@Override
 	public void updateToolCardsTokens(int[] tokens) {
 		gameGUI.updateToolCardsTokens(tokens);
 	}

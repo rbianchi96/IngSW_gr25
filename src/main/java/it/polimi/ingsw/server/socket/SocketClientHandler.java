@@ -274,6 +274,16 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void updatePlayersTokens(int[] tokens) {
+		out.print(encode(UPDATE_PLAYERS_TOKENS));
+		for(int t : tokens)
+			out.print("#" + String.valueOf(t));
+
+		out.println();
+		out.flush();
+	}
+
+	@Override
 	public synchronized void updateToolCardsTokens(int[] tokens) {
 		out.print(encode(UPDATE_TOOL_CARDS_TOKENS));
 		for(int t : tokens)

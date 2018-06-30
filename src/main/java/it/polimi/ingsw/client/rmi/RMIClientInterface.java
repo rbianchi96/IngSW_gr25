@@ -35,6 +35,7 @@ public interface RMIClientInterface extends Remote {
 	public void newTurn(int currentPlayer) throws RemoteException;
 	public void updateDraft(Dice[] dices) throws RemoteException;
 	public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException;
+	public void updatePlayersTokens(int[] tokens) throws RemoteException;
 	public void updateToolCardsTokens(int[] tokens) throws RemoteException;
 	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) throws RemoteException;
 

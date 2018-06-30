@@ -48,6 +48,7 @@ The words written in capital refers to Java enumeration, the actual string sent 
 
 - `UPDATE_DRAFT Dice ... [Dice]` Send the current dice in draft.
 - `UPDATE_WINDOW_PATTERNS WindowPattern [WindowPattern] [WindowPattern] [WindowPattern]` Send all the window patterns.
+- `UPDATE_PLAYERS_TOKENS` Send the favor tokens of every player.
 - `UPDATE_TOOL_CARDS_TOKENS token1 token2 token3` Send the favor tockens currently placed over the tool cards.
 - `UPDATE_ROUND_TRACK DiceList ... [DiceList]` Update the round track.
 
