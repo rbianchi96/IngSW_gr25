@@ -67,6 +67,9 @@ public class SocketClient extends Socket implements ServerInterface {
 		if(command != null)    //Convert the command to the enum
 			switch(command) {
 				case PING:
+					out.println(encode(ServerCommand.PONG));
+					out.flush();
+
 					break;
 				case CONNECTION_STATUS:
 					System.out.println(msgVector[1]);

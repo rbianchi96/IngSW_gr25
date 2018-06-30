@@ -23,8 +23,10 @@ import java.util.*;
 import static it.polimi.ingsw.client.ClientCommand.*;
 
 public class SocketClientHandler implements Runnable, ClientInterface {
+	private static final int PING_INTERVAL = 2500;
+
 	// If reached without any interaction, the connection will be close
-	private static final int MAX_TIMEOUT = 90000;
+	private static final int MAX_TIMEOUT = PING_INTERVAL * 2;
 	private Socket socket;
 	private Scanner in;
 	private Controller controller;
@@ -48,7 +50,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	private boolean ping() {
 		try {
-			out.println(PING.toString());
+			out.println(encode(PING));
 			out.flush();
 			return true;
 		} catch(Exception e) {
@@ -60,7 +62,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	public void run() {
 		try {
-			//socket.setSoTimeout(MAX_TIMEOUT); // set the timeout MAX_TIMEOUT
+			socket.setSoTimeout(MAX_TIMEOUT); // set the timeout MAX_TIMEOUT
 			in = new Scanner(socket.getInputStream());
 			out = new PrintWriter(socket.getOutputStream());
 			out.println(encode(CONNECTION_STATUS, "success", "Connection Established!"));
@@ -190,6 +192,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 				case PING:
 					out.println("pong");
 					out.flush();
+					break;
+				case PONG:
+					//Do nothing
+
 					break;
 				default: { // Invalid command
 					out.println(encode(INVALID_COMMAND));

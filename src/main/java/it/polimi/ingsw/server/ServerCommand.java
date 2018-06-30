@@ -18,7 +18,8 @@ public enum ServerCommand {
 	MOVE_DICE_IN_WINDOW_PATTERN("moveDiceInWP"),
 	PLACE_DICE("placeDice"),
 
-	PING("ping");
+	PING("ping"),
+	PONG("pong");
 
 	private String msg;
 
