@@ -16,6 +16,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class RMIServerToClient implements ClientInterface {
+	private static final int PING_INTERVAL = 2500;
+
 	private Controller controller;
 	private RMIClientInterface rmiClientInterface;
 	private Timer pingTimer;
@@ -72,7 +74,7 @@ public class RMIServerToClient implements ClientInterface {
 			public void run() {
 				ping();
 			}
-		}, 500, 5000);
+		}, PING_INTERVAL, PING_INTERVAL);
 	}
 
 	@Override

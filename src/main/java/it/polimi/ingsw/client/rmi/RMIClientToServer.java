@@ -25,6 +25,8 @@ public class RMIClientToServer implements ServerInterface {
 	public RMIClientToServer(ClientGUI client, String ip, String serverName) throws RemoteException, NotBoundException, MalformedURLException {
 		clientGUI = client;
 		this.client = new RMIClient(client);    //RMIClient to send to server used to receive responses
+
+		System.setProperty("sun.rmi.transport.tcp.responseTimeout", String.valueOf(PING_TIMER));
 		server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + serverName);
 		pingTimer();
 	}
@@ -58,6 +60,7 @@ public class RMIClientToServer implements ServerInterface {
 			sessionNickname = username;
 		} catch(RemoteException e) {
 			clientGUI.lostConnenction();
+			e.printStackTrace();
 		}
 	}
 
