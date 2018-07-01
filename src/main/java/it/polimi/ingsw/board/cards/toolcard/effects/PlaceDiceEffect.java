@@ -5,7 +5,7 @@ import it.polimi.ingsw.board.windowpattern.WindowPattern;
 
 public class PlaceDiceEffect extends Effect {
 	public PlaceDiceEffect() {
-		this.myEnum = EffectType.PLACE_DICE;
+		this.effectType = EffectType.PLACE_DICE;
 	}
 
 	public void apply(Dice dice, WindowPattern windowPattern, int row, int col) throws WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {
@@ -13,6 +13,7 @@ public class PlaceDiceEffect extends Effect {
 		if(diceFromDraft != null) {
 			try {
 				windowPattern.placeDice(diceFromDraft, row, col);   //Place the dice
+				used = true;
 			} catch(WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException | WindowPattern.CellAlreadyOccupiedException e) {
 				game.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
 
@@ -20,7 +21,6 @@ public class PlaceDiceEffect extends Effect {
 			}
 		}
 
-		used = true;
 		System.out.println("Dice placed.");
 	}
 }

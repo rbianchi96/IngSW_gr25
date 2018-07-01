@@ -189,6 +189,14 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					);
 
 					break;
+				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
+					controller.selectDiceFromRoundTrackAndSwitch(
+							this,
+							Integer.parseInt(request[1]),
+							Integer.parseInt(request[2])
+					);
+
+					break;
 				case PING:
 					out.println("pong");
 					out.flush();
@@ -337,6 +345,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.println(encode(
 				MOVE_WINDOW_PATTERN_DICE
 		));
+		out.flush();
+	}
+
+	@Override
+	public void selectDiceFromRoundTrack() {
+		out.println(encode(SELECT_DICE_FROM_ROUND_TRACK));
 		out.flush();
 	}
 

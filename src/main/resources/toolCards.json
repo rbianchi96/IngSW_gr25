@@ -100,9 +100,8 @@
 		"id": 10,
 		"name": "Tampone Diamantato",
 		"effects": [
-			{
-				"effect": "rotateDice"
-			}
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "FLIP_DICE_FROM_DRAFT"}
 		]
 	},
 	{

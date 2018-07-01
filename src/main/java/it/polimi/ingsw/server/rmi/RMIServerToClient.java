@@ -268,6 +268,16 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void selectDiceFromRoundTrack() {
+		try {
+			rmiClientInterface.selectDiceFromRoundTrack();
+		} catch(RemoteException e) {
+			e.printStackTrace();
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void endOfToolCardUse() {
 		try {
 			rmiClientInterface.endOfToolCardUse();

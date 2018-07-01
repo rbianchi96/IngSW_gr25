@@ -12,7 +12,6 @@ import it.polimi.ingsw.client.ClientCommand;
 
 import java.util.Observable;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Game extends Observable {
@@ -131,6 +130,10 @@ public class Game extends Observable {
 		setChanged();
 		notifyObservers(NotifyType.START_GAME);
 
+		updateAllWindowPatterns();
+		setChanged();
+		notifyObservers(NotifyType.PLAYERS_TOKENS);
+
 		rounds.nextRound();
 
 		startRound();
@@ -163,7 +166,7 @@ public class Game extends Observable {
 		if(rounds.getCurrentRound() != - 1) {
 			rollDicesFromDiceBag();
 			updateDraft();
-			updateAllWindowPatterns();
+			//updateAllWindowPatterns();
 		} else
 			endGame();
 	}
@@ -183,12 +186,14 @@ public class Game extends Observable {
 	}
 
 	// to call in order to skip the current turn of the player who request it
-	public void skipTurn(String username) throws WrongTurnException {
+	public void skipTurn(String username) throws WrongTurnException, InvalidCall {
 		Player player = findPlayer(username);
 		checkTurn(player);
 
 		if(currentToolCardInUse >= 0)    // if the player's using some card
-			toolCardUsageFinished();    // end the usage
+			throw new InvalidCall();
+
+		toolCardUsageFinished();    // end the usage
 
 		player.setHasPlacedDice(false);    // reset the in-turn steps
 		player.setHasPlayedToolCard(false);
@@ -281,7 +286,7 @@ public class Game extends Observable {
 
 		currentToolCardInUse = index;
 		findPlayer(username).setHasPlayedToolCard(true);
-		return toolCards[index].getEffect(0).getMyEnum().getCommand();
+		return toolCards[index].getEffect(0).getEffectType().getCommand();
 	}
 
 	public ClientCommand selectDiceFromDraftEffect(String username, Dice dice) throws WrongTurnException, InvalidCall, SelectDiceFromDraftEffect.DiceNotFoundException {
@@ -328,11 +333,17 @@ public class Game extends Observable {
 		int validate = toolCards[currentToolCardInUse].validate(EffectType.INCREMENT_DECREMENT_DICE);
 		if(validate == - 1) {
 			throw new InvalidCall();
-		} else if(((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(0)).getSelectedDice(), incDec)) {
+		} else if(
+				((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(
+						((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(0)).getSelectedDice(),
+						incDec
+				)
+				) {
 			setChanged();
 			notifyObservers(NotifyType.DRAFT);
+
 			return getNextEffect();
-		} else
+		} else    //Dice not incremented/decremented
 			return ClientCommand.SELECT_INCREMENT_OR_DECREMENT;
 	}
 
@@ -345,10 +356,10 @@ public class Game extends Observable {
 		if(validate == - 1) {
 			throw new InvalidCall();
 		} else {
-			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.INCREMENT_DECREMENT_DICE);
-			if(lastSelect != - 1) {
+			int lastSelectEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.INCREMENT_DECREMENT_DICE);
+			if(lastSelectEffect != - 1) {
 				((PlaceDiceEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(
-						((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getInc_decDice(),
+						((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectEffect))).getInc_decDice(),
 						player.getWindowPattern(),
 						row,
 						col);
@@ -367,7 +378,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand moveWindowPatternDiceEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
+	public ClientCommand moveWindowPatternDiceEffect(String username, int row, int col) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -377,7 +388,13 @@ public class Game extends Observable {
 			throw new InvalidCall();
 		} else {
 			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_WINDOW_PATTERN);
-			((MoveWindowPatternDiceEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(player.getWindowPattern(), x, y, ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getX(), ((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getY());
+
+			((MoveWindowPatternDiceEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(
+					player.getWindowPattern(),
+					row,
+					col,
+					((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getRow(),
+					((SelectDiceFromWindowPatternEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getCol());
 
 			setChanged();
 			notifyObservers(NotifyType.WINDOW_PATTERNS);
@@ -385,7 +402,8 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
-	public ClientCommand rollDiceFromDraftEffect(String username, Dice dice) throws InvalidCall, WrongTurnException {
+
+	public ClientCommand rollDiceFromDraftEffect(String username) throws InvalidCall, WrongTurnException {
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -395,7 +413,10 @@ public class Game extends Observable {
 			throw new InvalidCall();
 		} else {
 			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_DRAFT);
-			((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getSelectedDice());
+
+			((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(
+					((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getSelectedDice()
+			);
 
 			setChanged();
 			notifyObservers(NotifyType.DRAFT);
@@ -415,23 +436,76 @@ public class Game extends Observable {
 		} else {
 			int previousSelectDiceFromDraft = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_DRAFT);
 			if(previousSelectDiceFromDraft != - 1)
-				((SelectDiceFromRoundTrackAndSwitch)(toolCards[currentToolCardInUse].getEffect(validate))).apply(round, index, ((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(previousSelectDiceFromDraft)).getSelectedDice());
+				((SelectDiceFromRoundTrackAndSwitch)(toolCards[currentToolCardInUse].getEffect(validate))).apply(
+						round,
+						index,
+						((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(previousSelectDiceFromDraft)).getSelectedDice());
 			else
 				throw new InvalidCall();
 			setChanged();
 			notifyObservers(NotifyType.DRAFT);
+			setChanged();;
+			notifyObservers(NotifyType.ROUND_TRACK);
+			return getNextEffect();
+		}
+	}
+
+	public ClientCommand flipDiceFromDraftEffect(String username) throws InvalidCall, WrongTurnException {
+		Player player = findPlayer(username);
+		checkTurn(player);
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.FLIP_DICE_FROM_DRAFT);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_DRAFT);
+
+			((FlipDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(validate))).apply(
+					((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getSelectedDice()
+			);
+
+			setChanged();
+			notifyObservers(NotifyType.DRAFT);
+
 			return getNextEffect();
 		}
 	}
 
 	private ClientCommand getNextEffect() {
 		Effect nextEffect = toolCards[currentToolCardInUse].getNext();
-		if(nextEffect == null) {
+		if(nextEffect == null) {    //End of effects
 			cleanToolCard(toolCards[currentToolCardInUse]);
 			toolCardUsageFinished();
 			return null;
-		} else
-			return nextEffect.getMyEnum().getCommand();
+		} else {
+			ClientCommand command = nextEffect.getEffectType().getCommand();
+			if(command != null)
+				return nextEffect.getEffectType().getCommand();    //Request to client
+			else {    //Immediatly start the next effects (without any client request)
+				switch(nextEffect.getEffectType()) {
+					case ROLL_DICE_FROM_DRAFT:
+						try {
+							rollDiceFromDraftEffect(players.get(getCurrentPlayer()).getPlayerName());
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+
+						break;
+					case FLIP_DICE_FROM_DRAFT:
+						try {
+							flipDiceFromDraftEffect(players.get(getCurrentPlayer()).getPlayerName());
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+
+						break;
+				}
+
+
+				return null;
+			}
+		}
 	}
 
 	private void cleanToolCard(ToolCard toolCard) {
@@ -527,7 +601,11 @@ public class Game extends Observable {
 	public RoundTrack getRoundTrackDice() {
 		return gameBoard.getRoundTrack();
 	}
-	public boolean isCurrentPlayerFirstTurn() { return rounds.isCurrentPlayerFirstTurn();}
+
+	public boolean isCurrentPlayerFirstTurn() {
+		return rounds.isCurrentPlayerFirstTurn();
+	}
+
 	public WindowPattern[] getAllWindowPatterns() {
 		WindowPattern[] allWindowPatterns = new WindowPattern[players.size()];
 

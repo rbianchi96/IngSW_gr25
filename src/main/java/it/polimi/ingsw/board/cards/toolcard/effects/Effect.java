@@ -5,7 +5,7 @@ import it.polimi.ingsw.board.Game;
 import java.io.Serializable;
 
 public abstract class Effect implements Serializable {
-	EffectType myEnum; // Enumeration of the current effect
+	EffectType effectType; // Enumeration of the current effect
 	boolean used; // = true -> this effect, in the current ToolCard has already been used
 	Game game; // game attribute, need to be set before starting use the tool card, in order to change the gameboard
 
@@ -13,8 +13,8 @@ public abstract class Effect implements Serializable {
 		return used;
 	}
 
-	public EffectType getMyEnum() {
-		return myEnum;
+	public EffectType getEffectType() {
+		return effectType;
 	}
 
 	public void setGame(Game game) {

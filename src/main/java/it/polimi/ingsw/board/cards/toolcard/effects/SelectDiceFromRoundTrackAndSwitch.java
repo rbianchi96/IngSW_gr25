@@ -4,25 +4,30 @@ import it.polimi.ingsw.board.dice.Dice;
 
 public class SelectDiceFromRoundTrackAndSwitch extends Effect {
     public SelectDiceFromRoundTrackAndSwitch(){
-        this.myEnum= EffectType.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH;
+        this.effectType = EffectType.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH;
     }
-    public void apply(int round,int index,Dice fromDraftDice) throws DiceNotFoundException,InvaliDiceOrPosition{
-        if (fromDraftDice==null)
+
+    public void apply(int round,int index,Dice draftDice) throws DiceNotFoundException,InvaliDiceOrPosition{
+        if (draftDice==null)
             throw new NullPointerException();
-        Dice trackDiceToSwitch;
+
+        Dice roundTrackDice;
         try {
-            trackDiceToSwitch = game.getRoundTrackDice().getDice(round, index);
-        }catch (IndexOutOfBoundsException ex){
+            roundTrackDice = game.getRoundTrackDice().getDice(round, index);
+        } catch (IndexOutOfBoundsException ex){
             throw new DiceNotFoundException();
         }
+
         try {
-            game.getRoundTrackDice().addDice(round,index,fromDraftDice);
+            game.getRoundTrackDice().addDice(round,index,draftDice);
         }catch (IllegalArgumentException | IndexOutOfBoundsException | NullPointerException ex){
             throw new InvaliDiceOrPosition();
         }
-        game.getDraft().getDice(fromDraftDice);
-        game.getDraft().addDice(trackDiceToSwitch);
+        game.getDraft().getDice(draftDice);
+        game.getDraft().addDice(roundTrackDice);
+
         used=true;
+
         System.out.println("Valid dice selection and dice switched with Draft's one.");
 
     }

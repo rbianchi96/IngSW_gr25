@@ -44,6 +44,7 @@ public interface RMIClientInterface extends Remote {
 	public void placeDice() throws RemoteException;
 	public void selectDiceFromWindowPattern() throws RemoteException;
 	public void moveDiceInWindowPattern() throws RemoteException;
+	public void selectDiceFromRoundTrack() throws RemoteException;
 
 	public void endOfToolCardUse() throws RemoteException;
 

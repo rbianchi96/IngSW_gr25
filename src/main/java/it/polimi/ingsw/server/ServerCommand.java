@@ -17,6 +17,7 @@ public enum ServerCommand {
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWP"),
 	MOVE_DICE_IN_WINDOW_PATTERN("moveDiceInWP"),
 	PLACE_DICE("placeDice"),
+	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRTAndSwitch"),
 
 	PING("ping"),
 	PONG("pong");

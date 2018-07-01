@@ -7,7 +7,7 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
     private int x; // saved dice coordinates
     private int y;
     public SelectDiceFromWindowPatternEffect(){
-        this.myEnum = EffectType.SELECT_DICE_FROM_WINDOW_PATTERN;
+        this.effectType = EffectType.SELECT_DICE_FROM_WINDOW_PATTERN;
     }
     public void apply(WindowPattern windowPattern, int x, int y,int forbidX, int forbidY) throws DiceNotFoundException, AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
         if(forbidX >= 0 && forbidY >= 0)
@@ -28,11 +28,11 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
         }
 
     }
-    public int getX() {
+    public int getRow() {
         return x;
     }
 
-    public int getY() {
+    public int getCol() {
         return y;
     }
     public class DiceNotFoundException extends Exception{

@@ -148,6 +148,9 @@ public class Controller {
 				case SELECT_DICE_FROM_WINDOW_PATTERN:
 					clientInterface.selectDiceFromWindowPattern();
 					break;
+				case SELECT_DICE_FROM_ROUND_TRACK:
+					clientInterface.selectDiceFromRoundTrack();
+					break;
 				case MOVE_WINDOW_PATTERN_DICE:
 					clientInterface.moveDiceInWindowPattern();
 					break;
@@ -182,7 +185,7 @@ public class Controller {
 		} catch(Game.WrongTurnException ex) {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall ex) {
-			System.out.println("-_-'");
+			System.out.println("-_-");
 		} catch(SelectDiceFromDraftEffect.DiceNotFoundException ex) {
 			System.out.println("Dice not in draft!");
 		}
@@ -229,13 +232,13 @@ public class Controller {
 		} catch(Game.WrongTurnException ex) {
 			clientInterface.wrongTurn();
 		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
-			e.printStackTrace();
+			e.printStackTrace();	//TODO
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {
-			e.printStackTrace();
+			clientInterface.cellAlreadyOccupied();
 		} catch(Game.InvalidCall invalidCall) {
 			System.out.println("Invalid call!");
 		} catch(WindowPattern.PlacementRestrictionException e) {
-			e.printStackTrace();
+			clientInterface.dicePlacementRestictionBroken();
 		}
 	}
 
@@ -265,17 +268,20 @@ public class Controller {
 			lobby.getCurrentGame().skipTurn(findUsername(clientInterface));
 		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
+		} catch(Game.InvalidCall invalidCall) {
+			//TODO
 		}
 	}
-	public synchronized void rollDiceFromDraft(ClientInterface clientInterface, Dice dice){
+	public synchronized void rollDiceFromDraft(ClientInterface clientInterface){
 		try{
-			lobby.getCurrentGame().rollDiceFromDraftEffect(findUsername(clientInterface),dice);
+			lobby.getCurrentGame().rollDiceFromDraftEffect(findUsername(clientInterface));
 		} catch (Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
 		} catch (Game.InvalidCall invalidCall) {
 			invalidCall.printStackTrace();
 		}
 	}
+
 	public synchronized void selectDiceFromRoundTrackAndSwitch(ClientInterface clientInterface, int round, int index) {
 		try {
 			lobby.getCurrentGame().selectDiceFromRoundTrackAndSwitch(findUsername(clientInterface), round, index);

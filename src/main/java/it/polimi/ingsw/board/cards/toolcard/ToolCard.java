@@ -45,6 +45,8 @@ public class ToolCard extends Card implements Serializable {
 	public void initializeEffects(Game game) {
 		for(Effect effect : effects)
 			effect.setGame(game);
+
+		reNew();
 	}
 
 	/**
@@ -94,7 +96,7 @@ public class ToolCard extends Card implements Serializable {
 		int i;
 		for(i = 0; i < effects.size(); i++) {
 			if(! effects.get(i).isUsed()) {	//First unused
-				if(effects.get(i).getMyEnum() == effectType)
+				if(effects.get(i).getEffectType() == effectType)
 					return i;
 				else
 					return - 1;
@@ -127,7 +129,7 @@ public class ToolCard extends Card implements Serializable {
 	public int alreadyAppliedEffect(EffectType effectEnum) {
 		int mostRecentEffectEnum = - 1;
 		for(int i = 0; i < effects.size(); i++) {
-			if(effects.get(i).getMyEnum() == effectEnum && effects.get(i).isUsed()) {
+			if(effects.get(i).getEffectType() == effectEnum && effects.get(i).isUsed()) {
 				mostRecentEffectEnum = i;
 			}
 		}

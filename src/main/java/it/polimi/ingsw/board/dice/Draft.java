@@ -41,8 +41,12 @@ public class Draft {
         }
     }
 
-    //Gets the dice the player wants removing it from the Draft.
-    // If, for some reason, it don't find the requested dice in the Draft, it returns a null object.
+
+    /**
+     * Find and return a dice (removing it from draft) equal to a dice.
+     * @param dice a dice
+     * @return a dice equal to dice, if exists, null otherwise.
+     */
     public Dice getDice(Dice dice){
         int index = dices.indexOf(dice);
         Dice returnDice;

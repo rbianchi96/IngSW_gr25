@@ -7,24 +7,35 @@ public class IncrementDecrementDiceEffect extends Effect {
 	//set to null until a draft pool selection
 
 	public IncrementDecrementDiceEffect() {
-		this.myEnum = EffectType.INCREMENT_DECREMENT_DICE;
+		this.effectType = EffectType.INCREMENT_DECREMENT_DICE;
 	}
 
 	public boolean apply(Dice dice, boolean incDec) {
 		Dice draftDice = game.getDraft().getDice(dice); // get the selected dice from draft pool
+
 		if(incDec) { // increment...
+			if(dice.getValue() == 6) {
+				game.getDraft().addDice(draftDice); // re-add the dice to the draft pool
+				return false;
+			}
 			draftDice.increment();
-		} else // ...or decrement it
+		} else { // ...or decrement it
+			if(dice.getValue() == 1) {
+				game.getDraft().addDice(draftDice); // re-add the dice to the draft pool
+				return false;
+			}
 			draftDice.decrement();
+		}
+
 		game.getDraft().addDice(draftDice); // re-add the dice to the draft pool with the new value
 
-		if(dice.getValue() != draftDice.getValue()) { // if the dice value actually changed
-			inc_decDice = draftDice; // save in inc_decDice the dice the user selected and incremented/decremented
-			used = true; // set this effect to used.
-			System.out.println("Dice Incremented/Decremented.");
-			return true;
-		} else return false;
+		inc_decDice = draftDice; // save in inc_decDice the dice the user selected and incremented/decremented
+		used = true; // set this effect to used.
+
+		System.out.println("Dice Incremented/Decremented.");
+		return true;
 	}
+
 	public Dice getInc_decDice() {
 		return inc_decDice;
 	}

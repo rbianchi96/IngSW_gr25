@@ -172,6 +172,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void selectDiceFromRoundTrack() {
+		gameGUI.selectDiceFromRoundTrack();
+	}
+
+	@Override
 	public void endOfToolCardUse() {
 		gameGUI.endOfToolCardUse();
 	}

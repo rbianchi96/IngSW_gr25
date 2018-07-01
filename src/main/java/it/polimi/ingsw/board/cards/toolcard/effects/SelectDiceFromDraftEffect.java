@@ -6,7 +6,7 @@ public class SelectDiceFromDraftEffect extends Effect {
 
     private Dice selectedDice = null; // Dice saved from the selection
     public SelectDiceFromDraftEffect(){
-        this.myEnum= EffectType.SELECT_DICE_FROM_DRAFT;
+        this.effectType = EffectType.SELECT_DICE_FROM_DRAFT;
     }
 
     public void apply(Dice dice)throws DiceNotFoundException{

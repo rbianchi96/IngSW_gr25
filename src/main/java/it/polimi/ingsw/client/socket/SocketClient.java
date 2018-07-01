@@ -12,7 +12,6 @@ import it.polimi.ingsw.board.dice.RoundTrackDices;
 import it.polimi.ingsw.board.windowpattern.Cell;
 import it.polimi.ingsw.board.windowpattern.Restriction;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
-import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.server.ServerCommand;
 import it.polimi.ingsw.server.ServerInterface;
@@ -205,8 +204,8 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.moveDiceInWindowPattern();
 
 					break;
-				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
-					//TODO
+				case SELECT_DICE_FROM_ROUND_TRACK:
+					client.selectDiceFromRoundTrack();
 
 					break;
 				case PLACE_DICE:
@@ -343,6 +342,16 @@ public class SocketClient extends Socket implements ServerInterface {
 				ServerCommand.PLACE_DICE,
 				String.valueOf(row),
 				String.valueOf(col)
+		));
+		out.flush();
+	}
+
+	@Override
+	public void selectDiceFromRoundTrackAndSwitch(int round, int dice) {
+		out.println(encode(
+				ServerCommand.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH,
+				String.valueOf(round),
+				String.valueOf(dice)
 		));
 		out.flush();
 	}

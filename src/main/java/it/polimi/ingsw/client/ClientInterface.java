@@ -40,6 +40,7 @@ public interface ClientInterface {
 	public void placeDice();
 	public void selectDiceFromWindowPattern();
 	public void moveDiceInWindowPattern();
+	public void selectDiceFromRoundTrack();
 
 	public void endOfToolCardUse();
 

@@ -149,4 +149,13 @@ public class RMIClientToServer implements ServerInterface {
 			clientGUI.lostConnenction();
 		}
 	}
+
+	@Override
+	public void selectDiceFromRoundTrackAndSwitch(int round, int dice) {
+		try {
+			server.selectDiceFromRoundTrackAndSwitch(round, dice);
+		} catch(RemoteException e) {
+			clientGUI.lostConnenction();
+		}
+	}
 }

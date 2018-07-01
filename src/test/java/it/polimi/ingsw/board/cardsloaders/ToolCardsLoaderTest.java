@@ -19,7 +19,7 @@ public class ToolCardsLoaderTest {
 			for(ToolCard toolCard : result) {
 				System.out.println(toolCard.getId() + " - " + toolCard.getName());
 				for(Effect effect : toolCard.getEffects())
-					System.out.println("    " + effect.getMyEnum().toString());
+					System.out.println("    " + effect.getEffectType().toString());
 			}
 		} catch(FileNotFoundException | CardsLoader.NotEnoughCards e) {
 			fail(e);

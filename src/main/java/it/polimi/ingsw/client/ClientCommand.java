@@ -29,7 +29,7 @@ public enum ClientCommand {
 	SELECT_INCREMENT_OR_DECREMENT("selectIncOrDec"),
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
-	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
+	SELECT_DICE_FROM_ROUND_TRACK("selectDiceFromRoundTrackAndSwitch"),
 	PLACE_DICE("placeDice"),
 
 	END_OF_TOOL_CARD_USE("endOfTCUse"),

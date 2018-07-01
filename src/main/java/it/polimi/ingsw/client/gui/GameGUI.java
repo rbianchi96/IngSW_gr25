@@ -141,7 +141,7 @@ public class GameGUI extends GUIController {
 
 				patternNames[playersMap.get(i)].setText(windowPatterns[i].getName());
 
-				Drawers.setAvailbleTokens(
+				Drawers.setDifficulty(
 						difficulties[playersMap.get(i)],
 						windowPatterns[i].getDifficulty()
 				);
@@ -267,7 +267,10 @@ public class GameGUI extends GUIController {
 				}
 
 			System.out.println("Selected dice " + r + ", " + diceIndex);
-			//TODO
+
+			client.getServerInterface().selectDiceFromRoundTrackAndSwitch(r, diceIndex);
+
+			state = State.WAIT_USER_INPUT;
 		}
 	};
 
@@ -347,6 +350,11 @@ public class GameGUI extends GUIController {
 	public void selectDiceFromWindowPattern() {
 		showInfoAlert("Seleziona un dado dalla finestra.");
 		state = State.SELECT_DICE_FROM_WINDOWPATTERN;
+	}
+
+	public void selectDiceFromRoundTrack() {
+		showInfoAlert("Seleziona un dado dalla tracciato dei round.");
+		state = State.SELECT_DICE_FROM_ROUND_TRACK;
 	}
 
 	public void modeDiceInWindowPattern() {

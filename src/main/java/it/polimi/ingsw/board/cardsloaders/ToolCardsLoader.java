@@ -78,6 +78,12 @@ public class ToolCardsLoader extends CardsLoader {
 							effects.add(new MoveWindowPatternDiceEffect(ignoredRestrictions));
 
 							break;
+						case ROLL_DICE_FROM_DRAFT:
+							effects.add(new RollDiceFromDraftEffect());
+							break;
+						case FLIP_DICE_FROM_DRAFT:
+							effects.add(new FlipDiceFromDraftEffect());
+							break;
 						case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 							effects.add(new SelectDiceFromRoundTrackAndSwitch());
 							break;
@@ -87,8 +93,6 @@ public class ToolCardsLoader extends CardsLoader {
 						default:
 							break;
 					}
-
-					//TODO ignoredRestr.
 				}
 
 				toolCards[c] =
