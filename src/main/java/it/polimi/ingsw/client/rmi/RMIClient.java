@@ -130,6 +130,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void selectDiceFromRoundTrack() throws RemoteException {
+		client.selectDiceFromRoundTrack();
+	}
+
+	@Override
 	public void endOfToolCardUse() throws RemoteException {
 		client.endOfToolCardUse();
 	}
