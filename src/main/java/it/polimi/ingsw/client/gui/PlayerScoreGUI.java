@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.board.Score;
+import it.polimi.ingsw.model.Score;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.rmi;
 
-import it.polimi.ingsw.Controller;
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.client.rmi.RMIClientInterface;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.board.dice.Dice;
+import it.polimi.ingsw.client.interfaces.RMIClientInterface;
+import it.polimi.ingsw.server.interfaces.RMIServerInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

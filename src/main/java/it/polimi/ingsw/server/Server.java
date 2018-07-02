@@ -1,14 +1,12 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.Controller;
-import it.polimi.ingsw.Lobby;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.Lobby;
 import it.polimi.ingsw.paramsloader.NetParamsLoader;
-import it.polimi.ingsw.paramsloader.ParamsLoader;
 import it.polimi.ingsw.server.rmi.RMIServer;
-import it.polimi.ingsw.server.rmi.RMIServerInterface;
+import it.polimi.ingsw.server.interfaces.RMIServerInterface;
 import it.polimi.ingsw.server.socket.SocketServer;
 
-import java.io.FileNotFoundException;
 import java.net.InetAddress;
 import java.rmi.Naming;
 

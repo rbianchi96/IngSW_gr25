@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.socket;
 
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class SocketClientReceiver implements Runnable {

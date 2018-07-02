@@ -1,14 +1,14 @@
 package it.polimi.ingsw.client.rmi;
 
-import it.polimi.ingsw.board.Score;
-import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
-import it.polimi.ingsw.board.cards.PublicObjectiveCard;
-import it.polimi.ingsw.board.cards.toolcard.ToolCard;
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.dice.RoundTrack;
-import it.polimi.ingsw.board.dice.RoundTrackDices;
-import it.polimi.ingsw.board.windowpattern.WindowPattern;
-import it.polimi.ingsw.client.ClientInterface;
+import it.polimi.ingsw.client.interfaces.RMIClientInterface;
+import it.polimi.ingsw.model.Score;
+import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.model.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
+import it.polimi.ingsw.model.board.dice.Dice;
+import it.polimi.ingsw.model.board.dice.RoundTrackDices;
+import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.client.interfaces.ClientInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

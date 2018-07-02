@@ -1,18 +1,17 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.board.Score;
-import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
-import it.polimi.ingsw.board.cards.PublicObjectiveCard;
-import it.polimi.ingsw.board.cards.toolcard.ToolCard;
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.dice.RoundTrackDices;
-import it.polimi.ingsw.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.model.Score;
+import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.model.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
+import it.polimi.ingsw.model.board.dice.Dice;
+import it.polimi.ingsw.model.board.dice.RoundTrackDices;
+import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.ClientInterface;
+import it.polimi.ingsw.client.interfaces.ClientInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;

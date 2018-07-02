@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.rmi;
 
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.client.ClientInterface;
+import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.server.ServerInterface;
-import it.polimi.ingsw.server.rmi.RMIServerInterface;
+import it.polimi.ingsw.server.interfaces.ServerInterface;
+import it.polimi.ingsw.server.interfaces.RMIServerInterface;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

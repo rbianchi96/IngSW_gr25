@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.windowpattern.Restriction;
-import it.polimi.ingsw.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.model.board.dice.Dice;
+import it.polimi.ingsw.model.board.windowpattern.Restriction;
+import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;

@@ -4,12 +4,9 @@ import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.rmi.RMIClientToServer;
 import it.polimi.ingsw.client.socket.SocketClient;
 import it.polimi.ingsw.paramsloader.NetParamsLoader;
-import it.polimi.ingsw.paramsloader.ParamsLoader;
-import it.polimi.ingsw.server.ServerInterface;
+import it.polimi.ingsw.server.interfaces.ServerInterface;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.Socket;
 import java.rmi.NotBoundException;
 
 public class Client {

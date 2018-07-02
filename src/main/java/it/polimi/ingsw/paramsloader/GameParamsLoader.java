@@ -1,7 +1,5 @@
 package it.polimi.ingsw.paramsloader;
 
-import java.io.FileNotFoundException;
-
 public class GameParamsLoader extends ParamsLoader {
 	private int lobbyTime;
 	private int maxRoundTime;

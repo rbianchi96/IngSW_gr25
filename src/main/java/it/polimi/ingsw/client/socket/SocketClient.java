@@ -1,21 +1,21 @@
 package it.polimi.ingsw.client.socket;
 
-import it.polimi.ingsw.board.Color;
-import it.polimi.ingsw.board.Game;
-import it.polimi.ingsw.board.Score;
-import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
-import it.polimi.ingsw.board.cards.PublicObjectiveCard;
-import it.polimi.ingsw.board.cards.PublicObjectiveCardsIds;
-import it.polimi.ingsw.board.cards.toolcard.ToolCard;
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.dice.RoundTrackDices;
-import it.polimi.ingsw.board.windowpattern.Cell;
-import it.polimi.ingsw.board.windowpattern.Restriction;
-import it.polimi.ingsw.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.model.board.Color;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Score;
+import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.model.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.model.board.cards.PublicObjectiveCardsIds;
+import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
+import it.polimi.ingsw.model.board.dice.Dice;
+import it.polimi.ingsw.model.board.dice.RoundTrackDices;
+import it.polimi.ingsw.model.board.windowpattern.Cell;
+import it.polimi.ingsw.model.board.windowpattern.Restriction;
+import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.server.ServerCommand;
-import it.polimi.ingsw.server.ServerInterface;
-import it.polimi.ingsw.client.ClientCommand;
+import it.polimi.ingsw.server.interfaces.ServerCommand;
+import it.polimi.ingsw.server.interfaces.ServerInterface;
+import it.polimi.ingsw.client.interfaces.ClientCommand;
 
 import java.io.IOException;
 import java.io.PrintWriter;

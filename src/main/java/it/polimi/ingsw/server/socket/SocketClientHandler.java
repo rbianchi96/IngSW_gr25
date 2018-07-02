@@ -1,18 +1,18 @@
 package it.polimi.ingsw.server.socket;
 
-import it.polimi.ingsw.board.Color;
-import it.polimi.ingsw.board.Score;
-import it.polimi.ingsw.board.cards.PrivateObjectiveCard;
-import it.polimi.ingsw.board.cards.PublicObjectiveCard;
-import it.polimi.ingsw.board.cards.toolcard.ToolCard;
-import it.polimi.ingsw.board.dice.Dice;
-import it.polimi.ingsw.board.dice.RoundTrackDices;
-import it.polimi.ingsw.board.windowpattern.Restriction;
-import it.polimi.ingsw.board.windowpattern.WindowPattern;
-import it.polimi.ingsw.client.ClientInterface;
-import it.polimi.ingsw.Controller;
-import it.polimi.ingsw.client.ClientCommand;
-import it.polimi.ingsw.server.ServerCommand;
+import it.polimi.ingsw.model.board.Color;
+import it.polimi.ingsw.model.Score;
+import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
+import it.polimi.ingsw.model.board.cards.PublicObjectiveCard;
+import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
+import it.polimi.ingsw.model.board.dice.Dice;
+import it.polimi.ingsw.model.board.dice.RoundTrackDices;
+import it.polimi.ingsw.model.board.windowpattern.Restriction;
+import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.client.interfaces.ClientInterface;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.client.interfaces.ClientCommand;
+import it.polimi.ingsw.server.interfaces.ServerCommand;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +20,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.*;
 
-import static it.polimi.ingsw.client.ClientCommand.*;
+import static it.polimi.ingsw.client.interfaces.ClientCommand.*;
 
 public class SocketClientHandler implements Runnable, ClientInterface {
 	private static final int PING_INTERVAL = 2500;

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.paramsloader;
 
 import javax.json.JsonObject;
-import java.io.FileNotFoundException;
 
 public class NetParamsLoader extends ParamsLoader {
 	private int socketServerPort;

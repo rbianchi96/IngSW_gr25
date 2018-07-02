@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.board.windowpattern.WindowPattern;
+import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
