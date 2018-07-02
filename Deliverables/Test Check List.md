@@ -35,3 +35,70 @@
 - addDice ✓
 - getClone ✓
 - initDiceBag ✓
+
+##### PrivateObjectiveCardsLoaderTest
+- getRandomCards ✓
+
+##### PublicObjectiveCardsLoaderTest
+- getRandomCards ✓
+
+##### ToolCardsLoaderTest
+- getRandomCards ✓
+
+##### WindowPatternCardsLoaderTest
+- getRandomCards ✓
+
+##### RestrictionTest
+- getValue ✓
+- getColor ✓
+- hasAnyRestriction ✓
+
+##### GameBoardTest
+- getDiceBag ✓
+- getRoundTrack ✓
+- getDraft ✓
+
+##### PlayerTest
+- getFavourTokens ✓
+- setFavourTokens ✓
+- setScore ✓
+- getScore ✓
+- setPlayerName ✓
+- getPlayerName ✓
+- getIsOnline ✓
+- setIsOnline ✓
+- getHasPlacedDice ✓
+- setHasPlacedDice ✓
+- getHasPlayedToolCard ✓
+- setHasPlayedToolCard ✓
+
+##### RoundTrack
+- nextRound ✓
+- nextPlayer ✓
+- doubleTurn ✓
+- isCurrentPlayer ✓
+
+##### Score
+- getTotalScore ✓
+- getPublicObjectiveCardsTotalScore ✓
+- getPublicObjectiveCardsScores ✓
+- getPrivateObjectiveCardScore ✓
+- getFavorTokensScore ✓
+- getEmptyCellsPenalty ✓
+
+##### ParamsLoaderTest
+- getLobbyTime ✓
+- getMaxRoundTime ✓
+- getSocketServerPort ✓
+- getRMIServerName ✓
+- getRMIServerPort ✓
+
+
+
+
+
+
+
+
+
+
