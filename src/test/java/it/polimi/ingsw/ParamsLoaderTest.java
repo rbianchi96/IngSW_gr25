@@ -34,7 +34,7 @@ public class ParamsLoaderTest {
 		try {
 			NetParamsLoader netParamsLoader;
 
-			//Test with test1.jdon (expected 1 and 2)
+
 			netParamsLoader = new NetParamsLoader("netParams.json");
 
 			assertEquals(netParamsLoader.getSocketServerPort(), 3000);
