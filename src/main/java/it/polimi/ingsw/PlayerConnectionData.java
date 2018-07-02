@@ -2,11 +2,14 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.ClientInterface;
 
+import java.util.Timer;
+
 public class PlayerConnectionData {
 	private ClientInterface clientInterface;
 	private String nickName, sessionID;
 	private boolean isOnline;
 	private ModelObserver observer;
+	private Timer windowPatternSelectionTimer = new Timer();
 
 	public PlayerConnectionData(ClientInterface clientInterface, String nickName, String sessionID) {
 		this.clientInterface = clientInterface;
@@ -50,5 +53,25 @@ public class PlayerConnectionData {
 
 	public String getSessionID() {
 		return sessionID;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public boolean isOnline() {
+		return isOnline;
+	}
+
+	public void setOnline(boolean online) {
+		isOnline = online;
+	}
+
+	public Timer getWindowPatternSelectionTimer() {
+		return windowPatternSelectionTimer;
+	}
+
+	public void setWindowPatternSelectionTimer(Timer windowPatternSelectionTimer) {
+		this.windowPatternSelectionTimer = windowPatternSelectionTimer;
 	}
 }

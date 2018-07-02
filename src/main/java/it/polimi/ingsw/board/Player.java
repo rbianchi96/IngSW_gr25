@@ -16,7 +16,7 @@ public class Player {
 	private int favourTokens;
 	private Color scoreToken;
 	private String playerName;
-	private boolean isOnline; // = true if player is still connected and playing
+	private boolean isSuspended;
 
 	private boolean hasPlacedDice = false, hasPlayedToolCard = false;
 
@@ -26,7 +26,7 @@ public class Player {
 	 */
 	public Player(String username) {
 		this.playerName = username;
-		isOnline = true;
+		isSuspended = false;
 	}
 
 
@@ -87,12 +87,12 @@ public class Player {
 		this.playerName = playerName;
 	}
 
-	public boolean getIsOnline() {
-		return isOnline;
+	public boolean isSuspended() {
+		return isSuspended;
 	}
 
-	public void setIsOnline(boolean online) {
-		isOnline = online;
+	public void setSuspended(boolean suspended) {
+		isSuspended = suspended;
 	}
 
 	public boolean getHasPlacedDice() {

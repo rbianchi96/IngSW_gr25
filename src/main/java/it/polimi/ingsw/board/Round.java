@@ -10,6 +10,10 @@ public class Round {
 	private int firstPlayer; // IMPORTANT: It points to the index of players(arraylist from game)
 	private ArrayList<Integer> playersIndexes;
 
+	/**
+	 * Create a new round manager.
+	 * @param playersNumber the number of the players
+	 */
 	public Round(int playersNumber) {
 		this.playersNumber = playersNumber;
 		playersIndexes = new ArrayList<>();
@@ -25,7 +29,10 @@ public class Round {
 	}
 
 
-	// It "gives" the turn to the next player and returns the index of the new currentPlayer in the Players ArrayList
+	/**
+	 *
+	 * @return the index of the next player, - 1 if the current round is finished
+	 */
 	public int nextPlayer() {
 		if(currentPlayer < playersIndexes.size() - 1) { //If there are still rounds to be played in this round...
 			currentPlayer++; // ...Then the currentPlayer is the next one

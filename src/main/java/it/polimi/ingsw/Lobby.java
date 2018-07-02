@@ -7,17 +7,21 @@ import it.polimi.ingsw.client.ClientInterface;
 
 import java.io.FileNotFoundException;
 import java.security.SecureRandom;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static it.polimi.ingsw.board.Game.NotifyType.NEW_TURN;
 
 public class Lobby {
     private static final int MAX_PLAYERS = 4;
     private static final int SESSIONID_LENGTH = 5;
+    private static final long TURN_TIMER = 20000;
     private static final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_=+";
     private static SecureRandom random = new SecureRandom();
 
-
+    private Timer currentTimer = new Timer();
 
     private ArrayList<PlayerConnectionData> playersConnectionData;
     private Game currentGame; // The istance of the Game.
@@ -148,24 +152,26 @@ public class Lobby {
     // If the games is already started it suspends the player from the game by setting "false" to isOnline Player's attribute
     // and setting "null" to his Client Interface.
     // If the game isn't started yet, it removes the player to suspend from the Lobby and notify the actions to other clients.
-    private void suspendPlayer(int index) {
+    private synchronized void suspendPlayer(int index) {
         String playerNickname = playersConnectionData.get(index).getNickName();
         if(currentGame.isInGame()) {       //If the game started
             playersConnectionData.get(index).setIsOnline(false);
             playersConnectionData.get(index).setClientInterface(null);
 
+            currentGame.setPlayerSuspendedState(playerNickname, true);
             currentGame.deleteObserver(playersConnectionData.get(index).getObserver());	//Remove the observer from the model
 			playersConnectionData.get(index).setObserver(null);	//Delete the observer
 
-            System.out.println(playerNickname + " is now suspended from the game.");
+            System.out.println(playerNickname + " is now offline.");
             for(int i = 0; i < playersConnectionData.size(); i++) {
 				if(i != index)
-					playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
+					if(playersConnectionData.get(i).getClientInterface() != null)
+						playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
 			}
 		} else {  //If the game isn't started yet (lobby phase)
-            System.out.println(playersConnectionData.get(index).getNickName() + " has been removed from the lobby.");
-            playersConnectionData.remove(index);
-            for(int i = 0; i < getPlayersUsernamesArrayList().size(); i++) {
+			System.out.println(playersConnectionData.get(index).getNickName() + " has been removed from the lobby.");
+			playersConnectionData.remove(index);
+			for(int i = 0; i < getPlayersUsernamesArrayList().size(); i++) {
                 playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
             }
             sendPlayersListToAll();
@@ -190,12 +196,14 @@ public class Lobby {
                 clientInterface.updateDraft(currentGame.getDraftDices());
                 clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
 
-                ModelObserver observer = new ModelObserver(username, clientInterface);  //Create a new observer
+                ModelObserver observer = new ModelObserver(username, clientInterface, this);  //Create a new observer
 
                 playersConnectionData.get(i).setObserver(observer);
                 currentGame.addObserver(observer);
 
-                observer.update(currentGame,NEW_TURN);
+                currentGame.setPlayerSuspendedState(playersConnectionData.get(i).getNickName(), false);
+
+                observer.update(currentGame, NEW_TURN);
 
                 break;
             }else
@@ -216,7 +224,7 @@ public class Lobby {
     public void startGame(){
         //Add observer to model
         for(PlayerConnectionData player : playersConnectionData) {
-            ModelObserver observer = new ModelObserver(player.getNickName(), player.getClientInterface());  //Create a new observer
+            ModelObserver observer = new ModelObserver(player.getNickName(), player.getClientInterface(), this);  //Create a new observer
 
             player.setObserver(observer);   //Set it to the player
             currentGame.addObserver(observer);  //Add it to the model
@@ -273,11 +281,57 @@ public class Lobby {
     }
     //Method to send players list after adding or removing players
     private void sendPlayersListToAll() {
-
         for(PlayerConnectionData player : playersConnectionData) {
             player.getClientInterface().sendPlayersList(getPlayersUsernamesArray());
         }
     }
+
+    public synchronized void selectWindowPattern(ClientInterface clientInterface) {
+    	playersConnectionData.get(findPlayer(clientInterface)).getWindowPatternSelectionTimer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				suspendPlayer(findPlayer(clientInterface));
+				clientInterface.closeConnection();
+			}
+		},
+		TURN_TIMER);
+	}
+
+	public synchronized void setWindowPattern(ClientInterface clientInterface) {
+    	playersConnectionData.get(findPlayer(clientInterface)).getWindowPatternSelectionTimer().cancel();
+	}
+
+    public synchronized void newTurn(ClientInterface clientInterface) {
+    	try {
+			currentTimer.cancel();
+		} catch(IllegalStateException ignored) {
+
+		}
+
+		currentTimer = new Timer();
+		currentTimer.schedule(new TimerTask() {
+							   @Override
+							   public void run() {
+								   for(int i = 0; i < playersConnectionData.size(); i++) {
+									   if(playersConnectionData.get(i).getClientInterface() == clientInterface) {
+										   suspendPlayer(i);
+										   clientInterface.closeConnection();
+									   }
+								   }
+							   }
+						   },
+				TURN_TIMER
+		);
+	}
+
+	private int findPlayer(ClientInterface clientInterface) {
+    	for(int i = 0; i < playersConnectionData.size(); i ++)
+    		if(playersConnectionData.get(i).getClientInterface() == clientInterface)
+    			return i;
+
+    	return - 1;
+	}
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder("Lobby | Status: " + (currentGame.isInGame()?"In game":"Waiting for players") + " | Numbers of players: " + getPlayersUsernamesArrayList().size());

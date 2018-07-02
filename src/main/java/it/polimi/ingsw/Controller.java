@@ -7,7 +7,6 @@ import it.polimi.ingsw.board.cards.toolcard.effects.SelectDiceFromRoundTrackAndS
 import it.polimi.ingsw.board.cards.toolcard.effects.SelectDiceFromWindowPatternEffect;
 import it.polimi.ingsw.board.dice.Dice;
 import it.polimi.ingsw.board.windowpattern.WindowPattern;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientInterface;
 import it.polimi.ingsw.client.ClientCommand;
 
@@ -106,6 +105,7 @@ public class Controller {
 	}
 
 	public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
+		lobby.setWindowPattern(clientInterface);	//Stop the timer
 		lobby.getCurrentGame().selectWindowPattern(findUsername(clientInterface), i);
 	}
 
@@ -265,7 +265,7 @@ public class Controller {
 
 	public synchronized void endTurn(ClientInterface clientInterface) {
 		try {
-			lobby.getCurrentGame().skipTurn(findUsername(clientInterface));
+			lobby.getCurrentGame().endTurn(findUsername(clientInterface));
 		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall invalidCall) {

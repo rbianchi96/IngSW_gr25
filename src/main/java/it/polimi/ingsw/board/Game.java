@@ -13,6 +13,7 @@ import it.polimi.ingsw.client.ClientCommand;
 import java.util.Observable;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game extends Observable {
 	public static final int TOOL_CARDS_NUMBER = 3;
@@ -56,7 +57,9 @@ public class Game extends Observable {
 		rounds = new Round(players.size());
 	}
 
-	// Loading of various game elements (the same of the "players preparation" of Sagrada rules).
+	/**
+	 * The "players preparation" section on the Sagrada rules. Set private objective card, and ask the players to select one of the window patterns offered.
+	 */
 	private void playersPreparation() {
 		for(int i = 0; i < players.size(); i++) {
 			players.get(i).setPrivateObjectiveCard(privateObjectiveCards[i]);
@@ -83,7 +86,9 @@ public class Game extends Observable {
 		notifyObservers(NotifyType.SELECT_WINDOW_PATTERN);
 	}
 
-	// Loading of various game elements (the same of the "game preparation" of Sagrada rules.
+	/**
+	 * The "game preparation" section on the Sagrada rules. Set public objective cards, and tool cards.
+	 */
 	private void gamePreparation() {
 		//Notify to all
 		setChanged();
@@ -99,16 +104,19 @@ public class Game extends Observable {
 		notifyObservers(NotifyType.TOOL_CARDS);
 
 		gameBoard = new GameBoard(diceBag, new Draft(players.size()), publicObjectiveCards, toolCards, roundTrack);
-
-
 	}
 
-	// Method to call to start the game
+	/**
+	 * Start the game (preparation).
+	 * @param playersNicknames the usernames of the players
+	 */
 	public void startGame(ArrayList<String> playersNicknames) {
 		System.out.println("Game is starting!");
-		players = new ArrayList();
-		for(int i = 0; i < playersNicknames.size(); i++) {
-			players.add(new Player(playersNicknames.get(i)));
+
+		players = new ArrayList<>();
+
+		for(String playersNickname : playersNicknames) {
+			players.add(new Player(playersNickname));
 		}
 		initialize();
 
@@ -118,35 +126,48 @@ public class Game extends Observable {
 		inGame = true;
 	}
 
-	// add the right amount of random dices in the draftPool
+	/**
+	 * Extract the right number of dice from the bag and roll them.
+	 */
 	public void rollDicesFromDiceBag() {
 		for(int i = 0; i < 2 * players.size() + 1; i++) {
 			gameBoard.getDraft().addDice(gameBoard.getDiceBag().getRandomDice());
 		}
-		// Notify Client
+		//TODO
 	}
 
+	/**
+	 * Start the game.
+	 */
 	private void startGameAfterPreparation() {
+		//Notify start game
 		setChanged();
 		notifyObservers(NotifyType.START_GAME);
 
-		updateAllWindowPatterns();
+		//Notify to all the window patterns
+		setChanged();
+		notifyObservers(NotifyType.WINDOW_PATTERNS);
+
+		//Notify to all the tokens
 		setChanged();
 		notifyObservers(NotifyType.PLAYERS_TOKENS);
 
+		//Begin the first round
 		rounds.nextRound();
 
 		startRound();
 		notifyNewTurn();
 	}
 
-	//end of round method
+	/**
+	 * Ends the current round. Add the dice on the round track.
+	 */
 	private void endRound() {
 		int currRound = rounds.getCurrentRound();
-		if(currRound != - 1)
+		if(currRound != - 1)	//Isn't the game finished
 			currRound -= 2; //Fix the index to refer to the right round
 		else
-			currRound = ROUNDS_NUMBER - 1;
+			currRound = ROUNDS_NUMBER - 1;	//Last round
 
 		ArrayList<Dice> draftDice = gameBoard.getDraft().getDices();
 
@@ -161,12 +182,13 @@ public class Game extends Observable {
 		notifyObservers(NotifyType.ROUND_TRACK);
 	}
 
-	// initialize the new round
+	/**
+	 * Start a new round.
+	 */
 	private void startRound() {
 		if(rounds.getCurrentRound() != - 1) {
 			rollDicesFromDiceBag();
 			updateDraft();
-			//updateAllWindowPatterns();
 		} else
 			endGame();
 	}
@@ -185,23 +207,20 @@ public class Game extends Observable {
 		notifyObservers(NotifyType.SCORES);
 	}
 
-	// to call in order to skip the current turn of the player who request it
-	public void skipTurn(String username) throws WrongTurnException, InvalidCall {
+	/**
+	 * Ends the turn of the current player
+	 * @param username the username of the current player.
+	 * @throws WrongTurnException
+	 * @throws InvalidCall
+	 */
+	public void endTurn(String username) throws WrongTurnException, InvalidCall {
 		Player player = findPlayer(username);
 		checkTurn(player);
 
 		if(currentToolCardInUse >= 0)    // if the player's using some card
 			throw new InvalidCall();
 
-		toolCardUsageFinished();    // end the usage
-
-		player.setHasPlacedDice(false);    // reset the in-turn steps
-		player.setHasPlayedToolCard(false);
-		if(rounds.nextPlayer() == - 1) { //if the round is finished...
-			endRound();
-			startRound();
-		}
-		notifyNewTurn();
+		nextTurn();
 	}
 
 	// set the windowPattern the user selected
@@ -220,14 +239,25 @@ public class Game extends Observable {
 		}
 	}
 
-	// place a dice from the draft pool to player's window pattern
+	/**
+	 * Place a dice from the draft to the player's window pattern.
+	 * @param username the username of the player
+	 * @param dice the die to place
+	 * @param row the row of the window pattern
+	 * @param col the column of the window pattern
+	 * @throws WrongTurnException
+	 * @throws WindowPattern.WindowPatternOutOfBoundException
+	 * @throws WindowPattern.PlacementRestrictionException
+	 * @throws WindowPattern.CellAlreadyOccupiedException
+	 * @throws InvalidCall
+	 */
 	public void placeDiceFromDraft(String username, Dice dice, int row, int col)
 			throws WrongTurnException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException, InvalidCall {
 		Player player = findPlayer(username);
 
 		checkTurn(player);
 
-		if(players.get(rounds.getCurrentPlayer()) == player && ! player.getHasPlacedDice()) { // if the request is legit, and the player didn't place another dice in this turn...
+		if(! player.getHasPlacedDice()) { // if the request is legit, and the player didn't place another dice in this turn...
 			Dice diceFromDraft = gameBoard.getDraft().getDice(dice); // get the dice from
 			if(diceFromDraft != null) {
 				try {
@@ -235,7 +265,9 @@ public class Game extends Observable {
 					player.setHasPlacedDice(true);
 
 					//NOTIFY to all
-					updateAllWindowPatterns();
+					setChanged();
+					notifyObservers(NotifyType.WINDOW_PATTERNS);
+
 					updateDraft();
 				} catch(WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException | WindowPattern.CellAlreadyOccupiedException e) {
 					gameBoard.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
@@ -246,18 +278,12 @@ public class Game extends Observable {
 				throw new InvalidCall();
 			}
 		} else {
-			System.out.println(player.getPlayerName() + " is not your turn or you already played this move!");
+			System.out.println(player.getPlayerName() + " you already played this move!");
 		}
+
 		// if the player already played all his possible moves in this turn
-		if(players.get(rounds.getCurrentPlayer()).getHasPlacedDice() && players.get(rounds.getCurrentPlayer()).getHasPlayedToolCard()) {
-			players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);
-			players.get(rounds.getCurrentPlayer()).setHasPlayedToolCard(false);
-			if(rounds.nextPlayer() == - 1) {    //...skip to the next turn
-				endRound();
-				startRound();
-			}
-			notifyNewTurn();
-		}
+		if(mustEndTurn(player))
+			nextTurn();
 	}
 
 	// Tool card usage request
@@ -444,7 +470,8 @@ public class Game extends Observable {
 				throw new InvalidCall();
 			setChanged();
 			notifyObservers(NotifyType.DRAFT);
-			setChanged();;
+			setChanged();
+
 			notifyObservers(NotifyType.ROUND_TRACK);
 			return getNextEffect();
 		}
@@ -513,17 +540,12 @@ public class Game extends Observable {
 	}
 
 	private void toolCardUsageFinished() {
-		System.out.println("End of TC effects!");
+		System.out.println("End of tool card use.");
 
 		currentToolCardInUse = - 1;
-		if(players.get(rounds.getCurrentPlayer()).getHasPlacedDice() && players.get(rounds.getCurrentPlayer()).getHasPlayedToolCard()) {
-			players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);
-			players.get(rounds.getCurrentPlayer()).setHasPlayedToolCard(false);
-			if(rounds.nextPlayer() == - 1) {
-				endRound();
-				startRound();
-			}
-			notifyNewTurn();
+
+		if(mustEndTurn(players.get(rounds.getCurrentPlayer()))) {
+			nextTurn();
 		}
 	}
 
@@ -534,20 +556,17 @@ public class Game extends Observable {
 	//	Private methods for observers update
 	private void notifyNewTurn() {
 		if(rounds.getCurrentRound() != - 1) {
+
 			setChanged();
 			notifyObservers(NotifyType.NEW_TURN);
-			System.out.println("Il prossimo è " + rounds.getCurrentPlayer());
+
+			System.out.println("Il prossimo è " + players.get(rounds.getCurrentPlayer()).getPlayerName() + ".");
 		}
 	}
 
 	private void updateDraft() {
 		setChanged();
 		notifyObservers(NotifyType.DRAFT);
-	}
-
-	private void updateAllWindowPatterns() {    //Send all the WP to all the players
-		setChanged();
-		notifyObservers(NotifyType.WINDOW_PATTERNS);
 	}
 
 	private Player findPlayer(String username) {
@@ -563,6 +582,86 @@ public class Game extends Observable {
 		this.publicObjectiveCards = publicObjectiveCards;
 		this.privateObjectiveCards = privateObjectiveCards;
 		this.toolCards = toolCards;
+	}
+
+	private void nextTurn() {
+		//Clean the current player
+		players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);
+		players.get(rounds.getCurrentPlayer()).setHasPlayedToolCard(false);
+
+		if(rounds.nextPlayer() == - 1) {    //The round is finished
+			endRound();
+			startRound();
+		}
+
+		if(rounds.getCurrentRound() != - 1)	//The game isn't finished
+			if(players.get(rounds.getCurrentPlayer()).isSuspended())    //If the new player is suspended
+				nextTurn();
+			else
+				notifyNewTurn();
+	}
+
+	/**
+	 * Force the end of a player's turn.
+	 *
+	 * @param username the username of the player
+	 * @throws WrongTurnException if isn't the turn of the given player
+	 * @throws InvalidCall
+	 */
+	private void forceTurnEnd(String username) throws WrongTurnException, InvalidCall {
+		Player player = findPlayer(username);
+		checkTurn(player);
+
+		toolCardUsageFinished();
+
+		endTurn(username);
+	}
+
+	/**
+	 * @param username  the player
+	 * @param suspended true if suspended, false otherwise
+	 */
+	public void setPlayerSuspendedState(String username, boolean suspended) {
+		Player player = findPlayer(username);
+
+		player.setSuspended(suspended);
+
+		if(suspended) {
+			int totSuspended = 0;
+
+			for(Player thisPlayer : players)
+				if(thisPlayer.isSuspended())
+					totSuspended++;
+
+			if(totSuspended >= players.size() - 1) {
+				//TODO force win
+
+				endGame();
+
+				System.out.println("Only one player.");
+			} else {    //Suspend the player
+				if(player.getWindowPattern() != null) {    //Has already choose a WP
+					if(rounds.getCurrentRound() != - 1)	//The game is started
+						try {
+							if(players.get(rounds.getCurrentPlayer()) == player)
+								forceTurnEnd(username);
+						} catch(WrongTurnException | InvalidCall ignored) {
+
+						}
+				} else {    //Randomly select a WP
+					selectWindowPattern(username, new Random().nextInt(player.getWindowPatternToChoose().length));
+				}
+			}
+		}
+
+		System.out.println(username + " is now " + (suspended ? "" : "not") + "suspended.");
+
+	}
+
+	private boolean mustEndTurn(Player player) {
+		return
+				player.getHasPlacedDice()
+				&& player.getHasPlayedToolCard();
 	}
 
 	//GETTER for observer

@@ -8,10 +8,12 @@ import java.util.Observable;
 public class ModelObserver implements java.util.Observer {
 	private String playerUsername;
 	private ClientInterface clientInterface;
+	private Lobby lobby;
 
-	public ModelObserver(String playerUsername, ClientInterface view) {
+	public ModelObserver(String playerUsername, ClientInterface view, Lobby lobby) {
 		this.playerUsername = playerUsername;
 		this.clientInterface = view;
+		this.lobby = lobby;
 	}
 
 	@Override
@@ -22,6 +24,8 @@ public class ModelObserver implements java.util.Observer {
 		switch(notifyType) {
 			case SELECT_WINDOW_PATTERN:
 				clientInterface.sendWindowPatternsToChoose(model.getWindowPatternsToChoose(playerUsername));
+
+				lobby.selectWindowPattern(clientInterface);
 
 				break;
 			case PRIVATE_OBJECTIVE_CARD:
@@ -42,6 +46,8 @@ public class ModelObserver implements java.util.Observer {
 				break;
 			case NEW_TURN:
 				clientInterface.newTurn(model.getCurrentPlayer());
+
+				lobby.newTurn(clientInterface);	//Notify the lobby
 
 				break;
 			case DRAFT:
