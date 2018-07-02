@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.paramsloader.GameParamsLoader;
+import it.polimi.ingsw.paramsloader.NetParamsLoader;
 import it.polimi.ingsw.paramsloader.ParamsLoader;
 import org.junit.Test;
 
@@ -24,6 +25,23 @@ public class ParamsLoaderTest {
 
 			assertEquals(gameParamsLoader.getLobbyTime(), 2);
 			assertEquals(gameParamsLoader.getMaxRoundTime(), 1);
+		} catch(Exception e) {
+			fail(e);
+		}
+	}
+	@Test
+	public void netParamsTest() {
+		try {
+			NetParamsLoader netParamsLoader;
+
+			//Test with test1.jdon (expected 1 and 2)
+			netParamsLoader = new NetParamsLoader("netParams.json");
+
+			assertEquals(netParamsLoader.getSocketServerPort(), 3000);
+			assertEquals(netParamsLoader.getRMIServerName(), "SagradaServer");
+			assertEquals(netParamsLoader.getRMIServerPort(), 1099);
+
+
 		} catch(Exception e) {
 			fail(e);
 		}

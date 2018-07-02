@@ -112,4 +112,15 @@ public class RoundTest {
         assertEquals(2,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
     }
+
+    @Test
+    public void isCurrentPlayerfirstTurn(){
+        int playersNumber = 3;
+        Round round = new Round(playersNumber);
+        assertEquals(false,round.isCurrentPlayerFirstTurn());
+        round.nextRound();
+        assertEquals(true,round.isCurrentPlayerFirstTurn());
+        round.nextPlayer();
+        assertEquals(true,round.isCurrentPlayerFirstTurn());
+        }
 }

@@ -14,7 +14,7 @@ public class ToolCardsLoaderTest {
 	public void toolCardsLoaderTest() {
 		try {
 			ToolCardsLoader cardsLoader = new ToolCardsLoader("src/main/resources/toolCards_ready.json");	//TODO subst. with default
-			ToolCard[] result = cardsLoader.getRandomCards(4);
+			ToolCard[] result = cardsLoader.getRandomCards(3);
 
 			for(ToolCard toolCard : result) {
 				System.out.println(toolCard.getId() + " - " + toolCard.getName());
