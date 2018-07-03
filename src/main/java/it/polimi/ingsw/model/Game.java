@@ -703,6 +703,8 @@ public class Game extends Observable {
 		return gameBoard.getDraft();
 	}
 
+	public DiceBag getDiceBag(){ return gameBoard.getDiceBag();}
+
 	public RoundTrack getRoundTrackDice() {
 		return gameBoard.getRoundTrack();
 	}
