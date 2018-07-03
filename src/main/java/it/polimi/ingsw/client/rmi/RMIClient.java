@@ -24,9 +24,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	@Override
 	public void loginResponse(String... result) throws RemoteException {
 		client.loginResponse(result);
-		if(result[0].equals("success")) {
-			sessionID = result[2];
-		}
 	}
 
 	@Override
@@ -172,9 +169,5 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	@Override
 	public void endGameForAbandonement() throws RemoteException {
 		client.endGameForAbandonement();
-	}
-
-	protected String getSessionID() {
-		return sessionID;
 	}
 }

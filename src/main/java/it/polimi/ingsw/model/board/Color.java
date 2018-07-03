@@ -35,8 +35,4 @@ public enum Color implements Serializable {
     public String toString() {
         return abbr;
     }
-
-    public static Color[] toArray() {
-        return new Color[] {BLUE, GREEN, PURPLE, RED, YELLOW};
-    }
 }

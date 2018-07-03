@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.board.dice.Dice;
 
 public interface ServerInterface {
     public void login(String username);
-    public void logout();
 
     public void selectWindowPattern(int i);
 

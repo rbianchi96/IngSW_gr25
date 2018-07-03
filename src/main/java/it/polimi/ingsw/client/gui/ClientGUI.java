@@ -220,6 +220,8 @@ public class ClientGUI extends Application implements ClientInterface {
 			primaryStage.setScene(this.scores);
 			primaryStage.show();
 		});
+
+		client.closeConnection();
 	}
 
 	@Override
@@ -231,6 +233,8 @@ public class ClientGUI extends Application implements ClientInterface {
 			primaryStage.setScene(login);
 			primaryStage.show();
 		});
+
+		client.closeConnection();
 	}
 
 	@Override

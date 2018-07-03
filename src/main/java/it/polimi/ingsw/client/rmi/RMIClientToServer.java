@@ -19,7 +19,6 @@ public class RMIClientToServer implements ServerInterface {
 	private RMIClient client;
 	private ClientGUI clientGUI;
 	private Timer pingTimer;
-	private String sessionNickname;
 
 	public RMIClientToServer(ClientGUI client, String ip, String serverName) throws RemoteException, NotBoundException, MalformedURLException {
 		clientGUI = client;
@@ -56,16 +55,10 @@ public class RMIClientToServer implements ServerInterface {
 	public void login(String username) {
 		try {
 			server.login(username, client);
-			sessionNickname = username;
 		} catch(RemoteException e) {
 			clientGUI.lostConnenction();
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void logout() {
-
 	}
 
 	@Override

@@ -470,10 +470,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override // Read ClientInterface for details
 	public synchronized void loginResponse(String... result) {
-		if(result[0].equals("success"))
-			out.println(encode(LOGIN_RESPONSE, result[0], result[1], result[2]));    //Encode "success", username, sessionId
-		else
-			out.println(encode(LOGIN_RESPONSE, result[0], result[1]));    //Encode "fail", code
+		out.println(encode(LOGIN_RESPONSE, result[0], result[1]));
 		out.flush();
 		if(result.equals("success")) {
 			try {

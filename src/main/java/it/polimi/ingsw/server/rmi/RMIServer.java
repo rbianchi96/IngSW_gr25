@@ -26,18 +26,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	}
 
 	@Override
-	public void logout(RMIClientInterface rmiClientInterface) throws RemoteException {
-		controller.logout(map.get(rmiClientInterface));
-	}
-
-	@Override
 	public boolean ping() throws RemoteException {
 		return true;
-	}
-
-	@Override
-	public void reconnect(RMIClientInterface rmiClientInterface, String sessionID, String username) throws RemoteException {
-		controller.reconnect(map.get(rmiClientInterface), sessionID, username);
 	}
 
 	@Override

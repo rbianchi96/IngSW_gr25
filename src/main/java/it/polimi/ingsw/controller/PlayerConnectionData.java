@@ -6,15 +6,14 @@ import java.util.Timer;
 
 public class PlayerConnectionData {
 	private ClientInterface clientInterface;
-	private String nickName, sessionID;
+	private String nickName;
 	private boolean isOnline;
 	private ModelObserver observer;
 	private Timer windowPatternSelectionTimer = new Timer();
 
-	public PlayerConnectionData(ClientInterface clientInterface, String nickName, String sessionID) {
+	public PlayerConnectionData(ClientInterface clientInterface, String nickName) {
 		this.clientInterface = clientInterface;
 		this.nickName = nickName;
-		this.sessionID = sessionID;
 		this.isOnline = true;
 	}
 
@@ -31,9 +30,6 @@ public class PlayerConnectionData {
 		this.clientInterface = clientInterface;
 	}
 
-	public void setSessionID(String sessionID) {
-		this.sessionID = sessionID;
-	}
 
 	public boolean getIsOnline() {
 		return isOnline;
@@ -51,9 +47,6 @@ public class PlayerConnectionData {
 		return nickName;
 	}
 
-	public String getSessionID() {
-		return sessionID;
-	}
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;

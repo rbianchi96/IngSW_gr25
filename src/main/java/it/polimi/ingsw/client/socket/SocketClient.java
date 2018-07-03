@@ -30,8 +30,6 @@ public class SocketClient extends Socket implements ServerInterface {
 	private Scanner in;
 	private ClientGUI client;
 	private Socket socket;
-	private String sessionID;
-	private String sessionNickname;
 	private SocketClientReceiver receiver;
 
 	public SocketClient(String ip, int port, ClientGUI client) throws IOException {
@@ -78,8 +76,7 @@ public class SocketClient extends Socket implements ServerInterface {
 					break;
 				case LOGIN_RESPONSE:
 					if(msgVector[1].equals("success")) {
-						client.loginResponse(msgVector[1], msgVector[2], msgVector[3]);
-						sessionID = msgVector[3];
+						client.loginResponse(msgVector[1], msgVector[2]);
 					} else if(msgVector[1].equals("fail")) {
 						client.loginResponse(msgVector[1], msgVector[2]);
 					}
@@ -254,13 +251,6 @@ public class SocketClient extends Socket implements ServerInterface {
 				ServerCommand.LOGIN,
 				username
 		));
-		out.flush();
-		sessionNickname = username;
-	}
-
-	@Override
-	public void logout() {
-		out.println(encode(ServerCommand.LOGOUT));
 		out.flush();
 	}
 

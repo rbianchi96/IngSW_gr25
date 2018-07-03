@@ -23,11 +23,8 @@ public class Controller {
 	private Timer lobbyTimer;
 	private int passedSeconds;
 	private long lobbyTime;
-	private String resourcesPath;
 
 	public Controller(String resourcesPath) throws FileNotFoundException {
-		this.resourcesPath = resourcesPath;
-
 		lobbyTime = (new GameParamsLoader(ResourcesPathResolver.getResourceFile(resourcesPath, GameParamsLoader.FILE_NAME))).getLobbyTime();
 
 		this.lobby = new Lobby(resourcesPath);
@@ -96,7 +93,7 @@ public class Controller {
 		System.out.println(username + " wants to reconnect.");
 		ArrayList<PlayerConnectionData> players = lobby.getPlayersConnectionData();
 		for(int i = 0; i < players.size(); i++) {
-			if(! players.get(i).getIsOnline() && players.get(i).getClientInterface() == null && players.get(i).getSessionID().equals(sessionID) && players.get(i).getNickName().equals(username)) {
+			if(! players.get(i).getIsOnline() && players.get(i).getClientInterface() == null && players.get(i).getNickName().equals(username)) {
 				// Client can reconnect
 				players.get(i).setClientInterface(clientInterface);
 				clientInterface.notifyReconnectionStatus(true, "You are successfully reconnected to the game!");
@@ -107,11 +104,6 @@ public class Controller {
 				clientInterface.notifyReconnectionStatus(false, "Reconection refused!");
 			}
 		}
-	}
-
-	// Just for convenience
-	private boolean isConnected(ClientInterface clientInterface) {
-		return lobby.isAlreadyLogged(clientInterface);
 	}
 
 	public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {

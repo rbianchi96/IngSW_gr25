@@ -18,8 +18,6 @@ public class Lobby {
     private static final int MAX_PLAYERS = 4;
     private static final int SESSIONID_LENGTH = 5;
     private static final long TURN_TIMER = 20000;
-    private static final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_=+";
-    private static SecureRandom random = new SecureRandom();
 
     private Timer currentTimer = new Timer();
 
@@ -54,16 +52,6 @@ public class Lobby {
         return false;
     }
 
-    // Check if an user is already logged in based on both his Client Interface and nickname
-    private boolean isAlreadyLogged(ClientInterface clientInterface, String username){
-        for (int i = 0; i< playersConnectionData.size(); i++) {
-            if (playersConnectionData.get(i).getNickName().equals(username) && playersConnectionData.get(i).getClientInterface() == clientInterface) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     // Register the new user, under requested(specifics) conditions.
     // This method is really ugly, I will think about re-writing it.
     public void login(ClientInterface clientInterface, String username) {
@@ -71,12 +59,11 @@ public class Lobby {
             if (!isAlreadyLogged(clientInterface)) {
                 if (playersConnectionData.size() < MAX_PLAYERS) {
                     if (!isAlreadyLogged(username)) { // If the client tries to login with an unused nickname...
-                        String sessionID = randomSessionID(SESSIONID_LENGTH); // generate a random session ID to link to this user
-                        playersConnectionData.add(new PlayerConnectionData(clientInterface, username, sessionID)); // create the Player object and add it to the Players'list.
-                        System.out.println(username + " successfully logged in! | SessionID: " + sessionID);
+                        playersConnectionData.add(new PlayerConnectionData(clientInterface, username)); // create the Player object and add it to the Players'list.
+                        System.out.println(username + " successfully logged in!");
 
                         // Notify successfully login to the client
-                        clientInterface.loginResponse("success", username, sessionID);
+                        clientInterface.loginResponse("success", username);
 
                         // Notify the new user to all other players
                         for(int i = 0; i< playersConnectionData.size() && !playersConnectionData.get(i).getNickName().equals(username); i++){
@@ -190,12 +177,10 @@ public class Lobby {
     private void inGameReLogin(ClientInterface clientInterface, String username){
         for (int i = 0; i< playersConnectionData.size(); i++) {
             if(username.equals(playersConnectionData.get(i).getNickName()) && ! playersConnectionData.get(i).getIsOnline()) {
-                String sessionID = randomSessionID(SESSIONID_LENGTH); // generate a random session ID to link to this user
                 playersConnectionData.get(i).setClientInterface(clientInterface);
                 playersConnectionData.get(i).setIsOnline(true);
-                playersConnectionData.get(i).setSessionID(sessionID);
-                System.out.println(username + " successfully re-logged in! | SessionID: " + sessionID);
-                clientInterface.loginResponse("success",username,sessionID);
+                System.out.println(username + " successfully re-logged in!");
+                clientInterface.loginResponse("success",username);
                 clientInterface.sendPlayersList(getPlayersUsernamesArray());
                 clientInterface.startGame();
                 clientInterface.sendPublicObjectiveCards(currentGame.getPublicObjectiveCards());
@@ -217,14 +202,6 @@ public class Lobby {
                 clientInterface.loginResponse("fail","0");
 
         }
-    }
-
-    // Generate random user session-ID
-    private String randomSessionID(int length){
-        StringBuilder sb = new StringBuilder(length);
-        for( int i = 0; i < length; i++ ) // for each char of the requested string
-            sb.append(alphabet.charAt( random.nextInt(alphabet.length()))); // select random char in the alphabet
-        return sb.toString();
     }
 
     // Method to call to start the game
