@@ -8,11 +8,14 @@ import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 
 import javax.json.*;
 import java.io.FileNotFoundException;
+import java.io.Reader;
 import java.util.Random;
 
 public class WindowPatternCardsLoader extends CardsLoader {
-	public WindowPatternCardsLoader(String fileName) throws FileNotFoundException {
-		super(fileName);
+	public static final String FILE_NAME = "windowPatterns.json";
+
+	public WindowPatternCardsLoader(Reader file) {
+		super(file);
 	}
 
 	@Override

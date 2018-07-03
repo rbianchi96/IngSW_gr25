@@ -1,11 +1,13 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.rmi.RMIClientToServer;
 import it.polimi.ingsw.client.socket.SocketClient;
 import it.polimi.ingsw.paramsloader.NetParamsLoader;
 import it.polimi.ingsw.server.interfaces.ServerInterface;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
@@ -17,9 +19,13 @@ public class Client {
 
 	private String username;	//The player's username
 
-	public Client(ClientGUI clientInterface) {
+	public Client(ClientGUI clientInterface, String resourcePath) {
 		clientOut = clientInterface;
-		paramsLoader = new NetParamsLoader("netParams.json");
+		try {
+			paramsLoader = new NetParamsLoader(ResourcesPathResolver.getResourceFile(resourcePath, NetParamsLoader.FILE_NAME));
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void loginAndConnect(ConnectionMode connectionMode, String ip, String username) throws IOException, NotBoundException {

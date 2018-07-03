@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.cards;
 
+import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.board.Color;
 import it.polimi.ingsw.controller.cardsloaders.PublicObjectiveCardsLoader;
 import it.polimi.ingsw.model.board.dice.Dice;
@@ -21,7 +22,9 @@ public class PublicObjectiveCardTest {
 				cells[row][col] = new Cell();
 
 		try {
-			PublicObjectiveCard[] objectiveCards = (new PublicObjectiveCardsLoader("src/main/resources/publicObjectiveCards.json")).getRandomCards(10);
+			PublicObjectiveCard[] objectiveCards = new PublicObjectiveCardsLoader(
+					ResourcesPathResolver.getResourceFile(null, PublicObjectiveCardsLoader.FILE_NAME)
+			).getRandomCards(10);
 
 			try {
 				WindowPattern windowPattern1 = new WindowPattern("WP", 0, cells);

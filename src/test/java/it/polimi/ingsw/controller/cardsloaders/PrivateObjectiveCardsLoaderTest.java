@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.cardsloaders;
 
+import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,9 @@ class PrivateObjectiveCardsLoaderTest {
     @Test
     void getRandomCards() {
         try {
-            PrivateObjectiveCardsLoader cardsLoader = new PrivateObjectiveCardsLoader("src/main/resources/privateObjectiveCards.json");
+            PrivateObjectiveCardsLoader cardsLoader = new PrivateObjectiveCardsLoader(
+                    ResourcesPathResolver.getResourceFile(null, PrivateObjectiveCardsLoader.FILE_NAME)
+            );
             PrivateObjectiveCard[] result = cardsLoader.getRandomCards(5);
 
             for (PrivateObjectiveCard privateObjectiveCard : result) {

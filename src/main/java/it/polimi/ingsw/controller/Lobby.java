@@ -1,11 +1,13 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.controller.cardsloaders.*;
 import it.polimi.ingsw.client.interfaces.ClientInterface;
 
 import java.io.FileNotFoundException;
 import java.security.SecureRandom;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,8 +26,11 @@ public class Lobby {
     private ArrayList<PlayerConnectionData> playersConnectionData;
     private Game currentGame; // The istance of the Game.
 
-    public Lobby(){
+    private String resourcePath;
+
+    public Lobby(String resourcesPath) {
         this.playersConnectionData = new ArrayList<>();
+        this.resourcePath = resourcesPath;
         currentGame = new Game();
     }
 
@@ -228,12 +233,24 @@ public class Lobby {
             currentGame.addObserver(observer);  //Add it to the model
         }
 
+        //Load cards and put them in game
         try {
             currentGame.insertCardsInGame(
-                    new WindowPatternCardsLoader("src/main/resources/windowPatterns.json").getRandomCards(playersConnectionData.size() * 2),
-                    new PublicObjectiveCardsLoader("src/main/resources/publicObjectiveCards.json").getRandomCards(Game.PUBLIC_OBJECTIVE_CARDS_NUMBER),
-                    new PrivateObjectiveCardsLoader("src/main/resources/privateObjectiveCards.json").getRandomCards(playersConnectionData.size()),
-                    new ToolCardsLoader("src/main/resources/toolCards_ready.json").getRandomCards(Game.TOOL_CARDS_NUMBER)
+                    new WindowPatternCardsLoader(
+                            ResourcesPathResolver.getResourceFile(resourcePath, WindowPatternCardsLoader.FILE_NAME)
+                    ).getRandomCards(playersConnectionData.size() * 2),
+
+                    new PublicObjectiveCardsLoader(
+                            ResourcesPathResolver.getResourceFile(resourcePath, PublicObjectiveCardsLoader.FILE_NAME)
+                    ).getRandomCards(Game.PUBLIC_OBJECTIVE_CARDS_NUMBER),
+
+                    new PrivateObjectiveCardsLoader(
+                            ResourcesPathResolver.getResourceFile(resourcePath, PrivateObjectiveCardsLoader.FILE_NAME)
+                    ).getRandomCards(playersConnectionData.size()),
+
+                    new ToolCardsLoader(
+                            ResourcesPathResolver.getResourceFile(resourcePath, ToolCardsLoader.FILE_NAME)
+                    ).getRandomCards(Game.TOOL_CARDS_NUMBER)
             );
         } catch(FileNotFoundException e) {
             e.printStackTrace();

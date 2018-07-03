@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Score;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.Cell;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import org.junit.Test;
+import sun.awt.RepaintArea;
 
 import java.io.FileNotFoundException;
 import java.util.Random;
@@ -30,13 +32,19 @@ public class ScoreTest {
 		Random random = new Random();
 
 		try {
-			PublicObjectiveCardsLoader publicObjectiveCardsLoader = new PublicObjectiveCardsLoader("src/main/resources/publicObjectiveCards.json");
+			PublicObjectiveCardsLoader publicObjectiveCardsLoader = new PublicObjectiveCardsLoader(
+					ResourcesPathResolver.getResourceFile(null, PublicObjectiveCardsLoader.FILE_NAME)
+			);
 			PublicObjectiveCard publicObjectiveCards[] = publicObjectiveCardsLoader.getRandomCards(Game.PUBLIC_OBJECTIVE_CARDS_NUMBER);
 
-			PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader("src/main/resources/privateObjectiveCards.json");
+			PrivateObjectiveCardsLoader privateObjectiveCardsLoader = new PrivateObjectiveCardsLoader(
+					ResourcesPathResolver.getResourceFile(null, PrivateObjectiveCardsLoader.FILE_NAME)
+			);
 			PrivateObjectiveCard privateObjectiveCard = privateObjectiveCardsLoader.getRandomCards(1)[0];
 
-			WindowPatternCardsLoader windowPatternCardsLoader = new WindowPatternCardsLoader("src/main/resources/windowPatterns.json");
+			WindowPatternCardsLoader windowPatternCardsLoader = new WindowPatternCardsLoader(
+					ResourcesPathResolver.getResourceFile(null, WindowPatternCardsLoader.FILE_NAME)
+			);
 
 			WindowPattern windowPattern = (windowPatternCardsLoader.getRandomCards(1))[0].getPattern1();
 

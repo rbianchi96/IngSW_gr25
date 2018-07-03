@@ -7,13 +7,14 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 
 public abstract class CardsLoader {
     /*"friendly"*/ ArrayList<JsonObject> cardsArray;
 
-    public CardsLoader(String fileName) throws FileNotFoundException {
-        JsonReader reader = Json.createReader(new FileReader(fileName));
+    public CardsLoader(Reader file) {
+        JsonReader reader = Json.createReader(file);
 
         cardsArray = new ArrayList<>(reader.readArray().getValuesAs(JsonObject.class));    //Extract window patterns cards as ArrayList
 

@@ -5,11 +5,14 @@ import it.polimi.ingsw.model.board.cards.PublicObjectiveCardsIds;
 
 import javax.json.*;
 import java.io.FileNotFoundException;
+import java.io.Reader;
 import java.util.Random;
 
 public class PublicObjectiveCardsLoader extends CardsLoader {
-	public PublicObjectiveCardsLoader(String fileName) throws FileNotFoundException {
-		super(fileName);
+	public static final String FILE_NAME = "publicObjectiveCards.json";
+
+	public PublicObjectiveCardsLoader(Reader file) {
+		super(file);
 	}
 
 	@Override

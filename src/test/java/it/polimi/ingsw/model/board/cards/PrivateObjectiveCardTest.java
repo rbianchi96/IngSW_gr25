@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.board.cards;
 
+import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
+import it.polimi.ingsw.ResourcesPathResolver;
+import it.polimi.ingsw.controller.cardsloaders.WindowPatternCardsLoader;
 import it.polimi.ingsw.model.board.Color;
 import it.polimi.ingsw.controller.cardsloaders.PrivateObjectiveCardsLoader;
 import it.polimi.ingsw.model.board.dice.Dice;
@@ -34,7 +37,9 @@ public class PrivateObjectiveCardTest {
 		try {
 			WindowPattern windowPattern = new WindowPattern("WP", 1, cells);    //Window pattern without restriction
 
-			PrivateObjectiveCardsLoader cardsLoader = new PrivateObjectiveCardsLoader("src/main/resources/privateObjectiveCards.json");
+			PrivateObjectiveCardsLoader cardsLoader = new PrivateObjectiveCardsLoader(
+					ResourcesPathResolver.getResourceFile(null, PrivateObjectiveCardsLoader.FILE_NAME)
+			);
 
 			PrivateObjectiveCard[] objectiveCards = cardsLoader.getRandomCards(5);    //Load objective cards
 

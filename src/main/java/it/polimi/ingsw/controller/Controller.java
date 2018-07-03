@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.cards.toolcard.effects.MoveWindowPatternDiceEffect;
 import it.polimi.ingsw.model.board.cards.toolcard.effects.SelectDiceFromDraftEffect;
@@ -9,7 +10,9 @@ import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.interfaces.ClientInterface;
 import it.polimi.ingsw.client.interfaces.ClientCommand;
+import it.polimi.ingsw.paramsloader.GameParamsLoader;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,12 +21,18 @@ public class Controller {
 	private Lobby lobby;
 	private boolean timerStarted = false;
 	private Timer lobbyTimer;
-	private int waitSeconds;
-	private int waitSecondsServer = 10;
+	private int passedSeconds;
+	private long lobbyTime;
+	private String resourcesPath;
 
-	public Controller(Lobby lobby) {
-		this.lobby = lobby;
-		waitSeconds = 0;
+	public Controller(String resourcesPath) throws FileNotFoundException {
+		this.resourcesPath = resourcesPath;
+
+		lobbyTime = (new GameParamsLoader(ResourcesPathResolver.getResourceFile(resourcesPath, GameParamsLoader.FILE_NAME))).getLobbyTime();
+
+		this.lobby = new Lobby(resourcesPath);
+
+		passedSeconds = 0;
 	}
 
 	///// CONNECTION \\\\\\
@@ -48,10 +57,10 @@ public class Controller {
 	}
 
 	private void time() {
-		waitSeconds++;
-		System.out.println(waitSeconds);
-		System.out.println("Giocatori: " + lobby.getPlayersConnectionData().size());
-		if(waitSeconds >= waitSecondsServer && lobby.getPlayersConnectionData().size() > 1 && timerStarted) {
+		passedSeconds++;
+		System.out.println(lobby.getPlayersConnectionData().size() + "players; " + passedSeconds + "/" + lobbyTime + "s.");
+
+		if(passedSeconds >= lobbyTime && lobby.getPlayersConnectionData().size() > 1 && timerStarted) {
 			System.out.println("Starting game...");
 			startGame();
 			lobbyTimer.cancel();
@@ -105,7 +114,7 @@ public class Controller {
 	}
 
 	public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
-		lobby.setWindowPattern(clientInterface);	//Stop the timer
+		lobby.setWindowPattern(clientInterface);    //Stop the timer
 		lobby.getCurrentGame().selectWindowPattern(findUsername(clientInterface), i);
 	}
 
@@ -232,7 +241,7 @@ public class Controller {
 		} catch(Game.WrongTurnException ex) {
 			clientInterface.wrongTurn();
 		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
-			e.printStackTrace();	//TODO
+			e.printStackTrace();    //TODO
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {
 			clientInterface.cellAlreadyOccupied();
 		} catch(Game.InvalidCall invalidCall) {
@@ -272,12 +281,13 @@ public class Controller {
 			//TODO
 		}
 	}
-	public synchronized void rollDiceFromDraft(ClientInterface clientInterface){
-		try{
+
+	public synchronized void rollDiceFromDraft(ClientInterface clientInterface) {
+		try {
 			lobby.getCurrentGame().rollDiceFromDraftEffect(findUsername(clientInterface));
-		} catch (Game.WrongTurnException e) {
+		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
-		} catch (Game.InvalidCall invalidCall) {
+		} catch(Game.InvalidCall invalidCall) {
 			invalidCall.printStackTrace();
 		}
 	}

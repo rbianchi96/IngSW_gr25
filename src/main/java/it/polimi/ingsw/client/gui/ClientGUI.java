@@ -16,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class ClientGUI extends Application implements ClientInterface {
 	private Client client;
 	private Stage primaryStage;
@@ -35,7 +37,12 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		client = new Client(this);    //Out interface
+		List<String> args = getParameters().getRaw();
+
+		client = new Client(
+				this,
+				args.size() >= 1 ? args.get(0) : null
+		);    //Outbound interface
 		this.primaryStage = primaryStage;
 
 		//Window common initialization
@@ -103,7 +110,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 		String[] cardsNames = new String[publicObjectiveCards.length];
 
-		for(int i = 0; i < cardsNames.length; i ++) {
+		for(int i = 0; i < cardsNames.length; i++) {
 			cardsNames[i] = publicObjectiveCards[i].getName();
 		}
 

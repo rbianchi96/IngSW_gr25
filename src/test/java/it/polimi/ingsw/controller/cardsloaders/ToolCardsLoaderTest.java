@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.cardsloaders;
 
+import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.board.cards.toolcard.effects.Effect;
 import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
 import org.junit.Test;
@@ -13,7 +14,9 @@ public class ToolCardsLoaderTest {
 	@Test
 	public void toolCardsLoaderTest() {
 		try {
-			ToolCardsLoader cardsLoader = new ToolCardsLoader("src/main/resources/toolCards_ready.json");	//TODO subst. with default
+			ToolCardsLoader cardsLoader = new ToolCardsLoader(
+					ResourcesPathResolver.getResourceFile(null, ToolCardsLoader.FILE_NAME)
+			);
 			ToolCard[] result = cardsLoader.getRandomCards(3);
 
 			for(ToolCard toolCard : result) {

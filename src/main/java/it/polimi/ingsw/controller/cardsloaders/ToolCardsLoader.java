@@ -10,12 +10,15 @@ import it.polimi.ingsw.model.board.windowpattern.PlacementRestriction;
 
 import javax.json.*;
 import java.io.FileNotFoundException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class ToolCardsLoader extends CardsLoader {
-	public ToolCardsLoader(String fileName) throws FileNotFoundException {
-		super(fileName);
+	public static final String FILE_NAME = "toolCards_ready.json";	//TODO
+
+	public ToolCardsLoader(Reader file) {
+		super(file);
 	}
 
 	@Override

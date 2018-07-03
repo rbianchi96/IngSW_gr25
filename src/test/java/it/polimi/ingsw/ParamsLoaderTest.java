@@ -15,13 +15,13 @@ public class ParamsLoaderTest {
 			GameParamsLoader gameParamsLoader;
 
 			//Test with test1.jdon (expected 1 and 2)
-			gameParamsLoader = new GameParamsLoader("gameParams/test1.json");
+			gameParamsLoader = new GameParamsLoader(ResourcesPathResolver.getResourceFile(null,"gameParams/test1.json"));
 
 			assertEquals(gameParamsLoader.getLobbyTime(), 1);
 			assertEquals(gameParamsLoader.getMaxRoundTime(), 2);
 
 			//Test with test1.jdon (expected 2 and 1)
-			gameParamsLoader = new GameParamsLoader("gameParams/test2.json");
+			gameParamsLoader = new GameParamsLoader(ResourcesPathResolver.getResourceFile(null,"gameParams/test2.json"));
 
 			assertEquals(gameParamsLoader.getLobbyTime(), 2);
 			assertEquals(gameParamsLoader.getMaxRoundTime(), 1);
@@ -35,7 +35,7 @@ public class ParamsLoaderTest {
 			NetParamsLoader netParamsLoader;
 
 
-			netParamsLoader = new NetParamsLoader("netParams.json");
+			netParamsLoader = new NetParamsLoader(ResourcesPathResolver.getResourceFile(null, "netParams.json"));
 
 			assertEquals(netParamsLoader.getSocketServerPort(), 3000);
 			assertEquals(netParamsLoader.getRMIServerName(), "SagradaServer");
