@@ -127,7 +127,6 @@ public class Lobby {
             if (playersConnectionData.get(i).getClientInterface() == clientInterface) {
                 System.out.println(playersConnectionData.get(i).getNickName() + " logged out.");
                 suspendPlayer(i);
-                clientInterface.closeConnection();
                 return true;
             }
         }
@@ -161,15 +160,20 @@ public class Lobby {
             playersConnectionData.get(index).setIsOnline(false);
             playersConnectionData.get(index).setClientInterface(null);
 
-            currentGame.setPlayerSuspendedState(playerNickname, true);
             currentGame.deleteObserver(playersConnectionData.get(index).getObserver());	//Remove the observer from the model
 			playersConnectionData.get(index).setObserver(null);	//Delete the observer
+            currentGame.setPlayerSuspendedState(playerNickname, true);
 
             System.out.println(playerNickname + " is now offline.");
             for(int i = 0; i < playersConnectionData.size(); i++) {
 				if(i != index)
 					if(playersConnectionData.get(i).getClientInterface() != null)
 						playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
+				else
+                    if(playersConnectionData.get(i).getClientInterface() != null) {
+                        playersConnectionData.get(i).getClientInterface().closeConnection();
+                        playersConnectionData.get(i).setClientInterface(null);
+                    }
 			}
 		} else {  //If the game isn't started yet (lobby phase)
 			System.out.println(playersConnectionData.get(index).getNickName() + " has been removed from the lobby.");
@@ -346,6 +350,18 @@ public class Lobby {
 
     	return - 1;
 	}
+
+	//End the game and reinitialize all
+	public void endGame() {
+        System.out.println("The game ended, the server is ready to start a new game.");
+
+        for(PlayerConnectionData playerConnectionData : playersConnectionData)
+            if(playerConnectionData.getClientInterface() != null)
+                playerConnectionData.getClientInterface().closeConnection();
+
+        playersConnectionData = new ArrayList<>();
+        currentGame = new Game();
+    }
 
     @Override
     public String toString(){

@@ -169,6 +169,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 		client.sendScores(scores);
 	}
 
+	@Override
+	public void endGameForAbandonement() throws RemoteException {
+		client.endGameForAbandonement();
+	}
+
 	protected String getSessionID() {
 		return sessionID;
 	}

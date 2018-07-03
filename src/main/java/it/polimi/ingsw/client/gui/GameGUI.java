@@ -175,6 +175,8 @@ public class GameGUI extends GUIController {
 
 			if(playersMap.get(currentPlayer) == 0)
 				showInfoAlert("È il tuo turno!");
+
+			state = State.WAIT_USER_INPUT;
 		});
 	}
 

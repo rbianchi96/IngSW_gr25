@@ -418,6 +418,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.println(stringBuilder.toString());
 	}
 
+	@Override
+	public void endGameForAbandonement() {
+		out.println(encode(END_GAME_FOR_ABANDONEMENT));
+		out.flush();
+	}
+
 	@Override // Read ClientInterface for details
 	public synchronized void closeConnection() {
 		closeSocket();

@@ -157,4 +157,9 @@ public class RMIClientToServer implements ServerInterface {
 			clientGUI.lostConnenction();
 		}
 	}
+
+	@Override
+	public void closeConnection() {
+		pingTimer.cancel();
+	}
 }

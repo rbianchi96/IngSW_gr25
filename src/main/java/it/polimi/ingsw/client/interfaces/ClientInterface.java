@@ -49,6 +49,7 @@ public interface ClientInterface {
 	public void cellAlreadyOccupied();
 
 	public void sendScores(Score[] scores);
+	public void endGameForAbandonement();
 
 	public void closeConnection();  // close the connection from the Model in case of an handled logout
 }

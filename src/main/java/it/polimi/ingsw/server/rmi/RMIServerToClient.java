@@ -33,7 +33,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.loginResponse(result);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -48,7 +47,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.notifyReconnectionStatus(status, message);
 		} catch(Exception e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -59,7 +57,6 @@ public class RMIServerToClient implements ClientInterface {
 			rmiClientInterface.ping();
 			return true;
 		} catch(Exception e) {
-			e.printStackTrace();
 			pingTimer.cancel();
 			controller.lostConnection(this);
 			return false;
@@ -82,7 +79,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.notifyNewUser(username);
 		} catch(Exception e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -92,7 +88,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.notifySuspendedUser(username);
 		} catch(Exception e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -102,7 +97,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.sendPlayersList(players);
 		} catch(Exception e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -112,7 +106,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.sendPrivateObjectiveCard(privateObjectiveCard);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -122,7 +115,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.sendWindowPatternsToChoose(windowPatterns);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -132,7 +124,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.sendToolCards(toolCards);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -142,7 +133,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.sendPublicObjectiveCards(publicObjectiveCards);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -152,7 +142,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.startGame();
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -162,7 +151,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.newTurn(currentPlayer);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -172,7 +160,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.updateDraft(dices);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -182,7 +169,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.updateWindowPatterns(windowPatterns);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -192,7 +178,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.updatePlayersTokens(tokens);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -202,7 +187,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.updateToolCardsTokens(tokens);
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -212,7 +196,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.updateRoundTrack(roundTrackDices);
 		} catch(Exception e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -222,7 +205,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.selectDiceFromDraft();
 		} catch(Exception e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -232,7 +214,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.selectIncrementOrDecrement();
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -242,7 +223,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.placeDice();
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -252,7 +232,6 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.selectDiceFromWindowPattern();
 		} catch(RemoteException e) {
-			e.printStackTrace();
 			controller.lostConnection(this);
 		}
 	}
@@ -262,7 +241,7 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.moveDiceInWindowPattern();
 		} catch(RemoteException e) {
-			e.printStackTrace();
+
 			controller.lostConnection(this);
 		}
 	}
@@ -272,7 +251,7 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.selectDiceFromRoundTrack();
 		} catch(RemoteException e) {
-			e.printStackTrace();
+
 			controller.lostConnection(this);
 		}
 	}
@@ -282,7 +261,7 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.endOfToolCardUse();
 		} catch(RemoteException e) {
-			e.printStackTrace();
+
 			controller.lostConnection(this);
 		}
 	}
@@ -292,7 +271,7 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.wrongTurn();
 		} catch(RemoteException e) {
-			e.printStackTrace();
+
 			controller.lostConnection(this);
 		}
 	}
@@ -302,7 +281,7 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.notEnoughFavorTokens();
 		} catch(RemoteException e) {
-			e.printStackTrace();
+
 			controller.lostConnection(this);
 		}
 	}
@@ -312,7 +291,7 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.dicePlacementRestictionBroken();
 		} catch(RemoteException e) {
-			e.printStackTrace();
+
 			controller.lostConnection(this);
 		}
 	}
@@ -322,7 +301,7 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.cellAlreadyOccupied();
 		} catch(RemoteException e) {
-			e.printStackTrace();
+
 			controller.lostConnection(this);
 		}
 	}
@@ -332,7 +311,16 @@ public class RMIServerToClient implements ClientInterface {
 		try {
 			rmiClientInterface.sendScores(scores);
 		} catch(RemoteException e) {
-			e.printStackTrace();
+
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
+	public void endGameForAbandonement() {
+		try {
+			rmiClientInterface.endGameForAbandonement();
+		} catch(RemoteException e) {
 			controller.lostConnection(this);
 		}
 	}

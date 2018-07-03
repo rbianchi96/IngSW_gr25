@@ -194,18 +194,25 @@ public class Game extends Observable {
 			endGame();
 	}
 
-	private void endGame() {
-		scores = new Score[players.size()];
+	private void endGame() {endGame(false);}
 
-		for(int i = 0; i < players.size(); i++) {
-			scores[i] = new Score(
-					players.get(i),
-					publicObjectiveCards
-			);
+	private void endGame(boolean forceWin) {
+		if(! forceWin) {    //Normal scores calculation
+			scores = new Score[players.size()];
+
+			for(int i = 0; i < players.size(); i++) {
+				scores[i] = new Score(
+						players.get(i),
+						publicObjectiveCards
+				);
+			}
+
+			setChanged();
+			notifyObservers(NotifyType.SCORES);
+		} else {    //Win the remaining player
+			setChanged();
+			notifyObservers(NotifyType.END_GAME_FOR_ABANDONEMENT);
 		}
-
-		setChanged();
-		notifyObservers(NotifyType.SCORES);
 	}
 
 	/**
@@ -635,9 +642,7 @@ public class Game extends Observable {
 					totSuspended++;
 
 			if(totSuspended >= players.size() - 1) {
-				//TODO force win
-
-				endGame();
+				endGame(true);
 
 				System.out.println("Only one player.");
 			} else {    //Suspend the player
@@ -747,7 +752,7 @@ public class Game extends Observable {
 	public enum NotifyType {
 		SELECT_WINDOW_PATTERN, PRIVATE_OBJECTIVE_CARD, PUBLIC_OBJECTIVE_CARDS, TOOL_CARDS,
 		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, PLAYERS_TOKENS, TOOL_CARDS_TOKENS, ROUND_TRACK,
-		SCORES
+		SCORES, END_GAME_FOR_ABANDONEMENT
 	}
 
 	public class WrongTurnException extends Exception {

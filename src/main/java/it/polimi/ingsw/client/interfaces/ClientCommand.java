@@ -40,7 +40,7 @@ public enum ClientCommand {
 	CELL_ALREADY_OCCUPIED("cellAlreadyOccupied"),
 	ROLL_DICE_FROM_DRAFT("rollDiceFromDraft"),
 	SEND_SCORES("sendScores"),
-	SEND_WINNER("sendWinner"),
+	END_GAME_FOR_ABANDONEMENT("endGameForAbandonement"),
 
 	INVALID_COMMAND("invalidCommand");
 

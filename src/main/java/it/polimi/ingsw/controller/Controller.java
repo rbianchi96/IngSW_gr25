@@ -63,6 +63,7 @@ public class Controller {
 		if(passedSeconds >= lobbyTime && lobby.getPlayersConnectionData().size() > 1 && timerStarted) {
 			System.out.println("Starting game...");
 			startGame();
+			passedSeconds = 0;
 			lobbyTimer.cancel();
 			timerStarted = false;
 		}

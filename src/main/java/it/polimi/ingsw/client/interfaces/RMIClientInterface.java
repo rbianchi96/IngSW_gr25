@@ -53,4 +53,5 @@ public interface RMIClientInterface extends Remote {
 	public void cellAlreadyOccupied() throws RemoteException;
 
 	public void sendScores(Score[] scores) throws RemoteException;
+	public void endGameForAbandonement() throws RemoteException;
 }

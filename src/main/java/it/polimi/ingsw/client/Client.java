@@ -50,6 +50,11 @@ public class Client {
 		serverInterface.login(username);
 	}
 
+	public void closeConnection() {
+		serverInterface.closeConnection();
+		serverInterface = null;
+	}
+
 	public enum ConnectionMode {
 		SOCKET, RMI
 	}

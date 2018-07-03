@@ -32,6 +32,7 @@ public class SocketClient extends Socket implements ServerInterface {
 	private Socket socket;
 	private String sessionID;
 	private String sessionNickname;
+	private SocketClientReceiver receiver;
 
 	public SocketClient(String ip, int port, ClientGUI client) throws IOException {
 		this.client = client;
@@ -47,7 +48,7 @@ public class SocketClient extends Socket implements ServerInterface {
 			out = new PrintWriter(socket.getOutputStream());
 			in = new Scanner(socket.getInputStream());
 
-			SocketClientReceiver receiver = new SocketClientReceiver(this, in);    //Create the receiver
+			receiver = new SocketClientReceiver(this, in);    //Create the receiver
 			Thread t = new Thread(receiver);
 			t.start();    //Start the receiver
 
@@ -234,7 +235,9 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.sendScores(decodeScores((Arrays.copyOfRange(msgVector, 1, msgVector.length))));
 
 					break;
-				case SEND_WINNER:
+				case END_GAME_FOR_ABANDONEMENT:
+					client.endGameForAbandonement();
+
 					break;
 				case INVALID_COMMAND:
 					//TODO ???
@@ -354,6 +357,11 @@ public class SocketClient extends Socket implements ServerInterface {
 				String.valueOf(dice)
 		));
 		out.flush();
+	}
+
+	@Override
+	public void closeConnection() {
+		receiver.stop();
 	}
 
 	// This method encode call's arguments based on Protocol'rules. Necessary before send to Client.

@@ -223,6 +223,17 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void endGameForAbandonement() {
+		Platform.runLater(() -> {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION, "Hai vinto, tutti gli altri giocatori hanno abbandonato");
+			alert.showAndWait();
+
+			primaryStage.setScene(login);
+			primaryStage.show();
+		});
+	}
+
+	@Override
 	public void loginResponse(String... result) {
 		if(result[0].equals("success"))
 			this.myUsername = result[1];

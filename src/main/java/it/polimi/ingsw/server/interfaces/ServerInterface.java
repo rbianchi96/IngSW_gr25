@@ -19,4 +19,6 @@ public interface ServerInterface {
     public void moveDiceInWindowPatternEffect(int row, int col);
     public void placeDice(int row, int col);
     public void selectDiceFromRoundTrackAndSwitch(int round, int dice);
+
+    public void closeConnection();
 }
