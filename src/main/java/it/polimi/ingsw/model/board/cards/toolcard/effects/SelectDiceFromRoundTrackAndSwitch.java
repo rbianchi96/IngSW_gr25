@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
+import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 
 public class SelectDiceFromRoundTrackAndSwitch extends Effect {
@@ -31,12 +32,12 @@ public class SelectDiceFromRoundTrackAndSwitch extends Effect {
         System.out.println("Valid dice selection and dice switched with Draft's one.");
 
     }
-    public class DiceNotFoundException extends Exception{
+    public class DiceNotFoundException extends GameException {
         public DiceNotFoundException(){
             super();
         }
     }
-    public class InvaliDiceOrPosition extends Exception{
+    public class InvaliDiceOrPosition extends GameException{
         public InvaliDiceOrPosition(){
             super();
         }

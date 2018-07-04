@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
+import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 
@@ -35,13 +36,13 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
     public int getCol() {
         return y;
     }
-    public class DiceNotFoundException extends Exception{
+    public class DiceNotFoundException extends GameException{
         public DiceNotFoundException(){
             super();
         }
     }
 
-    public class AlreadyMovedDice extends Exception{
+    public class AlreadyMovedDice extends GameException{
         public AlreadyMovedDice(){
             super();
         }
