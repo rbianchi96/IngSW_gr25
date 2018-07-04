@@ -127,19 +127,19 @@ class GameTest {
 
     @Test
     void getToolCardsTokens() {
-
-
         Game g = new Game();
-
         RoundTrack r = new RoundTrack(2);
         Round round = new Round(2);
         ArrayList<Player> players2 = new ArrayList<>();
         Player player1 = new Player("pl1");
         Player player2 = new Player("pl2");
-        //WindowPattern wp1 = new WindowPattern("ciao", 4, null);
-        //WindowPattern wp2 = new WindowPattern("addios", 3, null);
-        //player1.setWindowPattern(wp1);
-        //player2.setWindowPattern(wp2);
+        try {
+            WindowPattern wp1 = new WindowPattern("wp1", 4, null);
+            WindowPattern wp2 = new WindowPattern("wp2", 3, null);
+            player1.setWindowPattern(wp1);
+            player2.setWindowPattern(wp2);
+        }
+        catch(Exception e){e.printStackTrace();}
         players2.add(player1);
         players2.add(player2);
         players2.get(0).setFavourTokens(3);
@@ -151,19 +151,19 @@ class GameTest {
         DiceBag dicebag = new DiceBag();
         dicebag.initialize();
         GameBoard gb = new GameBoard(dicebag, draft, null, null, r);
-
-try{
+        try{
             g.startGame(players);
             assertEquals(3, g.getCurrentPlayer());
-            assertEquals(4, g.getPlayersTokens()[0]);
+            assertEquals(2, g.getPlayersTokens()[0]);
             assertEquals(draft,g.getDraft());
             assertEquals(dicebag,g.getDiceBag());
             assertEquals(r,g.getRoundTrackDice());
+            assertEquals(g.getAllWindowPatterns()[0],player1.getWindowPattern());
+            assertEquals(g.getAllWindowPatterns()[1],player2.getWindowPattern());
             g.rollDicesFromDiceBag();
-       } catch (Exception e) {
+            assertEquals(0, g.getCurrentPlayer());
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-
-
-
     }
 }
