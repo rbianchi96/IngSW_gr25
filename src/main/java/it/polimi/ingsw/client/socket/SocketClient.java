@@ -147,7 +147,7 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.startGame();
 					break;
 				case NEW_TURN:
-					client.newTurn(Integer.parseInt(msgVector[1]));
+					client.newTurn(Integer.parseInt(msgVector[1]), Integer.parseInt(msgVector[2]));
 					break;
 				case UPDATE_DRAFT:
 					Dice[] dices = new Dice[(msgVector.length - 1) / 2];

@@ -259,11 +259,12 @@
                 </ImageView>
             </children>
         </GridPane>
-        <Button layoutX="44.0" layoutY="658.0" mnemonicParsing="false" onMouseClicked="#endTurn" text="Fine turno" />
+        <Button layoutX="44.0" layoutY="658.0" mnemonicParsing="false" onMouseClicked="#endTurn" text="Fine turno" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="44.0" />
         <Label fx:id="playerName0" alignment="CENTER" layoutX="209.0" layoutY="521.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="21.0" prefWidth="306.0" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="266.0" AnchorPane.leftAnchor="180.0">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
+      <Label fx:id="remainingTime" alignment="CENTER" contentDisplay="CENTER" layoutX="69.0" layoutY="678.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="164.0" text="Tempo rimanente: 120 s" textAlignment="CENTER" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" />
     </children>
 </AnchorPane>

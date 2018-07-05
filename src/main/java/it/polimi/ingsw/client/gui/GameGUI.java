@@ -24,8 +24,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameGUI extends GUIController {
+	private static final String REMAINING_TIME_TEXT = "Tempo rim.: ";
+
 	@FXML
 	AnchorPane playerContainer1, playerContainer2, playerContainer3;
 
@@ -38,7 +42,8 @@ public class GameGUI extends GUIController {
 	@FXML
 	Label
 			playerName0, playerName1, playerName2, playerName3,
-			patternName0, patternName1, patternName2, patternName3;
+			patternName0, patternName1, patternName2, patternName3,
+			remainingTime;
 
 	private Label
 			playersNames[],
@@ -73,6 +78,10 @@ public class GameGUI extends GUIController {
 	private State state = State.WAIT_USER_INPUT;
 
 	private HashMap<Integer, Integer> playersMap = new HashMap<>();
+
+	private int turnTime;
+
+	private Timer timer = new Timer();
 
 	public void initialize() {
 		patterns = new GridPane[]{pattern0, pattern1, pattern2, pattern3};
@@ -163,7 +172,7 @@ public class GameGUI extends GUIController {
 		});
 	}
 
-	public void newTurn(int currentPlayer) {
+	public void newTurn(int currentPlayer, int turnTime) {
 		Platform.runLater(() -> {
 			for(int i = 0; i < playersMap.size(); i++) {
 				if(currentPlayer == i) {
@@ -178,6 +187,23 @@ public class GameGUI extends GUIController {
 
 			state = State.WAIT_USER_INPUT;
 		});
+
+		this.turnTime = turnTime / 1000;
+		timer.scheduleAtFixedRate(new TimerTask() {
+									  @Override
+									  public void run() {
+										  Platform.runLater(() -> {
+											  if(getTime() >= 0) {
+												  remainingTime.setText(REMAINING_TIME_TEXT + getTime() + " s");
+											  decreaseTime();
+											  }
+
+											  //TODO curr player flash
+										  });
+									  }
+								  },
+				0, 1000
+		);
 	}
 
 	public void updateDraft(Dice[] dices) {
@@ -191,12 +217,7 @@ public class GameGUI extends GUIController {
 				GridPane.setHalignment(diceToDraw, HPos.CENTER);
 				GridPane.setValignment(diceToDraw, VPos.CENTER);
 
-				diceToDraw.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						diceSelectedFromDraft((Pane)event.getSource());
-					}
-				});
+				diceToDraw.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> diceSelectedFromDraft((Pane)event.getSource()));
 				draft.add(diceToDraw, i / 2, i % 2);
 			}
 		});
@@ -211,6 +232,7 @@ public class GameGUI extends GUIController {
 
 		switch(state) {
 			case WAIT_USER_INPUT:
+			case PLACE_DICE_IN_HAND:
 				diceInHand = draftDice[diceIndex];
 				state = State.PLACE_DICE_IN_HAND;
 				break;
@@ -426,6 +448,14 @@ public class GameGUI extends GUIController {
 
 	public void endTurn() {
 		client.getServerInterface().endTurn();
+	}
+
+	private int getTime() {
+		return turnTime;
+	}
+
+	private void decreaseTime() {
+		turnTime--;
 	}
 
 	private enum State {

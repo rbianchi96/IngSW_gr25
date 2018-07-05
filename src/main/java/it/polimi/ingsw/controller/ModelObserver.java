@@ -45,7 +45,7 @@ public class ModelObserver implements java.util.Observer {
 
 				break;
 			case NEW_TURN:
-				clientInterface.newTurn(model.getCurrentPlayerIndex());
+				clientInterface.newTurn(model.getCurrentPlayerIndex(), lobby.turnTime());
 
 				lobby.newTurn(clientInterface);	//Notify the lobby
 

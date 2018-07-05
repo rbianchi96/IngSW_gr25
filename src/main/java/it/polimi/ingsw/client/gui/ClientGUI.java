@@ -128,8 +128,8 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void newTurn(int currentPlayer) {
-		gameGUI.newTurn(currentPlayer);
+	public void newTurn(int currentPlayer, int turnTime) {
+		gameGUI.newTurn(currentPlayer, turnTime);
 	}
 
 	@Override

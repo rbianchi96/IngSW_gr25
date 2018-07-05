@@ -147,9 +147,9 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
-	public void newTurn(int currentPlayer) {
+	public void newTurn(int currentPlayer, int turnTime) {
 		try {
-			rmiClientInterface.newTurn(currentPlayer);
+			rmiClientInterface.newTurn(currentPlayer, turnTime);
 		} catch(RemoteException e) {
 			controller.lostConnection(this);
 		}

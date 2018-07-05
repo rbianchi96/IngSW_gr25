@@ -272,8 +272,8 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
-	public synchronized void newTurn(int currentPlayer) {
-		out.println(encode(NEW_TURN, String.valueOf(currentPlayer)));
+	public synchronized void newTurn(int currentPlayer, int turnTime) {
+		out.println(encode(NEW_TURN, String.valueOf(currentPlayer), String.valueOf(turnTime)));
 		out.flush();
 	}
 

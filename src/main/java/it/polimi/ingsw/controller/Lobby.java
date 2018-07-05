@@ -26,6 +26,8 @@ public class Lobby {
 
     private String resourcePath;
 
+    private int turnTime = (int)TURN_TIMER;  //TODO
+
     public Lobby(String resourcesPath) {
         this.playersConnectionData = new ArrayList<>();
         this.resourcePath = resourcesPath;
@@ -338,6 +340,10 @@ public class Lobby {
 
         playersConnectionData = new ArrayList<>();
         currentGame = new Game();
+    }
+
+    public int turnTime() {
+        return turnTime;
     }
 
     @Override
