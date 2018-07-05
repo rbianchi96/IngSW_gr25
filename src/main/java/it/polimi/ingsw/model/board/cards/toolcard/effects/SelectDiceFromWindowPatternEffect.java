@@ -13,14 +13,14 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
     @Override
     public void apply(EffectData effectData) throws DiceNotFoundException, AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
         if(effectData.getForbidX() >= 0 && effectData.getForbidY() >= 0)
-            if(x == effectData.getForbidX() && y == effectData.getForbidY()) throw new AlreadyMovedDice(); // check if the client is trying to move an already moved dice(in the same card effect)
+            if(effectData.getX() == effectData.getForbidX() && effectData.getY() == effectData.getForbidY()) throw new AlreadyMovedDice(); // check if the client is trying to move an already moved dice(in the same card effect)
         try {
-            Dice dice = effectData.getWindowPattern().getDice(x, y); // get the dice from the windowpattern...
+            Dice dice = effectData.getWindowPattern().getDice(effectData.getX(), effectData.getY()); // get the dice from the windowpattern...
             if(dice == null) {
                 throw new DiceNotFoundException();
             }
-            this.x = x; // save dice coordinates
-            this.y = y;
+            this.x = effectData.getX(); // save dice coordinates
+            this.y = effectData.getY();
             used = true;
             System.out.println("Ok, selected Dice is valid.");
         } catch(WindowPattern.WindowPatternOutOfBoundException ex) {
