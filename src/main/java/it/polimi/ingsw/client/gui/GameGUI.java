@@ -189,13 +189,18 @@ public class GameGUI extends GUIController {
 		});
 
 		this.turnTime = turnTime / 1000;
+
+		try {
+			timer.cancel();	//Try to stop the task
+			timer = new Timer();
+		} catch(IllegalStateException ignore) {}	//Ignore, if the task doesn't exist
 		timer.scheduleAtFixedRate(new TimerTask() {
 									  @Override
 									  public void run() {
 										  Platform.runLater(() -> {
 											  if(getTime() >= 0) {
 												  remainingTime.setText(REMAINING_TIME_TEXT + getTime() + " s");
-											  decreaseTime();
+												  decreaseTime();
 											  }
 
 											  //TODO curr player flash
@@ -395,7 +400,7 @@ public class GameGUI extends GUIController {
 				GridPane.setValignment(vBox, VPos.CENTER);
 
 				for(int i = 0; i < roundTrackDices[round].diceNumber(); i++) {   //For every dice
-					AnchorPane dice = Drawers.createDice(roundTrackDices[round].getDices().get(i), 30);
+					AnchorPane dice = Drawers.createDice(roundTrackDices[round].getDices().get(i), 22);
 					dice.setOnMouseClicked(onRoundTrackDiceSelected);
 
 					vBox.getChildren().add(dice);
