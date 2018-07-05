@@ -86,6 +86,8 @@ public class GameGUI extends GUIController {
 
 	private Timer timer = new Timer();
 
+	private boolean blink = false;
+
 	public void initialize() {
 		patterns = new GridPane[]{pattern0, pattern1, pattern2, pattern3};
 
@@ -208,7 +210,8 @@ public class GameGUI extends GUIController {
 												  decreaseTime();
 											  }
 
-											  //TODO curr player flash
+											  playersNames[playersMap.get(currentPlayer)].setTextFill(blink ? Color.RED : Color.BLACK);
+											  blink = ! blink;
 										  });
 									  }
 								  },
