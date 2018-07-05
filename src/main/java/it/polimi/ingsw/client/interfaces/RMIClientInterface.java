@@ -16,7 +16,7 @@ public interface RMIClientInterface extends Remote {
 	public void loginResponse(String... result) throws RemoteException;
 	//public void notLoggedYet(String message) throws RemoteException; // response in case someone tries to logout without login in the first place
 	public void notifyReconnectionStatus(boolean status, String message) throws RemoteException;
-	public boolean ping() throws RemoteException;
+	public void ping() throws RemoteException;
 
 	//Lobby methods
 	public void notifyNewUser(String message) throws RemoteException;

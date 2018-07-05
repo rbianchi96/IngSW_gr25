@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 
 public interface RMIServerInterface extends Remote {
     public void login(String username, RMIClientInterface rmiClient) throws RemoteException;
-    public boolean ping() throws RemoteException;
+    public void ping(RMIClientInterface rmiClientInterface) throws RemoteException;
 
     public void selectWindowPattern(RMIClientInterface rmiClientInterface,int i) throws RemoteException;
 

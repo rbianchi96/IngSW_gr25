@@ -13,7 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class RMIClientToServer implements ServerInterface {
-	private static final int PING_TIMER = 2500;    //2.5 s
+	public static final long PING_INTERVAL = 2500;
 
 	private RMIServerInterface server;
 	private RMIClient client;
@@ -24,29 +24,25 @@ public class RMIClientToServer implements ServerInterface {
 		clientGUI = client;
 		this.client = new RMIClient(client);    //RMIClient to send to server used to receive responses
 
-		System.setProperty("sun.rmi.transport.tcp.responseTimeout", String.valueOf(PING_TIMER));
-		server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + serverName);
-		pingTimer();
-	}
 
-	// Timer to ping the server set with a delay of 500 milliseconds, repeat every 2 and half seconds
-	private void pingTimer() {
+		server = (RMIServerInterface)Naming.lookup("rmi://" + ip + "/" + serverName);
+
 		pingTimer = new Timer();
 		pingTimer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				ping();
-			}
-		}, PING_TIMER, PING_TIMER);
+										  @Override
+										  public void run() {
+											  pingServer();
+										  }
+									  },
+				PING_INTERVAL, PING_INTERVAL);
 	}
 
 	// ping the RMI Server
-	private void ping() {
+	private void pingServer() {
 		try {
-			server.ping();
+			server.ping(client);
 		} catch(RemoteException e) {    //Lost connection
 			pingTimer.cancel();
-
 			clientGUI.lostConnenction();
 		}
 	}

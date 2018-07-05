@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.rmi;
 
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.interfaces.RMIClientInterface;
 import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
@@ -9,13 +10,20 @@ import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.dice.RoundTrackDices;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.interfaces.ClientInterface;
+import it.polimi.ingsw.server.rmi.RMIServer;
+import it.polimi.ingsw.server.rmi.RMIServerToClient;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Time;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RMIClient extends UnicastRemoteObject implements RMIClientInterface {
 	private ClientInterface client;
 	private String sessionID;
+
+	private Timer pingReceiverTimer = new Timer();
 
 	public RMIClient(ClientInterface client) throws RemoteException {
 		this.client = client;
@@ -47,8 +55,18 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
-	public boolean ping() throws RemoteException {
-		return true;
+	public void ping() throws RemoteException {
+		try {
+			pingReceiverTimer.cancel();	//Cancel the previous timer, if exists
+		} catch(Exception ignore) {}
+
+		pingReceiverTimer = new Timer();
+		pingReceiverTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				((ClientGUI)client).lostConnenction();
+			}
+		}, (long)(RMIServerToClient.PING_INTERVAL * 1.5));
 	}
 
 	@Override

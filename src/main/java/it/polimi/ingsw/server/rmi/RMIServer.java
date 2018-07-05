@@ -1,17 +1,25 @@
 package it.polimi.ingsw.server.rmi;
 
+import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.client.rmi.RMIClient;
+import it.polimi.ingsw.client.rmi.RMIClientToServer;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.client.interfaces.RMIClientInterface;
 import it.polimi.ingsw.server.interfaces.RMIServerInterface;
 
 import java.rmi.RemoteException;
+import java.rmi.server.RMIClassLoader;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 	private Controller controller;
 	private HashMap<RMIClientInterface, RMIServerToClient> map;
+
+	private Timer pingReceiverTimer = new Timer();
 
 	public RMIServer(Controller controller) throws RemoteException {
 		super();
@@ -26,8 +34,18 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	}
 
 	@Override
-	public boolean ping() throws RemoteException {
-		return true;
+	public void ping(RMIClientInterface clientInterface) throws RemoteException {
+		try {
+			pingReceiverTimer.cancel();	//Cancel the previous timer, if exists
+		} catch(Exception ignore) {}
+
+		pingReceiverTimer = new Timer();
+		pingReceiverTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				controller.lostConnection(map.get(clientInterface));	//At the end of the interval mark the connection as lost
+			}
+		}, (long)(RMIClientToServer.PING_INTERVAL * 1.5));
 	}
 
 	@Override

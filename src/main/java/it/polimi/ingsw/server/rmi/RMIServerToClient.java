@@ -16,7 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class RMIServerToClient implements ClientInterface {
-	private static final int PING_INTERVAL = 2500;
+	public static final int PING_INTERVAL = 2500;
 
 	private Controller controller;
 	private RMIClientInterface rmiClientInterface;
@@ -52,24 +52,22 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	// ping the RMI Client
-	private boolean ping() {
+	private void pingClient() {
 		try {
 			rmiClientInterface.ping();
-			return true;
 		} catch(Exception e) {
 			pingTimer.cancel();
 			controller.lostConnection(this);
-			return false;
 		}
 	}
 
-	// Timer to ping the client set with a delay of 500 milliseconds, repeat every 2 and half minutes
+	// Timer to ping the client
 	private void pingTimer() {
 		pingTimer = new Timer();
 		pingTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				ping();
+				pingClient();
 			}
 		}, PING_INTERVAL, PING_INTERVAL);
 	}
