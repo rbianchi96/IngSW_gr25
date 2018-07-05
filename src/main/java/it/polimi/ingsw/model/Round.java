@@ -85,6 +85,16 @@ public class Round {
 		return firstPlayer;
 	}
 
+	public int[] getOrder() {
+		int[] order = new int[playersIndexes.size()];
+
+		for(int i = 0; i < playersIndexes.size(); i ++) {
+			order[i] = playersIndexes.get(i);
+		}
+
+		return order;
+	}
+
 	/**
 	 * Return the current round number
 	 * @return the number of the current round, or - 1 if the rounds are finished

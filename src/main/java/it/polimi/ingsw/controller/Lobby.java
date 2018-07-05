@@ -26,6 +26,8 @@ public class Lobby {
 
     private String resourcePath;
 
+    private int turnTime = (int)TURN_TIMER;  //TODO
+
     public Lobby(String resourcesPath) {
         this.playersConnectionData = new ArrayList<>();
         this.resourcePath = resourcesPath;
@@ -174,34 +176,40 @@ public class Lobby {
 
     // This method is called if it's requested a Login during a game(that is going on). It will check if the user who want to login is a disconnected
     // in-game player who wants to re-enter the game. Else it will be refused as expected.
-    private void inGameReLogin(ClientInterface clientInterface, String username){
-        for (int i = 0; i< playersConnectionData.size(); i++) {
-            if(username.equals(playersConnectionData.get(i).getNickName()) && ! playersConnectionData.get(i).getIsOnline()) {
-                playersConnectionData.get(i).setClientInterface(clientInterface);
-                playersConnectionData.get(i).setIsOnline(true);
-                System.out.println(username + " successfully re-logged in!");
-                clientInterface.loginResponse("success",username);
-                clientInterface.sendPlayersList(getPlayersUsernamesArray());
-                clientInterface.startGame();
-                clientInterface.sendPublicObjectiveCards(currentGame.getPublicObjectiveCards());
-                clientInterface.sendToolCards(currentGame.getCleanToolCards());
-                clientInterface.updateDraft(currentGame.getDraftDices());
-                clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
+    private void inGameReLogin(ClientInterface clientInterface, String username) {
+        for(int i = 0; i < playersConnectionData.size(); i++) {
+            if(username.equals(playersConnectionData.get(i).getNickName()))
+                if(! playersConnectionData.get(i).getIsOnline()) {
+                    playersConnectionData.get(i).setClientInterface(clientInterface);
+                    playersConnectionData.get(i).setIsOnline(true);
+                    System.out.println(username + " successfully re-logged in!");
+                    clientInterface.loginResponse("success", username);
+                    clientInterface.sendPlayersList(getPlayersUsernamesArray());
+                    clientInterface.startGame();
+                    clientInterface.sendPublicObjectiveCards(currentGame.getPublicObjectiveCards());
+                    clientInterface.sendToolCards(currentGame.getCleanToolCards());
+                    clientInterface.updateDraft(currentGame.getDraftDices());
+                    clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
+                    clientInterface.sendRoundOrder(currentGame.getRoundOrder());
+                    clientInterface.updateRoundTrack(currentGame.getRoundTrackDice().getTrack());
+                    clientInterface.updateToolCardsTokens(currentGame.getToolCardsTokens());
+                    clientInterface.updatePlayersTokens(currentGame.getPlayersTokens());
 
-                ModelObserver observer = new ModelObserver(username, clientInterface, this);  //Create a new observer
+                    ModelObserver observer = new ModelObserver(username, clientInterface, this);  //Create a new observer
 
-                playersConnectionData.get(i).setObserver(observer);
-                currentGame.addObserver(observer);
+                    playersConnectionData.get(i).setObserver(observer);
+                    currentGame.addObserver(observer);
 
-                currentGame.setPlayerSuspendedState(playersConnectionData.get(i).getNickName(), false);
+                    currentGame.setPlayerSuspendedState(playersConnectionData.get(i).getNickName(), false);
 
-                observer.update(currentGame, NEW_TURN);
+                    observer.update(currentGame, NEW_TURN);
 
-                break;
-            }else
-                clientInterface.loginResponse("fail","0");
+                    break;
+                } else
+                    clientInterface.loginResponse("fail", "0");
 
         }
+        clientInterface.loginResponse("fail", "1");
     }
 
     // Method to call to start the game
@@ -338,6 +346,10 @@ public class Lobby {
 
         playersConnectionData = new ArrayList<>();
         currentGame = new Game();
+    }
+
+    public int turnTime() {
+        return turnTime;
     }
 
     @Override

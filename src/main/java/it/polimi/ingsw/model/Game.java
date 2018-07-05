@@ -190,6 +190,9 @@ public class Game extends Observable {
 	 */
 	private void startRound() {
 		if(rounds.getCurrentRound() != - 1) {
+			setChanged();
+			notifyObservers(NotifyType.NEW_ROUND);
+
 			rollDicesFromDiceBag();
 			updateDraft();
 		} else
@@ -729,6 +732,10 @@ public class Game extends Observable {
 	}
 
 	//GETTER for observer
+	public int[] getRoundOrder() {
+		return rounds.getOrder();
+	}
+
 	public int getCurrentPlayerIndex() {
 		return rounds.getCurrentPlayer();
 	}
@@ -811,7 +818,7 @@ public class Game extends Observable {
 
 	public enum NotifyType {
 		SELECT_WINDOW_PATTERN, PRIVATE_OBJECTIVE_CARD, PUBLIC_OBJECTIVE_CARDS, TOOL_CARDS,
-		START_GAME, NEW_TURN, DRAFT, WINDOW_PATTERNS, PLAYERS_TOKENS, TOOL_CARDS_TOKENS, ROUND_TRACK,
+		START_GAME, NEW_ROUND, NEW_TURN, DRAFT, WINDOW_PATTERNS, PLAYERS_TOKENS, TOOL_CARDS_TOKENS, ROUND_TRACK,
 		SCORES, END_GAME_FOR_ABANDONEMENT
 	}
 

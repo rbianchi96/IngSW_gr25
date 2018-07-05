@@ -27,7 +27,8 @@ public interface ClientInterface {
 
 	//Game methods
 	public void startGame();
-	public void newTurn(int currentPlayer);
+	public void sendRoundOrder(int[] players);
+	public void newTurn(int currentPlayer, int turnTime);
 	public void updateDraft(Dice[] dices);
 	public void updateWindowPatterns(WindowPattern[] windowPatterns);
 	public void updatePlayersTokens(int[] tokens);

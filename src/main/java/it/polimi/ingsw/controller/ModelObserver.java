@@ -44,8 +44,12 @@ public class ModelObserver implements java.util.Observer {
 				clientInterface.startGame();
 
 				break;
+			case NEW_ROUND:
+				clientInterface.sendRoundOrder(model.getRoundOrder());
+
+				break;
 			case NEW_TURN:
-				clientInterface.newTurn(model.getCurrentPlayerIndex());
+				clientInterface.newTurn(model.getCurrentPlayerIndex(), lobby.turnTime());
 
 				lobby.newTurn(clientInterface);	//Notify the lobby
 
