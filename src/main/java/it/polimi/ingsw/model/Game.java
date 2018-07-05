@@ -46,6 +46,8 @@ public class Game extends Observable {
 	private int readyPlayers = 0;
 	private int currentToolCardInUse = - 1;
 
+	private boolean windowPatternSelectionPhase = false;
+
 	public Game() {
 		inGame = false;
 	}
@@ -84,6 +86,9 @@ public class Game extends Observable {
 
 			players.get(i).setWindowPatternToChoose(windowPatternsToChoose);
 		}
+
+		windowPatternSelectionPhase = true;
+
 		//Notify
 		setChanged();
 		notifyObservers(NotifyType.SELECT_WINDOW_PATTERN);
@@ -143,6 +148,8 @@ public class Game extends Observable {
 	 * Start the game.
 	 */
 	private void startGameAfterPreparation() {
+		windowPatternSelectionPhase = false;
+
 		//Notify start game
 		setChanged();
 		notifyObservers(NotifyType.START_GAME);
@@ -719,6 +726,9 @@ public class Game extends Observable {
 					selectWindowPattern(username, new Random().nextInt(player.getWindowPatternToChoose().length));
 				}
 			}
+		} else if(windowPatternSelectionPhase) {
+			player.setWindowPattern(null);
+			readyPlayers --;
 		}
 
 		System.out.println(username + " is now " + (suspended ? "" : "not") + "suspended.");
@@ -814,6 +824,10 @@ public class Game extends Observable {
 	private void checkTurn(Player player) throws WrongTurnException {
 		if(players.get(rounds.getCurrentPlayer()) != player)
 			throw new WrongTurnException();
+	}
+
+	public boolean isWindowPatternSelectionPhase() {
+		return windowPatternSelectionPhase;
 	}
 
 	public enum NotifyType {

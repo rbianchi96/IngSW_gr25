@@ -183,26 +183,31 @@ public class Lobby {
                     playersConnectionData.get(i).setClientInterface(clientInterface);
                     playersConnectionData.get(i).setIsOnline(true);
                     System.out.println(username + " successfully re-logged in!");
+
                     clientInterface.loginResponse("success", username);
-                    clientInterface.sendPlayersList(getPlayersUsernamesArray());
-                    clientInterface.startGame();
-                    clientInterface.sendPublicObjectiveCards(currentGame.getPublicObjectiveCards());
-                    clientInterface.sendToolCards(currentGame.getCleanToolCards());
-                    clientInterface.updateDraft(currentGame.getDraftDices());
-                    clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
-                    clientInterface.sendRoundOrder(currentGame.getRoundOrder());
-                    clientInterface.updateRoundTrack(currentGame.getRoundTrackDice().getTrack());
-                    clientInterface.updateToolCardsTokens(currentGame.getToolCardsTokens());
-                    clientInterface.updatePlayersTokens(currentGame.getPlayersTokens());
-
-                    ModelObserver observer = new ModelObserver(username, clientInterface, this);  //Create a new observer
-
-                    playersConnectionData.get(i).setObserver(observer);
-                    currentGame.addObserver(observer);
 
                     currentGame.setPlayerSuspendedState(playersConnectionData.get(i).getNickName(), false);
 
-                    observer.update(currentGame, NEW_TURN);
+                    ModelObserver observer = new ModelObserver(username, clientInterface, this);  //Create a new observer
+
+                    if(currentGame.isWindowPatternSelectionPhase()) {
+                        clientInterface.sendWindowPatternsToChoose(currentGame.getWindowPatternsToChoose(playersConnectionData.get(i).getNickName()));
+                    } else {
+                        clientInterface.sendPlayersList(getPlayersUsernamesArray());
+                        clientInterface.startGame();
+                        clientInterface.sendPublicObjectiveCards(currentGame.getPublicObjectiveCards());
+                        clientInterface.sendToolCards(currentGame.getCleanToolCards());
+                        clientInterface.updateDraft(currentGame.getDraftDices());
+                        clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
+                        clientInterface.sendRoundOrder(currentGame.getRoundOrder());
+                        clientInterface.updateRoundTrack(currentGame.getRoundTrackDice().getTrack());
+                        clientInterface.updateToolCardsTokens(currentGame.getToolCardsTokens());
+                        clientInterface.updatePlayersTokens(currentGame.getPlayersTokens());
+                    }
+
+
+                    playersConnectionData.get(i).setObserver(observer);
+                    currentGame.addObserver(observer);
 
                     break;
                 } else
