@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.board.GameBoard;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.dice.DiceBag;
 import it.polimi.ingsw.model.board.dice.Draft;
 import it.polimi.ingsw.model.board.dice.RoundTrack;
+import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -152,20 +154,19 @@ class GameTest {
         GameBoard gb = new GameBoard(dicebag, draft, null, null, r);
         try{
             g.startGame(players);
-<<<<<<< HEAD
+
             assertEquals(3, g.getCurrentPlayerIndex());
             assertEquals(4, g.getPlayersTokens()[0]);
-=======
-            assertEquals(3, g.getCurrentPlayer());
+            assertEquals(3, g.getCurrentPlayerIndex());
             assertEquals(2, g.getPlayersTokens()[0]);
->>>>>>> e93bdf29e1d18b1b5bd4a9bb7d44492a60e686d6
+
             assertEquals(draft,g.getDraft());
             assertEquals(dicebag,g.getDiceBag());
             assertEquals(r,g.getRoundTrackDice());
             assertEquals(g.getAllWindowPatterns()[0],player1.getWindowPattern());
             assertEquals(g.getAllWindowPatterns()[1],player2.getWindowPattern());
             g.rollDicesFromDiceBag();
-            assertEquals(0, g.getCurrentPlayer());
+            assertEquals(0, g.getCurrentPlayerIndex());
         }catch (Exception e) {
             e.printStackTrace();
         }
