@@ -30,9 +30,6 @@
                         <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
                         <RowConstraints prefHeight="50.0" />
                     </rowConstraints>
-                    <children>
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" />
-                    </children>
                 </GridPane>
                 <Label fx:id="patternName0" alignment="CENTER" contentDisplay="RIGHT" layoutX="78.0" layoutY="240.0" prefWidth="150.0" style="-fx-text-fill: #fff;" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="4.0">
                     <font>
@@ -181,7 +178,7 @@
 
         <ImageView fx:id="privateObjectiveCard" fitHeight="180.0" fitWidth="129.0" layoutX="600.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="564.0">
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="DEFAULT" />
             </cursor>
         </ImageView>
         <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="450.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="32.0">
@@ -305,17 +302,17 @@
             <children>
                 <ImageView fx:id="publicObjectiveCard0" fitHeight="180.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="DEFAULT" />
                     </cursor>
                 </ImageView>
                 <ImageView fx:id="publicObjectiveCard1" fitHeight="180.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="DEFAULT" />
                     </cursor>
                 </ImageView>
                 <ImageView fx:id="publicObjectiveCard2" fitHeight="180.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="DEFAULT" />
                     </cursor>
                 </ImageView>
             </children>
