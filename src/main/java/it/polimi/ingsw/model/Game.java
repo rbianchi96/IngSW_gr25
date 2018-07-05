@@ -297,7 +297,7 @@ public class Game extends Observable {
 	}
 
 	// Tool card usage request
-	public ClientCommand useToolCard(String username, int index) throws NotEnoughFavorTokens, WrongTurnException, AlreadyUsedToolCard, PreNotRespectedException {
+	public ClientCommand useToolCard(String username, int index) throws GameException, PreNotRespectedException {
 		Player player = findPlayer(username);
 
 		checkTurn(player);
@@ -314,9 +314,11 @@ public class Game extends Observable {
 		PreData preData = new PreData();
 		preData.setPlayer(player);
 		if (toolCards[index].getPres() != null){
+
 			for(Prerequisite pre : toolCards[index].getPres()){
-				if(!pre.check(preData))
+				if(!pre.check(preData)) {
 					throw new PreNotRespectedException();
+				}
 			}
 		}
 		toolCards[index].setFavorTokensNumber(toolCards[index].getFavorTokensNumber() + toolCardCost);
@@ -331,11 +333,11 @@ public class Game extends Observable {
 		currentToolCardInUse = index;
 
 		player.setHasPlayedToolCard(true);
-
+		getNextEffect();
 		return toolCards[index].getEffect(0).getEffectType().getCommand();
 	}
 
-	public ClientCommand selectDiceFromDraftEffect(String username, Dice dice) throws WrongTurnException, InvalidCall, SelectDiceFromDraftEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.CellAlreadyOccupiedException, IncrementDecrementDiceEffect.InvalidValueChangeException, WindowPattern.PlacementRestrictionException, MoveWindowPatternDiceEffect.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition {
+	public ClientCommand selectDiceFromDraftEffect(String username, Dice dice) throws GameException{
 		Player player = findPlayer(username);
 
 		checkTurn(player);
@@ -353,7 +355,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand selectDiceFromWindowPatternEffect(String username, int x, int y) throws WrongTurnException, InvalidCall, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException, SelectDiceFromDraftEffect.DiceNotFoundException, WindowPattern.CellAlreadyOccupiedException, IncrementDecrementDiceEffect.InvalidValueChangeException, WindowPattern.PlacementRestrictionException, MoveWindowPatternDiceEffect.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition {
+	public ClientCommand selectDiceFromWindowPatternEffect(String username, int x, int y) throws GameException{
 		Player player = findPlayer(username);
 
 		checkTurn(player);
@@ -382,7 +384,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand incrementDecrementDiceEffect(String username, boolean incDec) throws WrongTurnException, InvalidCall, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, SelectDiceFromWindowPatternEffect.DiceNotFoundException, WindowPattern.WindowPatternOutOfBoundException, SelectDiceFromDraftEffect.DiceNotFoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException, MoveWindowPatternDiceEffect.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition {
+	public ClientCommand incrementDecrementDiceEffect(String username, boolean incDec) throws GameException{
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -407,7 +409,7 @@ public class Game extends Observable {
 
 	}
 
-	public ClientCommand placeDiceAfterIncDecEffect(String username, int row, int col) throws WrongTurnException, InvalidCall, WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, SelectDiceFromWindowPatternEffect.DiceNotFoundException, IncrementDecrementDiceEffect.InvalidValueChangeException, SelectDiceFromDraftEffect.DiceNotFoundException, MoveWindowPatternDiceEffect.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition {
+	public ClientCommand placeDiceAfterIncDecEffect(String username, int row, int col) throws GameException {
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -416,17 +418,22 @@ public class Game extends Observable {
 		if(validate == - 1) {
 			throw new InvalidCall();
 		} else {
+			EffectData effectData = new EffectData();
 			int lastSelectEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.INCREMENT_DECREMENT_DICE);
+			if (lastSelectEffect==-1) {
+				lastSelectEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.ROLL_DICE_FROM_DRAFT);
+				effectData.setDice(((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectEffect))).getDice());
+			}
+			else
+				effectData.setDice(((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectEffect))).getDice());
 			if(lastSelectEffect != - 1) {
-				EffectData effectData = new EffectData();
 				effectData.setRow(row);
 				effectData.setCol(col);
 				effectData.setWindowPattern(player.getWindowPattern());
-				effectData.setDice(((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectEffect))).getInc_decDice());
+
 				toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 
 				player.setHasPlacedDice(true);
-
 				setChanged();
 				notifyObservers(NotifyType.WINDOW_PATTERNS);
 				setChanged();
@@ -439,7 +446,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand moveWindowPatternDiceEffect(String username, int row, int col) throws WrongTurnException, InvalidCall, MoveWindowPatternDiceEffect.DiceNotFoundException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException, SelectDiceFromDraftEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, IncrementDecrementDiceEffect.InvalidValueChangeException {
+	public ClientCommand moveWindowPatternDiceEffect(String username, int row, int col) throws GameException{
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -465,7 +472,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand rollDiceFromDraftEffect(String username) throws InvalidCall, WrongTurnException, MoveWindowPatternDiceEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, SelectDiceFromDraftEffect.DiceNotFoundException, IncrementDecrementDiceEffect.InvalidValueChangeException, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException {
+	public ClientCommand rollDiceFromDraftEffect(String username) throws GameException{
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -486,7 +493,25 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand selectDiceFromRoundTrackAndSwitch(String username, int round, int index) throws WrongTurnException, InvalidCall, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException, SelectDiceFromDraftEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.DiceNotFoundException, MoveWindowPatternDiceEffect.DiceNotFoundException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.CellAlreadyOccupiedException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, IncrementDecrementDiceEffect.InvalidValueChangeException, WindowPattern.PlacementRestrictionException {
+	public ClientCommand rollAllDicesFromDraftEffect(String username) throws GameException{
+		Player player = findPlayer(username);
+		checkTurn(player);
+		if(currentToolCardInUse ==-1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.ROLL_DICES_FROM_DRAFT);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			toolCards[currentToolCardInUse].getEffect(validate).apply(null);
+
+			setChanged();
+			notifyObservers(NotifyType.DRAFT);
+
+			return getNextEffect();
+		}
+	}
+
+	public ClientCommand selectDiceFromRoundTrackAndSwitch(String username, int round, int index) throws GameException{
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -513,7 +538,7 @@ public class Game extends Observable {
 		}
 	}
 
-	public ClientCommand flipDiceFromDraftEffect(String username) throws InvalidCall, WrongTurnException, MoveWindowPatternDiceEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, SelectDiceFromDraftEffect.DiceNotFoundException, IncrementDecrementDiceEffect.InvalidValueChangeException, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException {
+	public ClientCommand flipDiceFromDraftEffect(String username) throws GameException{
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -554,6 +579,12 @@ public class Game extends Observable {
 						}
 
 						break;
+					case ROLL_DICES_FROM_DRAFT:
+						try {
+							rollAllDicesFromDraftEffect(players.get(getCurrentPlayerIndex()).getPlayerName());
+					}catch(Exception e){
+							e.printStackTrace();
+						}
 					case FLIP_DICE_FROM_DRAFT:
 						try {
 							flipDiceFromDraftEffect(players.get(getCurrentPlayerIndex()).getPlayerName());
@@ -565,7 +596,7 @@ public class Game extends Observable {
 				}
 
 
-				return null;
+				return getNextEffect();
 			}
 		}
 	}

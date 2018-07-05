@@ -17,7 +17,7 @@ public class MoveWindowPatternDiceEffect extends Effect {
 	}
 	@Override
 	public void apply(EffectData effectData)
-			throws DiceNotFoundException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
+			throws GameException{
 
 		Dice newCellDice;
 		Dice oldDice;

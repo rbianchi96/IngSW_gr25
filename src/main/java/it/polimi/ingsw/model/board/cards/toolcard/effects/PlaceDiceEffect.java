@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
+import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 
@@ -9,7 +10,7 @@ public class PlaceDiceEffect extends Effect {
 	}
 
 	@Override
-	public void apply(EffectData effectData) throws WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {
+	public void apply(EffectData effectData) throws GameException  {
 		Dice diceFromDraft = game.getDraft().getDice(effectData.getDice());
 		if(diceFromDraft != null) {
 			try {

@@ -11,7 +11,7 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
         this.effectType = EffectType.SELECT_DICE_FROM_WINDOW_PATTERN;
     }
     @Override
-    public void apply(EffectData effectData) throws DiceNotFoundException, AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
+    public void apply(EffectData effectData) throws GameException{
         if(effectData.getForbidX() >= 0 && effectData.getForbidY() >= 0)
             if(effectData.getX() == effectData.getForbidX() && effectData.getY() == effectData.getForbidY()) throw new AlreadyMovedDice(); // check if the client is trying to move an already moved dice(in the same card effect)
         try {

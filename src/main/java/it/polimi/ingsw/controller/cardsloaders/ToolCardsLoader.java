@@ -88,6 +88,9 @@ public class ToolCardsLoader extends CardsLoader {
 						case ROLL_DICE_FROM_DRAFT:
 							effects.add(new RollDiceFromDraftEffect());
 							break;
+						case ROLL_DICES_FROM_DRAFT:
+							effects.add(new RollAllDicesFromDraft());
+							break;
 						case FLIP_DICE_FROM_DRAFT:
 							effects.add(new FlipDiceFromDraftEffect());
 							break;

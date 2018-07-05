@@ -8,7 +8,7 @@ public class SelectDiceFromRoundTrackAndSwitch extends Effect {
         this.effectType = EffectType.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH;
     }
     @Override
-    public void apply(EffectData effectData) throws DiceNotFoundException,InvaliDiceOrPosition{
+    public void apply(EffectData effectData) throws GameException{
         if (effectData.getDice()==null)
             throw new NullPointerException();
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
+import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
@@ -12,7 +13,7 @@ public class IncrementDecrementDiceEffect extends Effect {
 	}
 
 	@Override
-	public void apply(EffectData effectData) throws InvalidValueChangeException {
+	public void apply(EffectData effectData) throws GameException {
 		Dice draftDice = game.getDraft().getDice(effectData.getDice()); // get the selected dice from draft pool
 
 		if(effectData.isBool()) { // increment...
@@ -37,11 +38,11 @@ public class IncrementDecrementDiceEffect extends Effect {
 		System.out.println("Dice Incremented/Decremented.");
 	}
 
-	public Dice getInc_decDice() {
+	public Dice getDice() {
 		return inc_decDice;
 	}
 
-	public class InvalidValueChangeException extends Exception{
+	public class InvalidValueChangeException extends GameException {
 		public InvalidValueChangeException(){
 			super();
 		}

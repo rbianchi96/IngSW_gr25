@@ -2,10 +2,11 @@
 	{
 		"id": 1,
 		"name": "Pinza Sgrossatrice",
-		"pre": "notDraftedDice",
+		"pre": "HAS_NOT_PLACED_DICE",
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "INCREMENT_DECREMENT_DICE"}
+			{"effect": "INCREMENT_DECREMENT_DICE"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
@@ -55,9 +56,11 @@
 	{
 		"id": 6,
 		"name": "Pennello per Pasta Salda",
+		"pre": "HAS_NOT_PLACED_DICE",
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "ROLL_DICE_FROM_DRAFT"}
+			{"effect": "ROLL_DICE_FROM_DRAFT"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
@@ -69,7 +72,7 @@
 		],
 		"effects": [
 			{
-				"effect": "rollAllDice"
+				"effect": "ROLL_DICES_FROM_DRAFT"
 			}
 		]
 	},

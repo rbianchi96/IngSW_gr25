@@ -11,7 +11,7 @@ public class SelectDiceFromDraftEffect extends Effect {
     }
 
     @Override
-    public void apply(EffectData effectData)throws DiceNotFoundException{
+    public void apply(EffectData effectData)throws GameException{
         if (!game.getDraft().getDices().contains(effectData.getDice())) { // check for a valid draft pool's dice
             selectedDice = null;
             System.out.println("The selected dice is not present in the draft pool.");

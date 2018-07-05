@@ -7,6 +7,10 @@ public class RollDiceFromDraftEffect extends Effect{
         this.effectType = EffectType.ROLL_DICE_FROM_DRAFT;
     }
 
+    public Dice getDice() {
+        return rolledDice;
+    }
+
     private Dice rolledDice = null;
     @Override
     public void apply(EffectData effectData){
