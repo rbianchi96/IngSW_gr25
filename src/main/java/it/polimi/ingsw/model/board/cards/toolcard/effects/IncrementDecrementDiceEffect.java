@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
 import it.polimi.ingsw.model.board.dice.Dice;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
 public class IncrementDecrementDiceEffect extends Effect {
 	private Dice inc_decDice = null; // dice selected from Draft pool, the only one that can be place in windowpattern next
@@ -10,19 +11,20 @@ public class IncrementDecrementDiceEffect extends Effect {
 		this.effectType = EffectType.INCREMENT_DECREMENT_DICE;
 	}
 
-	public boolean apply(Dice dice, boolean incDec) {
-		Dice draftDice = game.getDraft().getDice(dice); // get the selected dice from draft pool
+	@Override
+	public void apply(EffectData effectData) throws InvalidValueChangeException {
+		Dice draftDice = game.getDraft().getDice(effectData.getDice()); // get the selected dice from draft pool
 
-		if(incDec) { // increment...
-			if(dice.getValue() == 6) {
+		if(effectData.isBool()) { // increment...
+			if(effectData.getDice().getValue() == 6) {
 				game.getDraft().addDice(draftDice); // re-add the dice to the draft pool
-				return false;
+				throw new InvalidValueChangeException();
 			}
 			draftDice.increment();
 		} else { // ...or decrement it
-			if(dice.getValue() == 1) {
+			if(effectData.getDice().getValue() == 1) {
 				game.getDraft().addDice(draftDice); // re-add the dice to the draft pool
-				return false;
+				throw new InvalidValueChangeException();
 			}
 			draftDice.decrement();
 		}
@@ -33,10 +35,15 @@ public class IncrementDecrementDiceEffect extends Effect {
 		used = true; // set this effect to used.
 
 		System.out.println("Dice Incremented/Decremented.");
-		return true;
 	}
 
 	public Dice getInc_decDice() {
 		return inc_decDice;
+	}
+
+	public class InvalidValueChangeException extends Exception{
+		public InvalidValueChangeException(){
+			super();
+		}
 	}
 }

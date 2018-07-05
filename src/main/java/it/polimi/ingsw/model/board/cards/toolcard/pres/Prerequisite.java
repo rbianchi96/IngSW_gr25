@@ -12,4 +12,7 @@ public abstract class Prerequisite {
     public void setGame(Game game) {
         this.game = game;
     }
+    public boolean check(PreData preData){
+        return false;
+    }
 }

@@ -9,11 +9,12 @@ public class SelectDiceFromWindowPatternEffect extends Effect {
     public SelectDiceFromWindowPatternEffect(){
         this.effectType = EffectType.SELECT_DICE_FROM_WINDOW_PATTERN;
     }
-    public void apply(WindowPattern windowPattern, int x, int y,int forbidX, int forbidY) throws DiceNotFoundException, AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
-        if(forbidX >= 0 && forbidY >= 0)
-            if(x == forbidX && y == forbidY) throw new AlreadyMovedDice(); // check if the client is trying to move an already moved dice(in the same card effect)
+    @Override
+    public void apply(EffectData effectData) throws DiceNotFoundException, AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException {
+        if(effectData.getForbidX() >= 0 && effectData.getForbidY() >= 0)
+            if(x == effectData.getForbidX() && y == effectData.getForbidY()) throw new AlreadyMovedDice(); // check if the client is trying to move an already moved dice(in the same card effect)
         try {
-            Dice dice = windowPattern.getDice(x, y); // get the dice from the windowpattern...
+            Dice dice = effectData.getWindowPattern().getDice(x, y); // get the dice from the windowpattern...
             if(dice == null) {
                 throw new DiceNotFoundException();
             }

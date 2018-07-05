@@ -54,21 +54,25 @@ public class RoundTrack implements Serializable {
     public boolean addDice(int round, int index, Dice dice){
         if (round>=0 && round<10) {
             if (dice != null) {
-                if (round > 0 && track[round-1].getDices().isEmpty())
+                if (round > 0 && track[round-1].getDices().isEmpty()) {
                     throw new IllegalArgumentException("You can't add dices to a round, when the previous one doesn't contains any!");
+                }
                 if (track[round].getDices().size() < (2*playersNumber) + 1) {
-                    if (index<0 || index >track[round].getDices().size()-1)
+                    if (index<0 || index > track[round].getDices().size()) {
                         throw new IndexOutOfBoundsException("You are trying to add a Dice in an invalid index.");
+                    }
                     else {
                         track[round].getDices().add(index, dice);
                         return true;
                     }
                 } else
                     return false;
-            }else
+            }else {
                 throw new NullPointerException("The dice cannot be null!");
-        }else
+            }
+        }else {
             throw new ArrayIndexOutOfBoundsException("The game only have 10 rounds!");
+        }
     }
     // Returns the specified Dice(if it's not null, else it throws NullPointerException)
     // from the specified round by removing it from the Round Track.

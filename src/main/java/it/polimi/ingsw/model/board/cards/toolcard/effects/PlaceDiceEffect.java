@@ -8,11 +8,12 @@ public class PlaceDiceEffect extends Effect {
 		this.effectType = EffectType.PLACE_DICE;
 	}
 
-	public void apply(Dice dice, WindowPattern windowPattern, int row, int col) throws WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {
-		Dice diceFromDraft = game.getDraft().getDice(dice);
+	@Override
+	public void apply(EffectData effectData) throws WindowPattern.CellAlreadyOccupiedException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException {
+		Dice diceFromDraft = game.getDraft().getDice(effectData.getDice());
 		if(diceFromDraft != null) {
 			try {
-				windowPattern.placeDice(diceFromDraft, row, col);   //Place the dice
+				effectData.getWindowPattern().placeDice(diceFromDraft, effectData.getRow(), effectData.getCol());   //Place the dice
 				used = true;
 			} catch(WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException | WindowPattern.CellAlreadyOccupiedException e) {
 				game.getDraft().addDice(diceFromDraft);   //Put the dice in the draft

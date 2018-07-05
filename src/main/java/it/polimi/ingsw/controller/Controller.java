@@ -174,6 +174,8 @@ public class Controller {
 		} catch(Game.AlreadyUsedToolCard ex) {
 			System.out.println("Already used a TC!");
 			//TODO
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
@@ -190,6 +192,8 @@ public class Controller {
 			System.out.println("-_-");
 		} catch(SelectDiceFromDraftEffect.DiceNotFoundException ex) {
 			System.out.println("Dice not in draft!");
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
@@ -210,6 +214,8 @@ public class Controller {
 			System.out.println("Cell not found!");
 		} catch(SelectDiceFromWindowPatternEffect.AlreadyMovedDice alreadyMovedDice) {
 			alreadyMovedDice.printStackTrace();
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
@@ -222,6 +228,8 @@ public class Controller {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall ex) {
 
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
@@ -241,6 +249,8 @@ public class Controller {
 			System.out.println("Invalid call!");
 		} catch(WindowPattern.PlacementRestrictionException e) {
 			clientInterface.dicePlacementRestictionBroken();
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
@@ -262,6 +272,8 @@ public class Controller {
 			clientInterface.cellAlreadyOccupied();
 		} catch(WindowPattern.PlacementRestrictionException e) {
 			clientInterface.dicePlacementRestictionBroken();
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
@@ -282,6 +294,8 @@ public class Controller {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall invalidCall) {
 			invalidCall.printStackTrace();
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
@@ -296,6 +310,8 @@ public class Controller {
 			invaliDiceOrPosition.printStackTrace();
 		} catch(SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException e) {
 			e.printStackTrace();
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 }

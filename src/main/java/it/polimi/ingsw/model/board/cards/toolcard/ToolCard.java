@@ -86,6 +86,8 @@ public class ToolCard extends Card implements Serializable {
 		return effects;
 	}
 
+	public ArrayList<Prerequisite> getPres(){return pres;}
+
 	/**
 	 * Return the index of the first unused effect
 	 *

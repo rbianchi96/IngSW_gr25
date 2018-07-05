@@ -17,7 +17,7 @@ import static it.polimi.ingsw.model.Game.NotifyType.NEW_TURN;
 public class Lobby {
     private static final int MAX_PLAYERS = 4;
     private static final int SESSIONID_LENGTH = 5;
-    private static final long TURN_TIMER = 20000;
+    private static final long TURN_TIMER = 120000;
 
     private Timer currentTimer = new Timer();
 

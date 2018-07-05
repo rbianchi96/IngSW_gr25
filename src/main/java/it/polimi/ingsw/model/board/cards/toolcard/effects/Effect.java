@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 
 import java.io.Serializable;
 
@@ -12,7 +13,7 @@ public abstract class Effect implements Serializable {
 	public boolean isUsed() {
 		return used;
 	}
-
+	public void apply(EffectData effectData) throws SelectDiceFromDraftEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.DiceNotFoundException, SelectDiceFromWindowPatternEffect.AlreadyMovedDice, WindowPattern.WindowPatternOutOfBoundException, IncrementDecrementDiceEffect.InvalidValueChangeException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, MoveWindowPatternDiceEffect.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.DiceNotFoundException, SelectDiceFromRoundTrackAndSwitch.InvaliDiceOrPosition {}
 	public EffectType getEffectType() {
 		return effectType;
 	}

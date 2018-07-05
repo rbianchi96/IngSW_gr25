@@ -9,8 +9,9 @@ public class FlipDiceFromDraftEffect extends Effect{
 
     private Dice rolledDice = null;
 
-    public void apply(Dice dice){
-        Dice draftDice = game.getDraft().getDice(dice); // get the selected dice from draft pool
+    @Override
+    public void apply(EffectData effectData){
+        Dice draftDice = game.getDraft().getDice(effectData.getDice()); // get the selected dice from draft pool
         if (draftDice!=null) {
             draftDice.rotate();
             game.getDraft().addDice(draftDice); // re-add the dice to the draft pool with the new value

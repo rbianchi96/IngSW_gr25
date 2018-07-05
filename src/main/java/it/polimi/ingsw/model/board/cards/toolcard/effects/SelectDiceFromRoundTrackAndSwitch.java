@@ -6,24 +6,24 @@ public class SelectDiceFromRoundTrackAndSwitch extends Effect {
     public SelectDiceFromRoundTrackAndSwitch(){
         this.effectType = EffectType.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH;
     }
-
-    public void apply(int round,int index,Dice draftDice) throws DiceNotFoundException,InvaliDiceOrPosition{
-        if (draftDice==null)
+    @Override
+    public void apply(EffectData effectData) throws DiceNotFoundException,InvaliDiceOrPosition{
+        if (effectData.getDice()==null)
             throw new NullPointerException();
 
         Dice roundTrackDice;
         try {
-            roundTrackDice = game.getRoundTrackDice().getDice(round, index);
+            roundTrackDice = game.getRoundTrackDice().getDice(effectData.getRound(), effectData.getIndex());
         } catch (IndexOutOfBoundsException ex){
             throw new DiceNotFoundException();
         }
 
         try {
-            game.getRoundTrackDice().addDice(round,index,draftDice);
+            game.getRoundTrackDice().addDice(effectData.getRound(),effectData.getIndex(),effectData.getDice());
         }catch (IllegalArgumentException | IndexOutOfBoundsException | NullPointerException ex){
             throw new InvaliDiceOrPosition();
         }
-        game.getDraft().getDice(draftDice);
+        game.getDraft().getDice(effectData.getDice());
         game.getDraft().addDice(roundTrackDice);
 
         used=true;

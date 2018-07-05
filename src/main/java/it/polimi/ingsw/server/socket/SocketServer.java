@@ -16,21 +16,25 @@ public class SocketServer {
     }
 
     public void startServer() {
-        try (ServerSocket serverSocket = new ServerSocket(port)){
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(port);
             System.out.println("Socket server started on port " + port);
-            while (!false) {
-                try {
+            while (true) {
                     Socket socket = serverSocket.accept();
                     socket.setKeepAlive(true);
                     Thread t = new Thread(new SocketClientHandler(socket, controller));
                     t.start();
-                } catch (IOException e) {
-                    //break; // entrerei qui se serverSocket venisse chiuso
-                }
             }
         }
-        catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
+            try
+            {
+                serverSocket.close();
+            }
+            catch(Exception ex)
+            {}
         }
     }
 }

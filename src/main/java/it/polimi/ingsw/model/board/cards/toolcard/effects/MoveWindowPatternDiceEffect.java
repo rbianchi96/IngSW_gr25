@@ -14,16 +14,16 @@ public class MoveWindowPatternDiceEffect extends Effect {
 		this.ignoredRestriction = ignoredRestriction;
 		this.effectType = EffectType.MOVE_WINDOW_PATTERN_DICE;
 	}
-
-	public void apply(WindowPattern windowPattern, int newX, int newY, int oldX, int oldY)
+	@Override
+	public void apply(EffectData effectData)
 			throws DiceNotFoundException, WindowPattern.CellAlreadyOccupiedException, WindowPattern.PlacementRestrictionException, WindowPattern.WindowPatternOutOfBoundException {
 
 		Dice newCellDice;
 		Dice oldDice;
 
 		try {
-			newCellDice = windowPattern.getDice(newX, newY); // get the dice in the new position in order to check if the cell it's already occupied
-			oldDice = windowPattern.getDice(oldX, oldY); // get the dice the user want to move
+			newCellDice = effectData.getWindowPattern().getDice(effectData.getRow(), effectData.getCol()); // get the dice in the new position in order to check if the cell it's already occupied
+			oldDice = effectData.getWindowPattern().getDice(effectData.getOldX(), effectData.getOldY()); // get the dice the user want to move
 		} catch(WindowPattern.WindowPatternOutOfBoundException ex) {
 			System.out.println("The selected cell isn't present in the Window Pattern.");
 			used = false;
@@ -37,15 +37,15 @@ public class MoveWindowPatternDiceEffect extends Effect {
 		}
 
 		try {
-			windowPattern.removeDice(oldX, oldY); // remove the old dice from old position
+			effectData.getWindowPattern().removeDice(effectData.getOldX(), effectData.getOldY()); // remove the old dice from old position
 			System.out.println("Dice removed from old position.");
 
-			windowPattern.placeDice(oldDice, newX, newY, ignoredRestriction); //place it in new position
+			effectData.getWindowPattern().placeDice(oldDice, effectData.getRow(), effectData.getCol(), ignoredRestriction); //place it in new position
 			System.out.println("Dice placed in the new cell.");
 
 			used = true;
-			this.newX = newX; // Save the new coordinates
-			this.newY = newY;
+			this.newX = effectData.getRow(); // Save the new coordinates
+			this.newY = effectData.getCol();
 		} catch(WindowPattern.WindowPatternOutOfBoundException |
 				WindowPattern.CellAlreadyOccupiedException |
 				WindowPattern.PlacementRestrictionException e) {
@@ -53,7 +53,7 @@ public class MoveWindowPatternDiceEffect extends Effect {
 		} finally {
 			if(! used) {
 				try {
-					windowPattern.placeDice(oldDice, oldX, oldY, PlacementRestriction.allRestrictions());   //Undo (ignoring all restriction in case the dice was placed using a tool card's effect
+					effectData.getWindowPattern().placeDice(oldDice,effectData.getOldX(), effectData.getOldY(), PlacementRestriction.allRestrictions());   //Undo (ignoring all restriction in case the dice was placed using a tool card's effect
 				} catch(Exception e) {
 					System.out.println("CRITICAL:\n" + e.getMessage());
 					e.printStackTrace();
