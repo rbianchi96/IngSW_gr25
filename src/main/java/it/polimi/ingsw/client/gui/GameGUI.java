@@ -472,7 +472,7 @@ public class GameGUI extends GUIController {
 				stringBuilder.append(" > ");
 		}
 
-		roundOrder.setText(stringBuilder.toString());
+		Platform.runLater(() -> roundOrder.setText(stringBuilder.toString()));
 	}
 
 	private int getTime() {
