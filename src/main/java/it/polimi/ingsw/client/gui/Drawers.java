@@ -19,8 +19,8 @@ class Drawers {
 	private static final double DICE_SIZE_K = .8;
 	private static final double DOT_RADIUS_K = .10;
 
-	private static final double MIN_VALUE_BRIGHTNESS = .25;
-	private static final double MAX_VALUE_BRIGHTNESS = .75;
+	private static final double MIN_VALUE_BRIGHTNESS = .75;
+	private static final double MAX_VALUE_BRIGHTNESS = .25;
 
 	public static AnchorPane createDice(Dice dice, double size) {
 		return createDice(dice.getValue(), javafx.scene.paint.Color.valueOf(dice.getColor().getHexColor()).desaturate(), size);
