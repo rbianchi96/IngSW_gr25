@@ -190,6 +190,10 @@ public class Lobby {
                     clientInterface.sendToolCards(currentGame.getCleanToolCards());
                     clientInterface.updateDraft(currentGame.getDraftDices());
                     clientInterface.updateWindowPatterns(currentGame.getAllWindowPatterns());
+                    clientInterface.sendRoundOrder(currentGame.getRoundOrder());
+                    clientInterface.updateRoundTrack(currentGame.getRoundTrackDice().getTrack());
+                    clientInterface.updateToolCardsTokens(currentGame.getToolCardsTokens());
+                    clientInterface.updatePlayersTokens(currentGame.getPlayersTokens());
 
                     ModelObserver observer = new ModelObserver(username, clientInterface, this);  //Create a new observer
 
