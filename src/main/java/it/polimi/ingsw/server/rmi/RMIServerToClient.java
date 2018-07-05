@@ -147,6 +147,15 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void sendRoundOrder(int[] players) {
+		try {
+			rmiClientInterface.sendRoundOrder(players);
+		} catch(RemoteException e) {
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void newTurn(int currentPlayer, int turnTime) {
 		try {
 			rmiClientInterface.newTurn(currentPlayer, turnTime);

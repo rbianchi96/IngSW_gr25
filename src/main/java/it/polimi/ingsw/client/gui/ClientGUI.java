@@ -128,6 +128,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void sendRoundOrder(int[] players) {
+		gameGUI.roundOrder(players);
+	}
+
+	@Override
 	public void newTurn(int currentPlayer, int turnTime) {
 		gameGUI.newTurn(currentPlayer, turnTime);
 	}

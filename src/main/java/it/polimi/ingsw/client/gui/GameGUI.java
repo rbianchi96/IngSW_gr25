@@ -43,6 +43,7 @@ public class GameGUI extends GUIController {
 	Label
 			playerName0, playerName1, playerName2, playerName3,
 			patternName0, patternName1, patternName2, patternName3,
+			roundOrder,
 			remainingTime;
 
 	private Label
@@ -66,6 +67,8 @@ public class GameGUI extends GUIController {
 
 	@FXML
 	Label cardTokens0, cardTokens1, cardTokens2;
+
+	private String[] players;
 
 	private ImageView toolCards[], publicObjectiveCards[];
 
@@ -99,6 +102,8 @@ public class GameGUI extends GUIController {
 	}
 
 	public void sendPlayersList(String username, String[] players) {
+		this.players = players;
+
 		for(int i = 0; i < players.length; i++) {
 			if(players[i].equals(username))
 				myIndex = i;
@@ -453,6 +458,18 @@ public class GameGUI extends GUIController {
 
 	public void endTurn() {
 		client.getServerInterface().endTurn();
+	}
+
+	public void roundOrder(int[] players) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		for(int i = 0; i < players.length; i ++) {
+			stringBuilder.append(this.players[players[i]]);
+			if(i < players.length - 1)
+				stringBuilder.append(" > ");
+		}
+
+		roundOrder.setText(stringBuilder.toString());
 	}
 
 	private int getTime() {

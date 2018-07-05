@@ -146,6 +146,16 @@ public class SocketClient extends Socket implements ServerInterface {
 				case START_GAME:
 					client.startGame();
 					break;
+				case ROUND_ORDER:
+					int order[] = new int[msgVector.length - 1];
+
+					for(int i = 1; i < msgVector.length; i ++) {
+						order[i - 1] = Integer.parseInt(msgVector[i]);
+					}
+
+					client.sendRoundOrder(order);
+
+					break;
 				case NEW_TURN:
 					client.newTurn(Integer.parseInt(msgVector[1]), Integer.parseInt(msgVector[2]));
 					break;

@@ -18,6 +18,7 @@ public enum ClientCommand {
 	SEND_PUBLIC_OBJECTIVE_CARDS("sendPublicObjectiveCards"),
 
 	START_GAME("startGame"),
+	ROUND_ORDER("roundOrder"),
 	NEW_TURN("newTurn"),
 	UPDATE_DRAFT("updateDraft"),
 	UPDATE_WINDOW_PATTERNS("updateWindowPatterns"),

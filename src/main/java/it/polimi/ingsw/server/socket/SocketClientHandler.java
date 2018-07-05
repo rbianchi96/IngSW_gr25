@@ -272,6 +272,17 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void sendRoundOrder(int[] players) {
+		out.print(encode(ROUND_ORDER));
+		for(int p : players) {
+			out.print("#" + p);
+		}
+
+		out.println();
+		out.flush();
+	}
+
+	@Override
 	public synchronized void newTurn(int currentPlayer, int turnTime) {
 		out.println(encode(NEW_TURN, String.valueOf(currentPlayer), String.valueOf(turnTime)));
 		out.flush();

@@ -77,6 +77,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void sendRoundOrder(int[] players) throws RemoteException {
+		client.sendRoundOrder(players);
+	}
+
+	@Override
 	public void newTurn(int currentPlayer, int turnTime) throws RemoteException {
 		client.newTurn(currentPlayer, turnTime);
 	}
