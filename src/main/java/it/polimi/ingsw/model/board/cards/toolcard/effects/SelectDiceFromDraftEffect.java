@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
+import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 
 public class SelectDiceFromDraftEffect extends Effect {
@@ -21,7 +22,7 @@ public class SelectDiceFromDraftEffect extends Effect {
         System.out.println("Ok, selected dice is valid.");
     }
 
-    public class DiceNotFoundException extends Exception{
+    public class DiceNotFoundException extends GameException {
         public DiceNotFoundException(){
             super();
         }

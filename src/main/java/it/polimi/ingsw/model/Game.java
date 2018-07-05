@@ -784,25 +784,25 @@ public class Game extends Observable {
 		SCORES, END_GAME_FOR_ABANDONEMENT
 	}
 
-	public class WrongTurnException extends Exception {
+	public class WrongTurnException extends GameException {
 		public WrongTurnException() {
 			super();
 		}
 	}
 
-	public class NotEnoughFavorTokens extends Exception {
+	public class NotEnoughFavorTokens extends GameException {
 		public NotEnoughFavorTokens() {
 			super();
 		}
 	}
 
-	public class AlreadyUsedToolCard extends Exception {
+	public class AlreadyUsedToolCard extends GameException {
 		public AlreadyUsedToolCard() {
 			super();
 		}
 	}
 
-	public class InvalidCall extends Exception {
+	public class InvalidCall extends GameException {
 		public InvalidCall() {
 			super();
 		}

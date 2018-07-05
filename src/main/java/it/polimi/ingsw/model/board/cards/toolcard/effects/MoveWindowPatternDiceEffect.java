@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
+import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.PlacementRestriction;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
@@ -71,7 +72,7 @@ public class MoveWindowPatternDiceEffect extends Effect {
 		return newY;
 	}
 
-	public class DiceNotFoundException extends Exception {
+	public class DiceNotFoundException extends GameException {
 		public DiceNotFoundException() {
 			super();
 		}

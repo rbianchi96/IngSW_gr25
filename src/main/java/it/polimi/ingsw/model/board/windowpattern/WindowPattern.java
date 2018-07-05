@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.windowpattern;
 
+import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 
 import java.io.Serializable;
@@ -269,13 +270,13 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 			throw new PlacementRestrictionException(PlacementRestriction.NEAR_DICE_COLOR_RESTRICTION);
 	}
 
-	public class WindowPatternOutOfBoundException extends Exception {
+	public class WindowPatternOutOfBoundException extends GameException {
 		public WindowPatternOutOfBoundException(int row, int col) {
 			super("row = " + row + ", col = " + col);
 		}
 	}
 
-	public class PlacementRestrictionException extends Exception {
+	public class PlacementRestrictionException extends GameException {
 		final PlacementRestriction placementRestrictionType;
 
 		PlacementRestrictionException(PlacementRestriction placementRestrictionType) {
@@ -293,7 +294,7 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		}
 	}
 
-	public class CellAlreadyOccupiedException extends Exception {
+	public class CellAlreadyOccupiedException extends GameException {
 		public CellAlreadyOccupiedException() {
 			super();
 		}
