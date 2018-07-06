@@ -67,7 +67,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 			out = new PrintWriter(socket.getOutputStream());
 			out.println(encode(CONNECTION_STATUS, "success", "Connection Established!"));
 			out.flush();
-			System.out.println("New Socket connection: " + socket.getRemoteSocketAddress().toString());
+			System.out.println("New socket connection (" + socket.getRemoteSocketAddress().toString() + ")");
 			pingTimer();
 			while(true) {
 				String line = in.nextLine(); // read the stream from client
@@ -83,14 +83,8 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					}
 				}
 			}
-		} catch(NoSuchElementException ex) {
+		} catch(NoSuchElementException | IOException | IllegalStateException ex) {
 			System.out.println(ex.getMessage());
-		} catch(java.net.SocketTimeoutException en) {
-			System.out.println(en.getMessage());
-		} catch(IOException e) {
-			System.err.println(e.getMessage());
-		} catch(IllegalStateException ileEx) {
-			System.err.println(ileEx.getMessage());
 		} finally {  // CONNECTION LOST
 			if(! socket.isClosed()) { // if is not already closed
 				controller.lostConnection(this); // notify Model this player's connections is lost
@@ -103,7 +97,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	private void closeSocket() {
 		if(! socket.isClosed()) {
 			try {
-				System.out.println("SocketServer: Closing this socket...");
+				System.out.println("Closing socket (" + socket.getRemoteSocketAddress().toString() + ").");
 				out.flush();
 				out.close();
 				in.close();

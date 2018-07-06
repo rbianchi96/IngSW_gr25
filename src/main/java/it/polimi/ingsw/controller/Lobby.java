@@ -156,11 +156,12 @@ public class Lobby {
             playersConnectionData.get(index).setIsOnline(false);
             playersConnectionData.get(index).setClientInterface(null);
 
+            System.out.println(playerNickname + " is now offline.");
+
             currentGame.deleteObserver(playersConnectionData.get(index).getObserver());	//Remove the observer from the model
 			playersConnectionData.get(index).setObserver(null);	//Delete the observer
             currentGame.setPlayerSuspendedState(playerNickname, true);
 
-            System.out.println(playerNickname + " is now offline.");
             for(int i = 0; i < playersConnectionData.size(); i++) {
 				if(i != index)
 					if(playersConnectionData.get(i).getClientInterface() != null)
@@ -350,7 +351,6 @@ public class Lobby {
 
 	//End the game and reinitialize all
 	public void endGame() {
-        System.out.println("The game ended, the server is ready to start a new game.");
 
         for(PlayerConnectionData playerConnectionData : playersConnectionData)
             if(playerConnectionData.getClientInterface() != null)
@@ -358,6 +358,8 @@ public class Lobby {
 
         playersConnectionData = new ArrayList<>();
         currentGame = new Game();
+
+        System.out.println("The game ended, the server is ready to start a new game.");
     }
 
     public int turnTime() {

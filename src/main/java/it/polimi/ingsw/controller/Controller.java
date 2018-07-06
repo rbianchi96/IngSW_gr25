@@ -36,7 +36,6 @@ public class Controller {
 	// Make login request from client to Model
 	public synchronized void login(ClientInterface clientInterface, String username) {
 		lobby.login(clientInterface, username);
-		System.out.println(username);
 		if(lobby.getPlayersConnectionData().size() > 1 && ! timerStarted && ! lobby.getCurrentGame().isInGame()) {
 			lobbyTimer = new Timer();
 			lobbyTimer.scheduleAtFixedRate(new TimerTask() {
@@ -55,7 +54,7 @@ public class Controller {
 
 	private void time() {
 		passedSeconds++;
-		System.out.println(lobby.getPlayersConnectionData().size() + "players; " + passedSeconds + "/" + lobbyTime + "s.");
+		System.out.println(lobby.getPlayersConnectionData().size() + " players; " + (lobbyTime - passedSeconds) + " s to game start.");
 
 		if(passedSeconds >= lobbyTime && lobby.getPlayersConnectionData().size() > 1 && timerStarted) {
 			System.out.println("Starting game...");
@@ -100,7 +99,7 @@ public class Controller {
 				// SEND NEW VIEW
 				System.out.println(username + " successfully reconnected to server!");
 			} else {
-				System.out.println(username + " attemptED to reconnect was refused due to different SessionID!");
+				System.out.println(username + " attempted to reconnect was refused!");
 				clientInterface.notifyReconnectionStatus(false, "Reconection refused!");
 			}
 		}
