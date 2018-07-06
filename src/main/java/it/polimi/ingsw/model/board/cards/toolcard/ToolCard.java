@@ -138,6 +138,15 @@ public class ToolCard extends Card implements Serializable {
 		return mostRecentEffectEnum;
 	}
 
+	public int lastDiceAppliedEffect(){
+		int mostRecentEffectEnum = - 1;
+		for (int i=0;i<effects.size();i++){
+			if (effects.get(i).isUsed() && effects.get(i).getDice()!=null){
+				mostRecentEffectEnum=i;
+			}
+		}
+		return mostRecentEffectEnum;
+	}
 	/**
 	 * Return a tool card wothout effects (usefull to send to client)
 	 * @return a tool card without effects

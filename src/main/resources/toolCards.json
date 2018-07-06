@@ -2,7 +2,9 @@
 	{
 		"id": 1,
 		"name": "Pinza Sgrossatrice",
-		"pre": "HAS_NOT_PLACED_DICE",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
 			{"effect": "INCREMENT_DECREMENT_DICE"},
@@ -56,7 +58,9 @@
 	{
 		"id": 6,
 		"name": "Pennello per Pasta Salda",
-		"pre": "HAS_NOT_PLACED_DICE",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
 			{"effect": "ROLL_DICE_FROM_DRAFT"},
@@ -102,9 +106,13 @@
 	{
 		"id": 10,
 		"name": "Tampone Diamantato",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "FLIP_DICE_FROM_DRAFT"}
+			{"effect": "FLIP_DICE_FROM_DRAFT"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
