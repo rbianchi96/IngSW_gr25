@@ -79,13 +79,13 @@
 	{
 		"id": 8,
 		"name": "Tenaglia a Rotelle",
-		"pre": "endOfFirstTurn",
+		"pre": "IS_FIRST_TURN",
 		"effects": [
 			{
-				"effect": "placeDice"
+				"effect": "EDIT_PLAYABLE_DICES"
 			},
 			{
-				"effect": "skipSecondTurn"
+				"effect": "SKIP_PLAYER_SECOND_TURN"
 			}
 		]
 	},

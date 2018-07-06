@@ -1,14 +1,17 @@
 [
 	{
-		"id": 1,
-		"name": "Pinza Sgrossatrice",
+		"id": 8,
+		"name": "Tenaglia a Rotelle",
 		"pres": [
-			{"pre" : "HAS_NOT_PLACED_DICE"}
+			{"pre" : "IS_FIRST_TURN"}
 		],
 		"effects": [
-			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "INCREMENT_DECREMENT_DICE"},
-			{"effect": "PLACE_DICE"}
+			{
+				"effect": "EDIT_PLAYABLE_DICES"
+			},
+			{
+				"effect": "SKIP_PLAYER_SECOND_TURN"
+			}
 		]
 	},
 	{

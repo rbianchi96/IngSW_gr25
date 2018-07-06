@@ -11,7 +11,9 @@ public enum EffectType {
     ROLL_DICES_FROM_DRAFT(null),
     SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH(ClientCommand.SELECT_DICE_FROM_ROUND_TRACK),
     PLACE_DICE(ClientCommand.PLACE_DICE),
-    FLIP_DICE_FROM_DRAFT(null);
+    FLIP_DICE_FROM_DRAFT(null),
+    EDIT_PLAYABLE_DICES(null),
+    SKIP_PLAYER_SECOND_TURN(null);
 
     ClientCommand command;
 

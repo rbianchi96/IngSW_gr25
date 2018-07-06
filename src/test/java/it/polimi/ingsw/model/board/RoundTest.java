@@ -107,7 +107,7 @@ public class RoundTest {
         // Testing that all the values are the expected ones
         round.nextRound();
         round.nextPlayer();
-        assertTrue(round.doubleTurn());
+        assertTrue(round.removeCurrentPlayerSecondTurn());
         assertEquals(1,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(2,round.nextPlayer());

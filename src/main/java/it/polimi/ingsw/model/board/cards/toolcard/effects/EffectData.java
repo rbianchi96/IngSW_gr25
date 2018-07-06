@@ -1,15 +1,28 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 
 public class EffectData {
 
-    private int x,y,forbidX,forbidY,round,index,row,col,oldX,oldY;
+    private int x;
+    private int y;
+    private int forbidX;
+    private int forbidY;
+    private int round;
+    private int index;
+    private int row;
+    private int col;
+    private int oldX;
+    private int oldY;
+    private int addPlayableDice;
+
+
+    private Player player;
     private WindowPattern windowPattern;
     private Dice dice;
     private boolean bool;
-
 
     public int getX() {
         return x;
@@ -115,6 +128,18 @@ public class EffectData {
         this.bool = bool;
     }
 
+    public int getAddPlayableDice() {
+        return addPlayableDice;
+    }
 
+    public void setAddPlayableDice(int addPlayableDice) {
+        this.addPlayableDice = addPlayableDice;
+    }
+    public Player getPlayer() {
+        return player;
+    }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 }
