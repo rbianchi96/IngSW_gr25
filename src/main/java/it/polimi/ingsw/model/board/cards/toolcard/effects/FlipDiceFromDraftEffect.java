@@ -15,7 +15,7 @@ public class FlipDiceFromDraftEffect extends Effect{
         if (draftDice!=null) {
             draftDice.rotate();
             game.getDraft().addDice(draftDice); // re-add the dice to the draft pool with the new value
-            rolledDice = draftDice; // save in rolledDice the dice the user selected and rolled
+            rolledDice = draftDice; // save in flipped Dice the dice the user selected and rolled
             used = true; // set this effect to used.
             System.out.println("Dice flipped!");
         }

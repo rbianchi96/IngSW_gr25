@@ -14,12 +14,12 @@ public class SelectDiceFromDraftEffect extends Effect {
     public void apply(EffectData effectData)throws GameException{
         if (!game.getDraft().getDices().contains(effectData.getDice())) { // check for a valid draft pool's dice
             selectedDice = null;
-            System.out.println("The selected dice is not present in the draft pool.");
+            System.out.println("SelectDiceFromDraftEffect: The selected dice is not present in the draft pool.");
             throw new DiceNotFoundException();
         }
         selectedDice = effectData.getDice(); // save the dice choice
         used = true;
-        System.out.println("Ok, selected dice is valid.");
+        System.out.println("SelectDiceFromDraftEffect: Ok, selected dice is valid.");
     }
 
     public class DiceNotFoundException extends GameException {

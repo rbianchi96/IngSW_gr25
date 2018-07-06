@@ -327,6 +327,7 @@ public class Game extends Observable {
 
 			for(Prerequisite pre : toolCards[index].getPres()){
 				if(!pre.check(preData)) {
+					System.out.println("Tool Card not usable: prerequisites not respected!");
 					throw new PreNotRespectedException();
 				}
 			}
@@ -339,12 +340,12 @@ public class Game extends Observable {
 
 		setChanged();
 		notifyObservers(NotifyType.TOOL_CARDS_TOKENS);
-
 		currentToolCardInUse = index;
 
 		player.setHasPlayedToolCard(true);
-		getNextEffect();
-		return toolCards[index].getEffect(0).getEffectType().getCommand();
+
+		System.out.println("Use tool card " + index);
+		return getNextEffect();
 	}
 
 	public ClientCommand selectDiceFromDraftEffect(String username, Dice dice) throws GameException{
@@ -570,15 +571,25 @@ public class Game extends Observable {
 	}
 
 	private ClientCommand getNextEffect() {
-		Effect nextEffect = toolCards[currentToolCardInUse].getNext();
+		Effect nextEffect = null;
+		if(currentToolCardInUse!=-1) {
+			nextEffect= toolCards[currentToolCardInUse].getNext();
+		}else{
+			return null;
+		}
+
+
 		if(nextEffect == null) {    //End of effects
 			cleanToolCard(toolCards[currentToolCardInUse]);
 			toolCardUsageFinished();
+			//System.out.println("Returned: null, toolCardUsageFinished and cleanToolCard invoked." );
 			return null;
 		} else {
 			ClientCommand command = nextEffect.getEffectType().getCommand();
-			if(command != null)
+			if(command != null) {
+				//System.out.println("Returned: " + nextEffect.getEffectType().getCommand().toString() );
 				return nextEffect.getEffectType().getCommand();    //Request to client
+			}
 			else {    //Immediatly start the next effects (without any client request)
 				switch(nextEffect.getEffectType()) {
 					case ROLL_DICE_FROM_DRAFT:
@@ -595,6 +606,7 @@ public class Game extends Observable {
 					}catch(Exception e){
 							e.printStackTrace();
 						}
+						break;
 					case FLIP_DICE_FROM_DRAFT:
 						try {
 							flipDiceFromDraftEffect(players.get(getCurrentPlayerIndex()).getPlayerName());
@@ -605,7 +617,7 @@ public class Game extends Observable {
 						break;
 				}
 
-
+				//System.out.println("RECORSIVE GETNEXTEFFECT() INVOKE || toolCardInUse -> " + currentToolCardInUse  );
 				return getNextEffect();
 			}
 		}

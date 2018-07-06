@@ -163,7 +163,6 @@ public class Controller {
 	}
 
 	public synchronized void useToolCard(ClientInterface clientInterface, int index) {
-		System.out.println("Use tool card " + index);
 		try {
 			ClientCommand command = lobby.getCurrentGame().useToolCard(findUsername(clientInterface), index);
 			sendCommand(clientInterface, command);
@@ -180,7 +179,6 @@ public class Controller {
 	}
 
 	public synchronized void selectDiceFromDraftEffect(ClientInterface clientInterface, Dice dice) {
-		System.out.println("Selected a dice!");
 		try {
 			sendCommand(
 					clientInterface,
@@ -199,7 +197,6 @@ public class Controller {
 
 	public synchronized void selectDiceFromWindowPatternEffect(ClientInterface clientInterface, int x, int y) {
 		try {
-			System.out.println("Sel");
 			sendCommand(
 					clientInterface,
 					lobby.getCurrentGame().selectDiceFromWindowPatternEffect(findUsername(clientInterface), x, y)
