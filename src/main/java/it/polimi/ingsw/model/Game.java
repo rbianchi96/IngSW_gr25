@@ -85,6 +85,8 @@ public class Game extends Observable {
 			windowPatternsToChoose[3] = windowPatternsCards[2 * i + 1].getPattern2();
 
 			players.get(i).setWindowPatternToChoose(windowPatternsToChoose);
+
+			System.out.println("Window patterns to choose sent to " + players.get(i).getPlayerName() + ".");
 		}
 
 		windowPatternSelectionPhase = true;
@@ -197,6 +199,8 @@ public class Game extends Observable {
 	 */
 	private void startRound() {
 		if(rounds.getCurrentRound() != - 1) {
+			System.out.println("New round (" + rounds.getCurrentRound() + ").");
+
 			setChanged();
 			notifyObservers(NotifyType.NEW_ROUND);
 
@@ -245,18 +249,23 @@ public class Game extends Observable {
 
 	// set the windowPattern the user selected
 	public void selectWindowPattern(String username, int wpIndex) {
-		System.out.println(username);
 		Player player = findPlayer(username);
+
 
 		if(player.getWindowPattern() == null) {
 			player.setWindowPattern(player.getWindowPatternToChoose()[wpIndex]);
 			player.setFavourTokens(player.getWindowPatternToChoose()[wpIndex].getDifficulty());
 			readyPlayers++;
 		}
+
+		System.out.println(username + " choose his window pattern.");
+
 		// if all the players are ready...
 		if(readyPlayers == players.size()) {
+			System.out.println("All players choose their window pattern.");
 			startGameAfterPreparation(); // start the match
 		}
+
 	}
 
 	/**
@@ -714,6 +723,8 @@ public class Game extends Observable {
 
 		player.setSuspended(suspended);
 
+		System.out.println(username + " is now " + (suspended ? "" : "not") + "suspended from game.");
+
 		if(suspended) {
 			int totSuspended = 0;
 
@@ -722,9 +733,8 @@ public class Game extends Observable {
 					totSuspended++;
 
 			if(totSuspended >= players.size() - 1) {
-				endGame(true);
-
 				System.out.println("Only one player.");
+				endGame(true);
 			} else {    //Suspend the player
 				if(player.getWindowPattern() != null) {    //Has already choose a WP
 					if(rounds.getCurrentRound() != - 1)	//The game is started
@@ -742,8 +752,6 @@ public class Game extends Observable {
 			player.setWindowPattern(null);
 			readyPlayers --;
 		}
-
-		System.out.println(username + " is now " + (suspended ? "" : "not") + "suspended.");
 
 	}
 
