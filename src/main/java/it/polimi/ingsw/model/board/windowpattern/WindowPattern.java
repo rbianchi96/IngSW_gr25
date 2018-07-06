@@ -165,8 +165,7 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 		//Check near dices to verify restrictions about near dice presence, color and value
 		if(placedDices > 0) {    //If there's an already placed dice
 			//Near cells dices check
-			boolean foundADice = false,    //Set to true if there's at least one dice in a near cell
-					ignoreValueRest = ignoredPlacementRestrictions != null && ignoredPlacementRestrictions.indexOf(PlacementRestriction.NEAR_DICE_VALUE_RESTRICTION) >= 0,
+			boolean ignoreValueRest = ignoredPlacementRestrictions != null && ignoredPlacementRestrictions.indexOf(PlacementRestriction.NEAR_DICE_VALUE_RESTRICTION) >= 0,
 					ignoreColorRest = ignoredPlacementRestrictions != null && ignoredPlacementRestrictions.indexOf(PlacementRestriction.NEAR_DICE_COLOR_RESTRICTION) >= 0;
 			Dice diceToCheck;    //Near dice to check
 
@@ -174,7 +173,6 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 			if(row > 0) {    //Not first row
 				diceToCheck = cells[row - 1][col].getDice();    //Select N dice
 				if(diceToCheck != null) {
-					foundADice = true;
 					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);    //Verify not same value or color (exception thrown)
 				}
 
@@ -182,13 +180,11 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 				if(col > 0) {    //Not first col
 					diceToCheck = cells[row - 1][col - 1].getDice();    //Select NW dice
 					if(diceToCheck != null) {
-						foundADice = true;
 					}
 				}
 				if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
 					diceToCheck = cells[row - 1][col + 1].getDice();    //Select NE dice
 					if(diceToCheck != null) {
-						foundADice = true;
 					}
 				}
 			}
@@ -197,7 +193,6 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 			if(row < 3) {    //Not last row
 				diceToCheck = cells[row + 1][col].getDice();    //Select S dice
 				if(diceToCheck != null) {
-					foundADice = true;
 					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);
 				}
 
@@ -205,13 +200,11 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 				if(col > 0) {    //Not first col
 					diceToCheck = cells[row + 1][col - 1].getDice();    //Select SW dice
 					if(diceToCheck != null) {
-						foundADice = true;
 					}
 				}
 				if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
 					diceToCheck = cells[row + 1][col + 1].getDice();    //Select SE dice
 					if(diceToCheck != null) {
-						foundADice = true;
 					}
 				}
 			}
@@ -220,23 +213,21 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 			if(col > 0) {    //Not first col
 				diceToCheck = cells[row][col - 1].getDice();    //Select W dice
 				if(diceToCheck != null) {
-					foundADice = true;
 					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);
 				}
 			}
 
-			//Check
+			//Check E dice
 			if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
 				diceToCheck = cells[row][col + 1].getDice();    //Select E dice
 				if(diceToCheck != null) {
-					foundADice = true;
 					checkNearDices(dice, diceToCheck, ignoreValueRest, ignoreColorRest);
 				}
 			}
 
 			if(
 					! (ignoredPlacementRestrictions != null && ignoredPlacementRestrictions.indexOf(PlacementRestriction.MUST_HAVE_NEAR_DICE_RESTRICTION) >= 0)    //NOT ignore restr.
-							&& ! foundADice)    //...AND not found any dice
+							&& ! hasNearDice(row, col))    //...AND not found any dice
 				throw new PlacementRestrictionException(PlacementRestriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
 		}
 
@@ -244,6 +235,46 @@ public class WindowPattern implements Iterable<Cell>, Serializable {
 			throw new CellAlreadyOccupiedException();    //Place dice
 
 		placedDices++;
+	}
+
+	public boolean hasNearDice(int row, int col) {
+		//Check N, NW and NE dices
+		if(row > 0) {    //Not first row
+			if(cells[row - 1][col].getDice() != null) return true;    //N dice
+
+			//Check diagonal dices
+			if(col > 0) {    //Not first col
+				if(cells[row - 1][col - 1].getDice() != null) return true;    //NW dice
+			}
+			if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
+				if(cells[row - 1][col + 1].getDice() != null) return true;    //NE dice
+			}
+		}
+
+		//Check S, SW and SE dices
+		if(row < 3) {    //Not last row
+			if(cells[row + 1][col].getDice() != null) return true;    //S dice
+
+			//Check diagonal dices
+			if(col > 0) {    //Not first col
+				if(cells[row + 1][col - 1].getDice() != null) return true;    //SW dice
+			}
+			if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
+				if(cells[row + 1][col + 1].getDice() != null) return true;    //Select SE dice
+			}
+		}
+
+		//Check W dice
+		if(col > 0) {    //Not first col
+			if(cells[row][col - 1].getDice() != null) return true;    //W dice
+		}
+
+		//Check
+		if(col < WindowPattern.WINDOW_PATTERN_COLS_NUMBER - 1) {    //Not last col
+			if(cells[row][col + 1].getDice() != null) return true;    //E dice
+		}
+
+		return false;
 	}
 
 	@Override
