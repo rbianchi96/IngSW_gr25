@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -159,14 +160,18 @@ class Drawers {
 
 						gridPane.add(pane, col, row);
 
-						if(eventHandler != null)
+						if(eventHandler != null) {
 							pane.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+							cell.setCursor(Cursor.HAND);
+						}
 
 						continue;
 					}
 
-					if(eventHandler != null)
+					if(eventHandler != null) {
 						cell.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+						cell.setCursor(Cursor.HAND);
+					}
 				}
 		} catch(Exception e) {
 			e.printStackTrace();    //FATAL ERROR

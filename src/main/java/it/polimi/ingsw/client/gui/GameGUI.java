@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.model.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
@@ -12,7 +13,9 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -44,7 +47,8 @@ public class GameGUI extends GUIController {
 			playerName0, playerName1, playerName2, playerName3,
 			patternName0, patternName1, patternName2, patternName3,
 			roundOrder,
-			remainingTime;
+			remainingTime,
+			event0, event1, event2;
 
 	private Label
 			playersNames[],
@@ -101,6 +105,10 @@ public class GameGUI extends GUIController {
 
 		toolCards = new ImageView[]{toolCard0, toolCard1, toolCard2};
 		publicObjectiveCards = new ImageView[]{publicObjectiveCard0, publicObjectiveCard1, publicObjectiveCard2};
+
+		event0.setText("");
+		event1.setText("");
+		event2.setText("");
 	}
 
 	public void sendPlayersList(String username, String[] players) {
@@ -166,17 +174,11 @@ public class GameGUI extends GUIController {
 	}
 
 	public void dicePlacementRestictionBroken() {
-		Platform.runLater(() -> {
-			Alert alert = new Alert(Alert.AlertType.ERROR, "Restrizioni infrante!");
-			alert.showAndWait();
-		});
+		addEvent("Restrizioni infrante!", true);
 	}
 
 	public void cellAlreadyOccupied() {
-		Platform.runLater(() -> {
-			Alert alert = new Alert(Alert.AlertType.ERROR, "Cella già occupata!");
-			alert.showAndWait();
-		});
+		addEvent("Cella già occupata!", true);
 	}
 
 	public void newTurn(int currentPlayer, int turnTime) {
@@ -198,9 +200,10 @@ public class GameGUI extends GUIController {
 		this.turnTime = turnTime / 1000;
 
 		try {
-			timer.cancel();	//Try to stop the task
+			timer.cancel();    //Try to stop the task
 			timer = new Timer();
-		} catch(IllegalStateException ignore) {}	//Ignore, if the task doesn't exist
+		} catch(IllegalStateException ignore) {
+		}    //Ignore, if the task doesn't exist
 		timer.scheduleAtFixedRate(new TimerTask() {
 									  @Override
 									  public void run() {
@@ -231,7 +234,9 @@ public class GameGUI extends GUIController {
 				GridPane.setValignment(diceToDraw, VPos.CENTER);
 
 				diceToDraw.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> diceSelectedFromDraft((Pane)event.getSource()));
-				draft.add(diceToDraw, i / 2, i % 2);
+				diceToDraw.setCursor(Cursor.HAND);
+
+				draft.add(diceToDraw, i, 0);
 			}
 		});
 
@@ -240,8 +245,8 @@ public class GameGUI extends GUIController {
 	private void diceSelectedFromDraft(Pane dice) {
 		int diceIndex;
 
-		diceIndex = GridPane.getRowIndex(dice) % 2;
-		diceIndex += GridPane.getColumnIndex(dice) * 2;
+		//diceIndex = GridPane.getRowIndex(dice) % 2;
+		diceIndex = GridPane.getColumnIndex(dice);
 
 		switch(state) {
 			case WAIT_USER_INPUT:
@@ -375,27 +380,27 @@ public class GameGUI extends GUIController {
 	}
 
 	public void placeDice() {
-		showInfoAlert("Seleziona dove posizionare il dado.");
+		addEvent("Seleziona dove posizionare il dado.", false);
 		state = State.PLACE_DICE;
 	}
 
 	public void selectDiceFromDraft() {
-		showInfoAlert("Seleziona un dado dalla riserva.");
+		addEvent("Seleziona un dado dalla riserva.", false);
 		state = State.SELECT_DICE_FROM_DRAFT;
 	}
 
 	public void selectDiceFromWindowPattern() {
-		showInfoAlert("Seleziona un dado dalla finestra.");
+		addEvent("Seleziona un dado dalla finestra.", false);
 		state = State.SELECT_DICE_FROM_WINDOWPATTERN;
 	}
 
 	public void selectDiceFromRoundTrack() {
-		showInfoAlert("Seleziona un dado dalla tracciato dei round.");
+		addEvent("Seleziona un dado dalla tracciato dei round.", false);
 		state = State.SELECT_DICE_FROM_ROUND_TRACK;
 	}
 
 	public void modeDiceInWindowPattern() {
-		showInfoAlert("Seleziona una cella in cui muovere il dado.");
+		addEvent("Seleziona una cella in cui muovere il dado.", false);
 		state = State.MOVE_DICE_IN_WINDOW_PATTERN;
 	}
 
@@ -405,10 +410,31 @@ public class GameGUI extends GUIController {
 
 			for(int round = 0; round < RoundTrack.ROUNDS; round++) {
 				VBox vBox = new VBox();
-				GridPane.setValignment(vBox, VPos.CENTER);
+
+				vBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
+				vBox.setMaxWidth(Region.USE_PREF_SIZE);
+
+				vBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+				vBox.setMaxHeight(Region.USE_PREF_SIZE);
+
+				GridPane.setHalignment(vBox, HPos.CENTER);
+				GridPane.setValignment(vBox, VPos.BOTTOM);
+				
+				Label label = new Label(String.valueOf(round + 1));
+				GridPane.setMargin(label, new Insets(16, 0, 0, 0));
+				GridPane.setHalignment(label, HPos.CENTER);
+				GridPane.setValignment(label, VPos.TOP);
+				this.roundTrack.add(label, round, 0);
 
 				for(int i = 0; i < roundTrackDices[round].diceNumber(); i++) {   //For every dice
-					AnchorPane dice = Drawers.createDice(roundTrackDices[round].getDices().get(i), 22);
+					AnchorPane dice = Drawers.createDice(
+							roundTrackDices[round].getDices().get(i),
+							Math.min(
+									this.roundTrack.getWidth() / Game.ROUNDS_NUMBER - 16,
+									this.roundTrack.getHeight() / roundTrackDices[round].diceNumber()
+									)
+							);
+
 					dice.setOnMouseClicked(onRoundTrackDiceSelected);
 
 					vBox.getChildren().add(dice);
@@ -448,11 +474,11 @@ public class GameGUI extends GUIController {
 	}
 
 	public void wrongTurn() {
-		showInfoAlert("Non è il tuo turno!");
+		addEvent("Non è il tuo turno!", false);
 	}
 
 	public void notEnoughFavorTokens() {
-		showInfoAlert("Non hai abbastanza segnalini favore!");
+		addEvent("Non hai abbastanza segnalini favore!", true);
 	}
 
 	public void endOfToolCardUse() {
@@ -466,13 +492,26 @@ public class GameGUI extends GUIController {
 	public void roundOrder(int[] players) {
 		StringBuilder stringBuilder = new StringBuilder();
 
-		for(int i = 0; i < players.length; i ++) {
+		for(int i = 0; i < players.length; i++) {
 			stringBuilder.append(this.players[players[i]]);
 			if(i < players.length - 1)
 				stringBuilder.append(" > ");
 		}
 
 		Platform.runLater(() -> roundOrder.setText(stringBuilder.toString()));
+	}
+
+	private void addEvent(String text, boolean error) {
+		Platform.runLater(() -> {
+			event2.setText(event1.getText());
+			event2.setTextFill(event1.getTextFill());
+
+			event1.setText(event0.getText());
+			event1.setTextFill(event0.getTextFill());
+
+			event0.setText(text);
+			event0.setTextFill(error ? Color.RED : Color.BLACK);
+		});
 	}
 
 	private int getTime() {
