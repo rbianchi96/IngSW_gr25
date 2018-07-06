@@ -37,17 +37,20 @@ public interface ClientInterface {
 
 	public void selectDiceFromDraft();
 	public void selectIncrementOrDecrement();
-	public void placeDice();
 	public void selectDiceFromWindowPattern();
 	public void moveDiceInWindowPattern();
 	public void selectDiceFromRoundTrack();
+	public void placeDice();
 
 	public void endOfToolCardUse();
 
 	public void wrongTurn();	//Notify the user isn't his turn
-	public void notEnoughFavorTokens();
 	public void dicePlacementRestictionBroken();
 	public void cellAlreadyOccupied();
+	public void notEnoughFavorTokens();
+	public void preNotRespected();
+	public void alreadyPlacedDice();
+	public void alreadyUsedToolCard();
 
 	public void sendScores(Score[] scores);
 	public void endGameForAbandonement();

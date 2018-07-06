@@ -514,6 +514,18 @@ public class GameGUI extends GUIController {
 		});
 	}
 
+	public void preNotRespected() {
+		addEvent("Prerequistiti della carta non rispettati!", true);
+	}
+
+	public void alreadyPlacedDice() {
+addEvent("Hai già piazzato il massimo numero di dadi ammesso!", true);
+	}
+
+	public void alreadyUsedToolCard() {
+addEvent("Hai già utilizzato una carta strumento!", true);
+	}
+
 	private int getTime() {
 		return turnTime;
 	}

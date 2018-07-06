@@ -225,8 +225,12 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.endOfToolCardUse();
 					break;
 				case WRONG_TURN:
+					client.wrongTurn();
+
 					break;
 				case NOT_ENOUGH_FAVOR_TOKENS:
+					client.notEnoughFavorTokens();
+
 					break;
 				case DICE_PLACEMENT_RESTRICTION_BROKEN:
 					client.dicePlacementRestictionBroken();
@@ -236,7 +240,17 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.cellAlreadyOccupied();
 
 					break;
-				case ROLL_DICE_FROM_DRAFT:
+				case PRE_NOT_RESPECTED:
+					client.preNotRespected();
+
+					break;
+				case ALREADY_PLACED_DICE:
+					client.alreadyPlacedDice();
+
+					break;
+				case ALREADY_USED_TOOL_CARD:
+					client.alreadyUsedToolCard();
+
 					break;
 				case SEND_SCORES:
 					client.sendScores(decodeScores((Arrays.copyOfRange(msgVector, 1, msgVector.length))));

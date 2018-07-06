@@ -294,6 +294,33 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void preNotRespected() {
+		try {
+			rmiClientInterface.preNotRespected();
+		} catch(RemoteException e) {
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
+	public void alreadyPlacedDice() {
+		try {
+			rmiClientInterface.alreadyPlacedDice();
+		} catch(RemoteException e) {
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
+	public void alreadyUsedToolCard() {
+		try {
+			rmiClientInterface.alreadyUsedToolCard();
+		} catch(RemoteException e) {
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void dicePlacementRestictionBroken() {
 		try {
 			rmiClientInterface.dicePlacementRestictionBroken();

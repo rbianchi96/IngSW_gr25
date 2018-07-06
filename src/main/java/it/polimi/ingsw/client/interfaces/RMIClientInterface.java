@@ -39,7 +39,7 @@ public interface RMIClientInterface extends Remote {
 	public void updateToolCardsTokens(int[] tokens) throws RemoteException;
 	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) throws RemoteException;
 
-	public void selectDiceFromDraft() throws  RemoteException;
+	public void selectDiceFromDraft() throws RemoteException;
 	public void selectIncrementOrDecrement() throws RemoteException;
 	public void placeDice() throws RemoteException;
 	public void selectDiceFromWindowPattern() throws RemoteException;
@@ -49,9 +49,12 @@ public interface RMIClientInterface extends Remote {
 	public void endOfToolCardUse() throws RemoteException;
 
 	public void wrongTurn() throws RemoteException;
-	public void notEnoughFavorTokens() throws RemoteException;
 	public void dicePlacementRestictionBroken() throws RemoteException;
 	public void cellAlreadyOccupied() throws RemoteException;
+	public void notEnoughFavorTokens() throws RemoteException;
+	public void preNotRespected() throws RemoteException;
+	public void alreadyPlacedDice() throws RemoteException;
+	public void alreadyUsedToolCard() throws RemoteException;
 
 	public void sendScores(Score[] scores) throws RemoteException;
 	public void endGameForAbandonement() throws RemoteException;

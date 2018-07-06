@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.cards.toolcard.effects.MoveWindowPatternDiceEffect;
 import it.polimi.ingsw.model.board.cards.toolcard.effects.SelectDiceFromDraftEffect;
 import it.polimi.ingsw.model.board.cards.toolcard.effects.SelectDiceFromRoundTrackAndSwitch;
@@ -88,23 +89,6 @@ public class Controller {
 		lobby.startGame();
 	}
 
-	public void reconnect(ClientInterface clientInterface, String sessionID, String username) {
-		System.out.println(username + " wants to reconnect.");
-		ArrayList<PlayerConnectionData> players = lobby.getPlayersConnectionData();
-		for(int i = 0; i < players.size(); i++) {
-			if(! players.get(i).getIsOnline() && players.get(i).getClientInterface() == null && players.get(i).getNickName().equals(username)) {
-				// Client can reconnect
-				players.get(i).setClientInterface(clientInterface);
-				clientInterface.notifyReconnectionStatus(true, "You are successfully reconnected to the game!");
-				// SEND NEW VIEW
-				System.out.println(username + " successfully reconnected to server!");
-			} else {
-				System.out.println(username + " attempted to reconnect was refused!");
-				clientInterface.notifyReconnectionStatus(false, "Reconection refused!");
-			}
-		}
-	}
-
 	public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
 		lobby.setWindowPattern(clientInterface);    //Stop the timer
 		lobby.getCurrentGame().selectWindowPattern(findUsername(clientInterface), i);
@@ -170,10 +154,11 @@ public class Controller {
 		} catch(Game.NotEnoughFavorTokens ex) {
 			clientInterface.notEnoughFavorTokens();
 		} catch(Game.AlreadyUsedToolCard ex) {
-			System.out.println("Already used a TC!");
-			//TODO
-		} catch(Exception ex){
-			ex.printStackTrace();
+			clientInterface.alreadyUsedToolCard();
+		} catch(Game.PreNotRespectedException ex){
+			clientInterface.preNotRespected();
+		} catch(GameException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -186,9 +171,9 @@ public class Controller {
 		} catch(Game.WrongTurnException ex) {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall ex) {
-			System.out.println("-_-");
+			ex.printStackTrace();
 		} catch(SelectDiceFromDraftEffect.DiceNotFoundException ex) {
-			System.out.println("Dice not in draft!");
+			ex.printStackTrace();
 		} catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -238,7 +223,7 @@ public class Controller {
 		} catch(Game.WrongTurnException ex) {
 			clientInterface.wrongTurn();
 		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
-			e.printStackTrace();    //TODO
+			e.printStackTrace();
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {
 			clientInterface.cellAlreadyOccupied();
 		} catch(Game.InvalidCall invalidCall) {
@@ -261,7 +246,7 @@ public class Controller {
 		} catch(Game.InvalidCall ex) {
 
 		} catch(MoveWindowPatternDiceEffect.DiceNotFoundException ex) {
-			// RISPONDI CHE IL DADO RICHIESTO NON E' NELLA WINDOWPATTERN
+			ex.printStackTrace();
 		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
 			e.printStackTrace();
 		} catch(WindowPattern.CellAlreadyOccupiedException e) {
@@ -279,7 +264,7 @@ public class Controller {
 		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall invalidCall) {
-			//TODO
+			invalidCall.printStackTrace();
 		}
 	}
 
