@@ -2,10 +2,7 @@ package it.polimi.ingsw.controller.cardsloaders;
 
 import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
 import it.polimi.ingsw.model.board.cards.toolcard.effects.*;
-import it.polimi.ingsw.model.board.cards.toolcard.pres.HasNotPlacedDicePre;
-import it.polimi.ingsw.model.board.cards.toolcard.pres.IsSecondTurnPre;
-import it.polimi.ingsw.model.board.cards.toolcard.pres.Prerequisite;
-import it.polimi.ingsw.model.board.cards.toolcard.pres.PrerequisiteType;
+import it.polimi.ingsw.model.board.cards.toolcard.pres.*;
 import it.polimi.ingsw.model.board.windowpattern.PlacementRestriction;
 
 import javax.json.*;
@@ -53,6 +50,8 @@ public class ToolCardsLoader extends CardsLoader {
 							case IS_SECOND_TURN:
 								prerequisites.add(new IsSecondTurnPre());
 								break;
+							case IS_FIRST_TURN:
+								prerequisites.add(new IsFirstTurnPre());
 						}
 					}
 
@@ -99,6 +98,12 @@ public class ToolCardsLoader extends CardsLoader {
 							break;
 						case PLACE_DICE:
 							effects.add(new PlaceDiceEffect());
+							break;
+						case SKIP_PLAYER_SECOND_TURN:
+							effects.add(new SkipPlayerSecondTurnEffect());
+							break;
+						case EDIT_PLAYABLE_DICES:
+							effects.add(new EditPlayableDicesEffect());
 							break;
 						default:
 							break;

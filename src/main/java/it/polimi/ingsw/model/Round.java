@@ -45,11 +45,10 @@ public class Round {
 	}
 
 	// This function allow the current player to immediatly use his second turn in the round (if he use the right tool card)
-	public boolean doubleTurn() {
+	public boolean removeCurrentPlayerSecondTurn() {
 		if((currentPlayer < playersIndexes.size() - 1) && (playersIndexes.subList(currentPlayer + 1, playersIndexes.size()).contains(playersIndexes.get(currentPlayer)))) {
 			int indexToRemove = playersIndexes.subList(currentPlayer + 1, playersIndexes.size()).indexOf(playersIndexes.get(currentPlayer)) + currentPlayer + 1;
 			playersIndexes.remove(indexToRemove);
-			playersIndexes.add(currentPlayer + 1, playersIndexes.get(currentPlayer));
 			return true;
 		} else
 			return false;

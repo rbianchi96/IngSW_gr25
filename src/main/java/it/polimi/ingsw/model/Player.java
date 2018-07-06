@@ -19,6 +19,7 @@ public class Player {
 	private String playerName;
 	private boolean isSuspended;
 
+	private int playableDices = 1;
 	private boolean hasPlacedDice = false, hasPlayedToolCard = false;
 
 	/**
@@ -97,13 +98,23 @@ public class Player {
 	}
 
 	public boolean getHasPlacedDice() {
-		return hasPlacedDice;
+		if (playableDices>0){
+			return false;
+		}else
+			return true;
 	}
+
 
 	public void setHasPlacedDice(boolean hasPlacedDice) {
-		this.hasPlacedDice = hasPlacedDice;
+		if (hasPlacedDice){
+			this.playableDices--;
+		}else
+			this.playableDices++;
 	}
 
+	public void resetPlayableDices(){
+		this.playableDices=1;
+	}
 	public boolean getHasPlayedToolCard() {
 		return hasPlayedToolCard;
 	}

@@ -333,8 +333,9 @@ public class Game extends Observable {
 		PreData preData = new PreData();
 		preData.setPlayer(player);
 		if (toolCards[index].getPres() != null){
-
+			System.out.println("ToolCards prerequisites:");
 			for(Prerequisite pre : toolCards[index].getPres()){
+				System.out.println("-> "+ pre.toString());
 				if(!pre.check(preData)) {
 					System.out.println("Tool Card not usable: prerequisites not respected!");
 					throw new PreNotRespectedException();
@@ -579,6 +580,42 @@ public class Game extends Observable {
 		}
 	}
 
+	public ClientCommand addOnePlayableDiceEffect(String username) throws GameException{
+		Player player = findPlayer(username);
+		checkTurn(player);
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.EDIT_PLAYABLE_DICES);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			EffectData effectData = new EffectData();
+			effectData.setPlayer(player);
+			effectData.setAddPlayableDice(1);
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+
+			return getNextEffect();
+		}
+	}
+
+	public ClientCommand skipPlayerSecondTurnEffect(String username) throws GameException{
+		Player player = findPlayer(username);
+		checkTurn(player);
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.SKIP_PLAYER_SECOND_TURN);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			EffectData effectData = null;
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+
+			setChanged();
+			notifyObservers(NotifyType.NEW_ROUND);
+			return getNextEffect();
+		}
+	}
+
 	private ClientCommand getNextEffect() {
 		Effect nextEffect = null;
 		if(currentToolCardInUse!=-1) {
@@ -607,7 +644,6 @@ public class Game extends Observable {
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
-
 						break;
 					case ROLL_DICES_FROM_DRAFT:
 						try {
@@ -622,7 +658,21 @@ public class Game extends Observable {
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
-
+						break;
+					case EDIT_PLAYABLE_DICES:
+						try{
+							addOnePlayableDiceEffect(players.get(getCurrentPlayerIndex()).getPlayerName());
+						} catch(Exception e){
+							e.printStackTrace();
+						}
+						break;
+					case SKIP_PLAYER_SECOND_TURN:
+						try
+						{
+							skipPlayerSecondTurnEffect(players.get(getCurrentPlayerIndex()).getPlayerName());
+						} catch(Exception e){
+							e.printStackTrace();
+						}
 						break;
 				}
 
@@ -683,7 +733,7 @@ public class Game extends Observable {
 
 	private void nextTurn() {
 		//Clean the current player
-		players.get(rounds.getCurrentPlayer()).setHasPlacedDice(false);
+		players.get(rounds.getCurrentPlayer()).resetPlayableDices();
 		players.get(rounds.getCurrentPlayer()).setHasPlayedToolCard(false);
 
 		if(rounds.nextPlayer() == - 1) {    //The round is finished
@@ -839,6 +889,10 @@ public class Game extends Observable {
 
 	public Score[] getScores() {
 		return scores;
+	}
+
+	public boolean skipCurrentPlayerSecondTurn(){
+		return rounds.removeCurrentPlayerSecondTurn();
 	}
 
 	private void checkTurn(Player player) throws WrongTurnException {
