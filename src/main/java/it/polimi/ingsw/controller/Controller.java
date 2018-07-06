@@ -214,11 +214,31 @@ public class Controller {
 		}
 	}
 
-	public synchronized void placeDice(ClientInterface clientInterface, int row, int col) {
+	public synchronized void placeDiceAfterEffect(ClientInterface clientInterface, int row, int col) {
 		try {
 			sendCommand(
 					clientInterface,
-					lobby.getCurrentGame().placeDiceAfterIncDecEffect(findUsername(clientInterface), row, col)
+					lobby.getCurrentGame().placeDiceAfterEffect(findUsername(clientInterface), row, col)
+			);
+		} catch(Game.WrongTurnException ex) {
+			clientInterface.wrongTurn();
+		} catch(WindowPattern.WindowPatternOutOfBoundException e) {
+			e.printStackTrace();
+		} catch(WindowPattern.CellAlreadyOccupiedException e) {
+			clientInterface.cellAlreadyOccupied();
+		} catch(Game.InvalidCall invalidCall) {
+			System.out.println("Invalid call!");
+		} catch(WindowPattern.PlacementRestrictionException e) {
+			clientInterface.dicePlacementRestictionBroken();
+		} catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public synchronized void placeDiceNotAdjacentAfterEffect(ClientInterface clientInterface, int row, int col) {
+		try {
+			sendCommand(
+					clientInterface,
+					lobby.getCurrentGame().placeDiceNotAdjacentAfterEffect(findUsername(clientInterface), row, col)
 			);
 		} catch(Game.WrongTurnException ex) {
 			clientInterface.wrongTurn();

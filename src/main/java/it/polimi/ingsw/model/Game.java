@@ -430,7 +430,7 @@ public class Game extends Observable {
 
 	}
 
-	public ClientCommand placeDiceAfterIncDecEffect(String username, int row, int col) throws GameException {
+	public ClientCommand placeDiceAfterEffect(String username, int row, int col) throws GameException {
 		Player player = findPlayer(username);
 		checkTurn(player);
 		if(currentToolCardInUse == - 1)
@@ -447,6 +447,42 @@ public class Game extends Observable {
 			//}
 			//else
 				effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
+			if(lastSelectDiceEffect != - 1) {
+				effectData.setRow(row);
+				effectData.setCol(col);
+				effectData.setWindowPattern(player.getWindowPattern());
+
+				toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+
+				player.setHasPlacedDice(true);
+				setChanged();
+				notifyObservers(NotifyType.WINDOW_PATTERNS);
+				setChanged();
+				notifyObservers(NotifyType.DRAFT);
+
+				return getNextEffect();
+			} else {
+				throw new InvalidCall();
+			}
+		}
+	}
+	public ClientCommand placeDiceNotAdjacentAfterEffect(String username, int row, int col) throws GameException {
+		Player player = findPlayer(username);
+		checkTurn(player);
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.PLACE_DICE_NOT_ADJACENT);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			EffectData effectData = new EffectData();
+			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
+			//if (lastSelectDiceEffect==-1) {
+			//	lastSelectDiceEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.ROLL_DICE_FROM_DRAFT);
+			//	effectData.setDice(((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect))).getDice());
+			//}
+			//else
+			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
 			if(lastSelectDiceEffect != - 1) {
 				effectData.setRow(row);
 				effectData.setCol(col);

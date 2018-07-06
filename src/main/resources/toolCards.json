@@ -96,11 +96,12 @@
 	{
 		"id": 9,
 		"name": "Riga in Sughero",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
-			{
-				"effect": "placeDice",
-				"restriction": "notNearDice"
-			}
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "PLACE_DICE_NOT_ADJACENT"}
 		]
 	},
 	{

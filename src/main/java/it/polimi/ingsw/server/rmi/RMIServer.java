@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.rmi;
 
-import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.client.rmi.RMIClient;
 import it.polimi.ingsw.client.rmi.RMIClientToServer;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.board.dice.Dice;
@@ -9,7 +7,6 @@ import it.polimi.ingsw.client.interfaces.RMIClientInterface;
 import it.polimi.ingsw.server.interfaces.RMIServerInterface;
 
 import java.rmi.RemoteException;
-import java.rmi.server.RMIClassLoader;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Timer;
@@ -104,7 +101,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
 	@Override
 	public void placeDice(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
-		controller.placeDice(
+		controller.placeDiceAfterEffect(
 				map.get(rmiClientInterface),
 				row,
 				col

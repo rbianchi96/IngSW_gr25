@@ -173,7 +173,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 					break;
 				case PLACE_DICE:
-					controller.placeDice(
+					controller.placeDiceAfterEffect(
 							this,
 							Integer.parseInt(request[1]),
 							Integer.parseInt(request[2])

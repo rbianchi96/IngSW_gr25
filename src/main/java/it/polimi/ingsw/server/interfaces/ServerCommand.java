@@ -15,7 +15,7 @@ public enum ServerCommand {
 	INCREMENT_OR_DECREMENT_DICE_EFFECT("incOrDecDiceEffect"),
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWP"),
 	MOVE_DICE_IN_WINDOW_PATTERN("moveDiceInWP"),
-	PLACE_DICE("placeDice"),
+	PLACE_DICE("placeDiceAfterEffect"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRTAndSwitch"),
 
 	PING("ping"),
