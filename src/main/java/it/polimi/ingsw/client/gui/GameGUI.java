@@ -419,7 +419,7 @@ public class GameGUI extends GUIController {
 
 				GridPane.setHalignment(vBox, HPos.CENTER);
 				GridPane.setValignment(vBox, VPos.BOTTOM);
-				
+
 				Label label = new Label(String.valueOf(round + 1));
 				GridPane.setMargin(label, new Insets(16, 0, 0, 0));
 				GridPane.setHalignment(label, HPos.CENTER);
