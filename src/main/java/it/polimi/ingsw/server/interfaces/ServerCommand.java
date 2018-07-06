@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.interfaces;
 public enum ServerCommand {
 	LOGIN("login"),
 	LOGOUT("logout"),
-	RECONNECT("reconnect"),
 
 	SELECT_WINDOW_PATTERN("selectWP"),
 

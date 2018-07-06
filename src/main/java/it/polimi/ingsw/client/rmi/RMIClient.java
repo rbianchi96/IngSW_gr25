@@ -170,6 +170,21 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void preNotRespected() throws RemoteException {
+		client.preNotRespected();
+	}
+
+	@Override
+	public void alreadyPlacedDice() throws RemoteException {
+		client.alreadyPlacedDice();
+	}
+
+	@Override
+	public void alreadyUsedToolCard() throws RemoteException {
+		client.alreadyUsedToolCard();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) throws RemoteException {
 		client.updateDraft(dices);
 	}

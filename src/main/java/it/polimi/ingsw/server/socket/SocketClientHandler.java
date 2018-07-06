@@ -121,9 +121,6 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 				case LOGOUT: // logout call
 					controller.logout(this);
 					break;
-				case RECONNECT:
-					controller.reconnect(this, request[0], request[1]);
-					break;
 				case SELECT_WINDOW_PATTERN:
 					controller.selectWindowPattern(this, Integer.parseInt(request[1]));
 					break;
@@ -374,6 +371,24 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override
 	public void notEnoughFavorTokens() {
 		out.println(encode(NOT_ENOUGH_FAVOR_TOKENS));
+		out.flush();
+	}
+
+	@Override
+	public void preNotRespected() {
+		out.println(encode(PRE_NOT_RESPECTED));
+		out.flush();
+	}
+
+	@Override
+	public void alreadyPlacedDice() {
+		out.println(encode(ALREADY_PLACED_DICE));
+		out.flush();
+	}
+
+	@Override
+	public void alreadyUsedToolCard() {
+		out.println(encode(ALREADY_USED_TOOL_CARD));
 		out.flush();
 	}
 

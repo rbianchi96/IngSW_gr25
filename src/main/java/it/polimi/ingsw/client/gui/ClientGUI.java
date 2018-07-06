@@ -203,6 +203,21 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void preNotRespected() {
+		gameGUI.preNotRespected();
+	}
+
+	@Override
+	public void alreadyPlacedDice() {
+		gameGUI.alreadyPlacedDice();
+	}
+
+	@Override
+	public void alreadyUsedToolCard() {
+		gameGUI.alreadyUsedToolCard();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) {
 		gameGUI.updateDraft(dices);
 	}

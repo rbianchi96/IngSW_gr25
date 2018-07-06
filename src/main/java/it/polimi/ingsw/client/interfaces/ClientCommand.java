@@ -36,10 +36,13 @@ public enum ClientCommand {
 	END_OF_TOOL_CARD_USE("endOfTCUse"),
 
 	WRONG_TURN("wrongTurn"),
-	NOT_ENOUGH_FAVOR_TOKENS("notEnoughFT"),
 	DICE_PLACEMENT_RESTRICTION_BROKEN("dicePlacementRestrictionBroken"),
 	CELL_ALREADY_OCCUPIED("cellAlreadyOccupied"),
-	ROLL_DICE_FROM_DRAFT("rollDiceFromDraft"),
+	NOT_ENOUGH_FAVOR_TOKENS("notEnoughFT"),
+	PRE_NOT_RESPECTED("preNotRespected"),
+	ALREADY_PLACED_DICE("alreadyPlacedDice"),
+	ALREADY_USED_TOOL_CARD("alreadyUsetToolCard"),
+
 	SEND_SCORES("sendScores"),
 	END_GAME_FOR_ABANDONEMENT("endGameForAbandonement"),
 

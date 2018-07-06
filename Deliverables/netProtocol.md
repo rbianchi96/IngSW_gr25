@@ -14,7 +14,7 @@ The words written in capital refers to Java enumeration, the actual string sent 
 
 - `LOGIN_RESPONSE (success username sessionID)|(fail code)` Server response to client login request. If successful a session id is sent to the user, otherwise one of the following codes are sent:
   - `0` There's already a logged user with the same username.
-  - `1` The lobby is full.
+  - `1` The lobby is full or a game already started.
   - `NOT_LOGGED_YET`
 - `NOTIFY_NEW_USER username` Inform client that a new user has logged in the room.
 - `NOTIFY_SUSPENDED_USER username` Inform client that another user has been suspended.
@@ -38,13 +38,21 @@ The words written in capital refers to Java enumeration, the actual string sent 
 ### From client to server
 
 - `PLACE_DICE_FROM_DRAFT row col Dice` Place dice in player's window pattern at the specified row and col.
+
 - `USE_TOOL_CARD index` Send the intent to use the tool card at the specified index.
 - `END_TURN` End the player's turn.
 
+- `SELECT_DICE_FROM_DRAFT_EFFECT index` Send the index of the selected dice in draft.
+- `INCREMENT_OR_DECREMENT_DICE_EFFECT value` S
+- `SELECT_DICE_FROM_WINDOW_PATTERN row col` Send the index of the cell of wich select the dice. 
+- `MOVE_DICE_IN_WINDOW_PATTERN row col` Send the index of a cell in wich move a previously selected dice.
+- `PLACE_DICE row col` Send the index of a cell in wich move a previously selected dice.
+- `SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH round diceInRoid` Send the index of the selected dice in round track.
+
 ### From server to client
 
-- `roundOrder roundNumber index index [index] [index]` Send players order in current round.
-- `NEW_TURN index` Notify new turn and send the current player index.
+- `ROUND_ORDER index index [index] [index]` Send players order in current round.
+- `NEW_TURN index TIME` Notify new turn, send the current player index and the maximun time to perform the moves.
 
 - `UPDATE_DRAFT Dice ... [Dice]` Send the current dice in draft.
 - `UPDATE_WINDOW_PATTERNS WindowPattern [WindowPattern] [WindowPattern] [WindowPattern]` Send all the window patterns.
@@ -52,15 +60,22 @@ The words written in capital refers to Java enumeration, the actual string sent 
 - `UPDATE_TOOL_CARDS_TOKENS token1 token2 token3` Send the favor tockens currently placed over the tool cards.
 - `UPDATE_ROUND_TRACK DiceList ... [DiceList]` Update the round track.
 
-#### From server to client
+- `SELECT_DICE_FROM_DRAFT` Ask the client to select a dice from the draft.
+- `SELECT_INCREMENT_OR_DECREMENT` Ask the client to increment or decremetn a previous selected dice.
+- `SELECT_DICE_FROM_WINDOW_PATTERN` Ask the client to select a dice from his window pattern.
+- `MOVE_WINDOW_PATTERN_DICE` Ask the client to select a cell in wich move a previous selected dice.
+- `SELECT_DICE_FROM_ROUND_TRACK` Ask the client to select a dice from the round track.
+- `PLACE_DICE` Ask the client to selct a cell in wich place a previous selected dice.
 
 - `DICE_PLACEMENT_RESTRICTION_BROKEN` Notify that the attempt to place a dice has failed.
 - `CELL_ALREADY_OCCUPIED` Notify that the attempt to place a dice has failed because the cell is already occupied.
 
+- `END_OF_TOOL_CARD_USE` Notify the client that the current tool card's effects are finshed.
+
 ## End of game command
 
 - `SEND_SCORES score score [score] [score]` Send all players' score.
-- `SEND_WINNER index` Send the index of the winner.
+- `END_GAME_FOR_ABANDONEMENT` Notify the (only remaining) client that all the others players havem abandoned and him win.
 
 # Object definition
 

@@ -419,7 +419,7 @@ public class GameGUI extends GUIController {
 
 				GridPane.setHalignment(vBox, HPos.CENTER);
 				GridPane.setValignment(vBox, VPos.BOTTOM);
-				
+
 				Label label = new Label(String.valueOf(round + 1));
 				GridPane.setMargin(label, new Insets(16, 0, 0, 0));
 				GridPane.setHalignment(label, HPos.CENTER);
@@ -512,6 +512,18 @@ public class GameGUI extends GUIController {
 			event0.setText(text);
 			event0.setTextFill(error ? Color.RED : Color.BLACK);
 		});
+	}
+
+	public void preNotRespected() {
+		addEvent("Prerequistiti della carta non rispettati!", true);
+	}
+
+	public void alreadyPlacedDice() {
+addEvent("Hai già piazzato il massimo numero di dadi ammesso!", true);
+	}
+
+	public void alreadyUsedToolCard() {
+addEvent("Hai già utilizzato una carta strumento!", true);
 	}
 
 	private int getTime() {
