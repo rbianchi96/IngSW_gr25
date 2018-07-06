@@ -1,25 +1,26 @@
 [
 	{
-		"id": 8,
-		"name": "Tenaglia a Rotelle",
+		"id": 1,
+		"name": "Pinza Sgrossatrice",
 		"pres": [
-			{"pre" : "IS_FIRST_TURN"}
+			{"pre" : "HAS_NOT_PLACED_DICE"}
 		],
 		"effects": [
-			{
-				"effect": "EDIT_PLAYABLE_DICES"
-			},
-			{
-				"effect": "SKIP_PLAYER_SECOND_TURN"
-			}
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "INCREMENT_DECREMENT_DICE"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
 		"id": 10,
 		"name": "Tampone Diamantato",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "FLIP_DICE_FROM_DRAFT"}
+			{"effect": "FLIP_DICE_FROM_DRAFT"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{

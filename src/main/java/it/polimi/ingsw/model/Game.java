@@ -416,7 +416,7 @@ public class Game extends Observable {
 		} else{
 			EffectData effectData = new EffectData();
 			effectData.setBool(incDec);
-			effectData.setDice(((SelectDiceFromDraftEffect) toolCards[currentToolCardInUse].getEffect(0)).getSelectedDice());
+			effectData.setDice(((SelectDiceFromDraftEffect) toolCards[currentToolCardInUse].getEffect(0)).getDice());
 			try {
 				toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 				setChanged();
@@ -440,14 +440,14 @@ public class Game extends Observable {
 			throw new InvalidCall();
 		} else {
 			EffectData effectData = new EffectData();
-			int lastSelectEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.INCREMENT_DECREMENT_DICE);
-			if (lastSelectEffect==-1) {
-				lastSelectEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.ROLL_DICE_FROM_DRAFT);
-				effectData.setDice(((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectEffect))).getDice());
-			}
-			else
-				effectData.setDice(((IncrementDecrementDiceEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectEffect))).getDice());
-			if(lastSelectEffect != - 1) {
+			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
+			//if (lastSelectDiceEffect==-1) {
+			//	lastSelectDiceEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.ROLL_DICE_FROM_DRAFT);
+			//	effectData.setDice(((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect))).getDice());
+			//}
+			//else
+				effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
+			if(lastSelectDiceEffect != - 1) {
 				effectData.setRow(row);
 				effectData.setCol(col);
 				effectData.setWindowPattern(player.getWindowPattern());
@@ -504,7 +504,7 @@ public class Game extends Observable {
 		} else {
 			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_DRAFT);
 			EffectData effectData = new EffectData();
-			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getSelectedDice());
+			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getDice());
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 
 			setChanged();
@@ -545,7 +545,7 @@ public class Game extends Observable {
 			EffectData effectData = new EffectData();
 			effectData.setRound(round);
 			effectData.setIndex(index);
-			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(previousSelectDiceFromDraft)).getSelectedDice());
+			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(previousSelectDiceFromDraft)).getDice());
 			if(previousSelectDiceFromDraft != - 1)
 				toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 			else
@@ -570,7 +570,7 @@ public class Game extends Observable {
 		} else {
 			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_DRAFT);
 			EffectData effectData = new EffectData();
-			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getSelectedDice());
+			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getDice());
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 
 			setChanged();

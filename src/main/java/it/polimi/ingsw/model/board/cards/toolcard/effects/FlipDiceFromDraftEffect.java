@@ -7,15 +7,13 @@ public class FlipDiceFromDraftEffect extends Effect{
         this.effectType = EffectType.FLIP_DICE_FROM_DRAFT;
     }
 
-    private Dice rolledDice = null;
-
     @Override
     public void apply(EffectData effectData){
         Dice draftDice = game.getDraft().getDice(effectData.getDice()); // get the selected dice from draft pool
         if (draftDice!=null) {
             draftDice.rotate();
             game.getDraft().addDice(draftDice); // re-add the dice to the draft pool with the new value
-            rolledDice = draftDice; // save in flipped Dice the dice the user selected and rolled
+            dice = draftDice; // save in flipped Dice the dice the user selected and rolled
             used = true; // set this effect to used.
             System.out.println("Dice flipped!");
         }

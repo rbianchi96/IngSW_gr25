@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.board.dice.Dice;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
 public class IncrementDecrementDiceEffect extends Effect {
-	private Dice inc_decDice = null; // dice selected from Draft pool, the only one that can be place in windowpattern next
+	// dice selected from Draft pool, the only one that can be place in windowpattern next
 	//set to null until a draft pool selection
 
 	public IncrementDecrementDiceEffect() {
@@ -32,15 +32,13 @@ public class IncrementDecrementDiceEffect extends Effect {
 
 		game.getDraft().addDice(draftDice); // re-add the dice to the draft pool with the new value
 
-		inc_decDice = draftDice; // save in inc_decDice the dice the user selected and incremented/decremented
+		dice = draftDice; // save in inc_decDice the dice the user selected and incremented/decremented
 		used = true; // set this effect to used.
 
 		System.out.println("Dice Incremented/Decremented.");
 	}
 
-	public Dice getDice() {
-		return inc_decDice;
-	}
+
 
 	public class InvalidValueChangeException extends GameException {
 		public InvalidValueChangeException(){
