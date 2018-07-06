@@ -180,6 +180,14 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					);
 
 					break;
+				case PLACE_DICE_NOT_ADJACENT:
+					controller.placeDiceNotAdjacentAfterEffect(
+							this,
+							Integer.parseInt(request[1]),
+							Integer.parseInt(request[2])
+					);
+
+					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					controller.selectDiceFromRoundTrackAndSwitch(
 							this,
@@ -331,6 +339,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	@Override
 	public void placeDice() {
 		out.println(encode(PLACE_DICE));
+		out.flush();
+	}
+
+	@Override
+	public void placeDiceNotAdjacent() {
+		out.println(encode(PLACE_DICE_NOT_ADJACENT));
 		out.flush();
 	}
 

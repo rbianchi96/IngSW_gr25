@@ -235,6 +235,15 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void placeDiceNotAdjacent() {
+		try {
+			rmiClientInterface.placeDiceNotAdjacent();
+		} catch(RemoteException e) {
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void selectDiceFromWindowPattern() {
 		try {
 			rmiClientInterface.selectDiceFromWindowPattern();

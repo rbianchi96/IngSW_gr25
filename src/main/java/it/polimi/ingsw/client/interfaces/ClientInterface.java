@@ -41,6 +41,7 @@ public interface ClientInterface {
 	public void moveDiceInWindowPattern();
 	public void selectDiceFromRoundTrack();
 	public void placeDice();
+	public void placeDiceNotAdjacent();
 
 	public void endOfToolCardUse();
 

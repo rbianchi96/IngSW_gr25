@@ -90,6 +90,9 @@ public class ToolCardsLoader extends CardsLoader {
 						case ROLL_DICES_FROM_DRAFT:
 							effects.add(new RollAllDicesFromDraft());
 							break;
+						case PLACE_DICE_NOT_ADJACENT:
+							effects.add(new PlaceDiceNotAdjacentEffect());
+							break;
 						case FLIP_DICE_FROM_DRAFT:
 							effects.add(new FlipDiceFromDraftEffect());
 							break;

@@ -283,12 +283,19 @@ public class GameGUI extends GUIController {
 						GridPane.getRowIndex((Pane)event.getSource()),
 						GridPane.getColumnIndex((Pane)event.getSource())
 				);
-
+				break;
 			case PLACE_DICE:
 				client.getServerInterface().placeDice(
 						GridPane.getRowIndex((Pane)event.getSource()),
 						GridPane.getColumnIndex((Pane)event.getSource())
 				);
+				break;
+			case PLACE_DICE_NOT_ADJACENT:
+				client.getServerInterface().placeDiceNotAdjacent(
+						GridPane.getRowIndex((Pane)event.getSource()),
+						GridPane.getColumnIndex((Pane)event.getSource())
+				);
+				break;
 		}
 	};
 
@@ -526,6 +533,11 @@ addEvent("Hai già piazzato il massimo numero di dadi ammesso!", true);
 addEvent("Hai già utilizzato una carta strumento!", true);
 	}
 
+	public void placeDiceNotAdjacent() {
+		addEvent("Seleziona dove posizionare il dado.", false);
+		state = State.PLACE_DICE_NOT_ADJACENT;
+	}
+
 	private int getTime() {
 		return turnTime;
 	}
@@ -541,6 +553,7 @@ addEvent("Hai già utilizzato una carta strumento!", true);
 		SELECT_DICE_FROM_WINDOWPATTERN,
 		MOVE_DICE_IN_WINDOW_PATTERN,
 		PLACE_DICE,
+		PLACE_DICE_NOT_ADJACENT,
 		SELECT_DICE_FROM_ROUND_TRACK
 	}
 }

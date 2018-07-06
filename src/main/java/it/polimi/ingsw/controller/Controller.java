@@ -141,6 +141,10 @@ public class Controller {
 					break;
 				case PLACE_DICE:
 					clientInterface.placeDice();
+					break;
+				case PLACE_DICE_NOT_ADJACENT:
+					clientInterface.placeDiceNotAdjacent();
+					break;
 			}
 		else clientInterface.endOfToolCardUse();
 	}
@@ -250,8 +254,8 @@ public class Controller {
 			System.out.println("Invalid call!");
 		} catch(WindowPattern.PlacementRestrictionException e) {
 			clientInterface.dicePlacementRestictionBroken();
-		} catch(Exception ex){
-			ex.printStackTrace();
+		} catch(GameException ex){
+			clientInterface.dicePlacementRestictionBroken();
 		}
 	}
 

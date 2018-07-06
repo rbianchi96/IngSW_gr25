@@ -19,11 +19,14 @@ public class PlaceDiceNotAdjacentEffect extends Effect {
         ignoredPlacementRestrictions.add(PlacementRestriction.MUST_HAVE_NEAR_DICE_RESTRICTION);
         if(diceFromDraft != null) {
             try {
-                if (!effectData.getWindowPattern().hasNearDice(effectData.getRow(),effectData.getCol())) {
-                    effectData.getWindowPattern().placeDice(diceFromDraft, effectData.getRow(), effectData.getCol(),ignoredPlacementRestrictions);   //Place the dice
+                if(! effectData.getWindowPattern().hasNearDice(effectData.getRow(), effectData.getCol())) {
+                    effectData.getWindowPattern().placeDice(diceFromDraft, effectData.getRow(), effectData.getCol(), ignoredPlacementRestrictions);   //Place the dice
                     used = true;
-                }else
+                    System.out.println("Dice placed.");
+                } else {
+                    game.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
                     throw new DiceAdjacentException();
+                }
             } catch(WindowPattern.WindowPatternOutOfBoundException | WindowPattern.PlacementRestrictionException | WindowPattern.CellAlreadyOccupiedException e) {
                 game.getDraft().addDice(diceFromDraft);   //Put the dice in the draft
 
@@ -31,7 +34,6 @@ public class PlaceDiceNotAdjacentEffect extends Effect {
             }
         }
 
-        System.out.println("Dice placed.");
     }
     public class DiceAdjacentException extends GameException {
         public DiceAdjacentException(){

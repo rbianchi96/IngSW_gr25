@@ -155,6 +155,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void placeDiceNotAdjacent() throws RemoteException {
+		client.placeDiceNotAdjacent();
+	}
+
+	@Override
 	public void endOfToolCardUse() throws RemoteException {
 		client.endOfToolCardUse();
 	}

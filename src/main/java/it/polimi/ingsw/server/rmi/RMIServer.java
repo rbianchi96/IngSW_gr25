@@ -109,6 +109,14 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 	}
 
 	@Override
+	public void placeDiceNotAdjacent(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
+		controller.placeDiceNotAdjacentAfterEffect(
+				map.get(rmiClientInterface),
+				row, col
+		);
+	}
+
+	@Override
 	public void selectDiceFromRoundTrackAndSwitch(RMIClientInterface rmiClientInterface, int round, int dice) throws RemoteException {
 		controller.selectDiceFromRoundTrackAndSwitch(map.get(rmiClientInterface), round, dice);
 	}

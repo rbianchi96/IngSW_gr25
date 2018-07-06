@@ -139,6 +139,15 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	@Override
+	public void placeDiceNotAdjacent(int row, int col) {
+		try {
+			server.placeDiceNotAdjacent(client, row, col);
+		} catch(RemoteException e) {
+			clientGUI.lostConnenction();
+		}
+	}
+
+	@Override
 	public void selectDiceFromRoundTrackAndSwitch(int round, int dice) {
 		try {
 			server.selectDiceFromRoundTrackAndSwitch(client, round, dice);

@@ -173,6 +173,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void placeDiceNotAdjacent() {
+		gameGUI.placeDiceNotAdjacent();
+	}
+
+	@Override
 	public void selectDiceFromWindowPattern() {
 		gameGUI.selectDiceFromWindowPattern();
 	}

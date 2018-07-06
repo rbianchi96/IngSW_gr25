@@ -220,6 +220,10 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.placeDice();
 
 					break;
+				case PLACE_DICE_NOT_ADJACENT:
+					client.placeDiceNotAdjacent();
+
+					break;
 				case END_OF_TOOL_CARD_USE:
 
 					client.endOfToolCardUse();
@@ -357,6 +361,16 @@ public class SocketClient extends Socket implements ServerInterface {
 	public void placeDice(int row, int col) {
 		out.println(encode(
 				ServerCommand.PLACE_DICE,
+				String.valueOf(row),
+				String.valueOf(col)
+		));
+		out.flush();
+	}
+
+	@Override
+	public void placeDiceNotAdjacent(int row, int col) {
+		out.println(encode(
+				ServerCommand.PLACE_DICE_NOT_ADJACENT,
 				String.valueOf(row),
 				String.valueOf(col)
 		));
