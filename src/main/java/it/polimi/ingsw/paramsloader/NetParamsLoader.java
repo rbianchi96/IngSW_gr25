@@ -8,7 +8,7 @@ public class NetParamsLoader extends ParamsLoader {
 
 	private int socketServerPort;
 
-	private String rMIServerName;
+	private String rMIServerAddress, rMIServerName;
 	private int rMIServerPort;
 
 	public NetParamsLoader(Reader file) {
@@ -17,6 +17,7 @@ public class NetParamsLoader extends ParamsLoader {
 		socketServerPort = root.getJsonObject("socketServer").getInt("port");
 
 		JsonObject rMIParams = root.getJsonObject("RMIServer");
+		rMIServerAddress = rMIParams.getString("address");
 		rMIServerName = rMIParams.getString("name");
 		rMIServerPort = rMIParams.getInt("port");
 	}
@@ -24,6 +25,8 @@ public class NetParamsLoader extends ParamsLoader {
 	public int getSocketServerPort() {
 		return socketServerPort;
 	}
+
+	public String getRMIServerAddress() { return rMIServerAddress;}
 
 	public String getRMIServerName() {
 		return rMIServerName;
