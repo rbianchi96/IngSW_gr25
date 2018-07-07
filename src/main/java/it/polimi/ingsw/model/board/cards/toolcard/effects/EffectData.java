@@ -22,6 +22,7 @@ public class EffectData {
     private Player player;
     private WindowPattern windowPattern;
     private Dice dice;
+    private Dice referenceDice;
     private boolean bool;
 
     public int getX() {
@@ -149,5 +150,12 @@ public class EffectData {
 
     public void setValue(int value) {
         this.value = value;
+    }
+    public Dice getReferenceDice() {
+        return referenceDice;
+    }
+
+    public void setReferenceDice(Dice referenceDice) {
+        this.referenceDice = referenceDice;
     }
 }

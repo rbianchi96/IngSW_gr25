@@ -3,8 +3,8 @@ package it.polimi.ingsw.model.board.cards.toolcard.effects;
 import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 
-public class SelectDiceFromRoundTrackAndSwitch extends Effect {
-    public SelectDiceFromRoundTrackAndSwitch(){
+public class SelectDiceFromRoundTrackAndSwitchEffect extends Effect {
+    public SelectDiceFromRoundTrackAndSwitchEffect(){
         this.effectType = EffectType.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH;
     }
     @Override

@@ -136,11 +136,11 @@
 		"name": "Taglierina Manuale",
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_ROUND_TRACK"},
-			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
-			{"effect": "MOVE_WINDOW_PATTERN_DICE"},
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR"},
 			{"effect": "WANNA_MOVE_NEXT_DICE"},
-			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
-			{"effect": "MOVE_WINDOW_PATTERN_DICE"}
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR"}
 		]
 	}
 ]
