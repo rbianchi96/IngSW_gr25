@@ -52,30 +52,30 @@ The words written in capital refers to Java enumeration, the actual string sent 
 ### From server to client
 
 - `ROUND_ORDER index index [index] [index]` Send players order in current round.
-- `NEW_TURN index TIME` Notify new turn, send the current player index and the maximun time to perform the moves.
+- `NEW_TURN index TIME` Notify new turn, send the current player index and the maximum time to perform the moves.
 
 - `UPDATE_DRAFT Dice ... [Dice]` Send the current dice in draft.
 - `UPDATE_WINDOW_PATTERNS WindowPattern [WindowPattern] [WindowPattern] [WindowPattern]` Send all the window patterns.
 - `UPDATE_PLAYERS_TOKENS` Send the favor tokens of every player.
-- `UPDATE_TOOL_CARDS_TOKENS token1 token2 token3` Send the favor tockens currently placed over the tool cards.
+- `UPDATE_TOOL_CARDS_TOKENS token1 token2 token3` Send the favor tokens currently placed over the tool cards.
 - `UPDATE_ROUND_TRACK DiceList ... [DiceList]` Update the round track.
 
 - `SELECT_DICE_FROM_DRAFT` Ask the client to select a dice from the draft.
-- `SELECT_INCREMENT_OR_DECREMENT` Ask the client to increment or decremetn a previous selected dice.
+- `SELECT_INCREMENT_OR_DECREMENT` Ask the client to increment or decrement a previous selected dice.
 - `SELECT_DICE_FROM_WINDOW_PATTERN` Ask the client to select a dice from his window pattern.
-- `MOVE_WINDOW_PATTERN_DICE` Ask the client to select a cell in wich move a previous selected dice.
-- `SELECT_DICE_FROM_ROUND_TRACK` Ask the client to select a dice from the round track.
-- `PLACE_DICE` Ask the client to selct a cell in wich place a previous selected dice.
+- `MOVE_WINDOW_PATTERN_DICE` Ask the client to select a cell in which move a previous selected dice.
+- `SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH` Ask the client to select a dice from the round track.
+- `PLACE_DICE` Ask the client to select a cell in wich place a previous selected dice.
 
 - `DICE_PLACEMENT_RESTRICTION_BROKEN` Notify that the attempt to place a dice has failed.
 - `CELL_ALREADY_OCCUPIED` Notify that the attempt to place a dice has failed because the cell is already occupied.
 
-- `END_OF_TOOL_CARD_USE` Notify the client that the current tool card's effects are finshed.
+- `END_OF_TOOL_CARD_USE` Notify the client that the current tool card's effects are finished.
 
 ## End of game command
 
 - `SEND_SCORES score score [score] [score]` Send all players' score.
-- `END_GAME_FOR_ABANDONEMENT` Notify the (only remaining) client that all the others players havem abandoned and him win.
+- `END_GAME_FOR_ABANDONEMENT` Notify the (only remaining) client that all the others players have abandoned and him win.
 
 # Object definition
 

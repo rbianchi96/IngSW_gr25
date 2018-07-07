@@ -212,7 +212,7 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.moveDiceInWindowPattern();
 
 					break;
-				case SELECT_DICE_FROM_ROUND_TRACK:
+				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					client.selectDiceFromRoundTrack();
 
 					break;

@@ -1,14 +1,13 @@
 [
 	{
-		"id": 1,
-		"name": "Pinza Sgrossatrice",
+		"id": 9,
+		"name": "Riga in Sughero",
 		"pres": [
 			{"pre" : "HAS_NOT_PLACED_DICE"}
 		],
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "INCREMENT_DECREMENT_DICE"},
-			{"effect": "PLACE_DICE"}
+			{"effect": "PLACE_DICE_NOT_ADJACENT"}
 		]
 	},
 	{

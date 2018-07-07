@@ -281,7 +281,7 @@ public class Game extends Observable {
 	 * @throws InvalidCall
 	 */
 	public void placeDiceFromDraft(String username, Dice dice, int row, int col)
-			throws WrongTurnException, WindowPattern.WindowPatternOutOfBoundException, WindowPattern.PlacementRestrictionException, WindowPattern.CellAlreadyOccupiedException, InvalidCall {
+			throws GameException {
 		Player player = findPlayer(username);
 
 		checkTurn(player);
@@ -308,6 +308,7 @@ public class Game extends Observable {
 			}
 		} else {
 			System.out.println(player.getPlayerName() + " you already played this move!");
+			throw new AlreadyPlacedDiceException();
 		}
 
 		// if the player already played all his possible moves in this turn
@@ -375,7 +376,58 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
+	public ClientCommand removeDiceFromDraftEffect(String username) throws GameException{
+		Player player = findPlayer(username);
 
+		checkTurn(player);
+
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.REMOVE_DICE_FROM_DRAFT);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
+			EffectData effectData = new EffectData();
+			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+			return getNextEffect();
+		}
+	}
+	public ClientCommand addDiceToDraft(String username) throws GameException{
+		Player player = findPlayer(username);
+
+		checkTurn(player);
+
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.ADD_DICE_TO_DRAFT);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
+			EffectData effectData = new EffectData();
+			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+			return getNextEffect();
+		}
+	}
+	public ClientCommand getRandomDiceFromDiceBag(String username) throws GameException{
+		Player player = findPlayer(username);
+
+		checkTurn(player);
+
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.GET_RANDOM_DICE_FROM_DICE_BAG);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			EffectData effectData = null;
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+			return getNextEffect();
+		}
+	}
 	public ClientCommand selectDiceFromWindowPatternEffect(String username, int x, int y) throws GameException{
 		Player player = findPlayer(username);
 
@@ -414,9 +466,11 @@ public class Game extends Observable {
 		if(validate == - 1) {
 			throw new InvalidCall();
 		} else{
+			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
 			EffectData effectData = new EffectData();
 			effectData.setBool(incDec);
-			effectData.setDice(((SelectDiceFromDraftEffect) toolCards[currentToolCardInUse].getEffect(0)).getDice());
+		//	effectData.setDice(toolCards[currentToolCardInUse].getEffect(0).getDice());
+			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
 			try {
 				toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 				setChanged();
@@ -540,7 +594,7 @@ public class Game extends Observable {
 		} else {
 			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_DRAFT);
 			EffectData effectData = new EffectData();
-			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getDice());
+			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelect).getDice());
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 
 			setChanged();
@@ -581,7 +635,7 @@ public class Game extends Observable {
 			EffectData effectData = new EffectData();
 			effectData.setRound(round);
 			effectData.setIndex(index);
-			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(previousSelectDiceFromDraft)).getDice());
+			effectData.setDice(toolCards[currentToolCardInUse].getEffect(previousSelectDiceFromDraft).getDice());
 			if(previousSelectDiceFromDraft != - 1)
 				toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 			else
@@ -651,7 +705,23 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
+	public ClientCommand setDiceValue(String username, int value) throws GameException{
+		Player player = findPlayer(username);
 
+		checkTurn(player);
+
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.SET_DICE_VALUE);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			EffectData effectData = new EffectData();
+			effectData.setValue(value);
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+			return getNextEffect();
+		}
+	}
 	private ClientCommand getNextEffect() {
 		Effect nextEffect = null;
 		if(currentToolCardInUse!=-1) {
@@ -707,6 +777,20 @@ public class Game extends Observable {
 						{
 							skipPlayerSecondTurnEffect(players.get(getCurrentPlayerIndex()).getPlayerName());
 						} catch(Exception e){
+							e.printStackTrace();
+						}
+						break;
+					case REMOVE_DICE_FROM_DRAFT:
+						try{
+							removeDiceFromDraftEffect(players.get(getCurrentPlayerIndex()).getPlayerName());
+						}catch(Exception e){
+							e.printStackTrace();
+						}
+						break;
+					case GET_RANDOM_DICE_FROM_DICE_BAG:
+						try{
+							getRandomDiceFromDiceBag(players.get(getCurrentPlayerIndex()).getPlayerName());
+						}catch(Exception e){
 							e.printStackTrace();
 						}
 						break;
@@ -970,7 +1054,10 @@ public class Game extends Observable {
 		}
 	}
 
-	public class PreNotRespectedException extends Exception{
+	public class PreNotRespectedException extends GameException{
 		public PreNotRespectedException() {super();}
+	}
+	public class AlreadyPlacedDiceException extends GameException{
+		public AlreadyPlacedDiceException(){super();}
 	}
 }

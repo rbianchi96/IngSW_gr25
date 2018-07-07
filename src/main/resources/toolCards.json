@@ -119,22 +119,28 @@
 	{
 		"id": 11,
 		"name": "Diluente per Pasta Salda",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
-			{
-				"effect": "placeDiceInBag"
-			},
-			{
-				"effect": "takeDiceFromBag?"
-			}
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "REMOVE_DICE_FROM_DRAFT"},
+			{"effect": "GET_RANDOM_DICE_FROM_DICE_BAG"},
+			{"effect": "SET_DICE_VALUE"},
+			{"effect": "ADD_DICE_TO_DRAFT"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
 		"id": 12,
 		"name": "Taglierina Manuale",
 		"effects": [
-			{
-				"effect": "moveMaxTwoDice?"
-			}
+			{"effect": "SELECT_DICE_FROM_ROUND_TRACK"},
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE"},
+			{"effect": "WANNA_MOVE_NEXT_DICE"},
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE"}
 		]
 	}
 ]

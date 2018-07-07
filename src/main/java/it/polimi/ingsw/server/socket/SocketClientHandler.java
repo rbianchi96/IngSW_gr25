@@ -366,7 +366,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override
 	public void selectDiceFromRoundTrack() {
-		out.println(encode(SELECT_DICE_FROM_ROUND_TRACK));
+		out.println(encode(SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH));
 		out.flush();
 	}
 

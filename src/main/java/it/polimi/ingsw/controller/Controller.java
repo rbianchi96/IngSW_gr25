@@ -3,10 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameException;
-import it.polimi.ingsw.model.board.cards.toolcard.effects.MoveWindowPatternDiceEffect;
-import it.polimi.ingsw.model.board.cards.toolcard.effects.SelectDiceFromDraftEffect;
-import it.polimi.ingsw.model.board.cards.toolcard.effects.SelectDiceFromRoundTrackAndSwitch;
-import it.polimi.ingsw.model.board.cards.toolcard.effects.SelectDiceFromWindowPatternEffect;
+import it.polimi.ingsw.model.board.cards.toolcard.effects.*;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.interfaces.ClientInterface;
@@ -118,6 +115,10 @@ public class Controller {
 			invalidCall.printStackTrace();
 		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
+		} catch(Game.AlreadyPlacedDiceException e) {
+			clientInterface.alreadyPlacedDice();
+		} catch(GameException e){
+			e.printStackTrace();
 		}
 	}
 
@@ -133,7 +134,7 @@ public class Controller {
 				case SELECT_DICE_FROM_WINDOW_PATTERN:
 					clientInterface.selectDiceFromWindowPattern();
 					break;
-				case SELECT_DICE_FROM_ROUND_TRACK:
+				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					clientInterface.selectDiceFromRoundTrack();
 					break;
 				case MOVE_WINDOW_PATTERN_DICE:
@@ -203,7 +204,22 @@ public class Controller {
 			ex.printStackTrace();
 		}
 	}
-
+	public synchronized void setDiceValueEffect(ClientInterface clientInterface, int value) {
+		try {
+			sendCommand(
+					clientInterface,
+					lobby.getCurrentGame().setDiceValue(findUsername(clientInterface), value)
+			);
+		} catch (Game.WrongTurnException ex) {
+			clientInterface.wrongTurn();
+		} catch (Game.InvalidCall ex) {
+			System.out.println("Invalid call!");
+		} catch (SetDiceValueEffect.InvalidDiceValue ex){
+			//TODO
+		} catch (GameException e) {
+			e.printStackTrace();
+		}
+	}
 	public synchronized void incrementDecrement(ClientInterface clientInterface, boolean incDec) {
 		try {
 			sendCommand(clientInterface,

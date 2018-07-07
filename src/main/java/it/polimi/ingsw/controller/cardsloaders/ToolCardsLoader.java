@@ -66,6 +66,8 @@ public class ToolCardsLoader extends CardsLoader {
 						case SELECT_DICE_FROM_DRAFT:
 							effects.add(new SelectDiceFromDraftEffect());
 							break;
+						case SELECT_DICE_FROM_ROUND_TRACK:
+							effects.add(new SelectDiceFromRoundTrack());
 						case SELECT_DICE_FROM_WINDOW_PATTERN:
 							effects.add(new SelectDiceFromWindowPatternEffect());
 							break;
@@ -108,6 +110,14 @@ public class ToolCardsLoader extends CardsLoader {
 						case EDIT_PLAYABLE_DICES:
 							effects.add(new EditPlayableDicesEffect());
 							break;
+						case REMOVE_DICE_FROM_DRAFT:
+							effects.add(new RemoveDiceFromDraftEffect());
+						case GET_RANDOM_DICE_FROM_DICE_BAG:
+							effects.add(new GetRandomDiceFromDiceBagEffect());
+						case SET_DICE_VALUE:
+							effects.add(new SetDiceValueEffect());
+						case ADD_DICE_TO_DRAFT:
+							effects.add(new AddDiceToDraftEffect());
 						default:
 							break;
 					}
