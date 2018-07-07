@@ -18,12 +18,23 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
 	private Timer pingReceiverTimer = new Timer();
 
+	/**Constructor
+	 *
+	 * @param controller
+	 * @throws RemoteException
+	 */
 	public RMIServer(Controller controller) throws RemoteException {
 		super();
 		this.map = new HashMap<>();
 		this.controller = controller;
 	}
 
+	/**
+	 *
+	 * @param username name of the player
+	 * @param rmiClient
+	 * @throws RemoteException
+	 */
 	@Override
 	public void login(String username, RMIClientInterface rmiClient) throws RemoteException {
 		map.put(rmiClient, new RMIServerToClient(rmiClient, controller));

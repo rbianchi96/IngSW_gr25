@@ -33,6 +33,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	private PrintWriter out;
 	private Timer pingTimer;
 
+	/**Constructor
+	 *
+	 * @param socket
+	 * @param controller
+	 */
 	public SocketClientHandler(Socket socket, Controller controller) {
 		this.controller = controller;
 		this.socket = socket;
@@ -109,6 +114,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	// This method decode the input from client based Protocol's rules and calling the right Controller's method
+
+	/**
+	 *
+	 * @param line that provides the command
+	 */
 	public void decode(String line) {
 		String[] request = line.split("#");
 
@@ -214,6 +224,13 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	// This method encode call's arguments based on Protocol'rules. Necessary before send to Client.
+
+	/**
+	 *
+	 * @param command
+	 * @param params
+	 * @return
+	 */
 	private String encode(ClientCommand command, String... params) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(command.toString());
