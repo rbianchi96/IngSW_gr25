@@ -25,12 +25,19 @@ public class DiceBag {
         }
     }
 
-
+    /**
+     *
+     * @return the size of the dicebag
+     */
     public int getSize() {
         return dices.size();
     }
 
-    // method that takes one casual dice from the bag
+
+    /**
+     *
+     * @return one casual dice from the bag
+     */
     public Dice getRandomDice() {
         if (dices.size() > MINSIZE) {
             Dice dice = dices.get(new Random().nextInt(dices.size()));
@@ -42,7 +49,11 @@ public class DiceBag {
         return null;
     }
 
-
+    /**add a dice to the bag and thorws an exception if there are too dices
+     *
+     * @param d
+     * @throws DiceBagException
+     */
     public void addDice(Dice d) throws DiceBagException  {
         //check the size of the Dice bag, in this way it's impossible to add more than 90 dices
         if (dices.size() < MAXSIZE ) {
@@ -64,7 +75,10 @@ public class DiceBag {
         else throw new DiceBagException("Out of size");
     }
 
-    //it returns a copy of the current DiceBag
+    /**it returns a copy of the current DiceBag
+     *
+     * @return a copy of the bag
+     */
     public DiceBag getClone(){
             DiceBag db = new DiceBag();
             for(Dice d : this.dices){
@@ -73,6 +87,10 @@ public class DiceBag {
             return db;
     }
 
+    /**
+     *
+     * @return a string representing the bag
+     */
     public String drawDiceBag(){
         if (this.getSize() > MINSIZE) {
             StringBuilder s = new StringBuilder("DiceBag:" + "\n" + "number of Dice " + dices.size() + "\n");
@@ -98,6 +116,10 @@ public class DiceBag {
         }
     }
 
+    /**
+     *
+     * @return a String that describes the bag
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("DiceBag:" + "\n" + "number of Dice " + dices.size() + "\n");
@@ -107,11 +129,18 @@ public class DiceBag {
         return sb.toString();
     }
 
-    //method to draw a DiceBag
+    /**method to draw a DiceBag
+     *
+     */
     public void dump() {
         System.out.println(this.drawDiceBag());
     }
 
+    /**
+     *
+     * @param other
+     * @return if the object is equal to the current object
+     */
     @Override
     public boolean equals(Object other){
         if ((other == null) || (!(other instanceof DiceBag))) return false;

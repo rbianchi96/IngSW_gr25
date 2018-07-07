@@ -11,6 +11,10 @@ public class NetParamsLoader extends ParamsLoader {
 	private String rMIServerName;
 	private int rMIServerPort;
 
+	/**Constructor
+	 *
+	 * @param file
+	 */
 	public NetParamsLoader(Reader file) {
 		super(file);
 
@@ -21,14 +25,26 @@ public class NetParamsLoader extends ParamsLoader {
 		rMIServerPort = rMIParams.getInt("port");
 	}
 
+	/**
+	 *
+	 * @return the number of the port of the server
+	 */
 	public int getSocketServerPort() {
 		return socketServerPort;
 	}
 
+	/**
+	 *
+	 * @return the name of the RMI server
+	 */
 	public String getRMIServerName() {
 		return rMIServerName;
 	}
 
+	/**
+	 *
+	 * @return the port of the RMI server
+	 */
 	public int getRMIServerPort() {
 		return rMIServerPort;
 	}

@@ -97,6 +97,10 @@ public class Player {
 		isSuspended = suspended;
 	}
 
+	/**
+	 *
+	 * @return if the palyer has placed a dice
+	 */
 	public boolean getHasPlacedDice() {
 		if (playableDices>0){
 			return false;
@@ -104,7 +108,10 @@ public class Player {
 			return true;
 	}
 
-
+	/**
+	 *
+	 * @param hasPlacedDice
+	 */
 	public void setHasPlacedDice(boolean hasPlacedDice) {
 		if (hasPlacedDice){
 			this.playableDices--;
@@ -115,10 +122,19 @@ public class Player {
 	public void resetPlayableDices(){
 		this.playableDices=1;
 	}
+
+	/**
+	 *
+	 * @return true or false if he has played a toolcard
+	 */
 	public boolean getHasPlayedToolCard() {
 		return hasPlayedToolCard;
 	}
 
+	/**
+	 *
+	 * @param hasPlayedToolCard
+	 */
 	public void setHasPlayedToolCard(boolean hasPlayedToolCard) {
 		this.hasPlayedToolCard = hasPlayedToolCard;
 	}

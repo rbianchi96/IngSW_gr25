@@ -9,6 +9,10 @@ import java.io.Reader;
 public class ParamsLoader {
 	JsonObject root;
 
+	/**Constructor
+	 *
+	 * @param file
+	 */
 	public ParamsLoader(Reader file) {
 		JsonReader reader = Json.createReader(file);
 

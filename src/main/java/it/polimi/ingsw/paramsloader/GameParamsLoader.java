@@ -8,6 +8,10 @@ public class GameParamsLoader extends ParamsLoader {
 	private int lobbyTime;
 	private int maxRoundTime;
 
+	/**Constructor
+	 *
+	 * @param file
+	 */
 	public GameParamsLoader(Reader file) {
 		super(file);
 
@@ -15,10 +19,18 @@ public class GameParamsLoader extends ParamsLoader {
 		maxRoundTime = root.getInt("roundMaxTime");
 	}
 
+	/**
+	 *
+	 * @return the time of the lobby
+	 */
 	public long getLobbyTime() {
 		return lobbyTime;
 	}
 
+	/**
+	 *
+	 * @return the maxRound time
+	 */
 	public int getMaxRoundTime() {
 		return maxRoundTime;
 	}

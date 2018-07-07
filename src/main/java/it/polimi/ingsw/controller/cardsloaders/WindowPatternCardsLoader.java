@@ -14,10 +14,20 @@ import java.util.Random;
 public class WindowPatternCardsLoader extends CardsLoader {
 	public static final String FILE_NAME = "windowPatterns.json";
 
+	/**Constructor
+	 *
+	 * @param file
+	 */
 	public WindowPatternCardsLoader(Reader file) {
 		super(file);
 	}
 
+	/**Method that takes an array of random cards
+	 *
+	 * @param cardsNumber
+	 * @return an array of WindowPatterncards
+	 * @throws NotEnoughCards
+	 */
 	@Override
 	public WindowPatternCard[] getRandomCards(int cardsNumber) throws NotEnoughCards {    //Get random card and remove them
 		if(cardsNumber > cardsArray.size())

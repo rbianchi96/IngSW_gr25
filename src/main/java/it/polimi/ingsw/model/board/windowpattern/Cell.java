@@ -9,6 +9,11 @@ public class Cell implements Serializable {
     private Dice dice;
     private Restriction restriction;
     //Constructors
+    /**
+     * Object representings a Cell of a windowPattern.
+     *
+     * @param restriction restrictione of the Cell
+     */
     public Cell(Restriction restriction){
             this.restriction=restriction;
     }
@@ -16,15 +21,29 @@ public class Cell implements Serializable {
     public Cell() {
         this.restriction = new Restriction();
     }
+    /**
+     * Object representings a Cell of a windowPattern.
+     *
+     * @param restrictionValue restrictione of the Cell
+     */
     public Cell(int restrictionValue){
         restriction = new Restriction(restrictionValue);
     }
+    /**
+     * Object representings a Cell of a windowPattern.
+     *
+     * @param restrictionColor restrictione of the Cell
+     */
     public Cell(Color restrictionColor){
         restriction = new Restriction(restrictionColor);
     }
 
-    // Put the new dice in the cell if it is empty and return True.
-    // If the cell has already a dice, it returns False and don't put the new dice
+
+    /**
+     * @param newDice Dice to put over the Cell
+     * @return Put the new dice in the cell if it is empty and return True.
+     *         If the cell has already a dice, it returns False and don't put the new dice
+     */
     public boolean putDice(Dice newDice){
         if (dice==null) {
             dice = newDice;
@@ -35,6 +54,11 @@ public class Cell implements Serializable {
     }
 
     // It removes dice from the cell by putting 'dice' attribute to null
+
+    /**
+     *
+     * @return The dice removed
+     */
     public Dice removeDice() {
         Dice diceToRemove = dice;
         dice = null;
@@ -42,11 +66,19 @@ public class Cell implements Serializable {
     }
 
     //It returns the restriction based on the type of the actual restriction
+    /**
+     * @return the restriction of the cell
+     */
     public Restriction getRestriction(){
         return restriction;
     }
 
-    //It returns a copy of Dice in the cell
+
+
+    /**
+     *
+     * @return a copy of Dice in the cell
+     */
     public Dice getDice(){
         if (dice!=null)
             return dice.getClone();
@@ -54,6 +86,9 @@ public class Cell implements Serializable {
             return null;
     }
 
+    /**
+     * @return a String that represent the Cell
+     */
     public String drawCell() {
         String str = ":---:";
         //Cell with restriction
@@ -89,7 +124,10 @@ public class Cell implements Serializable {
     }
 
 
-    //It returns a copy of this Cell
+    /**
+     * @return a copy of this Cell
+     */
+
     public Cell getClone(){
         Cell newCell = new Cell(this.restriction);
         if (this.dice!=null) {
@@ -97,6 +135,12 @@ public class Cell implements Serializable {
         }
         return newCell;
     }
+
+    /**
+     *
+     * @param other
+     * @return true if the object is equal to the object that call the method
+     */
     @Override
     public boolean equals(Object other){
         if ((other == null) || (!(other instanceof Cell))) return false;
@@ -120,6 +164,11 @@ public class Cell implements Serializable {
     public PlacementRestriction compatibleDiceException(Dice dice){
         return compatibleDiceException(dice,false,false);
     }
+
+    /**
+     *
+     * @return a String representing that describe a cell
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder("This cell currently got " + ((dice!=null)? dice.toString() + " in it":"no dice in it"));
