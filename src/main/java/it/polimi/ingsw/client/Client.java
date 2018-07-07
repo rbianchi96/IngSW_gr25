@@ -19,6 +19,11 @@ public class Client {
 
 	private String username;	//The player's username
 
+	/**Constructor
+	 *
+	 * @param clientInterface
+	 * @param resourcePath
+	 */
 	public Client(ClientGUI clientInterface, String resourcePath) {
 		clientOut = clientInterface;
 		try {
@@ -28,6 +33,14 @@ public class Client {
 		}
 	}
 
+	/** login and connection
+	 *
+	 * @param connectionMode type of connection
+	 * @param ip address
+	 * @param username of the player
+	 * @throws IOException
+	 * @throws NotBoundException
+	 */
 	public void loginAndConnect(ConnectionMode connectionMode, String ip, String username) throws IOException, NotBoundException {
 		switch(connectionMode) {
 			case SOCKET:
@@ -59,6 +72,10 @@ public class Client {
 		SOCKET, RMI
 	}
 
+	/**
+	 *
+	 * @return a string of the username
+	 */
 	public String getUsername() {
 		return username;
 	}
