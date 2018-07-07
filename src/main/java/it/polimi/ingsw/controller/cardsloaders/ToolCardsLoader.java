@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.board.cards.toolcard.pres.*;
 import it.polimi.ingsw.model.board.windowpattern.PlacementRestriction;
 
 import javax.json.*;
-import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Random;
@@ -67,8 +66,11 @@ public class ToolCardsLoader extends CardsLoader {
 							effects.add(new SelectDiceFromDraftEffect());
 							break;
 						case SELECT_DICE_FROM_ROUND_TRACK:
-							effects.add(new SelectDiceFromRoundTrack());
+							effects.add(new SelectDiceFromRoundTrackEffect());
 						case SELECT_DICE_FROM_WINDOW_PATTERN:
+							effects.add(new SelectDiceFromWindowPatternEffect());
+							break;
+						case SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR:
 							effects.add(new SelectDiceFromWindowPatternEffect());
 							break;
 						case INCREMENT_DECREMENT_DICE:
@@ -86,11 +88,23 @@ public class ToolCardsLoader extends CardsLoader {
 							effects.add(new MoveWindowPatternDiceEffect(ignoredRestrictions));
 
 							break;
+						case MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR:
+							JsonArray ignoredRestrictionsJson1 = effectJson.getJsonArray("ignoredRestrictions");
+							ArrayList<PlacementRestriction> ignoredRestrictions1 = null;
+
+							if(ignoredRestrictionsJson1 != null) {
+								ignoredRestrictions1 = new ArrayList<>(ignoredRestrictionsJson1.size());
+								for(int i = 0; i < ignoredRestrictionsJson1.size(); i++)
+									ignoredRestrictions1.add(PlacementRestriction.valueOf(ignoredRestrictionsJson1.getString(i)));
+							}
+							effects.add(new MoveWindowPatternDiceSelectedColorEffect(ignoredRestrictions1));
+
+							break;
 						case ROLL_DICE_FROM_DRAFT:
 							effects.add(new RollDiceFromDraftEffect());
 							break;
 						case ROLL_DICES_FROM_DRAFT:
-							effects.add(new RollAllDicesFromDraft());
+							effects.add(new RollAllDicesFromDraftEffect());
 							break;
 						case PLACE_DICE_NOT_ADJACENT:
 							effects.add(new PlaceDiceNotAdjacentEffect());
@@ -99,7 +113,7 @@ public class ToolCardsLoader extends CardsLoader {
 							effects.add(new FlipDiceFromDraftEffect());
 							break;
 						case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
-							effects.add(new SelectDiceFromRoundTrackAndSwitch());
+							effects.add(new SelectDiceFromRoundTrackAndSwitchEffect());
 							break;
 						case PLACE_DICE:
 							effects.add(new PlaceDiceEffect());
@@ -118,6 +132,9 @@ public class ToolCardsLoader extends CardsLoader {
 							effects.add(new SetDiceValueEffect());
 						case ADD_DICE_TO_DRAFT:
 							effects.add(new AddDiceToDraftEffect());
+						case WANNA_MOVE_NEXT_DICE:
+							effects.add(new WannaMoveNextDiceEffect());
+							break;
 						default:
 							break;
 					}

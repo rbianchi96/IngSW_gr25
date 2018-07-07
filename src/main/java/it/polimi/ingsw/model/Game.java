@@ -456,6 +456,34 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
+	public ClientCommand selectDiceFromWindowPatternSelectedColorEffect(String username, int x, int y) throws GameException{
+		Player player = findPlayer(username);
+
+		checkTurn(player);
+
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			int forbidCheck = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR);
+			EffectData effectData = new EffectData();
+			effectData.setX(x);
+			effectData.setY(y);
+			effectData.setWindowPattern(player.getWindowPattern());
+			if(forbidCheck >= 0) {
+				effectData.setForbidX(((MoveWindowPatternDiceSelectedColorEffect) (toolCards[currentToolCardInUse].getEffect(forbidCheck))).getNewX());
+				effectData.setForbidY( ((MoveWindowPatternDiceSelectedColorEffect) (toolCards[currentToolCardInUse].getEffect(forbidCheck))).getNewY());
+			}
+			else {
+				effectData.setForbidX(-1);
+				effectData.setForbidY(-1);
+			}
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+			return getNextEffect();
+		}
+	}
 
 	public ClientCommand incrementDecrementDiceEffect(String username, boolean incDec) throws GameException{
 		Player player = findPlayer(username);
@@ -582,7 +610,31 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
+	public ClientCommand moveWindowPatternDiceSelectedColorEffect(String username, int row, int col) throws GameException{
+		Player player = findPlayer(username);
+		checkTurn(player);
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR);
 
+			EffectData effectData = new EffectData();
+			effectData.setWindowPattern(player.getWindowPattern());
+			effectData.setRow(row);
+			effectData.setCol(col);
+			effectData.setOldX(((SelectDiceFromWindowPatternSelectedColorEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getRow());
+			effectData.setOldY(((SelectDiceFromWindowPatternSelectedColorEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getCol());
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+
+			setChanged();
+			notifyObservers(NotifyType.WINDOW_PATTERNS);
+
+			return getNextEffect();
+		}
+	}
 	public ClientCommand rollDiceFromDraftEffect(String username) throws GameException{
 		Player player = findPlayer(username);
 		checkTurn(player);
@@ -648,7 +700,23 @@ public class Game extends Observable {
 			return getNextEffect();
 		}
 	}
-
+	public ClientCommand selectDiceFromRoundTrack(String username, int round, int index) throws GameException{
+		Player player = findPlayer(username);
+		checkTurn(player);
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.SELECT_DICE_FROM_ROUND_TRACK);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			EffectData effectData = new EffectData();
+			Dice roundTrackDice = null;
+			roundTrackDice = getRoundTrackDice().getDice(round,index);
+			effectData.setDice(roundTrackDice);
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+			return getNextEffect();
+		}
+	}
 	public ClientCommand flipDiceFromDraftEffect(String username) throws GameException{
 		Player player = findPlayer(username);
 		checkTurn(player);
@@ -718,6 +786,23 @@ public class Game extends Observable {
 		} else {
 			EffectData effectData = new EffectData();
 			effectData.setValue(value);
+			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+			return getNextEffect();
+		}
+	}
+	public ClientCommand wannaMoveNextDice(String username, boolean choice) throws GameException {
+		Player player = findPlayer(username);
+
+		checkTurn(player);
+
+		if(currentToolCardInUse == - 1)
+			throw new InvalidCall();
+		int validate = toolCards[currentToolCardInUse].validate(EffectType.WANNA_MOVE_NEXT_DICE);
+		if(validate == - 1) {
+			throw new InvalidCall();
+		} else {
+			EffectData effectData = new EffectData();
+			effectData.setBool(choice);
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 			return getNextEffect();
 		}
@@ -794,6 +879,12 @@ public class Game extends Observable {
 							e.printStackTrace();
 						}
 						break;
+					case ADD_DICE_TO_DRAFT:
+						try{
+							addDiceToDraft(players.get(getCurrentPlayerIndex()).getPlayerName());
+						}catch(Exception e){
+							e.printStackTrace();
+						}
 				}
 
 				//System.out.println("RECORSIVE GETNEXTEFFECT() INVOKE || toolCardInUse -> " + currentToolCardInUse  );
@@ -802,11 +893,11 @@ public class Game extends Observable {
 		}
 	}
 
-	private void cleanToolCard(ToolCard toolCard) {
+	public void cleanToolCard(ToolCard toolCard) {
 		toolCard.reNew();
 	}
 
-	private void toolCardUsageFinished() {
+	public void toolCardUsageFinished() {
 		System.out.println("End of tool card use.");
 
 		currentToolCardInUse = - 1;
@@ -815,7 +906,12 @@ public class Game extends Observable {
 			nextTurn();
 		}
 	}
-
+	public ToolCard toolCardInUse(){
+		if (currentToolCardInUse>0) {
+			return toolCards[currentToolCardInUse];
+		}else
+			return null;
+	}
 	public boolean isInGame() {
 		return inGame;
 	}

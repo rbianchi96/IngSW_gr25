@@ -29,12 +29,15 @@ public enum ClientCommand {
 	SELECT_DICE_FROM_DRAFT("selectDiceFromDraft"),
 	SELECT_INCREMENT_OR_DECREMENT("selectIncOrDec"),
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
+	SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR("selectDiceFromWindowPatternSelectedColor"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
+	MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR("moveWindowPatternDiceSelectedColor"),
 	SELECT_DICE_FROM_ROUND_TRACK("selectRoundFromRoundTrack"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
 	PLACE_DICE("placeDiceAfterEffect"),
 	PLACE_DICE_NOT_ADJACENT("placeDiceNotAdjacent"),
 	SET_DICE_VALUE("setDiceValue"),
+	WANNA_MOVE_NEXT_DICE("wannaMoveNextDice"),
 
 	END_OF_TOOL_CARD_USE("endOfTCUse"),
 

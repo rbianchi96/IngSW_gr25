@@ -4,8 +4,8 @@ import it.polimi.ingsw.model.board.dice.Dice;
 
 import java.util.ArrayList;
 
-public class RollAllDicesFromDraft extends Effect {
-    public RollAllDicesFromDraft(){
+public class RollAllDicesFromDraftEffect extends Effect {
+    public RollAllDicesFromDraftEffect(){
         this.effectType = EffectType.ROLL_DICES_FROM_DRAFT;
     }
     @Override
