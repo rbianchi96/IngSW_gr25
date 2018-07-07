@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller.cardsloaders;
 
 import it.polimi.ingsw.ResourcesPathResolver;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 

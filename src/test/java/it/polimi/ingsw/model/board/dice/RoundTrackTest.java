@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.dice.RoundTrack;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
 

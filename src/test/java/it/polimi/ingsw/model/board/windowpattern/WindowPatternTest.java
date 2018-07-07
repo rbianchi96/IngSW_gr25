@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.board.windowpattern;
 
 import it.polimi.ingsw.model.board.Color;
 import it.polimi.ingsw.model.board.dice.Dice;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Random;

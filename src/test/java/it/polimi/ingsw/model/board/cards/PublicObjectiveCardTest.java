@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.Cell;
 import it.polimi.ingsw.model.board.windowpattern.PlacementRestriction;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;

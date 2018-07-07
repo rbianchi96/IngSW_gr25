@@ -1,20 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.ResourcesPathResolver;
-import it.polimi.ingsw.controller.cardsloaders.*;
-import it.polimi.ingsw.model.board.GameBoard;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.board.dice.DiceBag;
-import it.polimi.ingsw.model.board.dice.Draft;
-import it.polimi.ingsw.model.board.dice.RoundTrack;
-import it.polimi.ingsw.model.board.windowpattern.Cell;
-import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 

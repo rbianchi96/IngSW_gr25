@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.cardsloaders;
 import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.board.cards.toolcard.effects.Effect;
 import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 

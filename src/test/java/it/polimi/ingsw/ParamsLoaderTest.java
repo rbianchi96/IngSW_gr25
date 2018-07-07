@@ -3,7 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.paramsloader.GameParamsLoader;
 import it.polimi.ingsw.paramsloader.NetParamsLoader;
 import it.polimi.ingsw.paramsloader.ParamsLoader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
