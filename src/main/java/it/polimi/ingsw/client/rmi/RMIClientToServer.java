@@ -20,6 +20,15 @@ public class RMIClientToServer implements ServerInterface {
 	private ClientGUI clientGUI;
 	private Timer pingTimer;
 
+	/**Constructor
+	 *
+	 * @param client
+	 * @param ip
+	 * @param serverName
+	 * @throws RemoteException
+	 * @throws NotBoundException
+	 * @throws MalformedURLException
+	 */
 	public RMIClientToServer(ClientGUI client, String ip, String serverName) throws RemoteException, NotBoundException, MalformedURLException {
 		clientGUI = client;
 		this.client = new RMIClient(client);    //RMIClient to send to server used to receive responses
@@ -47,6 +56,10 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**Login with the username
+	 *
+	 * @param username name that will be used in the game
+	 */
 	@Override
 	public void login(String username) {
 		try {
@@ -57,6 +70,10 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param i index of the window pattern to choose
+	 */
 	@Override
 	public void selectWindowPattern(int i) {
 		try {
@@ -66,6 +83,12 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param dice to be placed
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void placeDiceFromDraft(Dice dice, int row, int col) {
 		try {
@@ -74,6 +97,7 @@ public class RMIClientToServer implements ServerInterface {
 			clientGUI.lostConnenction();
 		}
 	}
+
 
 	@Override
 	public void useToolCard(int index) {
@@ -84,6 +108,7 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+
 	@Override
 	public void endTurn() {
 		try {
@@ -93,6 +118,10 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param dice to be choosen
+	 */
 	@Override
 	public void selectDiceFromDraftEffect(Dice dice) {
 		try {
@@ -101,6 +130,7 @@ public class RMIClientToServer implements ServerInterface {
 			clientGUI.lostConnenction();
 		}
 	}
+
 
 	@Override
 	public void incrementOrDecrementDiceEffect(boolean mode) {
@@ -111,6 +141,11 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void selectDiceFromWindowPatternEffect(int row, int col) {
 		try {
@@ -120,6 +155,11 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**move the dice im the selected position
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void moveDiceInWindowPatternEffect(int row, int col) {
 		try {
@@ -129,6 +169,11 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**place dice in the selected row  e col
+	 *
+	 * @param row
+	 * @param col
+	 */
 	@Override
 	public void placeDice(int row, int col) {
 		try {
@@ -137,6 +182,7 @@ public class RMIClientToServer implements ServerInterface {
 			clientGUI.lostConnenction();
 		}
 	}
+
 
 	@Override
 	public void placeDiceNotAdjacent(int row, int col) {
@@ -147,6 +193,11 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**select a dice from the round track and switch
+	 *
+	 * @param round number of round
+	 * @param dice to be switch
+	 */
 	@Override
 	public void selectDiceFromRoundTrackAndSwitch(int round, int dice) {
 		try {

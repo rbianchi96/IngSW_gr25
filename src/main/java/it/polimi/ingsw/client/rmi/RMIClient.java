@@ -25,30 +25,62 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
 	private Timer pingReceiverTimer = new Timer();
 
+	/**Constructor
+	 *
+	 * @param client
+	 * @throws RemoteException
+	 */
 	public RMIClient(ClientInterface client) throws RemoteException {
 		this.client = client;
 	}
 
+	/**it provides the login response for the client
+	 *
+	 * @param result
+	 * @throws RemoteException
+	 */
 	@Override
 	public void loginResponse(String... result) throws RemoteException {
 		client.loginResponse(result);
 	}
 
+	/**It notify the presence of a new user
+	 *
+	 * @param username of the new user
+	 * @param index of the new user
+	 * @throws RemoteException
+	 */
 	@Override
 	public void notifyNewUser(String username, int index) throws RemoteException {
 		client.notifyNewUser(username, index);
 	}
 
+	/**It sends the names of the players
+	 *
+	 * @param players array of the players
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendPlayersList(String[] players) throws RemoteException {
 		client.sendPlayersList(players);
 	}
 
+	/**It sends a private objective card
+	 *
+	 * @param privateObjectiveCard that is sent
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) throws RemoteException {
 		client.sendPrivateObjectiveCard(privateObjectiveCard);
 	}
 
+	/**It notify a suspended user
+	 *
+	 * @param username name of the player
+	 * @param index of the player
+	 * @throws RemoteException
+	 */
 	@Override
 	public void notifySuspendedUser(String username, int index) throws RemoteException {
 		client.notifySuspendedUser(username, index);
@@ -69,21 +101,42 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 		}, (long)(RMIServerToClient.PING_INTERVAL * 1.5));
 	}
 
+	/**It notifies the status of the reconnection
+	 *
+	 * @param status
+	 * @param message
+	 * @throws RemoteException
+	 */
 	@Override
 	public void notifyReconnectionStatus(boolean status, String message) throws RemoteException {
 		client.notifyReconnectionStatus(status, message);
 	}
 
+	/**
+	 *
+	 * @param windowPatterns array of the possible window pattern to choose
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) throws RemoteException {
 		client.sendWindowPatternsToChoose(windowPatterns);
 	}
 
+	/**
+	 *
+	 * @param toolCards array of the toolCards that will be sended
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendToolCards(ToolCard[] toolCards) throws RemoteException {
 		client.sendToolCards(toolCards);
 	}
 
+	/**public objective cards that will be sent
+	 *
+	 * @param publicObjectiveCards array of publicobjectivecards
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) throws RemoteException {
 		client.sendPublicObjectiveCards(publicObjectiveCards);
@@ -94,35 +147,59 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 		client.startGame();
 	}
 
+	/**it sends the order of the round
+	 *
+	 * @param players array of the indexes of the players
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendRoundOrder(int[] players) throws RemoteException {
 		client.sendRoundOrder(players);
 	}
 
+	/**it gives a new turn to the current player
+	 *
+	 * @param currentPlayer
+	 * @param turnTime
+	 * @throws RemoteException
+	 */
 	@Override
 	public void newTurn(int currentPlayer, int turnTime) throws RemoteException {
 		client.newTurn(currentPlayer, turnTime);
 	}
+
 
 	@Override
 	public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException {
 		client.updateWindowPatterns(windowPatterns);
 	}
 
+	/**It update the tokens of the players
+	 *
+	 * @param tokens
+	 * @throws RemoteException
+	 */
 	@Override
 	public void updatePlayersTokens(int[] tokens) throws RemoteException {
 		client.updatePlayersTokens(tokens);
 	}
 
+	/**It updates the tokens of the toolcards
+	 *
+	 * @param tokens
+	 * @throws RemoteException
+	 */
 	@Override
 	public void updateToolCardsTokens(int[] tokens) throws RemoteException {
 		client.updateToolCardsTokens(tokens);
 	}
 
+
 	@Override
 	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) throws RemoteException {
 		client.updateRoundTrack(roundTrackDices);
 	}
+
 
 	@Override
 	public void selectDiceFromDraft() throws RemoteException {
