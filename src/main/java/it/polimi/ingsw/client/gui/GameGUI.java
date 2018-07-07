@@ -486,7 +486,7 @@ public class GameGUI extends GUIController {
 	}
 
 	public void wrongTurn() {
-		addEvent("Non è il tuo turno!", false);
+		addEvent("Non è il tuo turno!", true);
 	}
 
 	public void notEnoughFavorTokens() {

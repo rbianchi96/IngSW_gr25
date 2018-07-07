@@ -245,6 +245,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void sendScores(Score[] scores) {
+		state = State.SCORE;
 		scoresGUI.sendScores(lastPlayersList, scores);
 
 		Platform.runLater(() -> {
@@ -353,16 +354,17 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	public void lostConnenction() {
-		Platform.runLater(() -> {
-			primaryStage.setScene(login);
-			primaryStage.show();
+		if(state != State.SCORE)
+			Platform.runLater(() -> {
+				primaryStage.setScene(login);
+				primaryStage.show();
 
-			Alert alert = new Alert(Alert.AlertType.ERROR, "Connessione col server interrotta!");
-			alert.showAndWait();
-		});
+				Alert alert = new Alert(Alert.AlertType.ERROR, "Connessione col server interrotta!");
+				alert.showAndWait();
+			});
 	}
 
 	private enum State {
-		LOGIN, LOBBY, GAME
+		LOGIN, LOBBY, GAME, SCORE
 	}
 }
