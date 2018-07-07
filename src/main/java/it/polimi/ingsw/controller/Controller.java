@@ -134,6 +134,9 @@ public class Controller {
 				case SELECT_DICE_FROM_WINDOW_PATTERN:
 					clientInterface.selectDiceFromWindowPattern();
 					break;
+				case SELECT_DICE_FROM_ROUND_TRACK:
+					clientInterface.selectDiceFromRoundTrack();
+					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					clientInterface.selectDiceFromRoundTrackAndSwap();
 					break;
@@ -145,6 +148,15 @@ public class Controller {
 					break;
 				case PLACE_DICE_NOT_ADJACENT:
 					clientInterface.placeDiceNotAdjacent();
+					break;
+				case SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR:
+					clientInterface.selectDiceFromWindowPatternSelectedColor();
+					break;
+				case MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR:
+					clientInterface.moveDiceInWindowPatternSelectedColor();
+					break;
+				case SET_DICE_VALUE:
+					clientInterface.setDiceValue();
 					break;
 			}
 		else clientInterface.endOfToolCardUse();

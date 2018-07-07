@@ -132,5 +132,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		controller.selectDiceFromRoundTrackAndSwitch(map.get(rmiClientInterface), round, dice);
 	}
 
+	@Override
+	public void setDiceValue(RMIClientInterface rmiClientInterface, int value) throws RemoteException {
+		controller.setDiceValueEffect(map.get(rmiClientInterface), value);
+	}
+
 }
 

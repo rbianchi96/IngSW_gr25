@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.model.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
+import it.polimi.ingsw.model.board.cards.toolcard.effects.SelectDiceFromWindowPatternSelectedColorEffect;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.dice.RoundTrackDices;
 import it.polimi.ingsw.model.board.windowpattern.Restriction;
@@ -206,6 +207,13 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					);
 
 					break;
+				case SET_DICE_VALUE:
+					controller.setDiceValueEffect(
+							this,
+							Integer.parseInt(request[1])
+					);
+
+					break;
 				case PING:
 					out.println("pong");
 					out.flush();
@@ -372,6 +380,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void wannaMoveNextDice() {
+		out.println(encode(WANNA_MOVE_NEXT_DICE));
+		out.flush();
+	}
+
+	@Override
 	public synchronized void selectDiceFromWindowPattern() {
 		out.println(encode(
 				SELECT_DICE_FROM_WINDOW_PATTERN
@@ -380,10 +394,22 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void selectDiceFromWindowPatternSelectedColor() {
+		out.println(encode(SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR));
+		out.flush();
+	}
+
+	@Override
 	public synchronized void moveDiceInWindowPattern() {
 		out.println(encode(
 				MOVE_WINDOW_PATTERN_DICE
 		));
+		out.flush();
+	}
+
+	@Override
+	public void moveDiceInWindowPatternSelectedColor() {
+		out.println(encode(MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR));
 		out.flush();
 	}
 

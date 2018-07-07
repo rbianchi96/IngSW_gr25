@@ -18,6 +18,7 @@ public enum ServerCommand {
 	PLACE_DICE("placeDiceAfterEffect"),
 	PLACE_DICE_NOT_ADJACENT("placeDiceNotAdjacent"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRTAndSwitch"),
+	SET_DICE_VALUE("setDiceValue"),
 
 	PING("ping"),
 	PONG("pong");

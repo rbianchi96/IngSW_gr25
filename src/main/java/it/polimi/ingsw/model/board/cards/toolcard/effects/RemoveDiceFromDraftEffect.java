@@ -10,9 +10,12 @@ public class RemoveDiceFromDraftEffect extends Effect{
     }
     @Override
     public void apply(EffectData effectData) throws GameException{
+        System.out.println("AAAA");
+
         if (effectData.getDice()!=null){
             dice = game.getDraft().getDice(effectData.getDice());
             if (dice!=null){
+                game.getDiceBag().addDice(dice);
                 used=true;
             }else{
                 used=false;

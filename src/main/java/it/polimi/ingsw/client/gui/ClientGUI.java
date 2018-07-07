@@ -185,7 +185,12 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void setDiceValue() {
-		//TODO
+		gameGUI.setDiceValue();
+	}
+
+	@Override
+	public void wannaMoveNextDice() {
+//TODO
 	}
 
 	@Override
@@ -194,8 +199,18 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void selectDiceFromWindowPatternSelectedColor() {
+		//TODO
+	}
+
+	@Override
 	public void moveDiceInWindowPattern() {
 		gameGUI.modeDiceInWindowPattern();
+	}
+
+	@Override
+	public void moveDiceInWindowPatternSelectedColor() {
+//TODO
 	}
 
 	@Override

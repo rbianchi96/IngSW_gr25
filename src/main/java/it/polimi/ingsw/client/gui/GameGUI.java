@@ -555,6 +555,26 @@ addEvent("Hai già utilizzato una carta strumento!", true);
 		addEvent(username + " ha ripreso la partita.", false);
 	}
 
+	public void setDiceValue() {
+		ButtonType[] buttons = new ButtonType[6];
+
+		for(int i = 0; i < buttons.length; i ++)
+			buttons[i] = new ButtonType(String.valueOf(i + 1));
+
+		Platform.runLater(() -> {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Seleziona il valore del dado", buttons);
+			alert.showAndWait();
+
+			ButtonType result = alert.getResult();
+					for(int i = 0; i < buttons.length; i ++) {
+						if(buttons[i] == result) {
+							client.getServerInterface().setDiceValue(i + 1);
+							break;
+						}
+					}
+		});
+	}
+
 	private int getTime() {
 		return turnTime;
 	}

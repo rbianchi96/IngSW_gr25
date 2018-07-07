@@ -126,12 +126,16 @@ public class ToolCardsLoader extends CardsLoader {
 							break;
 						case REMOVE_DICE_FROM_DRAFT:
 							effects.add(new RemoveDiceFromDraftEffect());
+							break;
 						case GET_RANDOM_DICE_FROM_DICE_BAG:
 							effects.add(new GetRandomDiceFromDiceBagEffect());
+							break;
 						case SET_DICE_VALUE:
 							effects.add(new SetDiceValueEffect());
+							break;
 						case ADD_DICE_TO_DRAFT:
 							effects.add(new AddDiceToDraftEffect());
+							break;
 						case WANNA_MOVE_NEXT_DICE:
 							effects.add(new WannaMoveNextDiceEffect());
 							break;

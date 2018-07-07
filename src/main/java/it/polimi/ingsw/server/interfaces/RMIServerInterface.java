@@ -24,4 +24,5 @@ public interface RMIServerInterface extends Remote {
     public void placeDice(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
     public void placeDiceNotAdjacent(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
     public void selectDiceFromRoundTrackAndSwitch(RMIClientInterface rmiClientInterface, int round, int dice) throws RemoteException;
+    public void setDiceValue(RMIClientInterface rmiClientInterface, int value) throws RemoteException;
 }

@@ -208,6 +208,15 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 	@Override
+	public void setDiceValue(int value) {
+		try {
+			server.setDiceValue(client, value);
+		} catch(RemoteException e) {
+			clientGUI.lostConnenction();
+		}
+	}
+
+	@Override
 	public void closeConnection() {
 		pingTimer.cancel();
 	}

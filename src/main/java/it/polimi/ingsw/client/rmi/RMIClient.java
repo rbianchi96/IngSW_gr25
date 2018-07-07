@@ -220,8 +220,18 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void selectDiceFromWindowPatternSelectedColor() throws RemoteException {
+		client.selectDiceFromWindowPatternSelectedColor();
+	}
+
+	@Override
 	public void moveDiceInWindowPattern() throws RemoteException {
 		client.moveDiceInWindowPattern();
+	}
+
+	@Override
+	public void moveDiceInWindowPatternSelectedColor() throws RemoteException {
+		client.moveDiceInWindowPatternSelectedColor();
 	}
 
 	@Override
@@ -242,6 +252,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	@Override
 	public void setDiceValue() throws RemoteException {
 		client.setDiceValue();
+	}
+
+	@Override
+	public void wannaMoveNextDice() throws RemoteException {
+		client.wannaMoveNextDice();
 	}
 
 	@Override

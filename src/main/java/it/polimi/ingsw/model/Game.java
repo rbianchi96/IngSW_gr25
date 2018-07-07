@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.board.dice.RoundTrack;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.interfaces.ClientCommand;
 
+import java.nio.channels.NotYetBoundException;
 import java.util.Observable;
 
 import java.util.ArrayList;
@@ -391,6 +392,10 @@ public class Game extends Observable {
 			EffectData effectData = new EffectData();
 			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+
+			setChanged();
+			notifyObservers(NotifyType.DRAFT);
+
 			return getNextEffect();
 		}
 	}
@@ -409,6 +414,10 @@ public class Game extends Observable {
 			EffectData effectData = new EffectData();
 			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+
+			setChanged();
+			notifyObservers(NotifyType.DRAFT);
+
 			return getNextEffect();
 		}
 	}
@@ -784,9 +793,16 @@ public class Game extends Observable {
 		if(validate == - 1) {
 			throw new InvalidCall();
 		} else {
+			int previousDiceSelectionEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
+
 			EffectData effectData = new EffectData();
+			effectData.setDice(toolCards[currentToolCardInUse].getEffect(previousDiceSelectionEffect).getDice());
 			effectData.setValue(value);
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
+
+			setChanged();
+			notifyObservers(NotifyType.DRAFT);
+
 			return getNextEffect();
 		}
 	}

@@ -219,11 +219,19 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.selectDiceFromWindowPattern();
 
 					break;
+				case SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR:
+					break;
 				case MOVE_WINDOW_PATTERN_DICE:
 					client.moveDiceInWindowPattern();
 
 					break;
 				case SELECT_DICE_FROM_ROUND_TRACK:
+					client.selectDiceFromRoundTrack();
+
+					break;
+				case MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR:
+					client.selectDiceFromWindowPatternSelectedColor();
+
 					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					client.selectDiceFromRoundTrackAndSwap();
@@ -238,6 +246,12 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					break;
 				case SET_DICE_VALUE:
+					client.setDiceValue();
+
+					break;
+				case WANNA_MOVE_NEXT_DICE:
+					client.wannaMoveNextDice();
+
 					break;
 				case END_OF_TOOL_CARD_USE:
 
@@ -431,6 +445,14 @@ public class SocketClient extends Socket implements ServerInterface {
 				String.valueOf(dice)
 		));
 		out.flush();
+	}
+
+	@Override
+	public void setDiceValue(int value) {
+		out.println(encode(
+				ServerCommand.SET_DICE_VALUE,
+				String.valueOf(value)
+		));
 	}
 
 	@Override

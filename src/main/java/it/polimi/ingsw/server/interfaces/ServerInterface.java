@@ -19,6 +19,7 @@ public interface ServerInterface {
     public void placeDice(int row, int col);
     public void placeDiceNotAdjacent(int row, int col);
     public void selectDiceFromRoundTrackAndSwitch(int round, int dice);
+    public void setDiceValue(int value);
 
     public void closeConnection();
 }

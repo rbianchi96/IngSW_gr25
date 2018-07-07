@@ -38,12 +38,15 @@ public interface ClientInterface {
 	public void selectDiceFromDraft();
 	public void selectIncrementOrDecrement();
 	public void selectDiceFromWindowPattern();
+	public void selectDiceFromWindowPatternSelectedColor();
 	public void moveDiceInWindowPattern();
+	public void moveDiceInWindowPatternSelectedColor();
 	public void selectDiceFromRoundTrack();
 	public void selectDiceFromRoundTrackAndSwap();
 	public void placeDice();
 	public void placeDiceNotAdjacent();
 	public void setDiceValue();
+	public void wannaMoveNextDice();
 
 	public void endOfToolCardUse();
 
