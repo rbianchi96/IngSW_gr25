@@ -244,6 +244,15 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void setDiceValue() {
+		try {
+			rmiClientInterface.setDiceValue();
+		} catch(RemoteException e) {
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void selectDiceFromWindowPattern() {
 		try {
 			rmiClientInterface.selectDiceFromWindowPattern();
@@ -266,6 +275,15 @@ public class RMIServerToClient implements ClientInterface {
 	public void selectDiceFromRoundTrack() {
 		try {
 			rmiClientInterface.selectDiceFromRoundTrack();
+		} catch(RemoteException e) {
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
+	public void selectDiceFromRoundTrackAndSwap() {
+		try {
+			rmiClientInterface.selectDiceFromRoundTrackAndSwap();
 		} catch(RemoteException e) {
 
 			controller.lostConnection(this);

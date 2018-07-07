@@ -135,7 +135,7 @@ public class Controller {
 					clientInterface.selectDiceFromWindowPattern();
 					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
-					clientInterface.selectDiceFromRoundTrack();
+					clientInterface.selectDiceFromRoundTrackAndSwap();
 					break;
 				case MOVE_WINDOW_PATTERN_DICE:
 					clientInterface.moveDiceInWindowPattern();

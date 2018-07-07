@@ -212,8 +212,10 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.moveDiceInWindowPattern();
 
 					break;
+				case SELECT_DICE_FROM_ROUND_TRACK:
+					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
-					client.selectDiceFromRoundTrack();
+					client.selectDiceFromRoundTrackAndSwap();
 
 					break;
 				case PLACE_DICE:
@@ -223,6 +225,8 @@ public class SocketClient extends Socket implements ServerInterface {
 				case PLACE_DICE_NOT_ADJACENT:
 					client.placeDiceNotAdjacent();
 
+					break;
+				case SET_DICE_VALUE:
 					break;
 				case END_OF_TOOL_CARD_USE:
 

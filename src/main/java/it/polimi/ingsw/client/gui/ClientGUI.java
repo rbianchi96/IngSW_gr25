@@ -184,6 +184,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void setDiceValue() {
+		//TODO
+	}
+
+	@Override
 	public void selectDiceFromWindowPattern() {
 		gameGUI.selectDiceFromWindowPattern();
 	}
@@ -195,6 +200,11 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void selectDiceFromRoundTrack() {
+		//TODO
+	}
+
+	@Override
+	public void selectDiceFromRoundTrackAndSwap() {
 		gameGUI.selectDiceFromRoundTrack();
 	}
 

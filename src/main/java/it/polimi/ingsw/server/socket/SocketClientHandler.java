@@ -349,6 +349,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override
+	public void setDiceValue() {
+		out.println(encode(SET_DICE_VALUE));
+		out.flush();
+	}
+
+	@Override
 	public synchronized void selectDiceFromWindowPattern() {
 		out.println(encode(
 				SELECT_DICE_FROM_WINDOW_PATTERN
@@ -366,6 +372,12 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 
 	@Override
 	public void selectDiceFromRoundTrack() {
+		out.println(encode(SELECT_DICE_FROM_ROUND_TRACK));
+		out.flush();
+	}
+
+	@Override
+	public void selectDiceFromRoundTrackAndSwap() {
 		out.println(encode(SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH));
 		out.flush();
 	}

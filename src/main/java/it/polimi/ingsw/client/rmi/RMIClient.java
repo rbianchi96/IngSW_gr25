@@ -10,12 +10,10 @@ import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.dice.RoundTrackDices;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.interfaces.ClientInterface;
-import it.polimi.ingsw.server.rmi.RMIServer;
 import it.polimi.ingsw.server.rmi.RMIServerToClient;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -232,8 +230,18 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void selectDiceFromRoundTrackAndSwap() throws RemoteException {
+		client.selectDiceFromRoundTrackAndSwap();
+	}
+
+	@Override
 	public void placeDiceNotAdjacent() throws RemoteException {
 		client.placeDiceNotAdjacent();
+	}
+
+	@Override
+	public void setDiceValue() throws RemoteException {
+		client.setDiceValue();
 	}
 
 	@Override

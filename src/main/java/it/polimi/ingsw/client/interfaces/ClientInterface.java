@@ -40,8 +40,10 @@ public interface ClientInterface {
 	public void selectDiceFromWindowPattern();
 	public void moveDiceInWindowPattern();
 	public void selectDiceFromRoundTrack();
+	public void selectDiceFromRoundTrackAndSwap();
 	public void placeDice();
 	public void placeDiceNotAdjacent();
+	public void setDiceValue();
 
 	public void endOfToolCardUse();
 
