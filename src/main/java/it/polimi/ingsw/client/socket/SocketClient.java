@@ -32,6 +32,13 @@ public class SocketClient extends Socket implements ServerInterface {
 	private Socket socket;
 	private SocketClientReceiver receiver;
 
+	/**Constructor
+	 *
+	 * @param ip ip address
+	 * @param port number
+	 * @param client client GUI
+	 * @throws IOException
+	 */
 	public SocketClient(String ip, int port, ClientGUI client) throws IOException {
 		this.client = client;
 		this.socket = new Socket(ip, port);
@@ -57,6 +64,10 @@ public class SocketClient extends Socket implements ServerInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param message that will be decoded
+	 */
 	void decode(String message) {
 		String[] msgVector = message.split("#");    //Split message
 
@@ -273,6 +284,10 @@ public class SocketClient extends Socket implements ServerInterface {
 			System.out.println("Command not found!");	//TODO fatal error
 	}
 
+	/**
+	 *
+	 * @param username of the player
+	 */
 	@Override
 	public void login(String username) {
 		out.println(encode(
@@ -282,6 +297,10 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param i index of the wp
+	 */
 	@Override
 	public void selectWindowPattern(int i) {
 		out.println(encode(
@@ -291,6 +310,12 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param dice to be placed
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void placeDiceFromDraft(Dice dice, int row, int col) {
 		out.println(encode(
@@ -311,6 +336,9 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**
+	 * put an end to the trun
+	 */
 	@Override
 	public void endTurn() {
 		out.println(encode(
@@ -319,6 +347,10 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param dice to be choosen
+	 */
 	@Override
 	public void selectDiceFromDraftEffect(Dice dice) {
 		out.println(encode(
@@ -337,6 +369,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void selectDiceFromWindowPatternEffect(int row, int col) {
 		out.println(encode(
@@ -357,6 +394,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param row of the wp
+	 * @param col of thw wp
+	 */
 	@Override
 	public void placeDice(int row, int col) {
 		out.println(encode(
@@ -403,6 +445,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		return sb.toString();
 	}
 
+	/**
+	 *
+	 * @param msg that represents the window patterns
+	 * @return an array of wp
+	 */
 	private WindowPattern[] decodeWindowPatterns(String[] msg) {
 		try {
 
@@ -455,6 +502,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		return null;
 	}
 
+	/**
+	 *
+	 * @param dice to be transformed
+	 * @return a string representing the dice
+	 */
 	private String encodeDice(Dice dice) {
 		String str =
 				String.valueOf(dice.getValue()) +
@@ -464,6 +516,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		return str;
 	}
 
+	/**
+	 *
+	 * @param msg representing the roundtrackdices
+	 * @return an array of roundtrackdices
+	 */
 	private RoundTrackDices[] decodeRoundTrack(String[] msg) {
 		RoundTrackDices[] roundTrackDices = new RoundTrackDices[Game.ROUNDS_NUMBER];
 
@@ -488,6 +545,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		return roundTrackDices;
 	}
 
+	/**
+	 *
+	 * @param msg representing the scores
+	 * @return an array of the scores
+	 */
 	private Score[] decodeScores(String[] msg) {
 		ArrayList<Score> scores = new ArrayList<>();
 

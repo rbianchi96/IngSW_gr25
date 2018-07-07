@@ -8,6 +8,11 @@ public class SocketClientReceiver implements Runnable {
 
 	private boolean stop = false;
 
+	/**Constructor
+	 *
+	 * @param socket
+	 * @param in
+	 */
 	public SocketClientReceiver(SocketClient socket, Scanner in) {
 		this.socket = socket;
 		this.in = in;
