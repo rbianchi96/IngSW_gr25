@@ -7,7 +7,6 @@ import it.polimi.ingsw.paramsloader.NetParamsLoader;
 import it.polimi.ingsw.server.rmi.RMIServer;
 import it.polimi.ingsw.server.interfaces.RMIServerInterface;
 import it.polimi.ingsw.server.socket.SocketServer;
-import sun.nio.ch.Net;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;

@@ -14,8 +14,6 @@ import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.Cell;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import org.junit.Test;
-import sun.awt.RepaintArea;
-
 import java.io.FileNotFoundException;
 import java.util.Random;
 

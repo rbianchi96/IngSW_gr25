@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.board.cards;
 
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
+
 import it.polimi.ingsw.ResourcesPathResolver;
-import it.polimi.ingsw.controller.cardsloaders.WindowPatternCardsLoader;
 import it.polimi.ingsw.model.board.Color;
 import it.polimi.ingsw.controller.cardsloaders.PrivateObjectiveCardsLoader;
 import it.polimi.ingsw.model.board.dice.Dice;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.model.board.windowpattern.Cell;
 import it.polimi.ingsw.model.board.windowpattern.PlacementRestriction;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Random;
 

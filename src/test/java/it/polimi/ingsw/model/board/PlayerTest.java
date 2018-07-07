@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.board;
 
-import com.sun.javafx.binding.SelectBinding;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
 
