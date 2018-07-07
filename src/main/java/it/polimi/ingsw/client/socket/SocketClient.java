@@ -85,10 +85,10 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.notLoggedYet(msgVector[1]);
 					break;
 				case NOTIFY_SUSPENDED_USER:
-					client.notifySuspendedUser(msgVector[1]);
+					client.notifySuspendedUser(msgVector[1], Integer.parseInt(msgVector[2]));
 					break;
 				case NOTIFY_NEW_USER:
-					client.notifyNewUser(msgVector[1]);
+					client.notifyNewUser(msgVector[1], Integer.parseInt(msgVector[2]));
 					break;
 				case SEND_PLAYERS_LIST:
 					client.sendPlayersList(Arrays.copyOfRange(msgVector, 1, msgVector.length));

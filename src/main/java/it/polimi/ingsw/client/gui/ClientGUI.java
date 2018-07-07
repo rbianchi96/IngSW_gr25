@@ -35,6 +35,8 @@ public class ClientGUI extends Application implements ClientInterface {
 	private String myUsername;
 	private String[] lastPlayersList = null;
 
+	private State state;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		List<String> args = getParameters().getRaw();
@@ -87,6 +89,8 @@ public class ClientGUI extends Application implements ClientInterface {
 		primaryStage.setScene(login);
 		primaryStage.setTitle("Sagrada");
 		primaryStage.show();
+
+		state = State.LOGIN;
 	}
 
 	//	FROM SERVER METHODS
@@ -120,6 +124,8 @@ public class ClientGUI extends Application implements ClientInterface {
 	@Override
 	public void startGame() {
 		gameGUI.sendPlayersList(myUsername, lastPlayersList);
+
+		state = State.GAME;
 
 		Platform.runLater(() -> {
 			primaryStage.setScene(game);
@@ -259,13 +265,17 @@ public class ClientGUI extends Application implements ClientInterface {
 			primaryStage.show();
 		});
 
+		state = State.LOGIN;
+
 		client.closeConnection();
 	}
 
 	@Override
 	public void loginResponse(String... result) {
-		if(result[0].equals("success"))
+		if(result[0].equals("success")) {
 			this.myUsername = result[1];
+			state = State.LOBBY;
+		}
 
 		Platform.runLater(() -> {
 			if(result[0].equals("success")) {
@@ -278,9 +288,16 @@ public class ClientGUI extends Application implements ClientInterface {
 					e.printStackTrace();    //FATAL ERROR!
 				}
 			} else if(result[0].equals("fail")) {
-				if(result[1].equals("0")) {
-					Alert alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso  username è già registato!");
-					alert.showAndWait();
+				Alert alert;
+				switch(result[1]) {
+					case "0":
+						alert = new Alert(Alert.AlertType.ERROR, "Un utente con lo stesso  username è già registato!");
+						alert.showAndWait();
+						break;
+					case "1":
+						alert = new Alert(Alert.AlertType.ERROR, "La lobby è piena o è già in corso una partita.");
+						alert.showAndWait();
+
 				}
 			}
 		});
@@ -298,13 +315,25 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void notifyNewUser(String username) {
-		lobbyGUI.notifyNewUser(username);
+	public void notifyNewUser(String username, int index) {
+		switch(state) {
+			case LOBBY:
+				lobbyGUI.notifyNewUser(username);
+				break;
+			case GAME:
+				gameGUI.notifyReconnectedUser(username, index);
+		}
 	}
 
 	@Override
-	public void notifySuspendedUser(String username) {
-		lobbyGUI.notifySuspendedUser(username);
+	public void notifySuspendedUser(String username, int index) {
+		switch(state) {
+			case LOBBY:
+				lobbyGUI.notifySuspendedUser(username);
+				break;
+			case GAME:
+				gameGUI.notifySuspendedUser(username, index);
+		}
 	}
 
 	@Override
@@ -331,5 +360,9 @@ public class ClientGUI extends Application implements ClientInterface {
 			Alert alert = new Alert(Alert.AlertType.ERROR, "Connessione col server interrotta!");
 			alert.showAndWait();
 		});
+	}
+
+	private enum State {
+		LOGIN, LOBBY, GAME
 	}
 }

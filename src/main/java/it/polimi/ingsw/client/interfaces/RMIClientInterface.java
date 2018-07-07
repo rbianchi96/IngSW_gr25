@@ -19,8 +19,8 @@ public interface RMIClientInterface extends Remote {
 	public void ping() throws RemoteException;
 
 	//Lobby methods
-	public void notifyNewUser(String message) throws RemoteException;
-	public void notifySuspendedUser(String message) throws RemoteException;
+	public void notifyNewUser(String message, int index) throws RemoteException;
+	public void notifySuspendedUser(String message, int index) throws RemoteException;
 	public void sendPlayersList(String[] players) throws RemoteException;
 
 	//Game preparation methods

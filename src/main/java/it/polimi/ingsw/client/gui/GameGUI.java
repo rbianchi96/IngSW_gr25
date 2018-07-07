@@ -73,6 +73,7 @@ public class GameGUI extends GUIController {
 	Label cardTokens0, cardTokens1, cardTokens2;
 
 	private String[] players;
+	private boolean[] arePlayersOnline;
 
 	private ImageView toolCards[], publicObjectiveCards[];
 
@@ -113,8 +114,10 @@ public class GameGUI extends GUIController {
 
 	public void sendPlayersList(String username, String[] players) {
 		this.players = players;
+		arePlayersOnline = new boolean[players.length];
 
 		for(int i = 0; i < players.length; i++) {
+			arePlayersOnline[i] = true;
 			if(players[i].equals(username))
 				myIndex = i;
 		}
@@ -187,7 +190,9 @@ public class GameGUI extends GUIController {
 				if(currentPlayer == i) {
 					playersNames[playersMap.get(i)].setTextFill(Color.RED);
 				} else {
-					playersNames[playersMap.get(i)].setTextFill(Color.BLACK);
+					playersNames[playersMap.get(i)].setTextFill(
+							arePlayersOnline[i] ? Color.BLACK : Color.GRAY
+					);
 				}
 			}
 
@@ -536,6 +541,18 @@ addEvent("Hai già utilizzato una carta strumento!", true);
 	public void placeDiceNotAdjacent() {
 		addEvent("Seleziona dove posizionare il dado.", false);
 		state = State.PLACE_DICE_NOT_ADJACENT;
+	}
+
+	public void notifySuspendedUser(String username, int index) {
+		arePlayersOnline[index] = false;
+		Platform.runLater(() -> playersNames[playersMap.get(index)].setTextFill(Color.GRAY));
+		addEvent(username + " ha abbandonato la partita.", false);
+	}
+
+	public void notifyReconnectedUser(String username, int index) {
+		arePlayersOnline[index] = true;
+		Platform.runLater(() -> playersNames[playersMap.get(index)].setTextFill(Color.BLACK));
+		addEvent(username + " ha ripreso la partita.", false);
 	}
 
 	private int getTime() {

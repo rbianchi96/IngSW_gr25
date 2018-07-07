@@ -76,7 +76,7 @@ public class Lobby {
 
                         // Notify the new user to all other players
                         for(int i = 0; i< playersConnectionData.size() && !playersConnectionData.get(i).getNickName().equals(username); i++){
-                            playersConnectionData.get(i).getClientInterface().notifyNewUser(username);
+                            playersConnectionData.get(i).getClientInterface().notifyNewUser(username, playersConnectionData.size() - 1);
                         }
                         sendPlayersListToAll();
 
@@ -165,7 +165,7 @@ public class Lobby {
             for(int i = 0; i < playersConnectionData.size(); i++) {
 				if(i != index)
 					if(playersConnectionData.get(i).getClientInterface() != null)
-						playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
+						playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname, index);
 				else
                     if(playersConnectionData.get(i).getClientInterface() != null) {
                         playersConnectionData.get(i).getClientInterface().closeConnection();
@@ -175,8 +175,8 @@ public class Lobby {
 		} else {  //If the game isn't started yet (lobby phase)
 			System.out.println(playersConnectionData.get(index).getNickName() + " has been removed from the lobby.");
 			playersConnectionData.remove(index);
-			for(int i = 0; i < getPlayersUsernamesArrayList().size(); i++) {
-                playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname);
+			for(int i = 0; i < playersConnectionData.size(); i++) {
+                playersConnectionData.get(i).getClientInterface().notifySuspendedUser(playerNickname, index);
             }
             sendPlayersListToAll();
         }
@@ -213,14 +213,19 @@ public class Lobby {
                         clientInterface.updatePlayersTokens(currentGame.getPlayersTokens());
                     }
 
-
                     playersConnectionData.get(i).setObserver(observer);
                     currentGame.addObserver(observer);
 
-                    break;
-                } else
-                    clientInterface.loginResponse("fail", "0");
+                    for(int i2 = 0; i2< playersConnectionData.size(); i2++){
+                        if(!playersConnectionData.get(i2).getNickName().equals(username))
+                            playersConnectionData.get(i2).getClientInterface().notifyNewUser(username, i);
+                    }
 
+                    return;
+                } else {
+                    clientInterface.loginResponse("fail", "0");
+                    return;
+                }
         }
         clientInterface.loginResponse("fail", "1");
     }

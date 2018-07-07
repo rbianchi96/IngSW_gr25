@@ -35,8 +35,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
-	public void notifyNewUser(String message) throws RemoteException {
-		client.notifyNewUser(message);
+	public void notifyNewUser(String username, int index) throws RemoteException {
+		client.notifyNewUser(username, index);
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
-	public void notifySuspendedUser(String message) throws RemoteException {
-		client.notifySuspendedUser(message);
+	public void notifySuspendedUser(String username, int index) throws RemoteException {
+		client.notifySuspendedUser(username, index);
 	}
 
 	@Override

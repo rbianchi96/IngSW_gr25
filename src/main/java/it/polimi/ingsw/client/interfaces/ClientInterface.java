@@ -15,8 +15,8 @@ public interface ClientInterface {
 	public void notifyReconnectionStatus(boolean status, String message); // Notify the result of attempted reconnection
 
 	//Lobby metods
-	public void notifyNewUser(String username); // notify that a new user joined the lobby
-	public void notifySuspendedUser(String username); // notify that an user leaved the lobby or the game
+	public void notifyNewUser(String username, int index); // notify that a new user joined the lobby
+	public void notifySuspendedUser(String username, int index); // notify that an user leaved the lobby or the game
 	public void sendPlayersList(String[] players);
 
 	//Game and players preparation methods

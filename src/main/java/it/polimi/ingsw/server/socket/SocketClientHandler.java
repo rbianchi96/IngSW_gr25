@@ -464,14 +464,14 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	}
 
 	@Override // Read ClientInterface for details
-	public synchronized void notifyNewUser(String username) {
-		out.println(encode(NOTIFY_NEW_USER, username));
+	public synchronized void notifyNewUser(String username, int index) {
+		out.println(encode(NOTIFY_NEW_USER, username, String.valueOf(index)));
 		out.flush();
 	}
 
 	@Override // Read ClientInterface for details
-	public synchronized void notifySuspendedUser(String username) {
-		out.println(encode(NOTIFY_SUSPENDED_USER, username));
+	public synchronized void notifySuspendedUser(String username, int index) {
+		out.println(encode(NOTIFY_SUSPENDED_USER, username, String.valueOf(index)));
 		out.flush();
 	}
 

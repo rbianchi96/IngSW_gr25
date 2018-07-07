@@ -73,18 +73,18 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
-	public void notifyNewUser(String username) {
+	public void notifyNewUser(String username, int index) {
 		try {
-			rmiClientInterface.notifyNewUser(username);
+			rmiClientInterface.notifyNewUser(username, index);
 		} catch(Exception e) {
 			controller.lostConnection(this);
 		}
 	}
 
 	@Override
-	public void notifySuspendedUser(String username) {
+	public void notifySuspendedUser(String username, int index) {
 		try {
-			rmiClientInterface.notifySuspendedUser(username);
+			rmiClientInterface.notifySuspendedUser(username, index);
 		} catch(Exception e) {
 			controller.lostConnection(this);
 		}
