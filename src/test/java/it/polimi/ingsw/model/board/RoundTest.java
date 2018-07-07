@@ -100,15 +100,14 @@ public class RoundTest {
     }
 
     @Test
-    public void doubleTurn(){
-        System.out.println("RoundTest: Testing doubleRound()...");
+    public void removeCurrentPlayerSecondTurn(){
+        System.out.println("RoundTest: Testing removeCurrentPlayerSecondTurn()...");
         int playersNumber = 3;
         Round round = new Round(playersNumber);
         // Testing that all the values are the expected ones
         round.nextRound();
         round.nextPlayer();
         assertTrue(round.removeCurrentPlayerSecondTurn());
-        assertEquals(1,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(2,round.nextPlayer());
         assertEquals(0,round.nextPlayer());
