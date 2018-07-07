@@ -13,6 +13,13 @@ public class PublicObjectiveCard extends Card implements Serializable {
 	private String description;
 	private int points;
 
+	/**Constructor
+	 *
+	 * @param id
+	 * @param name
+	 * @param description
+	 * @param points
+	 */
 	public PublicObjectiveCard(PublicObjectiveCardsIds id, String name, String description, int points) {
 		this.id = id;
 		this.name = name;
@@ -20,6 +27,11 @@ public class PublicObjectiveCard extends Card implements Serializable {
 		this.points = points;
 	}
 
+	/**
+	 *
+	 * @param windowPattern
+	 * @return the score
+	 */
 	public int calculateScore(WindowPattern windowPattern) {
 		int p = 0;
 
@@ -309,22 +321,42 @@ public class PublicObjectiveCard extends Card implements Serializable {
 		}
 	}
 
+	/**
+	 *
+	 * @return the id of the card
+	 */
 	public PublicObjectiveCardsIds getId() {
 		return id;
 	}
 
+	/**
+	 *
+	 * @return the name of the card
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 *
+	 * @return the description of the card
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 *
+	 * @return the points of the card
+	 */
 	public int getPoints() {
 		return points;
 	}
 
+	/**
+	 *
+	 * @return a string representing the card
+	 */
 	@Override
 	public String toString() {
 		return "Public objective card \"" + name + "\" (" + description + "), " + points + " points";

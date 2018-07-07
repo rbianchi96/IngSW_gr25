@@ -11,10 +11,20 @@ import java.util.Random;
 public class PrivateObjectiveCardsLoader extends CardsLoader {
 	public static final String FILE_NAME = "privateObjectiveCards.json";
 
+	/** Constructor
+	 *
+	 * @param file
+	 */
     public PrivateObjectiveCardsLoader(Reader file) {
         super(file);
     }
 
+	/**It gets an array of PrivateObjectiveCard
+	 *
+	 * @param cardsNumber
+	 * @return an array of PrivateObjectiveCards
+	 * @throws NotEnoughCards
+	 */
     @Override
     public PrivateObjectiveCard[] getRandomCards(int cardsNumber) throws NotEnoughCards {
 		if(cardsNumber > cardsArray.size())

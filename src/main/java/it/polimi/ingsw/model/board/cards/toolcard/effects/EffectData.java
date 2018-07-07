@@ -17,7 +17,7 @@ public class EffectData {
     private int oldX;
     private int oldY;
     private int addPlayableDice;
-
+    private int value;
 
     private Player player;
     private WindowPattern windowPattern;
@@ -141,5 +141,13 @@ public class EffectData {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

@@ -10,18 +10,28 @@ public class Draft {
     private int maxDices;
     private ArrayList<Dice> dices;
 
+    /**Constructor
+     *
+     * @param players
+     */
     public Draft(int players){
         this.maxDices = 2*players + 1;
         this.dices = new ArrayList<>();
     }
 
-    // Set the max number of dices, based on number of players.
+    /**Set the max number of dices, based on number of players.
+     *
+     * @param dices max num of dices
+     */
     public void setMaxDices(int dices)
     {
        maxDices = dices;
     }
 
-    // It returns a copy of the draft's dices arraylist
+    /**It returns a copy of the draft's dices arraylist
+     *
+     * @return a copy of the draft's dices arraylist
+     */
     public ArrayList<Dice> getDices(){ // Return the Dices in the Draft as ArrayList.
         return (ArrayList<Dice>)dices.clone();
     }
@@ -31,7 +41,11 @@ public class Draft {
         return dices.size();
     }
 
-    // Adds a dice by checking that the addition does not exceed the maximum number 'initialDices' of dices in the Draft
+    /**Adds a dice by checking that the addition does not exceed the maximum number 'initialDices' of dices in the Draft
+     *
+     * @param dice
+     * @return true if is possible to add the dice
+     */
     public boolean addDice(Dice dice){
         if (dices.size() < maxDices){
             dices.add(dice);
@@ -59,6 +73,11 @@ public class Draft {
         }
     }
 
+    /**
+     *
+     * @param players
+     * @return a copy of the draft
+     */
     public Draft getClone(int players){
         Draft df = new Draft(players);
         df.setMaxDices(this.maxDices);
@@ -68,6 +87,10 @@ public class Draft {
         return df;
     }
 
+    /**
+     *
+     * @return a String that describes the Draft
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Draft's dices: ");

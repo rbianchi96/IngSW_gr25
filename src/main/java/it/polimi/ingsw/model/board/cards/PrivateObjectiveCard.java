@@ -12,12 +12,23 @@ public class PrivateObjectiveCard extends Card implements Serializable {
 	private String name;
 	private String description;
 
+	/**Constructor
+	 *
+	 * @param color
+	 * @param name
+	 * @param description
+	 */
 	public PrivateObjectiveCard(Color color, String name, String description) {
 		this.color = color;
 		this.name = name;
 		this.description = description;
 	}
 
+	/**
+	 *
+	 * @param windowPattern
+	 * @return the score of the windowPattern
+	 */
 	public int calculateScore(WindowPattern windowPattern) {	//Calculate points of this objective relative to a window pattern
 		int points = 0;
 
@@ -31,18 +42,34 @@ public class PrivateObjectiveCard extends Card implements Serializable {
 		return points;
 	}
 
+	/**
+	 *
+	 * @return the color of the card
+	 */
 	public Color getColor() {
 		return color;
 	}
 
+	/**
+	 *
+	 * @return the name of the card
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 *
+	 * @return the description of the card
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 *
+	 * @return a string describing the card
+	 */
 	@Override
 	public String toString() {
 		return "Private objective card \"" + name + "\"";

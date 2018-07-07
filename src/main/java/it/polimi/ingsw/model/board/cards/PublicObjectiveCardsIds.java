@@ -18,6 +18,11 @@ public enum PublicObjectiveCardsIds {
 		this.id = id;
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @return one of the PublicObjectiveCardsIds
+	 */
 	public static PublicObjectiveCardsIds findId(String id) {
 		for(PublicObjectiveCardsIds aId : values())
 			if(aId.id.equals(id))

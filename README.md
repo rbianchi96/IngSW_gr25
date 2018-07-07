@@ -14,4 +14,7 @@ Creazione del gioco da tavolo *Sagrada*.
 
 Stato attuale
 -------------
-Progetto in stato embrionale, semplice *Hello World!*.
+Progetto ultimato.
+Requisiti rispettati: Regole Complete + GUI + RMI + Socket + 1 F.A.
+Il gioco prevede dai 2 ai 4 giocatori, non è stata implementata la funzionalità di singolo giocatore.
+

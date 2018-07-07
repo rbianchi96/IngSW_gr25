@@ -13,6 +13,14 @@ public class GameBoard {
     private RoundTrack roundTrack;
     private Draft draft;
 
+    /**Constructor
+     *
+     * @param diceBag
+     * @param draft
+     * @param publicObjectiveCards
+     * @param toolCards
+     * @param roundTrack
+     */
     public GameBoard(DiceBag diceBag, Draft draft, PublicObjectiveCard[] publicObjectiveCards, ToolCard[] toolCards, RoundTrack roundTrack){
         this.diceBag = diceBag;
         this.draft = draft;
@@ -22,18 +30,43 @@ public class GameBoard {
     }
 
     // Getters
+
+    /**
+     *
+     * @return the DiceBag
+     */
     public DiceBag getDiceBag() {
         return diceBag;
     }
+
+    /**
+     *
+     * @return an array of PublicObjectiveCard
+     */
     public PublicObjectiveCard[] getPublicObjectiveCard() {
         return publicObjectiveCards;
     }
+
+    /**
+     *
+     * @return an array of ToolCard
+     */
     public ToolCard[] getToolCards() {
         return toolCards;
     }
+
+    /**
+     *
+     * @return the roundtarck
+     */
     public RoundTrack getRoundTrack() {
         return roundTrack;
     }
+
+    /**
+     *
+     * @return the draft
+     */
     public Draft getDraft(){ return draft; }
 
     @Override

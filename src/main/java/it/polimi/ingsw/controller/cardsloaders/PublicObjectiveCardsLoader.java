@@ -11,10 +11,20 @@ import java.util.Random;
 public class PublicObjectiveCardsLoader extends CardsLoader {
 	public static final String FILE_NAME = "publicObjectiveCards.json";
 
+	/** Constructor
+	 *
+	 * @param file
+	 */
 	public PublicObjectiveCardsLoader(Reader file) {
 		super(file);
 	}
 
+	/**Method that takes an array of random cards
+	 *
+	 * @param cardsNumber
+	 * @return an array of PublicObjective Cards
+	 * @throws NotEnoughCards
+	 */
 	@Override
 	public PublicObjectiveCard[] getRandomCards(int cardsNumber) throws NotEnoughCards {    //Get random card and remove them
 		if(cardsNumber > cardsArray.size())
@@ -45,6 +55,10 @@ public class PublicObjectiveCardsLoader extends CardsLoader {
 		return objectiveCards;
 	}
 
+	/**
+	 *
+	 * @return a String describing the loader
+	 */
 	@Override
 	public String toString() {
 		return "Public objective cards loader";

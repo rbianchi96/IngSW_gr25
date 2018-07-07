@@ -17,28 +17,51 @@ public class Dice implements Serializable {
             "\u2685"   //6
     };
 
+    /**Constructor
+     *
+     * @param value
+     * @param color
+     */
     public Dice(int value, Color color) {
         this.value = value;
         this.color = color;
     }
 
+    /**set the value of the dice
+     *
+     * @param value
+     */
     public void setValue(int value) {
         this.value = value;
     }
 
+    /**set the color of the dice
+     *
+     * @param color
+     */
     public void setColor(Color color) {
         this.color = color;
     }
 
+    /**
+     *
+     * @return the value of the dice
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     *
+     * @return the color of the dice
+     */
     public Color getColor() {
         return color;
     }
 
-    //it increments the value of the dice of one unit
+
+
+    // it increments the value of the dice of one unit
     public void increment() {
         if (this.value >= 1 && this.value < 6) {
             this.value += 1;
@@ -81,6 +104,11 @@ public class Dice implements Serializable {
     }
 
     // It returns a copy of this dice
+
+    /**
+     *
+     * @return a copy of the dice
+     */
     public Dice getClone() {
         return new Dice(this.value, this.color);
     }
@@ -91,6 +119,10 @@ public class Dice implements Serializable {
         setValue(i);
     }
 
+    /**
+     *
+     * @return a string representing the dice
+     */
     public String drawDice() {
         String reset = "\u001B[0m";
         if (this.getValue() == -1) {
@@ -103,6 +135,10 @@ public class Dice implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return a string representing the dice
+     */
     @Override
     public String toString() {
         String s = String.valueOf(this.value);
@@ -114,6 +150,11 @@ public class Dice implements Serializable {
         System.out.println(this.drawDice());
     }
 
+    /**
+     *
+     * @param other
+     * @return if the dice is equal to another
+     */
     @Override
     public boolean equals(Object other) {
         if ((other == null) || (!(other instanceof Dice))) return false;
