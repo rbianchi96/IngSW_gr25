@@ -13,7 +13,6 @@ import it.polimi.ingsw.model.board.dice.RoundTrack;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 import it.polimi.ingsw.client.interfaces.ClientCommand;
 
-import java.nio.channels.NotYetBoundException;
 import java.util.Observable;
 
 import java.util.ArrayList;
@@ -242,8 +241,7 @@ public class Game extends Observable {
 		Player player = findPlayer(username);
 		checkTurn(player);
 
-		if(currentToolCardInUse >= 0)    // if the player's using some card
-			throw new InvalidCall();
+		toolCardUsageFinished();
 
 		nextTurn();
 	}
@@ -982,22 +980,6 @@ public class Game extends Observable {
 	}
 
 	/**
-	 * Force the end of a player's turn.
-	 *
-	 * @param username the username of the player
-	 * @throws WrongTurnException if isn't the turn of the given player
-	 * @throws InvalidCall
-	 */
-	private void forceTurnEnd(String username) throws WrongTurnException, InvalidCall {
-		Player player = findPlayer(username);
-		checkTurn(player);
-
-		toolCardUsageFinished();
-
-		endTurn(username);
-	}
-
-	/**
 	 * @param username  the player
 	 * @param suspended true if suspended, false otherwise
 	 */
@@ -1023,7 +1005,7 @@ public class Game extends Observable {
 					if(rounds.getCurrentRound() != - 1)	//The game is started
 						try {
 							if(players.get(rounds.getCurrentPlayer()) == player)
-								forceTurnEnd(username);
+								endTurn(username);
 						} catch(WrongTurnException | InvalidCall ignored) {
 
 						}
