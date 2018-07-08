@@ -31,7 +31,7 @@ public enum ClientCommand {
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWindowPattern"),
 	SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR("selectDiceFromWindowPatternSelectedColor"),
 	MOVE_WINDOW_PATTERN_DICE("moveWindowPatternDice"),
-	SELECT_DICE_FROM_ROUND_TRACK("selectDiceFromRoundTrackAndSwap"),
+	SELECT_DICE_FROM_ROUND_TRACK("selectDiceFromRoundTrack"),
 	MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR("moveWindowPatternDiceSelectedColor"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRoundTrackAndSwitch"),
 	PLACE_DICE("placeDiceAfterEffect"),

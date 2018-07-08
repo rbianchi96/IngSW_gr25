@@ -220,6 +220,8 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					break;
 				case SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR:
+					client.selectDiceFromWindowPatternSelectedColor();
+
 					break;
 				case MOVE_WINDOW_PATTERN_DICE:
 					client.moveDiceInWindowPattern();
@@ -403,6 +405,15 @@ public class SocketClient extends Socket implements ServerInterface {
 	}
 
 	@Override
+	public void selectDiceFromWindowPatternSelectedColorEffect(int row, int col) {
+		out.println(encode(
+				ServerCommand.SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR,
+				String.valueOf(row),
+				String.valueOf(col)
+		));
+	}
+
+	@Override
 	public void moveDiceInWindowPatternEffect(int row, int col) {
 		out.println(encode(
 				ServerCommand.MOVE_DICE_IN_WINDOW_PATTERN,
@@ -410,6 +421,15 @@ public class SocketClient extends Socket implements ServerInterface {
 				String.valueOf(col)
 		));
 		out.flush();
+	}
+
+	@Override
+	public void moveDiceInWindowPatternSelectedColorEffect(int row, int col) {
+		out.println(encode(
+				ServerCommand.MOVE_DICE_IN_WINDOW_PATTERN_SELECTED_COLOR,
+				String.valueOf(row),
+				String.valueOf(col)
+		));
 	}
 
 	/**
@@ -438,6 +458,15 @@ public class SocketClient extends Socket implements ServerInterface {
 	}
 
 	@Override
+	public void selectDiceFromRoundTrack(int round, int dice) {
+		out.println(encode(
+				ServerCommand.SELECT_DICE_FROM_ROUND_TRACK,
+				String.valueOf(round),
+				String.valueOf(dice)
+		));
+	}
+
+	@Override
 	public void selectDiceFromRoundTrackAndSwitch(int round, int dice) {
 		out.println(encode(
 				ServerCommand.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH,
@@ -452,6 +481,14 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.println(encode(
 				ServerCommand.SET_DICE_VALUE,
 				String.valueOf(value)
+		));
+	}
+
+	@Override
+	public void moveNextDice(boolean r) {
+		out.println(encode(
+				ServerCommand.MOVE_NEXT_DICE,
+				String.valueOf(r)
 		));
 	}
 

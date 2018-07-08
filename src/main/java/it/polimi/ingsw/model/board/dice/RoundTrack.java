@@ -103,7 +103,7 @@ public class RoundTrack implements Serializable {
      * @param dice
      * @return
      */
-    public Dice getDice(int round, Dice dice) {
+    public Dice getDiceAndRemove(int round, Dice dice) {
         if (round>=0 && round<10) {
             if(dice!=null) {
                 Iterator<Dice> itr = track[round].getDices().iterator();
@@ -122,14 +122,26 @@ public class RoundTrack implements Serializable {
             throw new ArrayIndexOutOfBoundsException("The game only have 10 rounds!");
     }
 
-    // Same requests as the previous getDice but try to get a precise dice from [round][index]
-    public Dice getDice(int round, int index) {
+    // Same requests as the previous getDiceAndRemove but try to get a precise dice from [round][index]
+    public Dice getDiceAndRemove(int round, int index) {
         if (round>=0 && round<10) {
-            if (index<0 || index >track[round].getDices().size()-1)
+            if (index<0 || index >=track[round].getDices().size())
                 throw new IndexOutOfBoundsException("You are trying to get a Dice from an invalid index.");
             else {
                 Dice dice = track[round].getDices().get(index);
                 track[round].getDices().remove(index);
+                return dice;
+            }
+        }else
+            throw new ArrayIndexOutOfBoundsException("The game only have 10 rounds!");
+    }
+
+    public Dice getDice(int round, int index) {
+        if (round>=0 && round<10) {
+            if (index<0 || index >=track[round].getDices().size())
+                throw new IndexOutOfBoundsException("You are trying to get a Dice from an invalid index.");
+            else {
+                Dice dice = track[round].getDices().get(index);
                 return dice;
             }
         }else

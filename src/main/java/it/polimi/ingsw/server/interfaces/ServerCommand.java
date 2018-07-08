@@ -14,11 +14,15 @@ public enum ServerCommand {
 	SELECT_DICE_FROM_DRAFT_EFFECT("selectDiceFromDraftEffect"),
 	INCREMENT_OR_DECREMENT_DICE_EFFECT("incOrDecDiceEffect"),
 	SELECT_DICE_FROM_WINDOW_PATTERN("selectDiceFromWP"),
+	SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR("selectDiceFromWPSelColor"),
 	MOVE_DICE_IN_WINDOW_PATTERN("moveDiceInWP"),
+	MOVE_DICE_IN_WINDOW_PATTERN_SELECTED_COLOR("moveDiceInWPSelColor"),
 	PLACE_DICE("placeDiceAfterEffect"),
 	PLACE_DICE_NOT_ADJACENT("placeDiceNotAdjacent"),
+	SELECT_DICE_FROM_ROUND_TRACK("selectDiceFromRoundTrack"),
 	SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH("selectDiceFromRTAndSwitch"),
 	SET_DICE_VALUE("setDiceValue"),
+	MOVE_NEXT_DICE("moveNextDice"),
 
 	PING("ping"),
 	PONG("pong");

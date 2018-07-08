@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.socket;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.model.board.Color;
 import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
@@ -175,8 +176,24 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					);
 
 					break;
+				case SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR:
+					controller.selectDiceFromWindowPatternSelectedColorEffect(
+							this,
+							Integer.parseInt(request[1]),
+							Integer.parseInt(request[2])
+					);
+
+					break;
 				case MOVE_DICE_IN_WINDOW_PATTERN:
 					controller.moveWindowPatternDiceEffect(
+							this,
+							Integer.parseInt(request[1]),
+							Integer.parseInt(request[2])
+					);
+
+					break;
+				case MOVE_DICE_IN_WINDOW_PATTERN_SELECTED_COLOR:
+					controller.moveWindowPatternDiceSelectedColorEffect(
 							this,
 							Integer.parseInt(request[1]),
 							Integer.parseInt(request[2])
@@ -199,6 +216,14 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					);
 
 					break;
+				case SELECT_DICE_FROM_ROUND_TRACK:
+					controller.selectDiceFromRoundTrack(
+							this,
+							Integer.parseInt(request[1]),
+							Integer.parseInt(request[2])
+					);
+
+					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
 					controller.selectDiceFromRoundTrackAndSwitch(
 							this,
@@ -211,6 +236,13 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 					controller.setDiceValueEffect(
 							this,
 							Integer.parseInt(request[1])
+					);
+
+					break;
+				case MOVE_NEXT_DICE:
+					controller.wannaMoveNextDice(
+							this,
+							Boolean.parseBoolean(request[1])
 					);
 
 					break;

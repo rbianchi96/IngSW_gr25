@@ -155,6 +155,15 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	@Override
+	public void selectDiceFromWindowPatternSelectedColorEffect(int row, int col) {
+		try {
+			server.selectDiceFromWindowPatternSelectedColorEffect(client, row, col);
+		} catch(RemoteException e) {
+			clientGUI.lostConnenction();
+		}
+	}
+
 	/**move the dice im the selected position
 	 *
 	 * @param row of the wp
@@ -164,6 +173,15 @@ public class RMIClientToServer implements ServerInterface {
 	public void moveDiceInWindowPatternEffect(int row, int col) {
 		try {
 			server.moveDiceInWindowPatternEffect(client, row, col);
+		} catch(RemoteException e) {
+			clientGUI.lostConnenction();
+		}
+	}
+
+	@Override
+	public void moveDiceInWindowPatternSelectedColorEffect(int row, int col) {
+		try {
+			server.moveDiceInWindowPatternSelectedColorEffect(client, row, col);
 		} catch(RemoteException e) {
 			clientGUI.lostConnenction();
 		}
@@ -193,6 +211,15 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	@Override
+	public void selectDiceFromRoundTrack(int round, int dice) {
+		try {
+			server.selectDiceFromRoundTrack(client, round, dice);
+		} catch(RemoteException e) {
+			clientGUI.lostConnenction();
+		}
+	}
+
 	/**select a dice from the round track and switch
 	 *
 	 * @param round number of round
@@ -211,6 +238,15 @@ public class RMIClientToServer implements ServerInterface {
 	public void setDiceValue(int value) {
 		try {
 			server.setDiceValue(client, value);
+		} catch(RemoteException e) {
+			clientGUI.lostConnenction();
+		}
+	}
+
+	@Override
+	public void moveNextDice(boolean r) {
+		try {
+			server.moveNextDice(client, r);
 		} catch(RemoteException e) {
 			clientGUI.lostConnenction();
 		}

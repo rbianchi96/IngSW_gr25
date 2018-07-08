@@ -20,9 +20,13 @@ public interface RMIServerInterface extends Remote {
     public void selectDiceFromDraftEffect(RMIClientInterface rmiClientInterface, Dice dice) throws RemoteException;
     public void incrementOrDecrementDiceEffect(RMIClientInterface rmiClientInterface, boolean mode) throws RemoteException;
     public void selectDiceFromWindowPatternEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
+    public void selectDiceFromWindowPatternSelectedColorEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
     public void moveDiceInWindowPatternEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
+    public void moveDiceInWindowPatternSelectedColorEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
     public void placeDice(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
     public void placeDiceNotAdjacent(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException;
+    public void selectDiceFromRoundTrack(RMIClientInterface rmiClientInterface, int round, int dice) throws RemoteException;
     public void selectDiceFromRoundTrackAndSwitch(RMIClientInterface rmiClientInterface, int round, int dice) throws RemoteException;
     public void setDiceValue(RMIClientInterface rmiClientInterface, int value) throws RemoteException;
+    public void moveNextDice(RMIClientInterface rmiClientInterface, boolean r) throws RemoteException;
 }

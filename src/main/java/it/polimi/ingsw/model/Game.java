@@ -506,7 +506,7 @@ public class Game extends Observable {
 			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
 			EffectData effectData = new EffectData();
 			effectData.setBool(incDec);
-		//	effectData.setDice(toolCards[currentToolCardInUse].getEffect(0).getDice());
+		//	effectData.setDice(toolCards[currentToolCardInUse].getEffect(0).getDiceAndRemove());
 			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
 			try {
 				toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
@@ -534,7 +534,7 @@ public class Game extends Observable {
 			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
 			//if (lastSelectDiceEffect==-1) {
 			//	lastSelectDiceEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.ROLL_DICE_FROM_DRAFT);
-			//	effectData.setDice(((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect))).getDice());
+			//	effectData.setDice(((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect))).getDiceAndRemove());
 			//}
 			//else
 				effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
@@ -570,7 +570,7 @@ public class Game extends Observable {
 			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
 			//if (lastSelectDiceEffect==-1) {
 			//	lastSelectDiceEffect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.ROLL_DICE_FROM_DRAFT);
-			//	effectData.setDice(((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect))).getDice());
+			//	effectData.setDice(((RollDiceFromDraftEffect)(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect))).getDiceAndRemove());
 			//}
 			//else
 			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
@@ -719,9 +719,8 @@ public class Game extends Observable {
 			throw new InvalidCall();
 		} else {
 			EffectData effectData = new EffectData();
-			Dice roundTrackDice = null;
-			roundTrackDice = getRoundTrackDice().getDice(round,index);
-			effectData.setDice(roundTrackDice);
+			effectData.setRound(round);
+			effectData.setIndex(index);
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 			return getNextEffect();
 		}

@@ -117,7 +117,7 @@ public class Controller {
 			clientInterface.wrongTurn();
 		} catch(Game.AlreadyPlacedDiceException e) {
 			clientInterface.alreadyPlacedDice();
-		} catch(GameException e){
+		} catch(GameException e) {
 			e.printStackTrace();
 		}
 	}
@@ -172,7 +172,7 @@ public class Controller {
 			clientInterface.notEnoughFavorTokens();
 		} catch(Game.AlreadyUsedToolCard ex) {
 			clientInterface.alreadyUsedToolCard();
-		} catch(Game.PreNotRespectedException ex){
+		} catch(Game.PreNotRespectedException ex) {
 			clientInterface.preNotRespected();
 		} catch(GameException e) {
 			e.printStackTrace();
@@ -191,7 +191,7 @@ public class Controller {
 			ex.printStackTrace();
 		} catch(SelectDiceFromDraftEffect.DiceNotFoundException ex) {
 			ex.printStackTrace();
-		} catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -212,10 +212,11 @@ public class Controller {
 			System.out.println("Cell not found!");
 		} catch(SelectDiceFromWindowPatternEffect.AlreadyMovedDice alreadyMovedDice) {
 			alreadyMovedDice.printStackTrace();
-		} catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	public synchronized void selectDiceFromWindowPatternSelectedColorEffect(ClientInterface clientInterface, int x, int y) {
 		try {
 			sendCommand(
@@ -232,28 +233,30 @@ public class Controller {
 			System.out.println("Cell not found!");
 		} catch(SelectDiceFromWindowPatternEffect.AlreadyMovedDice alreadyMovedDice) {
 			alreadyMovedDice.printStackTrace();
-		}catch(SelectDiceFromWindowPatternSelectedColorEffect.DiceColorNotRespected ex){
+		} catch(SelectDiceFromWindowPatternSelectedColorEffect.DiceColorNotRespected ex) {
 			//TODO
-		} catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	public synchronized void setDiceValueEffect(ClientInterface clientInterface, int value) {
 		try {
 			sendCommand(
 					clientInterface,
 					lobby.getCurrentGame().setDiceValue(findUsername(clientInterface), value)
 			);
-		} catch (Game.WrongTurnException ex) {
+		} catch(Game.WrongTurnException ex) {
 			clientInterface.wrongTurn();
-		} catch (Game.InvalidCall ex) {
+		} catch(Game.InvalidCall ex) {
 			System.out.println("Invalid call!");
-		} catch (SetDiceValueEffect.InvalidDiceValue ex){
+		} catch(SetDiceValueEffect.InvalidDiceValue ex) {
 			//TODO
-		} catch (GameException e) {
+		} catch(GameException e) {
 			e.printStackTrace();
 		}
 	}
+
 	public synchronized void incrementDecrement(ClientInterface clientInterface, boolean incDec) {
 		try {
 			sendCommand(clientInterface,
@@ -263,7 +266,7 @@ public class Controller {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall ex) {
 
-		} catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -284,10 +287,11 @@ public class Controller {
 			System.out.println("Invalid call!");
 		} catch(WindowPattern.PlacementRestrictionException e) {
 			clientInterface.dicePlacementRestictionBroken();
-		} catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	public synchronized void placeDiceNotAdjacentAfterEffect(ClientInterface clientInterface, int row, int col) {
 		try {
 			sendCommand(
@@ -304,7 +308,7 @@ public class Controller {
 			System.out.println("Invalid call!");
 		} catch(WindowPattern.PlacementRestrictionException e) {
 			clientInterface.dicePlacementRestictionBroken();
-		} catch(GameException ex){
+		} catch(GameException ex) {
 			clientInterface.dicePlacementRestictionBroken();
 		}
 	}
@@ -327,7 +331,7 @@ public class Controller {
 			clientInterface.cellAlreadyOccupied();
 		} catch(WindowPattern.PlacementRestrictionException e) {
 			clientInterface.dicePlacementRestictionBroken();
-		} catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -350,7 +354,7 @@ public class Controller {
 			clientInterface.cellAlreadyOccupied();
 		} catch(WindowPattern.PlacementRestrictionException e) {
 			clientInterface.dicePlacementRestictionBroken();
-		} catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -367,19 +371,25 @@ public class Controller {
 
 	public synchronized void rollDiceFromDraft(ClientInterface clientInterface) {
 		try {
-			lobby.getCurrentGame().rollDiceFromDraftEffect(findUsername(clientInterface));
+			sendCommand(
+					clientInterface,
+					lobby.getCurrentGame().rollDiceFromDraftEffect(findUsername(clientInterface))
+			);
 		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall invalidCall) {
 			invalidCall.printStackTrace();
-		} catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
 	public synchronized void selectDiceFromRoundTrackAndSwitch(ClientInterface clientInterface, int round, int index) {
 		try {
-			lobby.getCurrentGame().selectDiceFromRoundTrackAndSwitch(findUsername(clientInterface), round, index);
+			sendCommand(
+					clientInterface,
+					lobby.getCurrentGame().selectDiceFromRoundTrackAndSwitch(findUsername(clientInterface), round, index)
+			);
 		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall invalidCall) {
@@ -388,29 +398,37 @@ public class Controller {
 			invaliDiceOrPosition.printStackTrace();
 		} catch(SelectDiceFromRoundTrackAndSwitchEffect.DiceNotFoundException e) {
 			e.printStackTrace();
-		}catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	public synchronized void selectDiceFromRoundTrack(ClientInterface clientInterface, int round, int index) {
 		try {
-			lobby.getCurrentGame().selectDiceFromRoundTrack(findUsername(clientInterface), round, index);
+			sendCommand(
+					clientInterface,
+			lobby.getCurrentGame().selectDiceFromRoundTrack(findUsername(clientInterface), round, index)
+			);
 		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
 		} catch(Game.InvalidCall invalidCall) {
 			invalidCall.printStackTrace();
-		}catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	public synchronized void wannaMoveNextDice(ClientInterface clientInterface, boolean choice) {
 		try {
-			lobby.getCurrentGame().wannaMoveNextDice(findUsername(clientInterface),choice);
-		} catch (Game.WrongTurnException e) {
+			sendCommand(
+					clientInterface,
+			lobby.getCurrentGame().wannaMoveNextDice(findUsername(clientInterface), choice)
+			);
+		} catch(Game.WrongTurnException e) {
 			clientInterface.wrongTurn();
-		} catch (Game.InvalidCall invalidCall) {
+		} catch(Game.InvalidCall invalidCall) {
 			invalidCall.printStackTrace();
-		} catch (Exception ex) {
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}

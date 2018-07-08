@@ -22,7 +22,7 @@ public class CellTest {
     }
     @Test
     public void getDiceTest(){
-        System.out.println("CellTest: Testing getDice()...");
+        System.out.println("CellTest: Testing getDiceAndRemove()...");
         Cell cell=new Cell(Color.RED);
         Dice testedDice = new Dice(4,Color.RED);
         // Testing if it is returned a null value asking for a dice of an empty cell

@@ -190,7 +190,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void wannaMoveNextDice() {
-//TODO
+		gameGUI.wannaMoveNextDice();
 	}
 
 	@Override
@@ -200,7 +200,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void selectDiceFromWindowPatternSelectedColor() {
-		//TODO
+		gameGUI.selectDiceFromWindowPatternSelectedColor();
 	}
 
 	@Override
@@ -210,17 +210,17 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	@Override
 	public void moveDiceInWindowPatternSelectedColor() {
-//TODO
+		gameGUI.moveDiceInWindowPatternSelectedColor();
 	}
 
 	@Override
 	public void selectDiceFromRoundTrack() {
-		//TODO
+		gameGUI.selectDiceFromRoundTrack();
 	}
 
 	@Override
 	public void selectDiceFromRoundTrackAndSwap() {
-		gameGUI.selectDiceFromRoundTrack();
+		gameGUI.selectDiceFromRoundTrackAndSwap();
 	}
 
 	@Override

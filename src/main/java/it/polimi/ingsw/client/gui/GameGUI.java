@@ -283,8 +283,21 @@ public class GameGUI extends GUIController {
 				);
 
 				break;
+			case SELECT_DICE_FROM_WINDOWPATTERN_SELECTED_COLOR:
+				client.getServerInterface().selectDiceFromWindowPatternSelectedColorEffect(
+						GridPane.getRowIndex((Pane)event.getSource()),
+						GridPane.getColumnIndex((Pane)event.getSource())
+				);
+
+				break;
 			case MOVE_DICE_IN_WINDOW_PATTERN:
 				client.getServerInterface().moveDiceInWindowPatternEffect(
+						GridPane.getRowIndex((Pane)event.getSource()),
+						GridPane.getColumnIndex((Pane)event.getSource())
+				);
+				break;
+			case MOVE_DICE_IN_WINDOW_PATTERN_SELECTED_COLOR:
+				client.getServerInterface().moveDiceInWindowPatternSelectedColorEffect(
 						GridPane.getRowIndex((Pane)event.getSource()),
 						GridPane.getColumnIndex((Pane)event.getSource())
 				);
@@ -305,7 +318,7 @@ public class GameGUI extends GUIController {
 	};
 
 	private EventHandler<MouseEvent> onRoundTrackDiceSelected = event -> {
-		if(state == State.SELECT_DICE_FROM_ROUND_TRACK) {
+		if(state == State.SELECT_DICE_FROM_ROUND_TRACK_AND_SWAP || state == State.SELECT_DICE_FROM_ROUND_TRACK) {
 			AnchorPane selectedDice = (AnchorPane)event.getSource();
 
 			VBox round = (VBox)selectedDice.getParent();
@@ -322,7 +335,10 @@ public class GameGUI extends GUIController {
 
 			System.out.println("Selected dice " + r + ", " + diceIndex);
 
-			client.getServerInterface().selectDiceFromRoundTrackAndSwitch(r, diceIndex);
+			if(state == State.SELECT_DICE_FROM_ROUND_TRACK)
+				client.getServerInterface().selectDiceFromRoundTrack(r, diceIndex);
+			else if(state == State.SELECT_DICE_FROM_ROUND_TRACK_AND_SWAP)
+				client.getServerInterface().selectDiceFromRoundTrackAndSwitch(r, diceIndex);
 
 			state = State.WAIT_USER_INPUT;
 		}
@@ -406,9 +422,9 @@ public class GameGUI extends GUIController {
 		state = State.SELECT_DICE_FROM_WINDOWPATTERN;
 	}
 
-	public void selectDiceFromRoundTrack() {
+	public void selectDiceFromRoundTrackAndSwap() {
 		addEvent("Seleziona un dado dalla tracciato dei round.", false);
-		state = State.SELECT_DICE_FROM_ROUND_TRACK;
+		state = State.SELECT_DICE_FROM_ROUND_TRACK_AND_SWAP;
 	}
 
 	public void modeDiceInWindowPattern() {
@@ -444,8 +460,8 @@ public class GameGUI extends GUIController {
 							Math.min(
 									this.roundTrack.getWidth() / Game.ROUNDS_NUMBER - 16,
 									this.roundTrack.getHeight() / roundTrackDices[round].diceNumber()
-									)
-							);
+							)
+					);
 
 					dice.setOnMouseClicked(onRoundTrackDiceSelected);
 
@@ -531,11 +547,11 @@ public class GameGUI extends GUIController {
 	}
 
 	public void alreadyPlacedDice() {
-addEvent("Hai già piazzato il massimo numero di dadi ammesso!", true);
+		addEvent("Hai già piazzato il massimo numero di dadi ammesso!", true);
 	}
 
 	public void alreadyUsedToolCard() {
-addEvent("Hai già utilizzato una carta strumento!", true);
+		addEvent("Hai già utilizzato una carta strumento!", true);
 	}
 
 	public void placeDiceNotAdjacent() {
@@ -558,20 +574,20 @@ addEvent("Hai già utilizzato una carta strumento!", true);
 	public void setDiceValue() {
 		ButtonType[] buttons = new ButtonType[6];
 
-		for(int i = 0; i < buttons.length; i ++)
+		for(int i = 0; i < buttons.length; i++)
 			buttons[i] = new ButtonType(String.valueOf(i + 1));
 
 		Platform.runLater(() -> {
-			Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Seleziona il valore del dado", buttons);
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Seleziona il valore del dado", buttons);
 			alert.showAndWait();
 
 			ButtonType result = alert.getResult();
-					for(int i = 0; i < buttons.length; i ++) {
-						if(buttons[i] == result) {
-							client.getServerInterface().setDiceValue(i + 1);
-							break;
-						}
-					}
+			for(int i = 0; i < buttons.length; i++) {
+				if(buttons[i] == result) {
+					client.getServerInterface().setDiceValue(i + 1);
+					break;
+				}
+			}
 		});
 	}
 
@@ -583,14 +599,45 @@ addEvent("Hai già utilizzato una carta strumento!", true);
 		turnTime--;
 	}
 
+	public void selectDiceFromRoundTrack() {
+		addEvent("Seleziona un dado dal tracciato dei round.", false);
+		state = State.SELECT_DICE_FROM_ROUND_TRACK;
+	}
+
+	public void selectDiceFromWindowPatternSelectedColor() {
+		addEvent("Seleziona un dado dalla finestra.", false);
+		state = State.SELECT_DICE_FROM_WINDOWPATTERN_SELECTED_COLOR;
+	}
+
+	public void wannaMoveNextDice() {
+		ButtonType yes = new ButtonType("Sì"),
+				no = new ButtonType("No");
+
+		Platform.runLater(() -> {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Seleziona il valore del dado", yes, no);
+			alert.showAndWait();
+
+			ButtonType result = alert.getResult();
+			client.getServerInterface().moveNextDice(result == yes);
+		});
+	}
+
+	public void moveDiceInWindowPatternSelectedColor() {
+		addEvent("Seleziona una cella in cui muovere il dado.", false);
+		state = State.MOVE_DICE_IN_WINDOW_PATTERN_SELECTED_COLOR;
+	}
+
 	private enum State {
 		WAIT_USER_INPUT,
 		SELECT_DICE_FROM_DRAFT, PLACE_DICE_IN_HAND,
 
 		SELECT_DICE_FROM_WINDOWPATTERN,
+		SELECT_DICE_FROM_WINDOWPATTERN_SELECTED_COLOR,
 		MOVE_DICE_IN_WINDOW_PATTERN,
+		MOVE_DICE_IN_WINDOW_PATTERN_SELECTED_COLOR,
 		PLACE_DICE,
 		PLACE_DICE_NOT_ADJACENT,
-		SELECT_DICE_FROM_ROUND_TRACK
+		SELECT_DICE_FROM_ROUND_TRACK,
+		SELECT_DICE_FROM_ROUND_TRACK_AND_SWAP
 	}
 }

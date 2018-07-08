@@ -2,8 +2,6 @@ package it.polimi.ingsw.model.board.dice;
 import static it.polimi.ingsw.model.board.Color.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.model.board.dice.Dice;
-import it.polimi.ingsw.model.board.dice.RoundTrack;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
@@ -105,7 +103,7 @@ public class RoundTrackTest {
 
     @Test
     public void getDiceTest(){
-        System.out.println("RoundTrackTest: Testing getDice()...");
+        System.out.println("RoundTrackTest: Testing getDiceAndRemove()...");
         RoundTrack roundTrack = generateTestTrack();
         Dice toTest1 = new Dice(4,RED);
         Dice toTest2 = new Dice(6,BLUE);
@@ -123,7 +121,7 @@ public class RoundTrackTest {
         int index = roundTrack.getTrack()[5].getDices().indexOf(toTest1);
 
         // Testing if the correct dice is returned
-        assertEquals(toTest1,roundTrack.getDice(5,toTest1));
+        assertEquals(toTest1,roundTrack.getDiceAndRemove(5,toTest1));
 
         // Testing if the new size is correct
         assertEquals(initialSize-1,roundTrack.size());
@@ -143,24 +141,24 @@ public class RoundTrackTest {
 
         // NoSuchElementException
         assertThrows(NoSuchElementException.class, () -> {
-            roundTrack.getDice(5,toTest2);
+            roundTrack.getDiceAndRemove(5,toTest2);
         });
         assertThrows(NoSuchElementException.class, () -> {
-            roundTrack.getDice(2,toTest1);
+            roundTrack.getDiceAndRemove(2,toTest1);
         });
 
 
         // ArrayIndexOutOfBoundsException
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            roundTrack.getDice(-1,new Dice(3,BLUE));
+            roundTrack.getDiceAndRemove(-1,new Dice(3,BLUE));
         });
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            roundTrack.getDice(10,new Dice(3,BLUE));
+            roundTrack.getDiceAndRemove(10,new Dice(3,BLUE));
         });
 
         // NullPointerException Test
         assertThrows(NullPointerException.class, () -> {
-            roundTrack.getDice(4,null);
+            roundTrack.getDiceAndRemove(4,null);
         });
 
                 //          [Exceptions Tests]          \\

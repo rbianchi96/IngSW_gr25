@@ -67,11 +67,12 @@ public class ToolCardsLoader extends CardsLoader {
 							break;
 						case SELECT_DICE_FROM_ROUND_TRACK:
 							effects.add(new SelectDiceFromRoundTrackEffect());
+							break;
 						case SELECT_DICE_FROM_WINDOW_PATTERN:
 							effects.add(new SelectDiceFromWindowPatternEffect());
 							break;
 						case SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR:
-							effects.add(new SelectDiceFromWindowPatternEffect());
+							effects.add(new SelectDiceFromWindowPatternSelectedColorEffect());
 							break;
 						case INCREMENT_DECREMENT_DICE:
 							effects.add(new IncrementDecrementDiceEffect());

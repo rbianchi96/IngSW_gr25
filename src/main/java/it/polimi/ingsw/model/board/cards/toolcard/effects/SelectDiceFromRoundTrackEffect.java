@@ -8,8 +8,8 @@ public class SelectDiceFromRoundTrackEffect extends Effect {
         this.effectType = EffectType.SELECT_DICE_FROM_ROUND_TRACK;
     }
     public void apply(EffectData effectData) throws GameException{
-        if (effectData.getDice()==null)
-            throw new NullPointerException();
+        System.out.println("ABC");
+
         try {
             dice = game.getRoundTrackDice().getDice(effectData.getRound(), effectData.getIndex());
         } catch (IndexOutOfBoundsException ex){

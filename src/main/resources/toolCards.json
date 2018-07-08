@@ -126,8 +126,8 @@
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
 			{"effect": "REMOVE_DICE_FROM_DRAFT"},
 			{"effect": "GET_RANDOM_DICE_FROM_DICE_BAG"},
-			{"effect": "SET_DICE_VALUE"},
 			{"effect": "ADD_DICE_TO_DRAFT"},
+			{"effect": "SET_DICE_VALUE"},
 			{"effect": "PLACE_DICE"}
 		]
 	},
