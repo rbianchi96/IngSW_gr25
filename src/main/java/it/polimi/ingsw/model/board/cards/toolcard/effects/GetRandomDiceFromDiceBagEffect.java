@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
-import com.sun.javafx.image.BytePixelSetter;
 import it.polimi.ingsw.model.GameException;
 
 public class GetRandomDiceFromDiceBagEffect extends Effect {

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.socket;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.model.board.Color;
 import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
