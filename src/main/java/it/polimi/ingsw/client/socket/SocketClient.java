@@ -299,12 +299,11 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					break;
 				case INVALID_COMMAND:
-					//TODO ???
 
 					break;
 			}
 		else
-			System.out.println("Command not found!");	//TODO fatal error
+			System.out.println("Command not found!");
 	}
 
 	/**
@@ -419,6 +418,7 @@ public class SocketClient extends Socket implements ServerInterface {
 				String.valueOf(row),
 				String.valueOf(col)
 		));
+		out.flush();
 	}
 
 	/**Move a dice in the position specified
@@ -448,6 +448,7 @@ public class SocketClient extends Socket implements ServerInterface {
 				String.valueOf(row),
 				String.valueOf(col)
 		));
+		out.flush();
 	}
 
 	/**Place a dice in the position
@@ -492,6 +493,7 @@ public class SocketClient extends Socket implements ServerInterface {
 				String.valueOf(round),
 				String.valueOf(dice)
 		));
+		out.flush();
 	}
 
 	/**Select a dice from the round track and switch
@@ -519,6 +521,7 @@ public class SocketClient extends Socket implements ServerInterface {
 				ServerCommand.SET_DICE_VALUE,
 				String.valueOf(value)
 		));
+		out.flush();
 	}
 
 	/**
@@ -531,6 +534,7 @@ public class SocketClient extends Socket implements ServerInterface {
 				ServerCommand.MOVE_NEXT_DICE,
 				String.valueOf(r)
 		));
+		out.flush();
 	}
 
 	@Override
