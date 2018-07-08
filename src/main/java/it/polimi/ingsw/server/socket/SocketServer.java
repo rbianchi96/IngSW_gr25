@@ -10,6 +10,11 @@ public class SocketServer {
     Controller controller;
     private int port;
 
+    /**Constructor
+     *
+     * @param port of the server
+     * @param controller
+     */
     public SocketServer(int port, Controller controller) {
         this.port = port;
         this.controller = controller;

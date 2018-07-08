@@ -54,6 +54,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		}, 500, 2500);
 	}
 
+	/**
+	 *
+	 * @return true if the ping is ok
+	 */
 	private boolean ping() {
 		try {
 			out.println(encode(PING));
@@ -280,6 +284,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		return sb.toString();
 	}
 
+	/**
+	 *
+	 * @param windowPatterns arraylist of windowpatterns to send
+	 */
 	@Override
 	public synchronized void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) {
 		out.print(encode(SEND_WINDOW_PATTERNS_TO_CHOOSE));
@@ -290,6 +298,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param toolCards arraylist of tool card to send
+	 */
 	@Override
 	public synchronized void sendToolCards(ToolCard[] toolCards) {
 		out.print(encode(SEND_TOOL_CARDS));
@@ -303,6 +315,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param publicObjectiveCards arraylist of public objective cards to send
+	 */
 	@Override
 	public synchronized void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
 		out.print(encode(SEND_PUBLIC_OBJECTIVE_CARDS));
@@ -326,6 +342,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**it send the round order
+	 *
+	 * @param players arraylist of index players
+	 */
 	@Override
 	public void sendRoundOrder(int[] players) {
 		out.print(encode(ROUND_ORDER));
@@ -337,6 +357,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param currentPlayer player that is playing
+	 * @param turnTime
+	 */
 	@Override
 	public synchronized void newTurn(int currentPlayer, int turnTime) {
 		out.println(encode(NEW_TURN, String.valueOf(currentPlayer), String.valueOf(turnTime)));
@@ -379,6 +404,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.println(encodeRoundTrack(roundTrackDices));
 		out.flush();
 	}
+
 
 	@Override
 	public synchronized void selectDiceFromDraft() {
@@ -514,6 +540,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param scores of the players
+	 */
 	@Override
 	public void sendScores(Score[] scores) {
 		out.print(encode(SEND_SCORES));
@@ -549,6 +579,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		closeSocket();
 	}
 
+
 	@Override // Read ClientInterface for details
 	public synchronized void notifyNewUser(String username, int index) {
 		out.println(encode(NOTIFY_NEW_USER, username, String.valueOf(index)));
@@ -561,6 +592,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param players array of players
+	 */
 	@Override
 	public synchronized void sendPlayersList(String[] players) {
 		out.print(encode(SEND_PLAYERS_LIST));
@@ -571,6 +606,10 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param privateObjectiveCard privateobjective card that mustr be sent
+	 */
 	@Override
 	public synchronized void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
 		out.println(encode(
@@ -582,6 +621,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param status of connection
+	 * @param message
+	 */
 	@Override
 	public synchronized void notifyReconnectionStatus(boolean status, String message) {
 		out.println(encode(NOTIFY_RECONNECTION, String.valueOf(status), message));
@@ -607,6 +651,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		out.flush();
 	}
 
+	/**
+	 *
+	 * @param windowPattern to encode
+	 * @return String that represents the wp
+	 */
 	private String encodeWindowPattern(WindowPattern windowPattern) {
 		try {
 			StringBuilder builder = new StringBuilder();
@@ -648,6 +697,11 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 		return null;
 	}
 
+	/**
+	 *
+	 * @param dices of the round track dices
+	 * @return String representing the roundtrack dices
+	 */
 	private String encodeRoundTrack(RoundTrackDices[] dices) {
 		StringBuilder sb = new StringBuilder();
 

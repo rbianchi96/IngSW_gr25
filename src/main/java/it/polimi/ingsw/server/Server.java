@@ -20,6 +20,10 @@ public class Server {
 
 	private String resourcesPath;
 
+	/**Constructor
+	 *
+	 * @param resourcePath
+	 */
 	public Server(String resourcePath) {
 		this.resourcesPath = resourcePath;
 
