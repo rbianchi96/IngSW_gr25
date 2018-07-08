@@ -163,6 +163,8 @@ public class Game extends Observable {
 		//Notify to all the tokens
 		setChanged();
 		notifyObservers(NotifyType.PLAYERS_TOKENS);
+		setChanged();
+		notifyObservers(NotifyType.TOOL_CARDS_TOKENS);
 
 		//Begin the first round
 		rounds.nextRound();
