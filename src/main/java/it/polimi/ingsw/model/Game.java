@@ -477,10 +477,12 @@ public class Game extends Observable {
 			throw new InvalidCall();
 		} else {
 			int forbidCheck = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR);
+			int lastSelectDiceEffect = toolCards[currentToolCardInUse].lastDiceAppliedEffect();
 			EffectData effectData = new EffectData();
 			effectData.setX(x);
 			effectData.setY(y);
 			effectData.setWindowPattern(player.getWindowPattern());
+			effectData.setReferenceDice(toolCards[currentToolCardInUse].getEffect(lastSelectDiceEffect).getDice());
 			if(forbidCheck >= 0) {
 				effectData.setForbidX(((MoveWindowPatternDiceSelectedColorEffect) (toolCards[currentToolCardInUse].getEffect(forbidCheck))).getNewX());
 				effectData.setForbidY( ((MoveWindowPatternDiceSelectedColorEffect) (toolCards[currentToolCardInUse].getEffect(forbidCheck))).getNewY());
@@ -628,8 +630,8 @@ public class Game extends Observable {
 		if(validate == - 1) {
 			throw new InvalidCall();
 		} else {
+			System.out.println("Here");
 			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR);
-
 			EffectData effectData = new EffectData();
 			effectData.setWindowPattern(player.getWindowPattern());
 			effectData.setRow(row);
@@ -637,7 +639,7 @@ public class Game extends Observable {
 			effectData.setOldX(((SelectDiceFromWindowPatternSelectedColorEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getRow());
 			effectData.setOldY(((SelectDiceFromWindowPatternSelectedColorEffect)(toolCards[currentToolCardInUse].getEffect(lastSelect))).getCol());
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
-
+			System.out.println("DiceMoved");
 			setChanged();
 			notifyObservers(NotifyType.WINDOW_PATTERNS);
 
@@ -736,7 +738,7 @@ public class Game extends Observable {
 		} else {
 			int lastSelect = toolCards[currentToolCardInUse].alreadyAppliedEffect(EffectType.SELECT_DICE_FROM_DRAFT);
 			EffectData effectData = new EffectData();
-			effectData.setDice(((SelectDiceFromDraftEffect)toolCards[currentToolCardInUse].getEffect(lastSelect)).getDice());
+			effectData.setDice(toolCards[currentToolCardInUse].getEffect(lastSelect).getDice());
 			toolCards[currentToolCardInUse].getEffect(validate).apply(effectData);
 
 			setChanged();

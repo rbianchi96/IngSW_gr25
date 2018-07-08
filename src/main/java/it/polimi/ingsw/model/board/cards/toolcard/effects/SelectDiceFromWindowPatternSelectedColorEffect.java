@@ -16,6 +16,7 @@ public class SelectDiceFromWindowPatternSelectedColorEffect extends Effect{
             if(effectData.getX() == effectData.getForbidX() && effectData.getY() == effectData.getForbidY()) throw new AlreadyMovedDice(); // check if the client is trying to move an already moved dice(in the same card effect)
         try {
             Dice dice = effectData.getWindowPattern().getDice(effectData.getX(), effectData.getY()); // get the dice from the windowpattern...
+            System.out.println("SelectDiceFromWindowPatternSelectedColor: dice selected.");
             if(dice == null) {
                 throw new DiceNotFoundException();
             }

@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.PlacementRestriction;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
-
 import java.util.ArrayList;
 
 public class MoveWindowPatternDiceSelectedColorEffect extends Effect {
@@ -16,7 +15,7 @@ public class MoveWindowPatternDiceSelectedColorEffect extends Effect {
     }
     @Override
     public void apply(EffectData effectData)
-            throws GameException {
+            throws GameException{
 
         Dice newCellDice;
         Dice oldDice;
