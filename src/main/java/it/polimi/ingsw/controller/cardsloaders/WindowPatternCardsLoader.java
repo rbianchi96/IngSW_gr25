@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.board.windowpattern.Restriction;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 
 import javax.json.*;
-import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.Random;
 

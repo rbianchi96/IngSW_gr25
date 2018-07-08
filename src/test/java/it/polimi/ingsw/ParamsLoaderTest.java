@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.paramsloader.GameParamsLoader;
 import it.polimi.ingsw.paramsloader.NetParamsLoader;
-import it.polimi.ingsw.paramsloader.ParamsLoader;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +36,7 @@ public class ParamsLoaderTest {
 
 			netParamsLoader = new NetParamsLoader(ResourcesPathResolver.getResourceFile(null, "netParams.json"));
 
-			assertEquals(netParamsLoader.getSocketServerPort(), 3000);
+			assertEquals(netParamsLoader.getSocketServerPort(), 20000);
 			assertEquals(netParamsLoader.getRMIServerName(), "SagradaServer");
 			assertEquals(netParamsLoader.getRMIServerPort(), 1099);
 

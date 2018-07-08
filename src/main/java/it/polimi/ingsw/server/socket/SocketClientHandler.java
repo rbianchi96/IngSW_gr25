@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.Score;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
 import it.polimi.ingsw.model.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.model.board.cards.toolcard.ToolCard;
-import it.polimi.ingsw.model.board.cards.toolcard.effects.SelectDiceFromWindowPatternSelectedColorEffect;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.dice.RoundTrackDices;
 import it.polimi.ingsw.model.board.windowpattern.Restriction;

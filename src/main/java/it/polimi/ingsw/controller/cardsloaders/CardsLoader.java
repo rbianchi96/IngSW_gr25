@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.board.cards.Card;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
 

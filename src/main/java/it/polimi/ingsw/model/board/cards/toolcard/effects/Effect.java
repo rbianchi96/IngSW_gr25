@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.board.cards.toolcard.effects;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
-import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 
 import java.io.Serializable;
 

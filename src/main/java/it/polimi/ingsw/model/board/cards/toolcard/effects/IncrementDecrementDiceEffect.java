@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
 import it.polimi.ingsw.model.GameException;
 import it.polimi.ingsw.model.board.dice.Dice;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
 public class IncrementDecrementDiceEffect extends Effect {
 	// dice selected from Draft pool, the only one that can be place in windowpattern next

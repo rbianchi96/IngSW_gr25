@@ -7,8 +7,6 @@ import it.polimi.ingsw.client.interfaces.ClientInterface;
 import it.polimi.ingsw.paramsloader.GameParamsLoader;
 
 import java.io.FileNotFoundException;
-import java.security.SecureRandom;
-import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;

@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.board.cards.PublicObjectiveCard;
 import it.polimi.ingsw.model.board.cards.PublicObjectiveCardsIds;
 
 import javax.json.*;
-import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.Random;
 

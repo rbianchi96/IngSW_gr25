@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.board.cards.toolcard.effects;
 
 import it.polimi.ingsw.model.GameException;
-import it.polimi.ingsw.model.board.dice.Dice;
 
 public class SelectDiceFromRoundTrackEffect extends Effect {
     public SelectDiceFromRoundTrackEffect(){

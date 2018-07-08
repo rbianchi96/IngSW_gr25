@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.board.Color;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
 
 import javax.json.JsonObject;
-import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.Random;
 
