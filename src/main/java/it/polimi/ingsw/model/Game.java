@@ -241,6 +241,7 @@ public class Game extends Observable {
 		Player player = findPlayer(username);
 		checkTurn(player);
 
+		toolCards[currentToolCardInUse].reNew();
 		toolCardUsageFinished();
 
 		nextTurn();
