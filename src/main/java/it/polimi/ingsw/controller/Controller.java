@@ -22,6 +22,11 @@ public class Controller {
 	private int passedSeconds;
 	private long lobbyTime;
 
+	/**exception if the file is not found
+	 *
+	 * @param resourcesPath
+	 * @throws FileNotFoundException
+	 */
 	public Controller(String resourcesPath) throws FileNotFoundException {
 		lobbyTime = (new GameParamsLoader(ResourcesPathResolver.getResourceFile(resourcesPath, GameParamsLoader.FILE_NAME))).getLobbyTime();
 
@@ -31,7 +36,12 @@ public class Controller {
 	}
 
 	///// CONNECTION \\\\\\
-	// Make login request from client to Model
+
+	/** Make login request from client to Model
+	 *
+	 * @param clientInterface
+	 * @param username of the player
+	 */
 	public synchronized void login(ClientInterface clientInterface, String username) {
 		lobby.login(clientInterface, username);
 		if(lobby.getPlayersConnectionData().size() > 1 && ! timerStarted && ! lobby.getCurrentGame().isInGame()) {
@@ -64,7 +74,10 @@ public class Controller {
 
 	}
 
-	// Make logout request from client to Model
+	/** Make logout request from client to Model
+	 *
+	 * @param clientInterface
+	 */
 	public synchronized void logout(ClientInterface clientInterface) {
 		lobby.logout(clientInterface);
 		if(lobby.getPlayersConnectionData().size() <= 1 && timerStarted) {
@@ -73,7 +86,10 @@ public class Controller {
 		}
 	}
 
-	// Notify a lost connection from Socket / Rmi server to Model in order to handle it
+	/** Notify a lost connection from Socket / Rmi server to Model in order to handle it
+	 *
+	 * @param clientInterface
+	 */
 	public synchronized void lostConnection(ClientInterface clientInterface) {
 		lobby.lostConnection(clientInterface);
 		if(lobby.getPlayersConnectionData().size() <= 1 && timerStarted) {
@@ -86,12 +102,23 @@ public class Controller {
 		lobby.startGame();
 	}
 
+	/**selection of wp
+	 *
+	 * @param clientInterface
+	 * @param i index of the wp
+	 */
 	public synchronized void selectWindowPattern(ClientInterface clientInterface, int i) {
 		lobby.setWindowPattern(clientInterface);    //Stop the timer
 		lobby.getCurrentGame().selectWindowPattern(findUsername(clientInterface), i);
 	}
 
 	///// GAME \\\\\\
+
+	/**
+	 *
+	 * @param clientInterface
+	 * @return String representing a user
+	 */
 	private String findUsername(ClientInterface clientInterface) {
 		ArrayList<PlayerConnectionData> players = lobby.getPlayersConnectionData();
 		for(PlayerConnectionData player : players) {
@@ -101,6 +128,13 @@ public class Controller {
 		return null;
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param dice to place
+	 * @param row coordinate of wp
+	 * @param col coordinate of wp
+	 */
 	public synchronized void placeDiceFromDraft(ClientInterface clientInterface, Dice dice, int row, int col) {
 		try {
 			lobby.getCurrentGame().placeDiceFromDraft(findUsername(clientInterface), dice, row, col);
@@ -122,6 +156,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param clientCommand that must be sent
+	 */
 	private void sendCommand(ClientInterface clientInterface, ClientCommand clientCommand) {
 		if(clientCommand != null)
 			switch(clientCommand) {
@@ -182,6 +221,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param dice that must be chosen
+	 */
 	public synchronized void selectDiceFromDraftEffect(ClientInterface clientInterface, Dice dice) {
 		try {
 			sendCommand(
@@ -199,6 +243,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param x coordinate of the wp
+	 * @param y coordinate of the wp
+	 */
 	public synchronized void selectDiceFromWindowPatternEffect(ClientInterface clientInterface, int x, int y) {
 		try {
 			sendCommand(
@@ -220,6 +270,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param x coordinate of the wp
+	 * @param y coordinate of the wp
+	 */
 	public synchronized void selectDiceFromWindowPatternSelectedColorEffect(ClientInterface clientInterface, int x, int y) {
 		try {
 			sendCommand(
@@ -243,6 +299,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param value that must be set
+	 */
 	public synchronized void setDiceValueEffect(ClientInterface clientInterface, int value) {
 		try {
 			sendCommand(
@@ -260,6 +321,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param incDec choice to increment or decrement
+	 */
 	public synchronized void incrementDecrement(ClientInterface clientInterface, boolean incDec) {
 		try {
 			sendCommand(clientInterface,
@@ -274,6 +340,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param row coordinate of the wp
+	 * @param col coordinate of the wp
+	 */
 	public synchronized void placeDiceAfterEffect(ClientInterface clientInterface, int row, int col) {
 		try {
 			sendCommand(
@@ -295,6 +367,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param row coordinate of the wp
+	 * @param col coordinate of the wp
+	 */
 	public synchronized void placeDiceNotAdjacentAfterEffect(ClientInterface clientInterface, int row, int col) {
 		try {
 			sendCommand(
@@ -316,6 +394,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param x coordinate of the wp
+	 * @param y coordinate of the wp
+	 */
 	public synchronized void moveWindowPatternDiceEffect(ClientInterface clientInterface, int x, int y) {
 		try {
 			sendCommand(
@@ -339,6 +423,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param x coordinate of the wp
+	 * @param y coordinate of the wp
+	 */
 	public synchronized void moveWindowPatternDiceSelectedColorEffect(ClientInterface clientInterface, int x, int y) {
 		try {
 			sendCommand(
@@ -387,6 +477,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param round number
+	 * @param index index of the round
+	 */
 	public synchronized void selectDiceFromRoundTrackAndSwitch(ClientInterface clientInterface, int round, int index) {
 		try {
 			sendCommand(
@@ -406,6 +502,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param round number of the round
+	 * @param index index of the round
+	 */
 	public synchronized void selectDiceFromRoundTrack(ClientInterface clientInterface, int round, int index) {
 		try {
 			sendCommand(
@@ -421,6 +523,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *
+	 * @param clientInterface
+	 * @param choice true or false according to the choice
+	 */
 	public synchronized void wannaMoveNextDice(ClientInterface clientInterface, boolean choice) {
 		try {
 			sendCommand(
