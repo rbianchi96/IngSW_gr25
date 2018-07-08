@@ -40,6 +40,7 @@ class Drawers {
 
 		Rectangle rectangle = new Rectangle(size, size);
 
+		rectangle.setCursor(Cursor.HAND);
 		rectangle.setArcWidth(size * .375);
 		rectangle.setArcHeight(size * .375);
 
