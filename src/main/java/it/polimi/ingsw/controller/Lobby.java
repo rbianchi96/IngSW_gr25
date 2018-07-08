@@ -419,9 +419,11 @@ public class Lobby {
 
 	//End the game and reinitialize all
 	public void endGame(ClientInterface clientInterface) {
-        for(PlayerConnectionData playerConnectionData : playersConnectionData)
-            if(playerConnectionData.getClientInterface() == clientInterface)
-                playerConnectionData.getClientInterface().closeConnection();
+        for(int i = 0; i < playersConnectionData.size(); i ++)
+            if(playersConnectionData.get(i).getClientInterface() == clientInterface) {
+                playersConnectionData.get(i).getClientInterface().closeConnection();
+                playersConnectionData.remove(i);
+            }
 
         if(playersConnectionData.size() == 0) {
             playersConnectionData = new ArrayList<>();
