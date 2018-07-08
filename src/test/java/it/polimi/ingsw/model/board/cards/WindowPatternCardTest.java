@@ -2,14 +2,14 @@ package it.polimi.ingsw.model.board.cards;
 
 import it.polimi.ingsw.model.board.windowpattern.Cell;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WindowPatternCardTest {
+public class WindowPatternCardTest {
 
     @Test
-    void getPattern() {
+    public void getPattern() {
 
         WindowPattern wp1;
         Cell[][] cells = new Cell[WindowPattern.WINDOW_PATTERN_ROWS_NUMBER][WindowPattern.WINDOW_PATTERN_COLS_NUMBER];

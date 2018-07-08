@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.board.dice;
 import it.polimi.ingsw.model.board.Color;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -13,7 +13,7 @@ import it.polimi.ingsw.controller.cardsloaders.WindowPatternCardsLoader;
 import it.polimi.ingsw.model.board.dice.Dice;
 import it.polimi.ingsw.model.board.windowpattern.Cell;
 import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.util.Random;
 

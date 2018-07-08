@@ -1,19 +1,19 @@
 package it.polimi.ingsw.model.board.dice;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RoundTrackDicesTest {
+public class RoundTrackDicesTest {
 
     @Test
-    void getDices() {
+    public void getDices() {
         RoundTrackDices rtd= new RoundTrackDices();
         assertEquals(0, rtd.getDices().size());
     }
 
     @Test
-    void diceNumber() {
+    public void diceNumber() {
         RoundTrackDices rtd= new RoundTrackDices();
         assertEquals(rtd.diceNumber(),0);
 

@@ -2,16 +2,15 @@ package it.polimi.ingsw.controller.cardsloaders;
 
 import it.polimi.ingsw.ResourcesPathResolver;
 import it.polimi.ingsw.model.board.cards.PrivateObjectiveCard;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PrivateObjectiveCardsLoaderTest {
-
+public class PrivateObjectiveCardsLoaderTest {
     @Test
-    void getRandomCards() {
+    public void getRandomCards() {
         try {
             PrivateObjectiveCardsLoader cardsLoader = new PrivateObjectiveCardsLoader(
                     ResourcesPathResolver.getResourceFile(null, PrivateObjectiveCardsLoader.FILE_NAME)

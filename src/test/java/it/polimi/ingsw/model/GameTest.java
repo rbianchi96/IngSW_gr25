@@ -1,123 +1,123 @@
 package it.polimi.ingsw.model;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class GameTest {
+public class GameTest {
 
-    @Test
-    void startGame() {
-    }
+	@Test
+	public void startGame() {
+	}
 
-    @Test
-    void rollDicesFromDiceBag() {
-    }
+	@Test
+	public void rollDicesFromDiceBag() {
+	}
 
-    @Test
-    void endTurn() {
-    }
+	@Test
+	public void endTurn() {
+	}
 
-    @Test
-    void selectWindowPattern() {
-    }
+	@Test
+	public void selectWindowPattern() {
+	}
 
-    @Test
-    void placeDiceFromDraft() {
-    }
+	@Test
+	public void placeDiceFromDraft() {
+	}
 
-    @Test
-    void useToolCard() {
-    }
+	@Test
+	public void useToolCard() {
+	}
 
-    @Test
-    void selectDiceFromDraftEffect() {
-    }
+	@Test
+	public void selectDiceFromDraftEffect() {
+	}
 
-    @Test
-    void selectDiceFromWindowPatternEffect() {
-    }
+	@Test
+	public void selectDiceFromWindowPatternEffect() {
+	}
 
-    @Test
-    void incrementDecrementDiceEffect() {
-    }
+	@Test
+	public void incrementDecrementDiceEffect() {
+	}
 
-    @Test
-    void placeDiceAfterIncDecEffect() {
-    }
+	@Test
+	public void placeDiceAfterIncDecEffect() {
+	}
 
-    @Test
-    void moveWindowPatternDiceEffect() {
-    }
+	@Test
+	public void moveWindowPatternDiceEffect() {
+	}
 
-    @Test
-    void rollDiceFromDraftEffect() {
-    }
+	@Test
+	public void rollDiceFromDraftEffect() {
+	}
 
-    @Test
-    void selectDiceFromRoundTrackAndSwitch() {
-    }
+	@Test
+	public void selectDiceFromRoundTrackAndSwitch() {
+	}
 
-    @Test
-    void flipDiceFromDraftEffect() {
-    }
+	@Test
+	public void flipDiceFromDraftEffect() {
+	}
 
-    @Test
-    void isInGame() {
-    }
+	@Test
+	public void isInGame() {
+	}
 
-    @Test
-    void insertCardsInGame() {
-    }
+	@Test
+	public void insertCardsInGame() {
+	}
 
-    @Test
-    void setPlayerSuspendedState() {
-    }
+	@Test
+	public void setPlayerSuspendedState() {
+	}
 
-    @Test
-    void getCurrentPlayer() {
-    }
+	@Test
+	public void getCurrentPlayer() {
+	}
 
-    @Test
-    void getPrivateObjectiveCard() {
-    }
+	@Test
+	public void getPrivateObjectiveCard() {
+	}
 
-    @Test
-    void getPublicObjectiveCards() {
-    }
+	@Test
+	public void getPublicObjectiveCards() {
+	}
 
-    @Test
-    void getCleanToolCards() {
-    }
+	@Test
+	public void getCleanToolCards() {
+	}
 
-    @Test
-    void getWindowPatternsToChoose() {
-    }
+	@Test
+	public void getWindowPatternsToChoose() {
+	}
 
-    @Test
-    void getDraftDices() {
-    }
+	@Test
+	public void getDraftDices() {
+	}
 
-    @Test
-    void getDraft() {
-    }
+	@Test
+	public void getDraft() {
+	}
 
-    @Test
-    void getRoundTrackDice() {
-    }
+	@Test
+	public void getRoundTrackDice() {
+	}
 
-    @Test
-    void isCurrentPlayerFirstTurn() {
-    }
+	@Test
+	public void isCurrentPlayerFirstTurn() {
+	}
 
-    @Test
-    void getAllWindowPatterns() {
-    }
+	@Test
+	public void getAllWindowPatterns() {
+	}
 
-    @Test
-    void getPlayersTokens() {
-    }
+	@Test
+	public void getPlayersTokens() {
+	}
 
-    @Test
-    void getToolCardsTokens() {
+	@Test
+	public void getToolCardsTokens() {
         /*Game g = new Game();
         RoundTrack r = new RoundTrack(2);
         ArrayList<Player> players2 = new ArrayList<>();
@@ -184,5 +184,5 @@ class GameTest {
         }catch (Exception e) {
             fail(e);
         }*/
-    }
+	}
 }
