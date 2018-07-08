@@ -250,7 +250,6 @@ public class GameGUI extends GUIController {
 	private void diceSelectedFromDraft(Pane dice) {
 		int diceIndex;
 
-		//diceIndex = GridPane.getRowIndex(dice) % 2;
 		diceIndex = GridPane.getColumnIndex(dice);
 
 		switch(state) {
@@ -614,7 +613,7 @@ public class GameGUI extends GUIController {
 				no = new ButtonType("No");
 
 		Platform.runLater(() -> {
-			Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Seleziona il valore del dado", yes, no);
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Vuoi muove un altro dado?", yes, no);
 			alert.showAndWait();
 
 			ButtonType result = alert.getResult();

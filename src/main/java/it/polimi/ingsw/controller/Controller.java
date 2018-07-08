@@ -158,6 +158,9 @@ public class Controller {
 				case SET_DICE_VALUE:
 					clientInterface.setDiceValue();
 					break;
+				case WANNA_MOVE_NEXT_DICE:
+					clientInterface.wannaMoveNextDice();
+					break;
 			}
 		else clientInterface.endOfToolCardUse();
 	}

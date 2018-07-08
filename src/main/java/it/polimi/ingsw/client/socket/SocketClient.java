@@ -232,7 +232,7 @@ public class SocketClient extends Socket implements ServerInterface {
 
 					break;
 				case MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR:
-					client.selectDiceFromWindowPatternSelectedColor();
+					client.moveDiceInWindowPatternSelectedColor();
 
 					break;
 				case SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH:
