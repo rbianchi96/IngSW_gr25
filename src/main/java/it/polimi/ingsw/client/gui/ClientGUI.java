@@ -274,7 +274,7 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
-	public void sendScores(Score[] scores) {
+	public synchronized void sendScores(Score[] scores) {
 		state = State.SCORE;
 		scoresGUI.sendScores(lastPlayersList, scores);
 
@@ -383,7 +383,7 @@ public class ClientGUI extends Application implements ClientInterface {
 
 	}
 
-	public void lostConnenction() {
+	public synchronized void lostConnenction() {
 		if(state != State.SCORE)
 			Platform.runLater(() -> {
 				primaryStage.setScene(login);

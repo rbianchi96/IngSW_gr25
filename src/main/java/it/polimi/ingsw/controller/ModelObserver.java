@@ -88,13 +88,13 @@ public class ModelObserver implements java.util.Observer {
 			case SCORES:
 				clientInterface.sendScores(model.getScores());
 
-				lobby.endGame();
+				lobby.endGame(clientInterface);
 
 				break;
 			case END_GAME_FOR_ABANDONEMENT:
 				clientInterface.endGameForAbandonement();
 
-				lobby.endGame();
+				lobby.endGame(clientInterface);
 				break;
 		}
 	}
