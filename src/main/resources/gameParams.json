@@ -1,4 +1,4 @@
 {
-	"lobbyTime": 4,
-	"roundMaxTime": 360
+	"lobbyTime": 20,
+	"roundMaxTime": 60
 }
