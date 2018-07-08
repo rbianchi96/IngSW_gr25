@@ -2,10 +2,13 @@
 	{
 		"id": 1,
 		"name": "Pinza Sgrossatrice",
-		"pre": "notDraftedDice",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "INCREMENT_DECREMENT_DICE"}
+			{"effect": "INCREMENT_DECREMENT_DICE"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
@@ -55,9 +58,13 @@
 	{
 		"id": 6,
 		"name": "Pennello per Pasta Salda",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "ROLL_DICE_FROM_DRAFT"}
+			{"effect": "ROLL_DICE_FROM_DRAFT"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
@@ -69,60 +76,71 @@
 		],
 		"effects": [
 			{
-				"effect": "rollAllDice"
+				"effect": "ROLL_DICES_FROM_DRAFT"
 			}
 		]
 	},
 	{
 		"id": 8,
 		"name": "Tenaglia a Rotelle",
-		"pre": "endOfFirstTurn",
+		"pre": "IS_FIRST_TURN",
 		"effects": [
 			{
-				"effect": "placeDice"
+				"effect": "EDIT_PLAYABLE_DICES"
 			},
 			{
-				"effect": "skipSecondTurn"
+				"effect": "SKIP_PLAYER_SECOND_TURN"
 			}
 		]
 	},
 	{
 		"id": 9,
 		"name": "Riga in Sughero",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
-			{
-				"effect": "placeDice",
-				"restriction": "notNearDice"
-			}
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "PLACE_DICE_NOT_ADJACENT"}
 		]
 	},
 	{
 		"id": 10,
 		"name": "Tampone Diamantato",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
 			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "FLIP_DICE_FROM_DRAFT"}
+			{"effect": "FLIP_DICE_FROM_DRAFT"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
 		"id": 11,
 		"name": "Diluente per Pasta Salda",
+		"pres": [
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
 		"effects": [
-			{
-				"effect": "placeDiceInBag"
-			},
-			{
-				"effect": "takeDiceFromBag?"
-			}
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "REMOVE_DICE_FROM_DRAFT"},
+			{"effect": "GET_RANDOM_DICE_FROM_DICE_BAG"},
+			{"effect": "ADD_DICE_TO_DRAFT"},
+			{"effect": "SET_DICE_VALUE"},
+			{"effect": "PLACE_DICE"}
 		]
 	},
 	{
 		"id": 12,
 		"name": "Taglierina Manuale",
 		"effects": [
-			{
-				"effect": "moveMaxTwoDice?"
-			}
+			{"effect": "SELECT_DICE_FROM_ROUND_TRACK"},
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR"},
+			{"effect": "WANNA_MOVE_NEXT_DICE"},
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE_SELECTED_COLOR"}
 		]
 	}
 ]
