@@ -392,7 +392,7 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
-	/**
+	/**Select the dice in the coordinates
 	 *
 	 * @param row of the wp
 	 * @param col of the wp
@@ -407,6 +407,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**Select the dice in the coordinates
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void selectDiceFromWindowPatternSelectedColorEffect(int row, int col) {
 		out.println(encode(
@@ -416,6 +421,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		));
 	}
 
+	/**Move a dice in the position specified
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void moveDiceInWindowPatternEffect(int row, int col) {
 		out.println(encode(
@@ -426,6 +436,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**Move a dice in the position specified
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void moveDiceInWindowPatternSelectedColorEffect(int row, int col) {
 		out.println(encode(
@@ -435,7 +450,7 @@ public class SocketClient extends Socket implements ServerInterface {
 		));
 	}
 
-	/**
+	/**Place a dice in the position
 	 *
 	 * @param row of the wp
 	 * @param col of thw wp
@@ -450,6 +465,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**Place a dice not adjacent the coordinates
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void placeDiceNotAdjacent(int row, int col) {
 		out.println(encode(
@@ -460,6 +480,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**Select a dice from the round track
+	 *
+	 * @param round number of the round
+	 * @param dice that is choosen
+	 */
 	@Override
 	public void selectDiceFromRoundTrack(int round, int dice) {
 		out.println(encode(
@@ -469,6 +494,11 @@ public class SocketClient extends Socket implements ServerInterface {
 		));
 	}
 
+	/**Select a dice from the round track and switch
+	 *
+	 * @param round number of the round
+	 * @param dice that is choosen
+	 */
 	@Override
 	public void selectDiceFromRoundTrackAndSwitch(int round, int dice) {
 		out.println(encode(
@@ -479,6 +509,10 @@ public class SocketClient extends Socket implements ServerInterface {
 		out.flush();
 	}
 
+	/**Set the value of the dice
+	 *
+	 * @param value
+	 */
 	@Override
 	public void setDiceValue(int value) {
 		out.println(encode(
@@ -487,6 +521,10 @@ public class SocketClient extends Socket implements ServerInterface {
 		));
 	}
 
+	/**
+	 *
+	 * @param r decision
+	 */
 	@Override
 	public void moveNextDice(boolean r) {
 		out.println(encode(

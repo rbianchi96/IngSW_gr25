@@ -122,7 +122,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
 	/**
 	 *
-	 * @param toolCards array of the toolCards that will be sended
+	 * @param toolCards array of the toolCards that will be sent
 	 * @throws RemoteException
 	 */
 	@Override
@@ -166,7 +166,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 		client.newTurn(currentPlayer, turnTime);
 	}
 
-
+	/**It updates the wp
+	 *
+	 * @param windowPatterns
+	 * @throws RemoteException
+	 */
 	@Override
 	public void updateWindowPatterns(WindowPattern[] windowPatterns) throws RemoteException {
 		client.updateWindowPatterns(windowPatterns);
@@ -298,6 +302,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 		client.wrongDiceColor();
 	}
 
+	/**
+	 *
+	 * @param dices to update the draft
+	 * @throws RemoteException
+	 */
 	@Override
 	public void updateDraft(Dice[] dices) throws RemoteException {
 		client.updateDraft(dices);
@@ -313,6 +322,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 		client.cellAlreadyOccupied();
 	}
 
+	/**
+	 *
+	 * @param scores array of scores
+	 * @throws RemoteException
+	 */
 	@Override
 	public void sendScores(Score[] scores) throws RemoteException {
 		client.sendScores(scores);

@@ -99,6 +99,10 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 
+	/**
+	 *
+	 * @param index of the toolcard that is used
+	 */
 	@Override
 	public void useToolCard(int index) {
 		try {
@@ -118,7 +122,7 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
-	/**
+	/**Select a Dice from the draft
 	 *
 	 * @param dice to be choosen
 	 */
@@ -132,6 +136,10 @@ public class RMIClientToServer implements ServerInterface {
 	}
 
 
+	/**
+	 *
+	 * @param mode true or false according to the increment or decrement
+	 */
 	@Override
 	public void incrementOrDecrementDiceEffect(boolean mode) {
 		try {
@@ -141,7 +149,7 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
-	/**
+	/**Select a dice from the wp according to the position
 	 *
 	 * @param row of the wp
 	 * @param col of the wp
@@ -155,6 +163,11 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**Select a dice from the wp according to the position
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void selectDiceFromWindowPatternSelectedColorEffect(int row, int col) {
 		try {
@@ -164,7 +177,7 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
-	/**move the dice im the selected position
+	/**move the dice in the selected position
 	 *
 	 * @param row of the wp
 	 * @param col of the wp
@@ -178,6 +191,11 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**move the dice in the selected position
+	 *
+	 * @param row of the wp
+	 * @param col of the wp
+	 */
 	@Override
 	public void moveDiceInWindowPatternSelectedColorEffect(int row, int col) {
 		try {
@@ -201,7 +219,11 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
-
+	/**place dice not adjacent to the selected row  e col
+	 *
+	 * @param row
+	 * @param col
+	 */
 	@Override
 	public void placeDiceNotAdjacent(int row, int col) {
 		try {
@@ -211,6 +233,11 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param round number of the round
+	 * @param dice choosen
+	 */
 	@Override
 	public void selectDiceFromRoundTrack(int round, int dice) {
 		try {
