@@ -1,0 +1,10 @@
+{
+	"socketServer": {
+		"port": 3000
+	},
+	"RMIServer": {
+		"address": "192.168.1.13",
+		"name": "SagradaServer",
+		"port": 1099
+	}
+}

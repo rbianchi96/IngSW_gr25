@@ -1,0 +1,33 @@
+[
+	{
+		"id": 1,
+		"name": "Pinza Sgrossatrice",
+		"pre": "notDraftedDice",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "INCREMENT_DECREMENT_DICE"},
+			{"effect": "PLACE_DICE"}
+		]
+	},
+	{
+		"id": 2,
+		"name": "Pennello per Eglomise",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{
+				"effect": "MOVE_WINDOW_PATTERN_DICE",
+				"ignoredRestrictions": [
+					"CELL_COLOR_RESTRICTION"
+				]
+			}
+		]
+	},
+	{
+		"id": 5,
+		"name": "Taglierina Circolare",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH"}
+		]
+	}
+]

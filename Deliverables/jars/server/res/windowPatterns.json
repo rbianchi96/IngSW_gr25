@@ -1,0 +1,266 @@
+[
+	{
+		"windowPattern1": {
+			"name": "Virtus",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [4, null, 2, 5, "g"],
+				"row1": [null, null, 6, "g", 2],
+				"row2": [null, 3, "g", 4, null],
+				"row3": [5, "g", 1, null, null]
+			}
+		},
+		"windowPattern2": {
+			"name": "Symphony of Light",
+			"difficulty": 6,
+			"restrictions": {
+				"row0": [2, null, 5, null, 1],
+				"row1": ["y", 6, "p", 2, "r"],
+				"row2": [null, "b", 4, "g", null],
+				"row3": [null, 3, null, 5, null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Kaleidoscopic Dream",
+			"difficulty": 4,
+			"restrictions": {
+				"row0": ["y", "b", null, null, 1],
+				"row1": ["g", null, 5, null, 4],
+				"row2": [3, null, "r", null, "g"],
+				"row3": [2, null, null, "b", "y"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Firmitas",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": ["p", 6, null, null, 3],
+				"row1": [5, "p", 3, null, null],
+				"row2": [null, 2, "p", 1, null],
+				"row3": [null, 1, 5, "p", 4]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Aurorae Magnificus",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [5, "g", "b", "p", 2],
+				"row1": ["p", null, null, null, "y"],
+				"row2": ["y", null, 6, null, "p"],
+				"row3": [1, null, null, "g", 4]
+			}
+		},
+		"windowPattern2": {
+			"name": "Aurora Sagradis",
+			"difficulty": 4,
+			"restrictions": {
+				"row0": ["r", null, "b", null, "y"],
+				"row1": [4, "p", 3, "g", 2],
+				"row2": [null, 1, null, 5, null],
+				"row3": [null, null, 6, null, null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Via Lux",
+			"difficulty": 4,
+			"restrictions": {
+				"row0": ["y", null, 6, null, null],
+				"row1": [null, 1, 5, null, 2],
+				"row2": [3, "y", "r", "p", null],
+				"row3": [null, null, 4, 3, "r"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Industria",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [1, "r", 3, null, 6],
+				"row1": [5, 4, "r", 2, null],
+				"row2": [null, null, 5, "r", 1],
+				"row3": [null, null, null, 3, "r"]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Sun Catcher",
+			"difficulty": 3,
+			"restrictions": {
+				"row0": [null, "b", 2, null, "y"],
+				"row1": [null, 4, null, "r", null],
+				"row2": [null, null, 5, "y", null],
+				"row3": ["g", 3, null, null, "p"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Shadow Thief",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [6, "p", null, null, 5],
+				"row1": [5, null, "p", null, null],
+				"row2": ["r", 6, null, "p", null],
+				"row3": ["y", "r", 5, 4, 3]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Bellesguard",
+			"difficulty": 3,
+			"restrictions": {
+				"row0": ["b", 6, null, null, "y"],
+				"row1": [null, 3, "b", null, null],
+				"row2": [null, 5, 6, 2, null],
+				"row3": [null, 4, null, 1, "g"]
+			}
+		},
+		"windowPattern2": {
+			"name": "Batllo",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, null, 6, null, null],
+				"row1": [null, 5, "b", 4, null],
+				"row2": [3, "g", "y", "p", 2],
+				"row3": [1, 4, "r", 5, 3]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Gravitas",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [1, null, 3, "b", null],
+				"row1": [null, 2, "b", null, null],
+				"row2": [6, "b", null, 4, null],
+				"row3": ["b", 5, 2, null, 1]
+			}
+		},
+		"windowPattern2": {
+			"name": "Water of Life",
+			"difficulty": 6,
+			"restrictions": {
+				"row0": [6, "b", null, null, 1],
+				"row1": [null, 5, "b", null, null],
+				"row2": [4, "r", 2, "b", null],
+				"row3": ["g", 6, "y", 3, "p"]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Fractal Drops",
+			"difficulty": 3,
+			"restrictions": {
+				"row0": [null, 4, null, "y", 6],
+				"row1": ["r", null, 2, null, null],
+				"row2": [null, null, "r", "p", 1],
+				"row3": ["b", "y", null, null, null]
+			}
+		},
+		"windowPattern2": {
+			"name": "Ripples of Light",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, null, null, "r", 5],
+				"row1": [null, null, "p", 4, "b"],
+				"row2": [null, "b", 3, "y", 6],
+				"row3": ["y", 2, "g", 1, "r"]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Lux Astram",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, 1, "g", "p", 4],
+				"row1": [6, "p", 2, 5, "g"],
+				"row2": [1, "g", 5, 3, "p"],
+				"row3": [null, null, null, null, null]
+			}
+		},
+		"windowPattern2": {
+			"name": "Lux Mundi",
+			"difficulty": 6,
+			"restrictions": {
+				"row0": [null, null, 1, null, null],
+				"row1": [1, "g", 3, "b", 2],
+				"row2": ["b", 5, 4, 6, "g"],
+				"row3": [null, "b", 5, "g", null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Chromatic Splendor",
+			"difficulty": 4,
+			"restrictions": {
+				"row0": [null, null, "g", null, null],
+				"row1": [2, "y", 5, "b", 1],
+				"row2": [null, "r", 3, "p", null],
+				"row3": [1, null, 6, null, 4]
+			}
+		},
+		"windowPattern2": {
+			"name": "Comitas",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": ["y", null, 2, null, 6],
+				"row1": [null, 4, null, 5, "y"],
+				"row2": [null, null, null, "y", 5],
+				"row3": [1, 2, "y", 3, null]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Firelight",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [3, 4, 1, 5, null],
+				"row1": [null, 6, 2, null, "y"],
+				"row2": [null, null, null, "y", "r"],
+				"row3": [5, null, "y", "r", 6]
+			}
+		},
+		"windowPattern2": {
+			"name": "Sun's Glory",
+			"difficulty": 6,
+			"restrictions": {
+				"row0": [1, "p", "y", null, 4],
+				"row1": ["p", "y", null, null, 6],
+				"row2": ["y", null, null, 5, 3],
+				"row3": [null, 5, 4, 2, 1]
+			}
+		}
+	},
+	{
+		"windowPattern1": {
+			"name": "Luz Celestial",
+			"difficulty": 3,
+			"restrictions": {
+				"row0": [null, null, "r", 5, null],
+				"row1": ["p", 4, null, "g", 3],
+				"row2": [6, null, null, "b", null],
+				"row3": [null, "y", 2, null, null]
+			}
+		},
+		"windowPattern2": {
+			"name": "Fulgor del Cielo",
+			"difficulty": 5,
+			"restrictions": {
+				"row0": [null, "b", "r", null, null],
+				"row1": [null, 4, 5, null, "b"],
+				"row2": ["b", 2, null, "r", 5],
+				"row3": [6, "r", 3, 1, null]
+			}
+		}
+	}
+]

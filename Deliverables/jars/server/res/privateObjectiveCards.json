@@ -1,0 +1,27 @@
+[
+	{
+		"color": "b",
+		"name": "Sfumature blu",
+		"description": "Somma dei valori su tutti i dadi blu"
+	},
+	{
+		"color": "g",
+		"name": "Sfumature verdi",
+		"description": "Somma dei valori su tutti i dadi verdi"
+	},
+	{
+		"color": "r",
+		"name": "Sfumature rosse",
+		"description": "Somma dei valori su tutti i dadi rossi"
+	},
+	{
+		"color": "p",
+		"name": "Sfumature viola",
+		"description": "Somma dei valori su tutti i dadi viola"
+	},
+	{
+		"color": "y",
+		"name": "Sfumature gialle",
+		"description": "Somma dei valori su tutti i dadi gialli"
+	}
+]

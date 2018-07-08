@@ -1,0 +1,62 @@
+[
+	{
+		"id": "colorVarietyRow",
+		"name": "Colori diversi - Riga",
+		"description": "Righe senza colori ripetuti",
+		"points": 6
+	},
+	{
+		"id": "colorVarietyCol",
+		"name": "Colori diversi - Colonna",
+		"description": "Colonne senza colori ripetuti",
+		"points": 5
+	},
+	{
+		"id": "valueVarietyRow",
+		"name": "Sfumature diverse - Riga",
+		"description": "Righe senza sfumature ripetute",
+		"points": 5
+	},
+	{
+		"id": "valueVarietyCol",
+		"name": "Sfumature diverse - Colonna",
+		"description": "Colonne senza sfumature ripetute",
+		"points": 4
+	},
+	{
+		"id": "lowValues",
+		"name": "Sfumature Chiare",
+		"description": "Set di 1 & 2 ovunque",
+		"points": 2
+	},
+	{
+		"id": "midValues",
+		"name": "Sfumature Medie",
+		"description": "Set di 3 & 4 ovunque",
+		"points": 2
+	},
+	{
+		"id": "highValues",
+		"name": "Sfumature Scure",
+		"description": "Set di 5 & 6 ovunque",
+		"points": 2
+	},
+	{
+		"id": "valueVariety",
+		"name": "Sfumature Diverse",
+		"description": "Set di dadi di ogni valore ovunque",
+		"points": 5
+	},
+	{
+		"id": "diagonalColors",
+		"name": "Diagonali Colorate",
+		"description": "Numero di dadi dello stesso colore diagonalmente adiacenti",
+		"points": 1
+	},
+	{
+		"id": "colorVariety",
+		"name": "Varietà di Colore",
+		"description": "Set di dadi di ogni colore ovunque",
+		"points": 4
+	}
+]

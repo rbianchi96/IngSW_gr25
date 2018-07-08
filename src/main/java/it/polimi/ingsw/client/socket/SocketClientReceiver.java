@@ -24,7 +24,6 @@ public class SocketClientReceiver implements Runnable {
 			while(true) {
 				//Continue to cycle
 				String inLine = in.nextLine();  //When there's a message incoming...
-				System.out.println(inLine);
 				socket.decode(inLine);    //...send to the socket decoder
 
 				if(stop) return;

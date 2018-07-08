@@ -1,0 +1,128 @@
+[
+	{
+		"id": 1,
+		"name": "Pinza Sgrossatrice",
+		"pre": "notDraftedDice",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "INCREMENT_DECREMENT_DICE"}
+		]
+	},
+	{
+		"id": 2,
+		"name": "Pennello per Eglomise",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{
+				"effect": "MOVE_WINDOW_PATTERN_DICE",
+				"ignoredRestrictions": [
+					"CELL_COLOR_RESTRICTION"
+				]
+			}
+		]
+	},
+	{
+		"id": 3,
+		"name": "Alesatore per lamina di rame",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{
+				"effect": "MOVE_WINDOW_PATTERN_DICE",
+				"ignoredRestrictions": [
+					"CELL_VALUE_RESTRICTION"
+				]
+			}
+		]
+	},
+	{
+		"id": 4,
+		"name": "Lathekin",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE"},
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{"effect": "MOVE_WINDOW_PATTERN_DICE"}
+		]
+	},
+	{
+		"id": 5,
+		"name": "Taglierina Circolare",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH"}
+		]
+	},
+	{
+		"id": 6,
+		"name": "Pennello per Pasta Salda",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "ROLL_DICE_FROM_DRAFT"}
+		]
+	},
+	{
+		"id": 7,
+		"name": "Martelletto",
+		"pres": [
+			{"pre" : "IS_SECOND_TURN"},
+			{"pre" : "HAS_NOT_PLACED_DICE"}
+		],
+		"effects": [
+			{
+				"effect": "rollAllDice"
+			}
+		]
+	},
+	{
+		"id": 8,
+		"name": "Tenaglia a Rotelle",
+		"pre": "endOfFirstTurn",
+		"effects": [
+			{
+				"effect": "placeDice"
+			},
+			{
+				"effect": "skipSecondTurn"
+			}
+		]
+	},
+	{
+		"id": 9,
+		"name": "Riga in Sughero",
+		"effects": [
+			{
+				"effect": "placeDice",
+				"restriction": "notNearDice"
+			}
+		]
+	},
+	{
+		"id": 10,
+		"name": "Tampone Diamantato",
+		"effects": [
+			{"effect": "SELECT_DICE_FROM_DRAFT"},
+			{"effect": "FLIP_DICE_FROM_DRAFT"}
+		]
+	},
+	{
+		"id": 11,
+		"name": "Diluente per Pasta Salda",
+		"effects": [
+			{
+				"effect": "placeDiceInBag"
+			},
+			{
+				"effect": "takeDiceFromBag?"
+			}
+		]
+	},
+	{
+		"id": 12,
+		"name": "Taglierina Manuale",
+		"effects": [
+			{
+				"effect": "moveMaxTwoDice?"
+			}
+		]
+	}
+]
