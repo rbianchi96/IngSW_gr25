@@ -27,6 +27,10 @@ public class Lobby {
 
     private int turnTime;
 
+    /**Constructor
+     *
+     * @param resourcesPath
+     */
     public Lobby(String resourcesPath) {
         this.playersConnectionData = new ArrayList<>();
         this.resourcePath = resourcesPath;
@@ -41,7 +45,11 @@ public class Lobby {
         }
     }
 
-    // Check if an user is already logged in based on his Client Interface
+    /** Check if an user is already logged in based on his Client Interface
+     *
+     * @param clientInterface
+     * @return true if is already logged
+     */
     protected boolean isAlreadyLogged(ClientInterface clientInterface){
         for (int i = 0; i< playersConnectionData.size(); i++) {
             if (playersConnectionData.get(i).getClientInterface() == clientInterface) {
@@ -51,7 +59,11 @@ public class Lobby {
         return false;
     }
 
-    // Check if an user is already logged in based on his nickname
+    /** Check if an user is already logged in based on his nickname
+     *
+     * @param nickname
+     * @return true if is already logged
+     */
     private boolean isAlreadyLogged(String nickname){
         for (int i = 0; i< playersConnectionData.size(); i++) {
             if (playersConnectionData.get(i).getNickName().equals(nickname)) {
@@ -63,6 +75,12 @@ public class Lobby {
 
     // Register the new user, under requested(specifics) conditions.
     // This method is really ugly, I will think about re-writing it.
+
+    /**
+     *
+     * @param clientInterface
+     * @param username of the user
+     */
     public void login(ClientInterface clientInterface, String username) {
         if (!currentGame.isInGame()) { // If the game isn't started yet...
             if (!isAlreadyLogged(clientInterface)) {
@@ -112,12 +130,19 @@ public class Lobby {
 
     }
 
-    // Notify to client that before any interaction he has to login || This method is only called from others in this class
+    /** Notify to client that before any interaction he has to login || This method is only called from others in this class
+     *
+     * @param clientInterface
+     */
     private void notLoggedYet(ClientInterface clientInterface){
         clientInterface.notLoggedYet("You have to login before!");
     }
 
-    // log out the client, then call the suspendPlayer method on that client and close the linked socket
+    /** log out the client, then call the suspendPlayer method on that client and close the linked socket
+     *
+     * @param clientInterface
+     * @return true if the player is suspended
+     */
     public boolean logout(ClientInterface clientInterface) {
         for (int i = 0; i < getPlayersUsernamesArrayList().size(); i++) {
             if (playersConnectionData.get(i).getClientInterface() == clientInterface) {
@@ -147,9 +172,10 @@ public class Lobby {
         return false;
     }
 
-    // If the games is already started it suspends the player from the game by setting "false" to isOnline Player's attribute
+    //If the games is already started it suspends the player from the game by setting "false" to isOnline Player's attribute
     // and setting "null" to his Client Interface.
     // If the game isn't started yet, it removes the player to suspend from the Lobby and notify the actions to other clients.
+
     private synchronized void suspendPlayer(int index) {
         String playerNickname = playersConnectionData.get(index).getNickName();
         if(currentGame.isInGame()) {       //If the game started
@@ -184,6 +210,12 @@ public class Lobby {
 
     // This method is called if it's requested a Login during a game(that is going on). It will check if the user who want to login is a disconnected
     // in-game player who wants to re-enter the game. Else it will be refused as expected.
+
+    /**
+     *
+     * @param clientInterface
+     * @param username of the player
+     */
     private void inGameReLogin(ClientInterface clientInterface, String username) {
         for(int i = 0; i < playersConnectionData.size(); i++) {
             if(username.equals(playersConnectionData.get(i).getNickName()))
@@ -274,15 +306,28 @@ public class Lobby {
         return currentGame;
     }
 
+    /**
+     *
+     * @return max number of players
+     */
     public static int getMaxPlayers() {
         return MAX_PLAYERS;
     }
 
+    /**
+     *
+     * @return an arraylist of connection data
+     */
     public ArrayList<PlayerConnectionData> getPlayersConnectionData() {
         ArrayList<PlayerConnectionData> playersArray = new  ArrayList<>();
         playersArray.addAll(this.playersConnectionData);
         return playersArray;
     }
+
+    /**
+     *
+     * @return the username of the players
+     */
     private String[] getPlayersUsernamesArray(){
         String[] playersList = new String[playersConnectionData.size()];
 
@@ -292,6 +337,11 @@ public class Lobby {
         return playersList;
 
     }
+
+    /**
+     *
+     * @return arraylist of the username of the players
+     */
     private ArrayList<String> getPlayersUsernamesArrayList(){
        ArrayList<String> playersList = new ArrayList<>();
 
@@ -308,6 +358,10 @@ public class Lobby {
         }
     }
 
+    /**
+     *
+     * @param clientInterface
+     */
     public synchronized void selectWindowPattern(ClientInterface clientInterface) {
     	playersConnectionData.get(findPlayer(clientInterface)).getWindowPatternSelectionTimer().schedule(new TimerTask() {
 			@Override
@@ -319,6 +373,10 @@ public class Lobby {
 		turnTime);
 	}
 
+    /**It sets the wp for the player
+     *
+     * @param clientInterface
+     */
 	public synchronized void setWindowPattern(ClientInterface clientInterface) {
     	playersConnectionData.get(findPlayer(clientInterface)).getWindowPatternSelectionTimer().cancel();
 	}
@@ -346,6 +404,11 @@ public class Lobby {
 		);
 	}
 
+    /**
+     *
+     * @param clientInterface
+     * @return the index of the player
+     */
 	private int findPlayer(ClientInterface clientInterface) {
     	for(int i = 0; i < playersConnectionData.size(); i ++)
     		if(playersConnectionData.get(i).getClientInterface() == clientInterface)

@@ -11,21 +11,38 @@ public class PlayerConnectionData {
 	private ModelObserver observer;
 	private Timer windowPatternSelectionTimer = new Timer();
 
+	/**Constructor
+	 *
+	 * @param clientInterface
+	 * @param nickName
+	 */
 	public PlayerConnectionData(ClientInterface clientInterface, String nickName) {
 		this.clientInterface = clientInterface;
 		this.nickName = nickName;
 		this.isOnline = true;
 	}
 
+	/**
+	 *
+	 * @param observer that is set
+	 */
 	public void setObserver(ModelObserver observer) {
 		this.observer = observer;
 	}
 
+	/**
+	 *
+	 * @return a ModelObserver
+	 */
 	public ModelObserver getObserver() {
 		return observer;
 
 	}
 
+	/**
+	 *
+	 * @param clientInterface that is set
+	 */
 	public void setClientInterface(ClientInterface clientInterface) {
 		this.clientInterface = clientInterface;
 	}

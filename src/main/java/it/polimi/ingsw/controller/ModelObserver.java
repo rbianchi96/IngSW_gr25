@@ -10,12 +10,23 @@ public class ModelObserver implements java.util.Observer {
 	private ClientInterface clientInterface;
 	private Lobby lobby;
 
+	/**
+	 *
+	 * @param playerUsername username of the player
+	 * @param view
+	 * @param lobby
+	 */
 	public ModelObserver(String playerUsername, ClientInterface view, Lobby lobby) {
 		this.playerUsername = playerUsername;
 		this.clientInterface = view;
 		this.lobby = lobby;
 	}
 
+	/** update according to what it notices
+	 *
+	 * @param o observable
+	 * @param arg
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		Game model = (Game)o;	//The observable
