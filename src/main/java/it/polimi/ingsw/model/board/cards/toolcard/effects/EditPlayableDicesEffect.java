@@ -4,6 +4,11 @@ public class EditPlayableDicesEffect extends Effect {
     public EditPlayableDicesEffect(){
         this.effectType = EffectType.EDIT_PLAYABLE_DICES;
     }
+
+    /**
+     *
+     * @param effectData paramether taken by effectData
+     */
     @Override
     public void apply(EffectData effectData){
         if (effectData.getAddPlayableDice()>0) {

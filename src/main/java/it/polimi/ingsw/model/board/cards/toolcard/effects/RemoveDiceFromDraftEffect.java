@@ -8,6 +8,12 @@ public class RemoveDiceFromDraftEffect extends Effect{
     public RemoveDiceFromDraftEffect(){
         this.effectType = REMOVE_DICE_FROM_DRAFT;
     }
+
+    /**exception if it is not possible to remove
+     *
+     * @param effectData paramether taken by effectData
+     * @throws GameException
+     */
     @Override
     public void apply(EffectData effectData) throws GameException{
         System.out.println("AAAA");

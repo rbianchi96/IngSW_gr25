@@ -7,6 +7,12 @@ public class SelectDiceFromRoundTrackAndSwitchEffect extends Effect {
     public SelectDiceFromRoundTrackAndSwitchEffect(){
         this.effectType = EffectType.SELECT_DICE_FROM_ROUND_TRACK_AND_SWITCH;
     }
+
+    /**exception if it is not possible to select a dice
+     *
+     * @param effectData paramether taken by effectData
+     * @throws GameException
+     */
     @Override
     public void apply(EffectData effectData) throws GameException{
         if (effectData.getDice()==null)

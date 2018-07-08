@@ -15,6 +15,12 @@ public class MoveWindowPatternDiceEffect extends Effect {
 		this.ignoredRestriction = ignoredRestriction;
 		this.effectType = EffectType.MOVE_WINDOW_PATTERN_DICE;
 	}
+
+	/**exception in case of wrong cell of the wp
+	 *
+	 * @param effectData paramether taken by effectData
+	 * @throws GameException
+	 */
 	@Override
 	public void apply(EffectData effectData)
 			throws GameException{

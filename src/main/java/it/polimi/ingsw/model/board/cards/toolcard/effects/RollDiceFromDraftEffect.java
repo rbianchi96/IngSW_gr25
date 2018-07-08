@@ -7,6 +7,7 @@ public class RollDiceFromDraftEffect extends Effect{
         this.effectType = EffectType.ROLL_DICE_FROM_DRAFT;
     }
 
+
     @Override
     public void apply(EffectData effectData){
         Dice draftDice = game.getDraft().getDice(effectData.getDice()); // get the selected dice from draft pool

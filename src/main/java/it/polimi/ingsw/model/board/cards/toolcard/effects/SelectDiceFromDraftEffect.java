@@ -10,6 +10,11 @@ public class SelectDiceFromDraftEffect extends Effect {
         this.effectType = EffectType.SELECT_DICE_FROM_DRAFT;
     }
 
+    /**exception if it is not possible to select the dice
+     *
+     * @param effectData paramether taken by effectData
+     * @throws GameException
+     */
     @Override
     public void apply(EffectData effectData)throws GameException{
         if (!game.getDraft().getDices().contains(effectData.getDice())) { // check for a valid draft pool's dice

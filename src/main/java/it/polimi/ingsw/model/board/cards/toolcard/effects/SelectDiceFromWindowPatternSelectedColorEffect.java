@@ -10,6 +10,12 @@ public class SelectDiceFromWindowPatternSelectedColorEffect extends Effect{
     public SelectDiceFromWindowPatternSelectedColorEffect(){
         this.effectType = EffectType.SELECT_DICE_FROM_WINDOW_PATTERN_SELECTED_COLOR;
     }
+
+    /**exception in case it is not possible to select the dice
+     *
+     * @param effectData paramether taken by effectData
+     * @throws GameException
+     */
     @Override
     public void apply(EffectData effectData) throws GameException {
         if(effectData.getForbidX() >= 0 && effectData.getForbidY() >= 0)

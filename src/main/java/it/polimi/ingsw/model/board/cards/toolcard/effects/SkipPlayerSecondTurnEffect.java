@@ -4,6 +4,11 @@ public class SkipPlayerSecondTurnEffect extends Effect {
     public SkipPlayerSecondTurnEffect(){
         this.effectType = EffectType.SKIP_PLAYER_SECOND_TURN;
     }
+
+    /**
+     *
+     * @param effectData paramether taken by effectData
+     */
     @Override
     public void apply(EffectData effectData){
         game.skipCurrentPlayerSecondTurn();

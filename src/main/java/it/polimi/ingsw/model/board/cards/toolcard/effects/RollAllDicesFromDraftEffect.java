@@ -8,6 +8,11 @@ public class RollAllDicesFromDraftEffect extends Effect {
     public RollAllDicesFromDraftEffect(){
         this.effectType = EffectType.ROLL_DICES_FROM_DRAFT;
     }
+
+    /**
+     *
+     * @param effectData paramether taken by effectData
+     */
     @Override
     public void apply(EffectData effectData) {
         ArrayList<Dice> toRemoveDraftPool= new ArrayList();

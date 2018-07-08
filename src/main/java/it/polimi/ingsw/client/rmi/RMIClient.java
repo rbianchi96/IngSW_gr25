@@ -192,7 +192,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 		client.updateToolCardsTokens(tokens);
 	}
 
-
+	/**
+	 *
+	 * @param roundTrackDices arrayList of roundTrackdices
+	 * @throws RemoteException
+	 */
 	@Override
 	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) throws RemoteException {
 		client.updateRoundTrack(roundTrackDices);

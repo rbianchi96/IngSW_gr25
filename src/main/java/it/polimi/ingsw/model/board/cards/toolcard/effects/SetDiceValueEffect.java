@@ -5,6 +5,12 @@ public class SetDiceValueEffect extends Effect {
     public SetDiceValueEffect(){
         this.effectType = EffectType.SET_DICE_VALUE;
     }
+
+    /**exception if it is not possible to change the value
+     *
+     * @param effectData paramether taken by effectData
+     * @throws GameException
+     */
     @Override
     public void apply(EffectData effectData) throws GameException {
         if (effectData.getValue()>=1 && effectData.getValue()<=6) {

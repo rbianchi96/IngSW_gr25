@@ -12,6 +12,11 @@ public class PlaceDiceNotAdjacentEffect extends Effect {
         this.effectType = EffectType.PLACE_DICE_NOT_ADJACENT;
     }
 
+    /**exception in case of problem of placement
+     *
+     * @param effectData paramether taken by effectData
+     * @throws GameException
+     */
     @Override
     public void apply(EffectData effectData) throws GameException {
         Dice diceFromDraft = game.getDraft().getDice(effectData.getDice());

@@ -234,6 +234,10 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param value new value of the dice
+	 */
 	@Override
 	public void setDiceValue(int value) {
 		try {
@@ -243,6 +247,10 @@ public class RMIClientToServer implements ServerInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param r choice
+	 */
 	@Override
 	public void moveNextDice(boolean r) {
 		try {

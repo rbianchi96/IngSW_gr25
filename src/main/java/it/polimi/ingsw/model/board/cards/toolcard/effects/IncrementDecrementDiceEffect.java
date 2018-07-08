@@ -12,6 +12,11 @@ public class IncrementDecrementDiceEffect extends Effect {
 		this.effectType = EffectType.INCREMENT_DECREMENT_DICE;
 	}
 
+	/**exception if there is an invalid change
+	 *
+	 * @param effectData paramether taken by effectData
+	 * @throws GameException
+	 */
 	@Override
 	public void apply(EffectData effectData) throws GameException {
 		Dice draftDice = game.getDraft().getDice(effectData.getDice()); // get the selected dice from draft pool

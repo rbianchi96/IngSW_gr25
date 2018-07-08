@@ -7,9 +7,16 @@ import it.polimi.ingsw.model.board.windowpattern.WindowPattern;
 public class SelectDiceFromWindowPatternEffect extends Effect {
     private int x; // saved dice coordinates
     private int y;
+
     public SelectDiceFromWindowPatternEffect(){
         this.effectType = EffectType.SELECT_DICE_FROM_WINDOW_PATTERN;
     }
+
+    /**exception in case it is not possible to select the dice
+     *
+     * @param effectData paramether taken by effectData
+     * @throws GameException
+     */
     @Override
     public void apply(EffectData effectData) throws GameException{
         if(effectData.getForbidX() >= 0 && effectData.getForbidY() >= 0)

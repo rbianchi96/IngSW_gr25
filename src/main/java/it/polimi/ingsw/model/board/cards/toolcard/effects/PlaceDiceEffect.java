@@ -9,6 +9,11 @@ public class PlaceDiceEffect extends Effect {
 		this.effectType = EffectType.PLACE_DICE;
 	}
 
+	/**exception if isn't possible to place the dice
+	 *
+	 * @param effectData paramether taken by effectData
+	 * @throws GameException
+	 */
 	@Override
 	public void apply(EffectData effectData) throws GameException  {
 		Dice diceFromDraft = game.getDraft().getDice(effectData.getDice());
