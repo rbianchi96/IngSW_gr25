@@ -1,13 +1,15 @@
 [
 	{
-		"id": 9,
-		"name": "Riga in Sughero",
-		"pres": [
-			{"pre" : "HAS_NOT_PLACED_DICE"}
-		],
+		"id": 2,
+		"name": "Pennello per Eglomise",
 		"effects": [
-			{"effect": "SELECT_DICE_FROM_DRAFT"},
-			{"effect": "PLACE_DICE_NOT_ADJACENT"}
+			{"effect": "SELECT_DICE_FROM_WINDOW_PATTERN"},
+			{
+				"effect": "MOVE_WINDOW_PATTERN_DICE",
+				"ignoredRestrictions": [
+					"CELL_COLOR_RESTRICTION"
+				]
+			}
 		]
 	},
 	{

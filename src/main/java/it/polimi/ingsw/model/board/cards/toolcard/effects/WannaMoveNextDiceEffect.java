@@ -5,7 +5,7 @@ public class WannaMoveNextDiceEffect extends Effect {
         this.effectType = EffectType.WANNA_MOVE_NEXT_DICE;
     }
 
-    /**true or flase according to the decision
+    /**true or false according to the decision
      *
      * @param effectData
      */

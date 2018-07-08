@@ -926,7 +926,7 @@ public class Game extends Observable {
 		}
 	}
 	public ToolCard toolCardInUse(){
-		if (currentToolCardInUse>0) {
+		if (currentToolCardInUse>=0) {
 			return toolCards[currentToolCardInUse];
 		}else
 			return null;
