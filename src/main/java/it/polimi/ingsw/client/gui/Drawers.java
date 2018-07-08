@@ -108,6 +108,7 @@ class Drawers {
 	private static Circle createDot(double diceSize, int x, int y) {
 		Circle circle = new Circle(diceSize * DOT_RADIUS_K);
 		circle.setFill(Paint.valueOf("#fff"));
+		circle.setCursor(Cursor.HAND);
 
 		AnchorPane.setLeftAnchor(circle, (diceSize * x / 4 - diceSize * DOT_RADIUS_K));
 		AnchorPane.setTopAnchor(circle, (diceSize * y / 4 - diceSize * DOT_RADIUS_K));
