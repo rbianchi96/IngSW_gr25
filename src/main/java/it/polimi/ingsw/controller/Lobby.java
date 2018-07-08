@@ -419,18 +419,15 @@ public class Lobby {
 
 	//End the game and reinitialize all
 	public void endGame(ClientInterface clientInterface) {
-        for(int i = 0; i < playersConnectionData.size(); i ++)
+        for(int i = 0; i < playersConnectionData.size(); i++)
             if(playersConnectionData.get(i).getClientInterface() == clientInterface) {
                 playersConnectionData.get(i).getClientInterface().closeConnection();
-                playersConnectionData.remove(i);
             }
 
-        if(playersConnectionData.size() == 0) {
-            playersConnectionData = new ArrayList<>();
-            currentGame = new Game();
+        playersConnectionData = new ArrayList<>();
+        currentGame = new Game();
 
-            System.out.println("The game ended, the server is ready to start a new game.");
-        }
+        System.out.println("The game ended, the server is ready to start a new game.");
     }
 
     public int turnTime() {

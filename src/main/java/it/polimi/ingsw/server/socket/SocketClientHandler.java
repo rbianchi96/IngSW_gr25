@@ -73,6 +73,7 @@ public class SocketClientHandler implements Runnable, ClientInterface {
 	public void run() {
 		try {
 			socket.setSoTimeout(MAX_TIMEOUT); // set the timeout MAX_TIMEOUT
+			socket.setKeepAlive(true);
 			in = new Scanner(socket.getInputStream());
 			out = new PrintWriter(socket.getOutputStream());
 			out.println(encode(CONNECTION_STATUS, "success", "Connection Established!"));

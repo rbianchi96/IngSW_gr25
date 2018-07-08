@@ -51,7 +51,6 @@ public class Server {
 
 			//Start RMI Server
 			try {
-				System.out.println(InetAddress.getLocalHost().getHostAddress());
 				java.rmi.registry.LocateRegistry.createRegistry(netParamsLoader.getRMIServerPort());
 				RMIServerInterface server = new RMIServer(controller);
 				//System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());

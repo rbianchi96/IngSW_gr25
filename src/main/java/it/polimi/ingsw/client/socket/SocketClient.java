@@ -56,7 +56,6 @@ public class SocketClient extends Socket implements ServerInterface {
 			receiver = new SocketClientReceiver(this, in);    //Create the receiver
 			Thread t = new Thread(receiver);
 			t.start();    //Start the receiver
-
 		} catch(SocketTimeoutException e) {
 			client.lostConnenction();	//Notify
 		} catch(Exception e) {
