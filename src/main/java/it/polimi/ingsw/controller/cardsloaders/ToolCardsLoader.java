@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ToolCardsLoader extends CardsLoader {
-	public static final String FILE_NAME = "toolCards_ready.json";	//TODO
+	public static final String FILE_NAME = "toolCards.json";
 
 	public ToolCardsLoader(Reader file) {
 		super(file);
