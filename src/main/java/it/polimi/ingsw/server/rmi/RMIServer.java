@@ -56,16 +56,36 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		}, (long)(RMIClientToServer.PING_INTERVAL * 1.5));
 	}
 
+	/**Select a wp
+	 *
+	 * @param rmiClientInterface
+	 * @param i index of the wp
+	 * @throws RemoteException
+	 */
 	@Override
 	public void selectWindowPattern(RMIClientInterface rmiClientInterface, int i) throws RemoteException {
 		controller.selectWindowPattern(map.get(rmiClientInterface), i);
 	}
 
+	/**
+	 *
+	 * @param rmiClientInterface
+	 * @param dice to place
+	 * @param row coordinate of wp
+	 * @param col coordinate of wp
+	 * @throws RemoteException
+	 */
 	@Override
 	public void placeDiceFromDraft(RMIClientInterface rmiClientInterface, Dice dice, int row, int col) throws RemoteException {
 		controller.placeDiceFromDraft(map.get(rmiClientInterface), dice, row, col);
 	}
 
+	/**
+	 *
+	 * @param rmiClientInterface
+	 * @param index of the tool card to use
+	 * @throws RemoteException
+	 */
 	@Override
 	public void useToolCard(RMIClientInterface rmiClientInterface, int index) throws RemoteException {
 		controller.useToolCard(map.get(rmiClientInterface), index);
@@ -76,6 +96,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		controller.endTurn(map.get(rmiClientInterface));
 	}
 
+	/**
+	 *
+	 * @param rmiClientInterface
+	 * @param dice dice to be chosen
+	 * @throws RemoteException
+	 */
 	@Override
 	public void selectDiceFromDraftEffect(RMIClientInterface rmiClientInterface, Dice dice) throws RemoteException {
 		controller.selectDiceFromDraftEffect(
@@ -92,6 +118,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		);
 	}
 
+	/**
+	 *
+	 * @param rmiClientInterface
+	 * @param row of the wp
+	 * @param col of the wp
+	 * @throws RemoteException
+	 */
 	@Override
 	public void selectDiceFromWindowPatternEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
 		controller.selectDiceFromWindowPatternEffect(
@@ -101,6 +134,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		);
 	}
 
+	/**
+	 *
+	 * @param rmiClientInterface
+	 * @param row of the wp
+	 * @param col of the wp
+	 * @throws RemoteException
+	 */
 	@Override
 	public void selectDiceFromWindowPatternSelectedColorEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
 		controller.selectDiceFromWindowPatternSelectedColorEffect(
@@ -110,6 +150,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		);
 	}
 
+	/**Move a dice in a cell of the wp
+	 *
+	 * @param rmiClientInterface
+	 * @param row of the wp
+	 * @param col of the wp
+	 * @throws RemoteException
+	 */
 	@Override
 	public void moveDiceInWindowPatternEffect(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
 		controller.moveWindowPatternDiceEffect(
@@ -128,6 +175,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		);
 	}
 
+	/**place a dice in the coordinates
+	 *
+	 * @param rmiClientInterface
+	 * @param row of the wp
+	 * @param col of the wp
+	 * @throws RemoteException
+	 */
 	@Override
 	public void placeDice(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
 		controller.placeDiceAfterEffect(
@@ -137,6 +191,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		);
 	}
 
+	/**place a dice in the coordinates
+	 *
+	 * @param rmiClientInterface
+	 * @param row of the wp
+	 * @param col of the wp
+	 * @throws RemoteException
+	 */
 	@Override
 	public void placeDiceNotAdjacent(RMIClientInterface rmiClientInterface, int row, int col) throws RemoteException {
 		controller.placeDiceNotAdjacentAfterEffect(
@@ -145,6 +206,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		);
 	}
 
+	/**
+	 *
+	 * @param rmiClientInterface
+	 * @param round round of the round track
+	 * @param dice to be selected
+	 * @throws RemoteException
+	 */
 	@Override
 	public void selectDiceFromRoundTrack(RMIClientInterface rmiClientInterface, int round, int dice) throws RemoteException {
 		controller.selectDiceFromRoundTrack(
@@ -153,16 +221,35 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 		);
 	}
 
+	/**Select dice and switch
+	 *
+	 * @param rmiClientInterface
+	 * @param round round of the round track
+	 * @param dice to be selected
+	 * @throws RemoteException
+	 */
 	@Override
 	public void selectDiceFromRoundTrackAndSwitch(RMIClientInterface rmiClientInterface, int round, int dice) throws RemoteException {
 		controller.selectDiceFromRoundTrackAndSwitch(map.get(rmiClientInterface), round, dice);
 	}
 
+	/**
+	 *
+	 * @param rmiClientInterface
+	 * @param value new value for the dice
+	 * @throws RemoteException
+	 */
 	@Override
 	public void setDiceValue(RMIClientInterface rmiClientInterface, int value) throws RemoteException {
 		controller.setDiceValueEffect(map.get(rmiClientInterface), value);
 	}
 
+	/**
+	 *
+	 * @param rmiClientInterface
+	 * @param r in order to move the dice
+	 * @throws RemoteException
+	 */
 	@Override
 	public void moveNextDice(RMIClientInterface rmiClientInterface, boolean r) throws RemoteException {
 		controller.wannaMoveNextDice(map.get(rmiClientInterface), r);

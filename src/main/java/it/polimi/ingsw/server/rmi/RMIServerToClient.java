@@ -22,6 +22,11 @@ public class RMIServerToClient implements ClientInterface {
 	private RMIClientInterface rmiClientInterface;
 	private Timer pingTimer;
 
+	/**Constructor
+	 *
+	 * @param rmiClientInterface
+	 * @param controller
+	 */
 	public RMIServerToClient(RMIClientInterface rmiClientInterface, Controller controller) {
 		this.rmiClientInterface = rmiClientInterface;
 		this.controller = controller;
@@ -42,6 +47,11 @@ public class RMIServerToClient implements ClientInterface {
 
 	}
 
+	/**
+	 *
+	 * @param status of the reconnection
+	 * @param message associated to the reconnection
+	 */
 	@Override
 	public void notifyReconnectionStatus(boolean status, String message) {
 		try {
@@ -72,6 +82,11 @@ public class RMIServerToClient implements ClientInterface {
 		}, PING_INTERVAL, PING_INTERVAL);
 	}
 
+	/**
+	 *
+	 * @param username of the new player
+	 * @param index of the player
+	 */
 	@Override
 	public void notifyNewUser(String username, int index) {
 		try {
@@ -81,6 +96,11 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param username of the player
+	 * @param index of the user suspended
+	 */
 	@Override
 	public void notifySuspendedUser(String username, int index) {
 		try {
@@ -90,6 +110,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param players array of the name of the players
+	 */
 	@Override
 	public void sendPlayersList(String[] players) {
 		try {
@@ -99,6 +123,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param privateObjectiveCard that must be sent
+	 */
 	@Override
 	public void sendPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
 		try {
@@ -108,6 +136,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param windowPatterns array of wp to choose
+	 */
 	@Override
 	public void sendWindowPatternsToChoose(WindowPattern[] windowPatterns) {
 		try {
@@ -117,6 +149,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param toolCards array of toolcards
+	 */
 	@Override
 	public void sendToolCards(ToolCard[] toolCards) {
 		try {
@@ -126,6 +162,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**It sends the carda
+	 *
+	 * @param publicObjectiveCards array of public objective cards
+	 */
 	@Override
 	public void sendPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
 		try {
@@ -144,6 +184,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param players array list of players
+	 */
 	@Override
 	public void sendRoundOrder(int[] players) {
 		try {
@@ -153,6 +197,11 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param currentPlayer number of the current player
+	 * @param turnTime
+	 */
 	@Override
 	public void newTurn(int currentPlayer, int turnTime) {
 		try {
@@ -162,6 +211,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param dices that must update the draft
+	 */
 	@Override
 	public void updateDraft(Dice[] dices) {
 		try {
@@ -189,6 +242,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param tokens of the toolcards
+	 */
 	@Override
 	public void updateToolCardsTokens(int[] tokens) {
 		try {
@@ -198,6 +255,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**update the round track dices
+	 *
+	 * @param roundTrackDices
+	 */
 	@Override
 	public void updateRoundTrack(RoundTrackDices[] roundTrackDices) {
 		try {
@@ -403,6 +464,10 @@ public class RMIServerToClient implements ClientInterface {
 		}
 	}
 
+	/**
+	 *
+	 * @param scores of the players
+	 */
 	@Override
 	public void sendScores(Score[] scores) {
 		try {
