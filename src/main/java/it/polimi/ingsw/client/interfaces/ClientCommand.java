@@ -48,6 +48,7 @@ public enum ClientCommand {
 	PRE_NOT_RESPECTED("preNotRespected"),
 	ALREADY_PLACED_DICE("alreadyPlacedDice"),
 	ALREADY_USED_TOOL_CARD("alreadyUsetToolCard"),
+	WRONG_DICE_COLOR("wrongDiceColor"),
 
 	SEND_SCORES("sendScores"),
 	END_GAME_FOR_ABANDONEMENT("endGameForAbandonement"),

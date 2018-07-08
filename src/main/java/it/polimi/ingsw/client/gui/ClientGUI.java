@@ -254,6 +254,11 @@ public class ClientGUI extends Application implements ClientInterface {
 	}
 
 	@Override
+	public void wrongDiceColor() {
+		gameGUI.wrongDiceColor();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) {
 		gameGUI.updateDraft(dices);
 	}

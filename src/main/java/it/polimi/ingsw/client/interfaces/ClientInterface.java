@@ -57,6 +57,7 @@ public interface ClientInterface {
 	public void preNotRespected();
 	public void alreadyPlacedDice();
 	public void alreadyUsedToolCard();
+	public void wrongDiceColor();
 
 	public void sendScores(Score[] scores);
 	public void endGameForAbandonement();

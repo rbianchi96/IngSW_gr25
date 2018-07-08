@@ -61,6 +61,7 @@ public interface RMIClientInterface extends Remote {
 	public void preNotRespected() throws RemoteException;
 	public void alreadyPlacedDice() throws RemoteException;
 	public void alreadyUsedToolCard() throws RemoteException;
+	public void wrongDiceColor() throws RemoteException;
 
 	public void sendScores(Score[] scores) throws RemoteException;
 	public void endGameForAbandonement() throws RemoteException;

@@ -290,6 +290,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 	}
 
 	@Override
+	public void wrongDiceColor() throws RemoteException {
+		client.wrongDiceColor();
+	}
+
+	@Override
 	public void updateDraft(Dice[] dices) throws RemoteException {
 		client.updateDraft(dices);
 	}

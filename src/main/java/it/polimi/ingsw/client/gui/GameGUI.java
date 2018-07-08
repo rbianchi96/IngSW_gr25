@@ -626,6 +626,10 @@ public class GameGUI extends GUIController {
 		state = State.MOVE_DICE_IN_WINDOW_PATTERN_SELECTED_COLOR;
 	}
 
+	public void wrongDiceColor() {
+		addEvent("Dado del colore sbagliato!", true);
+	}
+
 	private enum State {
 		WAIT_USER_INPUT,
 		SELECT_DICE_FROM_DRAFT, PLACE_DICE_IN_HAND,

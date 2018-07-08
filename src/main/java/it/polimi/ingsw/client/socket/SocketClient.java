@@ -287,6 +287,9 @@ public class SocketClient extends Socket implements ServerInterface {
 					client.alreadyUsedToolCard();
 
 					break;
+				case WRONG_DICE_COLOR:
+					client.wrongDiceColor();
+					break;
 				case SEND_SCORES:
 					client.sendScores(decodeScores((Arrays.copyOfRange(msgVector, 1, msgVector.length))));
 

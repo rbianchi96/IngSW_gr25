@@ -375,6 +375,15 @@ public class RMIServerToClient implements ClientInterface {
 	}
 
 	@Override
+	public void wrongDiceColor() {
+		try {
+			rmiClientInterface.wrongDiceColor();
+		} catch(RemoteException e) {
+			controller.lostConnection(this);
+		}
+	}
+
+	@Override
 	public void dicePlacementRestictionBroken() {
 		try {
 			rmiClientInterface.dicePlacementRestictionBroken();
