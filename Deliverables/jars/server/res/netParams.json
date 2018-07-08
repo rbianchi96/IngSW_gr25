@@ -1,6 +1,6 @@
 {
 	"socketServer": {
-		"port": 21000
+		"port": 20000
 	},
 	"RMIServer": {
 		"address": "localhost",
